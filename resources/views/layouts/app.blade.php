@@ -32,6 +32,18 @@
                     <li><a href="{{ route('training') }}" @class(['active' => request()->routeIs('training')])>Training</a></li>
                     <li><a href="{{ route('about') }}" @class(['active' => request()->routeIs('about')])>About</a></li>
                     <li><a href="{{ route('contact') }}" @class(['active' => request()->routeIs('contact')])>Contact</a></li>
+                    @auth
+                    <li><a href="{{ route('dashboard') }}" @class(['active' => request()->routeIs('dashboard')])>Dashboard</a></li>
+                    <li>
+                        <form method="POST" action="{{ route('logout') }}" style="display:inline;">
+                            @csrf
+                            <button type="submit" style="background:none; border:none; cursor:pointer; padding:0; font:inherit; color:inherit;" @class(['active' => false])>Sign Out</button>
+                        </form>
+                    </li>
+                    @else
+                    <li><a href="{{ route('login') }}" @class(['active' => request()->routeIs('login')])>Sign In</a></li>
+                    <li><a href="{{ route('register') }}" class="btn btn-primary" style="padding:0.4rem 1rem; font-size:0.9rem;">Get Started</a></li>
+                    @endauth
                 </ul>
             </div>
         </div>
