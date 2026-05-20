@@ -25,4 +25,9 @@ class Agent extends Model
     {
         return $query->where('is_active', true)->orderBy('sort_order')->orderBy('name');
     }
+
+    public function subscriptions()
+    {
+        return $this->hasMany(Subscription::class);
+    }
 }

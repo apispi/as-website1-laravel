@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\Admin\AgentController as AdminAgents;
 use App\Http\Controllers\Admin\DashboardController as AdminDashboard;
+use App\Http\Controllers\Admin\SubscriptionController as AdminSubscriptions;
 use App\Http\Controllers\Admin\UserController as AdminUsers;
 use App\Http\Controllers\AgentController;
 use App\Http\Controllers\AuthController;
@@ -51,6 +52,7 @@ Route::middleware(['auth', 'admin'])->prefix('admin')->name('admin.')->group(fun
     Route::get('/users', [AdminUsers::class, 'index'])->name('users.index');
     Route::get('/users/{user}', [AdminUsers::class, 'show'])->name('users.show');
     Route::post('/users/{user}/toggle-admin', [AdminUsers::class, 'toggleAdmin'])->name('users.toggle-admin');
+    Route::get('/users/{user}/agents', [AdminSubscriptions::class, 'userAgents'])->name('users.agents');
     Route::get('/agents', [AdminAgents::class, 'index'])->name('agents.index');
     Route::get('/agents/create', [AdminAgents::class, 'create'])->name('agents.create');
     Route::post('/agents', [AdminAgents::class, 'store'])->name('agents.store');

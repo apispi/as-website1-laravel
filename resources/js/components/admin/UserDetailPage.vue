@@ -48,6 +48,13 @@
         <div class="action-list">
           <div class="action-item">
             <div>
+              <div class="action-title">Purchased Agents</div>
+              <div class="action-desc">View all agents this user has subscribed to.</div>
+            </div>
+            <a :href="`/admin/users/${subject.id}/agents`" class="btn-action promote">View Agents</a>
+          </div>
+          <div class="action-item">
+            <div>
               <div class="action-title">{{ subject.is_admin ? 'Remove Admin' : 'Grant Admin' }}</div>
               <div class="action-desc">{{ subject.is_admin ? 'Revoke admin access for this user.' : 'Give this user admin access.' }}</div>
             </div>
