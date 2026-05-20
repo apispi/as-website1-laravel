@@ -1,0 +1,177 @@
+<template>
+  <AdminShell :user="user" :csrf-token="csrfToken" page="agents">
+
+    <div class="page-header">
+      <div>
+        <a href="/admin/agents" class="back-link">← Agents</a>
+        <h1 class="page-title">{{ agent ? 'Edit Agent' : 'New Agent' }}</h1>
+      </div>
+    </div>
+
+    <div v-if="errors.length" class="flash error">
+      <div v-for="e in errors" :key="e">{{ e }}</div>
+    </div>
+
+    <div class="form-card">
+      <form method="POST" :action="formAction">
+        <input type="hidden" name="_token" :value="csrfToken">
+        <input v-if="agent" type="hidden" name="_method" value="PUT">
+
+        <div class="form-grid">
+          <div class="form-group full">
+            <label>Name <span class="req">*</span></label>
+            <input type="text" name="name" :value="agent?.name" required placeholder="e.g. Bid & Tender Response">
+          </div>
+
+          <div class="form-group">
+            <label>Slug <span class="req">*</span></label>
+            <input type="text" name="slug" :value="agent?.slug" required placeholder="e.g. bid-tender">
+            <p class="hint">Used in the URL: /agents/slug</p>
+          </div>
+
+          <div class="form-group">
+            <label>Category</label>
+            <input type="text" name="category" :value="agent?.category" placeholder="e.g. Security & Compliance">
+          </div>
+
+          <div class="form-group full">
+            <label>Description <span class="req">*</span></label>
+            <textarea name="description" rows="3" required placeholder="Short description shown on the marketplace card.">{{ agent?.description }}</textarea>
+          </div>
+
+          <div class="form-group">
+            <label>Badge</label>
+            <select name="badge">
+              <option value="">None</option>
+              <option value="Popular"  :selected="agent?.badge === 'Popular'">Popular</option>
+              <option value="Premium"  :selected="agent?.badge === 'Premium'">Premium</option>
+              <option value="New"      :selected="agent?.badge === 'New'">New</option>
+            </select>
+          </div>
+
+          <div class="form-group">
+            <label>Rating</label>
+            <input type="number" name="rating" :value="agent?.rating" step="0.01" min="0" max="5" placeholder="e.g. 4.90">
+          </div>
+
+          <div class="form-group">
+            <label>Users Count</label>
+            <input type="text" name="users_count" :value="agent?.users_count" placeholder="e.g. 340+">
+          </div>
+
+          <div class="form-group">
+            <label>Price</label>
+            <input type="text" name="price" :value="agent?.price" placeholder="e.g. $499/mo">
+          </div>
+
+          <div class="form-group">
+            <label>Sort Order</label>
+            <input type="number" name="sort_order" :value="agent?.sort_order ?? 0" min="0">
+          </div>
+
+          <div class="form-group checkboxes">
+            <label class="checkbox-label">
+              <input type="hidden" name="is_featured" value="0">
+              <input type="checkbox" name="is_featured" value="1" :checked="agent?.is_featured">
+              Featured (highlighted card on marketplace)
+            </label>
+            <label class="checkbox-label">
+              <input type="hidden" name="is_active" value="0">
+              <input type="checkbox" name="is_active" value="1" :checked="agent?.is_active ?? true">
+              Active (visible on marketplace)
+            </label>
+          </div>
+        </div>
+
+        <div class="form-actions">
+          <button type="submit" class="btn-submit">{{ agent ? 'Save Changes' : 'Create Agent' }}</button>
+          <a href="/admin/agents" class="btn-cancel">Cancel</a>
+        </div>
+      </form>
+    </div>
+
+  </AdminShell>
+</template>
+
+<script setup>
+import AdminShell from './AdminShell.vue';
+
+const props = defineProps({
+  user:      { type: Object, default: () => ({}) },
+  csrfToken: { type: String, default: '' },
+  agent:     { type: Object, default: null },
+  errors:    { type: Array, default: () => [] },
+});
+
+const formAction = props.agent ? `/admin/agents/${props.agent.id}` : '/admin/agents';
+</script>
+
+<style scoped>
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+.page-header { margin-bottom: 1.5rem; }
+.back-link { font-size: 0.8rem; color: #6b7280; text-decoration: none; display: block; margin-bottom: 0.4rem; }
+.back-link:hover { color: #fca5a5; }
+.page-title { font-size: 1.6rem; font-weight: 700; color: #f1f5f9; }
+
+.flash { padding: 0.75rem 1rem; border-radius: 0.625rem; font-size: 0.875rem; margin-bottom: 1.25rem; }
+.flash.error { background: rgba(239,68,68,0.08); border: 1px solid rgba(239,68,68,0.25); color: #ef4444; }
+
+.form-card {
+  background: rgba(24,10,10,0.6); border: 1px solid rgba(239,68,68,0.1);
+  border-radius: 1rem; padding: 1.75rem; max-width: 780px;
+}
+
+.form-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1.25rem; margin-bottom: 1.5rem; }
+.form-group { display: flex; flex-direction: column; gap: 0.35rem; }
+.form-group.full { grid-column: 1 / -1; }
+.form-group.checkboxes { grid-column: 1 / -1; display: flex; flex-direction: column; gap: 0.6rem; }
+
+label { font-size: 0.82rem; font-weight: 600; color: #d1d5db; }
+.req { color: #ef4444; }
+.hint { font-size: 0.75rem; color: #4b5563; margin-top: 0.1rem; }
+
+input[type="text"],
+input[type="number"],
+textarea,
+select {
+  padding: 0.65rem 0.875rem;
+  background: rgba(12,4,4,0.8); border: 1px solid rgba(239,68,68,0.15);
+  border-radius: 0.5rem; color: #e5e7eb; font-size: 1rem; font-family: inherit;
+  transition: border-color 0.18s; width: 100%;
+}
+input:focus, textarea:focus, select:focus { outline: none; border-color: rgba(239,68,68,0.45); }
+input::placeholder, textarea::placeholder { color: #4b5563; }
+textarea { resize: vertical; min-height: 80px; }
+select option { background: #140606; }
+
+.checkbox-label {
+  display: flex; align-items: center; gap: 0.5rem;
+  font-size: 0.875rem; color: #d1d5db; cursor: pointer; font-weight: 400;
+}
+.checkbox-label input[type="checkbox"] { width: 16px; height: 16px; accent-color: #ef4444; flex-shrink: 0; }
+.checkbox-label input[type="hidden"] { display: none; }
+
+.form-actions { display: flex; gap: 0.75rem; align-items: center; }
+.btn-submit {
+  padding: 0.65rem 1.5rem; border-radius: 0.625rem;
+  background: rgba(239,68,68,0.15); border: 1px solid rgba(239,68,68,0.35);
+  color: #fca5a5; font-size: 0.9rem; font-weight: 600; cursor: pointer;
+  font-family: inherit; transition: all 0.18s; min-height: 44px;
+}
+.btn-submit:hover { background: rgba(239,68,68,0.25); }
+.btn-cancel {
+  padding: 0.65rem 1.25rem; border-radius: 0.625rem;
+  border: 1px solid rgba(239,68,68,0.12); color: #6b7280;
+  font-size: 0.875rem; text-decoration: none; transition: all 0.18s;
+  min-height: 44px; display: inline-flex; align-items: center;
+}
+.btn-cancel:hover { border-color: rgba(239,68,68,0.25); color: #9ca3af; }
+
+@media (max-width: 600px) {
+  .form-grid { grid-template-columns: 1fr; }
+  .form-group.full { grid-column: 1; }
+  .form-group.checkboxes { grid-column: 1; }
+  .page-title { font-size: 1.3rem; }
+}
+</style>

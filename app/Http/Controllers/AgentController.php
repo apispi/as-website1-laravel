@@ -2,33 +2,19 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Support\Str;
+use App\Models\Agent;
 
 class AgentController extends Controller
 {
-    private array $validSlugs = [
-        'bid-tender',
-        'security-compliance',
-        'enterprise-architecture',
-        'digital-avatar',
-        'knowledge-management',
-        'cyber-incident',
-        'content-creator',
-        'support-bot',
-        'data-analyzer',
-    ];
-
     public function index()
     {
-        return view('agents.index');
+        $agents = Agent::active()->get();
+        return view('agents.index', compact('agents'));
     }
 
     public function show(string $slug)
     {
-        if (! in_array($slug, $this->validSlugs)) {
-            abort(404);
-        }
-
-        return view("agents.{$slug}");
+        $agent = Agent::where('slug', $slug)->where('is_active', true)->firstOrFail();
+        return view("agents.{$slug}", compact('agent'));
     }
 }

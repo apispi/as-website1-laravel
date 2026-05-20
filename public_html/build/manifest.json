@@ -1,6 +1,6 @@
 {
-  "__plugin-vue_export-helper-BDnbiEQJ.js": {
-    "file": "assets/_plugin-vue_export-helper-BDnbiEQJ.js",
+  "__plugin-vue_export-helper-BWVoX5cw.js": {
+    "file": "assets/_plugin-vue_export-helper-BWVoX5cw.js",
     "name": "_plugin-vue_export-helper"
   },
   "_fonts-DkuEHybc.css": {
@@ -65,15 +65,15 @@
     "isEntry": true
   },
   "resources/js/admin.js": {
-    "file": "assets/admin-ClOe4TAr.js",
+    "file": "assets/admin-C7oF2mqu.js",
     "name": "admin",
     "src": "resources/js/admin.js",
     "isEntry": true,
     "imports": [
-      "__plugin-vue_export-helper-BDnbiEQJ.js"
+      "__plugin-vue_export-helper-BWVoX5cw.js"
     ],
     "css": [
-      "assets/admin-CgjqAC7V.css"
+      "assets/admin-CKQvOxcg.css"
     ]
   },
   "resources/js/app.js": {
@@ -83,12 +83,12 @@
     "isEntry": true
   },
   "resources/js/dashboard.js": {
-    "file": "assets/dashboard-kSnAouCf.js",
+    "file": "assets/dashboard-xFimY1Za.js",
     "name": "dashboard",
     "src": "resources/js/dashboard.js",
     "isEntry": true,
     "imports": [
-      "__plugin-vue_export-helper-BDnbiEQJ.js"
+      "__plugin-vue_export-helper-BWVoX5cw.js"
     ],
     "css": [
       "assets/dashboard-QzdxJXBa.css"

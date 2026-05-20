@@ -68,104 +68,28 @@
         <div class="container">
             <div class="agents-grid" id="agentsContainer">
 
-                <div class="agent-card">
-                    <div class="agent-badge">Popular</div>
-                    <h3>Bid &amp; Tender Response</h3>
-                    <p>Automates government RFQ/RFT responses, selection criteria, and capability statements for procurement teams.</p>
-                    <div class="agent-stats"><span>⭐ 4.9/5</span><span>340+ users</span></div>
+                @foreach($agents as $agent)
+                <div class="agent-card {{ $agent->is_featured ? 'featured-highlight' : '' }}"
+                     data-name="{{ strtolower($agent->name) }}"
+                     data-category="{{ strtolower($agent->category ?? '') }}"
+                     data-badge="{{ strtolower($agent->badge ?? '') }}"
+                     data-rating="{{ $agent->rating }}"
+                     data-price="{{ preg_replace('/[^0-9.]/', '', $agent->price ?? '0') }}">
+                    @if($agent->badge)
+                        <div class="agent-badge {{ strtolower($agent->badge) === 'premium' ? 'premium' : '' }}">{{ $agent->badge }}</div>
+                    @endif
+                    <h3>{{ $agent->name }}</h3>
+                    <p>{{ $agent->description }}</p>
+                    <div class="agent-stats">
+                        @if($agent->rating)<span>⭐ {{ $agent->rating }}/5</span>@endif
+                        @if($agent->users_count)<span>{{ $agent->users_count }} users</span>@endif
+                    </div>
                     <div style="margin-top: 1rem; padding-top: 1rem; border-top: 1px solid rgba(217, 119, 6, 0.1); display: flex; justify-content: space-between; align-items: center;">
-                        <span style="font-size: 1.5rem; font-weight: 700; color: #FCD34D;">$499/mo</span>
-                        <a href="{{ route('agents.show', 'bid-tender') }}" class="btn btn-primary" style="padding: 0.5rem 1rem; font-size: 0.9rem;">View</a>
+                        <span style="font-size: 1.5rem; font-weight: 700; color: #FCD34D;">{{ $agent->price }}</span>
+                        <a href="{{ route('agents.show', $agent->slug) }}" class="btn btn-primary" style="padding: 0.5rem 1rem; font-size: 0.9rem;">View</a>
                     </div>
                 </div>
-
-                <div class="agent-card featured-highlight">
-                    <div class="agent-badge premium">Premium</div>
-                    <h3>Security &amp; IRAP Readiness</h3>
-                    <p>Guides organisations through Essential Eight, ISM, PSPF, IRAP, ISO 27001, and cloud security readiness.</p>
-                    <div class="agent-stats"><span>⭐ 4.95/5</span><span>180+ users</span></div>
-                    <div style="margin-top: 1rem; padding-top: 1rem; border-top: 1px solid rgba(217, 119, 6, 0.1); display: flex; justify-content: space-between; align-items: center;">
-                        <span style="font-size: 1.5rem; font-weight: 700; color: #FCD34D;">$799/mo</span>
-                        <a href="{{ route('agents.show', 'security-compliance') }}" class="btn btn-primary" style="padding: 0.5rem 1rem; font-size: 0.9rem;">View</a>
-                    </div>
-                </div>
-
-                <div class="agent-card">
-                    <div class="agent-badge">Popular</div>
-                    <h3>Enterprise Architecture</h3>
-                    <p>Acts as a virtual enterprise/solution architect — generating options, decision records, and migration roadmaps.</p>
-                    <div class="agent-stats"><span>⭐ 4.85/5</span><span>210+ users</span></div>
-                    <div style="margin-top: 1rem; padding-top: 1rem; border-top: 1px solid rgba(217, 119, 6, 0.1); display: flex; justify-content: space-between; align-items: center;">
-                        <span style="font-size: 1.5rem; font-weight: 700; color: #FCD34D;">$599/mo</span>
-                        <a href="{{ route('agents.show', 'enterprise-architecture') }}" class="btn btn-primary" style="padding: 0.5rem 1rem; font-size: 0.9rem;">View</a>
-                    </div>
-                </div>
-
-                <div class="agent-card">
-                    <div class="agent-badge">New</div>
-                    <h3>Digital Avatar &amp; Executive Clone</h3>
-                    <p>Creates AI-powered professional avatars for executives, consultants, trainers, and public-facing staff.</p>
-                    <div class="agent-stats"><span>⭐ 4.9/5</span><span>520+ users</span></div>
-                    <div style="margin-top: 1rem; padding-top: 1rem; border-top: 1px solid rgba(217, 119, 6, 0.1); display: flex; justify-content: space-between; align-items: center;">
-                        <span style="font-size: 1.5rem; font-weight: 700; color: #FCD34D;">$250/mo</span>
-                        <a href="{{ route('agents.show', 'digital-avatar') }}" class="btn btn-primary" style="padding: 0.5rem 1rem; font-size: 0.9rem;">View</a>
-                    </div>
-                </div>
-
-                <div class="agent-card">
-                    <div class="agent-badge">Popular</div>
-                    <h3>Knowledge Management &amp; SOP</h3>
-                    <p>Turns scattered organisational knowledge into searchable operational intelligence and auto-generated SOPs.</p>
-                    <div class="agent-stats"><span>⭐ 4.8/5</span><span>290+ users</span></div>
-                    <div style="margin-top: 1rem; padding-top: 1rem; border-top: 1px solid rgba(217, 119, 6, 0.1); display: flex; justify-content: space-between; align-items: center;">
-                        <span style="font-size: 1.5rem; font-weight: 700; color: #FCD34D;">$399/mo</span>
-                        <a href="{{ route('agents.show', 'knowledge-management') }}" class="btn btn-primary" style="padding: 0.5rem 1rem; font-size: 0.9rem;">View</a>
-                    </div>
-                </div>
-
-                <div class="agent-card featured-highlight">
-                    <div class="agent-badge premium">Premium</div>
-                    <h3>Cyber Incident &amp; Threat Intel</h3>
-                    <p>Acts as a first-line cyber operations assistant for log summarisation, triage, IOC extraction, and playbooks.</p>
-                    <div class="agent-stats"><span>⭐ 4.9/5</span><span>150+ users</span></div>
-                    <div style="margin-top: 1rem; padding-top: 1rem; border-top: 1px solid rgba(217, 119, 6, 0.1); display: flex; justify-content: space-between; align-items: center;">
-                        <span style="font-size: 1.5rem; font-weight: 700; color: #FCD34D;">$699/mo</span>
-                        <a href="{{ route('agents.show', 'cyber-incident') }}" class="btn btn-primary" style="padding: 0.5rem 1rem; font-size: 0.9rem;">View</a>
-                    </div>
-                </div>
-
-                <div class="agent-card">
-                    <div class="agent-badge">Popular</div>
-                    <h3>Content Creator</h3>
-                    <p>Autonomous content generation for blogs, social media, and marketing campaigns.</p>
-                    <div class="agent-stats"><span>⭐ 4.9/5</span><span>1,250+ users</span></div>
-                    <div style="margin-top: 1rem; padding-top: 1rem; border-top: 1px solid rgba(217, 119, 6, 0.1); display: flex; justify-content: space-between; align-items: center;">
-                        <span style="font-size: 1.5rem; font-weight: 700; color: #FCD34D;">$29/mo</span>
-                        <a href="{{ route('agents.show', 'content-creator') }}" class="btn btn-primary" style="padding: 0.5rem 1rem; font-size: 0.9rem;">View</a>
-                    </div>
-                </div>
-
-                <div class="agent-card">
-                    <div class="agent-badge">New</div>
-                    <h3>Customer Support Bot</h3>
-                    <p>24/7 intelligent customer support with natural language understanding. Resolve issues faster.</p>
-                    <div class="agent-stats"><span>⭐ 4.8/5</span><span>890+ users</span></div>
-                    <div style="margin-top: 1rem; padding-top: 1rem; border-top: 1px solid rgba(217, 119, 6, 0.1); display: flex; justify-content: space-between; align-items: center;">
-                        <span style="font-size: 1.5rem; font-weight: 700; color: #FCD34D;">$49/mo</span>
-                        <a href="{{ route('agents.show', 'support-bot') }}" class="btn btn-primary" style="padding: 0.5rem 1rem; font-size: 0.9rem;">View</a>
-                    </div>
-                </div>
-
-                <div class="agent-card featured-highlight">
-                    <div class="agent-badge premium">Premium</div>
-                    <h3>Data Analyzer Pro</h3>
-                    <p>Advanced data analysis, visualization, and insights generation from any dataset.</p>
-                    <div class="agent-stats"><span>⭐ 4.95/5</span><span>2,100+ users</span></div>
-                    <div style="margin-top: 1rem; padding-top: 1rem; border-top: 1px solid rgba(217, 119, 6, 0.1); display: flex; justify-content: space-between; align-items: center;">
-                        <span style="font-size: 1.5rem; font-weight: 700; color: #FCD34D;">$79/mo</span>
-                        <a href="{{ route('agents.show', 'data-analyzer') }}" class="btn btn-primary" style="padding: 0.5rem 1rem; font-size: 0.9rem;">View</a>
-                    </div>
-                </div>
+                @endforeach
 
             </div>
         </div>
