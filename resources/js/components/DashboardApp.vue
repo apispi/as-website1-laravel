@@ -39,6 +39,13 @@
         <a href="/contact" class="db-nav-link">
           <span class="db-nav-icon">◉</span> Support
         </a>
+
+        <template v-if="user.is_admin">
+          <span class="db-nav-label">Administration</span>
+          <a href="/admin" class="db-nav-link db-nav-admin">
+            <span class="db-nav-icon">⬡</span> Admin Panel
+          </a>
+        </template>
       </nav>
 
       <div class="db-sidebar-footer">
@@ -265,6 +272,8 @@ const gettingStarted = [
 }
 .db-nav-link:hover { background: rgba(217,119,6,0.1); color: #FCD34D; }
 .db-nav-link.active { background: rgba(217,119,6,0.15); color: #FCD34D; font-weight: 600; }
+.db-nav-admin { color: #fca5a5 !important; }
+.db-nav-admin:hover { background: rgba(239,68,68,0.1) !important; color: #ef4444 !important; }
 .db-nav-icon { font-size: 1rem; width: 20px; text-align: center; flex-shrink: 0; }
 
 .db-sidebar-footer {
