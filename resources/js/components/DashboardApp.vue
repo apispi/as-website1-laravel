@@ -119,22 +119,17 @@
             <span>No agents yet. <a href="/agents" class="db-link">Browse the marketplace →</a></span>
           </div>
 
-          <div v-else class="db-agent-grid">
+          <div v-else class="db-agent-list">
             <a v-for="sub in subscriptions" :key="sub.id"
-               :href="`/agents/${sub.agent?.slug}`"
-               class="db-agent-card">
-              <div class="db-agent-card-top">
-                <div class="db-agent-icon">◈</div>
-                <span v-if="sub.agent?.badge" class="db-agent-badge" :class="sub.agent.badge.toLowerCase()">
-                  {{ sub.agent.badge }}
-                </span>
+               :href="`/dashboard/agents/${sub.id}`"
+               class="db-agent-row">
+              <div class="db-agent-row-icon">◈</div>
+              <div class="db-agent-row-body">
+                <div class="db-agent-row-name">{{ sub.agent?.name ?? '—' }}</div>
+                <div class="db-agent-row-meta">{{ sub.agent?.category ?? '' }}</div>
               </div>
-              <div class="db-agent-name">{{ sub.agent?.name ?? '—' }}</div>
-              <div class="db-agent-desc">{{ sub.agent?.description ?? '' }}</div>
-              <div class="db-agent-footer">
-                <span class="db-agent-price">{{ sub.agent?.price ?? '' }}</span>
-                <span class="db-agent-status active">Active</span>
-              </div>
+              <span class="db-agent-status" :class="sub.status">{{ sub.status }}</span>
+              <span class="db-agent-row-arrow">→</span>
             </a>
           </div>
         </section>
@@ -401,7 +396,7 @@ const gettingStarted = computed(() => [
 .db-section-link { font-size: 0.82rem; color: #D97706; text-decoration: none; }
 .db-section-link:hover { text-decoration: underline; }
 
-/* Agent grid */
+/* Agent list */
 .db-agents-empty {
   display: flex; align-items: center; gap: 0.5rem;
   padding: 1.25rem; background: rgba(28,24,16,0.5);
@@ -412,26 +407,30 @@ const gettingStarted = computed(() => [
 .db-link { color: #D97706; text-decoration: none; }
 .db-link:hover { text-decoration: underline; }
 
-.db-agent-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); gap: 1rem; }
-.db-agent-card {
-  display: flex; flex-direction: column;
+.db-agent-list { display: flex; flex-direction: column; gap: 0.5rem; }
+.db-agent-row {
+  display: flex; align-items: center; gap: 1rem;
   background: rgba(28,24,16,0.7); border: 1px solid rgba(217,119,6,0.12);
-  border-radius: 1rem; padding: 1.1rem; text-decoration: none; color: inherit;
-  transition: border-color 0.2s, transform 0.2s;
+  border-radius: 0.875rem; padding: 0.875rem 1rem;
+  text-decoration: none; color: inherit;
+  transition: border-color 0.2s, background 0.2s;
 }
-.db-agent-card:hover { border-color: rgba(217,119,6,0.35); transform: translateY(-2px); }
-.db-agent-card-top { display: flex; align-items: center; justify-content: space-between; margin-bottom: 0.75rem; }
-.db-agent-icon { font-size: 1.25rem; opacity: 0.7; color: #FCD34D; }
-.db-agent-badge { font-size: 0.68rem; font-weight: 600; padding: 0.15rem 0.45rem; border-radius: 99px; }
-.db-agent-badge.popular { background: rgba(217,119,6,0.12); color: #FCD34D; }
-.db-agent-badge.premium { background: rgba(239,68,68,0.12); color: #fca5a5; }
-.db-agent-badge.new     { background: rgba(0,217,126,0.1);  color: #00d97e; }
-.db-agent-name { font-size: 0.9rem; font-weight: 700; color: #e5e7eb; margin-bottom: 0.35rem; line-height: 1.3; }
-.db-agent-desc { font-size: 0.78rem; color: #6b7280; line-height: 1.45; flex: 1; margin-bottom: 0.875rem; }
-.db-agent-footer { display: flex; align-items: center; justify-content: space-between; }
-.db-agent-price { font-size: 0.82rem; font-weight: 700; color: #FCD34D; }
-.db-agent-status { font-size: 0.68rem; font-weight: 600; padding: 0.15rem 0.45rem; border-radius: 99px; }
-.db-agent-status.active { background: rgba(0,217,126,0.1); color: #00d97e; }
+.db-agent-row:hover { border-color: rgba(217,119,6,0.35); background: rgba(217,119,6,0.05); }
+.db-agent-row-icon {
+  width: 36px; height: 36px; border-radius: 0.5rem; flex-shrink: 0;
+  background: rgba(217,119,6,0.1); border: 1px solid rgba(217,119,6,0.2);
+  display: flex; align-items: center; justify-content: center;
+  font-size: 0.95rem; color: #FCD34D;
+}
+.db-agent-row-body { flex: 1; min-width: 0; }
+.db-agent-row-name { font-size: 0.9rem; font-weight: 600; color: #e5e7eb; }
+.db-agent-row-meta { font-size: 0.78rem; color: #6b7280; margin-top: 0.1rem; }
+.db-agent-status { font-size: 0.68rem; font-weight: 600; padding: 0.2rem 0.5rem; border-radius: 99px; flex-shrink: 0; }
+.db-agent-status.active    { background: rgba(0,217,126,0.1);    color: #00d97e; }
+.db-agent-status.cancelled { background: rgba(239,68,68,0.1);    color: #fca5a5; }
+.db-agent-status.expired   { background: rgba(107,114,128,0.12); color: #9ca3af; }
+.db-agent-row-arrow { color: #D97706; font-size: 1rem; flex-shrink: 0; transition: transform 0.2s; }
+.db-agent-row:hover .db-agent-row-arrow { transform: translateX(3px); }
 
 /* Actions */
 .db-action-grid { display: flex; flex-direction: column; gap: 0.75rem; }

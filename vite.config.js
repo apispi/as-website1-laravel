@@ -10,7 +10,7 @@ export default defineConfig({
         laravel({
             publicDirectory: 'public_html',
             buildDirectory: 'build',
-            input: ['resources/css/app.css', 'resources/js/app.js', 'resources/js/dashboard.js', 'resources/js/admin.js'],
+            input: ['resources/css/app.css', 'resources/js/app.js', 'resources/js/dashboard.js', 'resources/js/admin.js', 'resources/js/agent-detail.js'],
             refresh: true,
             fonts: [
                 bunny('Instrument Sans', {
