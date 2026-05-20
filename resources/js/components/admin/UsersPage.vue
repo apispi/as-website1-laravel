@@ -57,7 +57,6 @@
             </td>
             <td class="muted small">{{ formatDate(u.created_at) }}</td>
             <td class="actions">
-              <a :href="`/admin/users/${u.id}`" class="btn-ghost">View</a>
               <form v-if="u.id !== user.id" method="POST" :action="`/admin/users/${u.id}/toggle-admin`" style="display:inline;">
                 <input type="hidden" name="_token" :value="csrfToken">
                 <button type="submit" class="btn-toggle" :class="u.is_admin ? 'demote' : 'promote'">
