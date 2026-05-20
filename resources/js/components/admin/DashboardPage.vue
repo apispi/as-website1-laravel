@@ -2,7 +2,7 @@
   <AdminShell :user="user" :csrf-token="csrfToken" page="dashboard">
 
     <div class="page-header">
-      <h1 class="page-title">Dashboard</h1>
+      <h1 class="page-title">Admin</h1>
       <p class="page-sub">Platform overview and recent activity</p>
     </div>
 
