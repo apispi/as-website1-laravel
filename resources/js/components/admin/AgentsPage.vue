@@ -3,7 +3,7 @@
 
     <div class="page-header">
       <div>
-        <h1 class="page-title">Agents</h1>
+        <h1 class="page-title">Agent Marketplace</h1>
         <p class="page-sub">{{ filtered.length }} of {{ agents.length }} agents</p>
       </div>
       <a href="/admin/agents/create" class="btn-primary">+ New Agent</a>

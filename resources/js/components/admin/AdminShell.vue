@@ -34,7 +34,7 @@
           <span class="adm-nav-icon">◈</span> Users
         </a>
         <a href="/admin/agents" class="adm-nav-link" :class="{ active: page === 'agents' }">
-          <span class="adm-nav-icon">◎</span> Agents
+          <span class="adm-nav-icon">◎</span> Agent Marketplace
         </a>
         <a href="/blog" class="adm-nav-link">
           <span class="adm-nav-icon">◷</span> Blog
