@@ -8,6 +8,8 @@ export default defineConfig({
     plugins: [
         vue(),
         laravel({
+            publicDirectory: 'public_html',
+            buildDirectory: 'build',
             input: ['resources/css/app.css', 'resources/js/app.js', 'resources/js/dashboard.js'],
             refresh: true,
             fonts: [
