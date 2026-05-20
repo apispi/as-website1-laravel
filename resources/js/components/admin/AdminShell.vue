@@ -33,7 +33,7 @@
         <a href="/admin/users" class="adm-nav-link" :class="{ active: page === 'users' }">
           <span class="adm-nav-icon">◈</span> Users
         </a>
-        <a href="/agents" class="adm-nav-link">
+        <a href="/admin/agents" class="adm-nav-link" :class="{ active: page === 'agents' }">
           <span class="adm-nav-icon">◎</span> Agents
         </a>
         <a href="/blog" class="adm-nav-link">
