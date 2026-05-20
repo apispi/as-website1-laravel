@@ -31,9 +31,6 @@
         <a href="/dashboard/agents" class="db-nav-link">
           <span class="db-nav-icon">◈</span> My Agents
         </a>
-        <a href="/agents" class="db-nav-link">
-          <span class="db-nav-icon">◈</span> Browse Agents
-        </a>
         <a href="/training" class="db-nav-link">
           <span class="db-nav-icon">◷</span> Training
         </a>
