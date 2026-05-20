@@ -6,5 +6,6 @@ if (el) {
     createApp(DashboardApp, {
         user: JSON.parse(el.dataset.user || '{}'),
         csrfToken: el.dataset.csrf || '',
+        subscriptions: JSON.parse(el.dataset.subscriptions || '[]'),
     }).mount(el);
 }

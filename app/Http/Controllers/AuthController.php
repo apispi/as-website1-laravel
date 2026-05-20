@@ -112,6 +112,13 @@ class AuthController extends Controller
 
     public function dashboard()
     {
-        return view('auth.dashboard');
+        $subscriptions = Auth::user()
+            ->subscriptions()
+            ->with('agent')
+            ->where('status', 'active')
+            ->latest('started_at')
+            ->get();
+
+        return view('auth.dashboard', compact('subscriptions'));
     }
 }

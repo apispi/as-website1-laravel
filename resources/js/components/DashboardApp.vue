@@ -107,6 +107,38 @@
           </div>
         </div>
 
+        <!-- My Agents -->
+        <section class="db-section">
+          <div class="db-section-head">
+            <h2 class="db-section-title">My Agents</h2>
+            <a href="/agents" class="db-section-link">Browse all →</a>
+          </div>
+
+          <div v-if="subscriptions.length === 0" class="db-agents-empty">
+            <span class="db-agents-empty-icon">◈</span>
+            <span>No agents yet. <a href="/agents" class="db-link">Browse the marketplace →</a></span>
+          </div>
+
+          <div v-else class="db-agent-grid">
+            <a v-for="sub in subscriptions" :key="sub.id"
+               :href="`/agents/${sub.agent?.slug}`"
+               class="db-agent-card">
+              <div class="db-agent-card-top">
+                <div class="db-agent-icon">◈</div>
+                <span v-if="sub.agent?.badge" class="db-agent-badge" :class="sub.agent.badge.toLowerCase()">
+                  {{ sub.agent.badge }}
+                </span>
+              </div>
+              <div class="db-agent-name">{{ sub.agent?.name ?? '—' }}</div>
+              <div class="db-agent-desc">{{ sub.agent?.description ?? '' }}</div>
+              <div class="db-agent-footer">
+                <span class="db-agent-price">{{ sub.agent?.price ?? '' }}</span>
+                <span class="db-agent-status active">Active</span>
+              </div>
+            </a>
+          </div>
+        </section>
+
         <!-- Quick Actions -->
         <section class="db-section">
           <h2 class="db-section-title">Quick Actions</h2>
@@ -170,8 +202,9 @@
 import { ref, computed } from 'vue';
 
 const props = defineProps({
-  user: { type: Object, default: () => ({}) },
-  csrfToken: { type: String, default: '' },
+  user:          { type: Object, default: () => ({}) },
+  csrfToken:     { type: String, default: '' },
+  subscriptions: { type: Array,  default: () => [] },
 });
 
 const sidebarOpen = ref(false);
@@ -184,11 +217,11 @@ const memberSince = computed(() => {
   return new Date(props.user.created_at).toLocaleDateString('en-US', { month: 'long', year: 'numeric' });
 });
 
-const stats = [
-  { icon: '◈', value: '0', label: 'Active Agents' },
+const stats = computed(() => [
+  { icon: '◈', value: props.subscriptions.length, label: 'Active Agents' },
   { icon: '⬡', value: '0', label: 'API Calls' },
   { icon: '◷', value: '0', label: 'Pipelines Run' },
-];
+]);
 
 const actions = [
   { icon: '◈', label: 'Browse Agents', desc: 'Explore and deploy AI agents', href: '/agents' },
@@ -196,12 +229,12 @@ const actions = [
   { icon: '◉', label: 'Support', desc: 'Get help from our team', href: '/contact' },
 ];
 
-const gettingStarted = [
+const gettingStarted = computed(() => [
   { title: 'Create your account', desc: 'You\'re in! Account is set up and ready.', done: true, href: '#' },
-  { title: 'Explore our AI agents', desc: 'Browse agents designed for your workflows.', done: false, href: '/agents' },
+  { title: 'Explore our AI agents', desc: 'Browse agents designed for your workflows.', done: props.subscriptions.length > 0, href: '/agents' },
   { title: 'Run your first pipeline', desc: 'Chain AI steps to automate complex tasks.', done: false, href: '/training' },
   { title: 'Integrate via API', desc: 'Connect agents to your own applications.', done: false, href: '/contact' },
-];
+]);
 </script>
 
 <style scoped>
@@ -363,7 +396,42 @@ const gettingStarted = [
 
 /* Sections */
 .db-section { margin-bottom: 2rem; }
-.db-section-title { font-size: 1rem; font-weight: 700; color: #e5e7eb; margin-bottom: 1rem; }
+.db-section-head { display: flex; align-items: center; justify-content: space-between; margin-bottom: 1rem; }
+.db-section-title { font-size: 1rem; font-weight: 700; color: #e5e7eb; }
+.db-section-link { font-size: 0.82rem; color: #D97706; text-decoration: none; }
+.db-section-link:hover { text-decoration: underline; }
+
+/* Agent grid */
+.db-agents-empty {
+  display: flex; align-items: center; gap: 0.5rem;
+  padding: 1.25rem; background: rgba(28,24,16,0.5);
+  border: 1px dashed rgba(217,119,6,0.2); border-radius: 0.875rem;
+  color: #6b7280; font-size: 0.875rem;
+}
+.db-agents-empty-icon { font-size: 1.1rem; opacity: 0.4; }
+.db-link { color: #D97706; text-decoration: none; }
+.db-link:hover { text-decoration: underline; }
+
+.db-agent-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); gap: 1rem; }
+.db-agent-card {
+  display: flex; flex-direction: column;
+  background: rgba(28,24,16,0.7); border: 1px solid rgba(217,119,6,0.12);
+  border-radius: 1rem; padding: 1.1rem; text-decoration: none; color: inherit;
+  transition: border-color 0.2s, transform 0.2s;
+}
+.db-agent-card:hover { border-color: rgba(217,119,6,0.35); transform: translateY(-2px); }
+.db-agent-card-top { display: flex; align-items: center; justify-content: space-between; margin-bottom: 0.75rem; }
+.db-agent-icon { font-size: 1.25rem; opacity: 0.7; color: #FCD34D; }
+.db-agent-badge { font-size: 0.68rem; font-weight: 600; padding: 0.15rem 0.45rem; border-radius: 99px; }
+.db-agent-badge.popular { background: rgba(217,119,6,0.12); color: #FCD34D; }
+.db-agent-badge.premium { background: rgba(239,68,68,0.12); color: #fca5a5; }
+.db-agent-badge.new     { background: rgba(0,217,126,0.1);  color: #00d97e; }
+.db-agent-name { font-size: 0.9rem; font-weight: 700; color: #e5e7eb; margin-bottom: 0.35rem; line-height: 1.3; }
+.db-agent-desc { font-size: 0.78rem; color: #6b7280; line-height: 1.45; flex: 1; margin-bottom: 0.875rem; }
+.db-agent-footer { display: flex; align-items: center; justify-content: space-between; }
+.db-agent-price { font-size: 0.82rem; font-weight: 700; color: #FCD34D; }
+.db-agent-status { font-size: 0.68rem; font-weight: 600; padding: 0.15rem 0.45rem; border-radius: 99px; }
+.db-agent-status.active { background: rgba(0,217,126,0.1); color: #00d97e; }
 
 /* Actions */
 .db-action-grid { display: flex; flex-direction: column; gap: 0.75rem; }
