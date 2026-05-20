@@ -26,7 +26,7 @@
       <nav class="adm-nav">
         <span class="adm-nav-label">Overview</span>
         <a href="/admin" class="adm-nav-link" :class="{ active: page === 'dashboard' }">
-          <span class="adm-nav-icon">⬡</span> Dashboard
+          <span class="adm-nav-icon">⬡</span> Admin
         </a>
 
         <span class="adm-nav-label">Manage</span>
