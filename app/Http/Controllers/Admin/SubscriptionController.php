@@ -10,6 +10,15 @@ use Illuminate\Http\Request;
 
 class SubscriptionController extends Controller
 {
+    public function allAgents()
+    {
+        $subscriptions = Subscription::with(['user', 'agent'])
+            ->latest('started_at')
+            ->get();
+
+        return view('admin.subscriptions', compact('subscriptions'));
+    }
+
     public function userAgents(User $user)
     {
         $subscriptions   = $user->subscriptions()->with('agent')->latest('started_at')->get();

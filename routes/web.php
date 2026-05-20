@@ -54,6 +54,7 @@ Route::middleware(['auth', 'admin'])->prefix('admin')->name('admin.')->group(fun
     Route::get('/users', [AdminUsers::class, 'index'])->name('users.index');
     Route::get('/users/{user}', [AdminUsers::class, 'show'])->name('users.show');
     Route::post('/users/{user}/toggle-admin', [AdminUsers::class, 'toggleAdmin'])->name('users.toggle-admin');
+    Route::get('/subscriptions', [AdminSubscriptions::class, 'allAgents'])->name('subscriptions.index');
     Route::get('/users/{user}/agents', [AdminSubscriptions::class, 'userAgents'])->name('users.agents');
     Route::post('/users/{user}/agents', [AdminSubscriptions::class, 'assign'])->name('users.agents.assign');
     Route::delete('/users/{user}/agents/{subscription}', [AdminSubscriptions::class, 'revoke'])->name('users.agents.revoke');
