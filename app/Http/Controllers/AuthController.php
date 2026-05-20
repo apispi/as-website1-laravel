@@ -123,6 +123,17 @@ class AuthController extends Controller
         return view('auth.dashboard', compact('subscriptions'));
     }
 
+    public function userAgents()
+    {
+        $subscriptions = Auth::user()
+            ->subscriptions()
+            ->with('agent')
+            ->latest('started_at')
+            ->get();
+
+        return view('auth.agents', compact('subscriptions'));
+    }
+
     public function userAgent(Subscription $subscription)
     {
         abort_if($subscription->user_id !== Auth::id(), 403);

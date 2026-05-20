@@ -111,7 +111,7 @@
         <section class="db-section">
           <div class="db-section-head">
             <h2 class="db-section-title">My Agents</h2>
-            <a href="/agents" class="db-section-link">Browse all →</a>
+            <a href="/dashboard/agents" class="db-section-link">View all →</a>
           </div>
 
           <div v-if="subscriptions.length === 0" class="db-agents-empty">
@@ -121,7 +121,7 @@
 
           <div v-else class="db-agent-list">
             <a v-for="sub in subscriptions" :key="sub.id"
-               :href="`/dashboard/agents/${sub.id}`"
+               href="/dashboard/agents"
                class="db-agent-row">
               <div class="db-agent-row-icon">◈</div>
               <div class="db-agent-row-body">
