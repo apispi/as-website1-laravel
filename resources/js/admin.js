@@ -3,8 +3,9 @@ import DashboardPage from './components/admin/DashboardPage.vue';
 import UsersPage from './components/admin/UsersPage.vue';
 import AgentsPage from './components/admin/AgentsPage.vue';
 import AgentFormPage from './components/admin/AgentFormPage.vue';
+import UserDetailPage from './components/admin/UserDetailPage.vue';
 
-const pages = { dashboard: DashboardPage, users: UsersPage, agents: AgentsPage, 'agent-form': AgentFormPage };
+const pages = { dashboard: DashboardPage, users: UsersPage, 'user-detail': UserDetailPage, agents: AgentsPage, 'agent-form': AgentFormPage };
 
 const el = document.getElementById('admin-app');
 if (el) {

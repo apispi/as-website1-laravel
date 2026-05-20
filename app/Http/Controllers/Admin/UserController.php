@@ -17,7 +17,7 @@ class UserController extends Controller
 
     public function show(User $user)
     {
-        return redirect()->route('admin.users.index');
+        return view('admin.users.show', compact('user'));
     }
 
     public function toggleAdmin(User $user)
