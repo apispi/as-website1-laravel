@@ -47,9 +47,6 @@
         <a href="/dashboard" class="adm-nav-link">
           <span class="adm-nav-icon">⬡</span> User Dashboard
         </a>
-        <a href="/" class="adm-nav-link">
-          <span class="adm-nav-icon">◉</span> Public Site
-        </a>
       </nav>
 
       <div class="adm-sidebar-footer">
