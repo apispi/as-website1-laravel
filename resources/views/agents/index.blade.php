@@ -72,12 +72,13 @@
             <div class="agents-grid" id="agentsContainer">
 
                 @foreach($agents as $agent)
-                <div class="agent-card {{ $agent->is_featured ? 'featured-highlight' : '' }}"
-                     data-name="{{ strtolower($agent->name) }}"
-                     data-category="{{ strtolower($agent->category ?? '') }}"
-                     data-badge="{{ strtolower($agent->badge ?? '') }}"
-                     data-rating="{{ $agent->rating }}"
-                     data-price="{{ preg_replace('/[^0-9.]/', '', $agent->price ?? '0') }}">
+                <a href="{{ route('agents.show', $agent->slug) }}"
+                   class="agent-card {{ $agent->is_featured ? 'featured-highlight' : '' }}"
+                   data-name="{{ strtolower($agent->name) }}"
+                   data-category="{{ strtolower($agent->category ?? '') }}"
+                   data-badge="{{ strtolower($agent->badge ?? '') }}"
+                   data-rating="{{ $agent->rating }}"
+                   data-price="{{ preg_replace('/[^0-9.]/', '', $agent->price ?? '0') }}">
                     @if($agent->badge)
                         <div class="agent-badge {{ strtolower($agent->badge) === 'premium' ? 'premium' : '' }}">{{ $agent->badge }}</div>
                     @endif
@@ -89,9 +90,9 @@
                     </div>
                     <div style="margin-top: 1rem; padding-top: 1rem; border-top: 1px solid rgba(217, 119, 6, 0.1); display: flex; justify-content: space-between; align-items: center;">
                         <span style="font-size: 1.5rem; font-weight: 700; color: #FCD34D;">{{ $agent->price }}</span>
-                        <a href="{{ route('agents.show', $agent->slug) }}" class="btn btn-primary" style="padding: 0.5rem 1rem; font-size: 0.9rem;">View</a>
+                        <span style="padding: 0.5rem 1rem; font-size: 0.9rem; background: rgba(217,119,6,0.15); border: 1px solid rgba(217,119,6,0.35); border-radius: 0.5rem; color: #FCD34D; font-weight: 600;">View →</span>
                     </div>
-                </div>
+                </a>
                 @endforeach
 
             </div>

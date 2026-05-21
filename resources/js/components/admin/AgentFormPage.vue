@@ -83,6 +83,63 @@
           </div>
         </div>
 
+        <div class="section-divider">
+          <span>Rich Content</span>
+        </div>
+
+        <div class="form-grid">
+          <div class="form-group">
+            <label>Checkout Name</label>
+            <input type="text" name="checkout_name" :value="agent?.checkout_name" placeholder="e.g. Bid+Tender+Response">
+            <p class="hint">Used in checkout URL query string.</p>
+          </div>
+
+          <div class="form-group">
+            <label>Target Audience</label>
+            <input type="text" name="target_audience" :value="agent?.target_audience" placeholder="e.g. ICT consultancies, Defence contractors">
+          </div>
+
+          <div class="form-group">
+            <label>Tagline</label>
+            <input type="text" name="tagline" :value="agent?.tagline" placeholder="Short tagline (optional)">
+          </div>
+
+          <div class="form-group">
+            <label>CTA Headline</label>
+            <input type="text" name="cta_headline" :value="agent?.cta_headline" placeholder="e.g. Win More Tenders with AI">
+          </div>
+
+          <div class="form-group full">
+            <label>CTA Subtext</label>
+            <input type="text" name="cta_sub" :value="agent?.cta_sub" placeholder="e.g. Start automating your government bid responses today">
+          </div>
+
+          <div class="form-group full">
+            <label>Key Capabilities (one per line)</label>
+            <textarea name="features" rows="6" placeholder="Reads and parses RFQs&#10;Matches CVs to selection criteria&#10;...">{{ agent?.features ? agent.features.join('\n') : '' }}</textarea>
+          </div>
+
+          <div class="form-group full">
+            <label>What's Included (one per line)</label>
+            <textarea name="includes" rows="6" placeholder="RFQ/RFT document analysis&#10;CV-to-criteria matching&#10;...">{{ agent?.includes ? agent.includes.join('\n') : '' }}</textarea>
+          </div>
+
+          <div class="form-group full">
+            <label>Use Cases (JSON array)</label>
+            <textarea name="use_cases" rows="8" class="mono" placeholder='[{"title":"...","description":"..."}]'>{{ agent?.use_cases ? JSON.stringify(agent.use_cases, null, 2) : '' }}</textarea>
+          </div>
+
+          <div class="form-group full">
+            <label>Pricing Plans (JSON array)</label>
+            <textarea name="pricing_plans" rows="12" class="mono" placeholder='[{"name":"Starter","description":"...","price":"$299/month","amount":299,"features":["..."],"is_recommended":false,"checkout_name":"..."}]'>{{ agent?.pricing_plans ? JSON.stringify(agent.pricing_plans, null, 2) : '' }}</textarea>
+          </div>
+
+          <div class="form-group full">
+            <label>FAQs (JSON array)</label>
+            <textarea name="faqs" rows="8" class="mono" placeholder='[{"question":"...","answer":"..."}]'>{{ agent?.faqs ? JSON.stringify(agent.faqs, null, 2) : '' }}</textarea>
+          </div>
+        </div>
+
         <div class="form-actions">
           <button type="submit" class="btn-submit">{{ agent ? 'Save Changes' : 'Create Agent' }}</button>
           <a href="/admin/agents" class="btn-cancel">Cancel</a>
@@ -151,6 +208,16 @@ select option { background: #140606; }
 }
 .checkbox-label input[type="checkbox"] { width: 16px; height: 16px; accent-color: #ef4444; flex-shrink: 0; }
 .checkbox-label input[type="hidden"] { display: none; }
+
+.section-divider {
+  display: flex; align-items: center; gap: 0.75rem;
+  margin: 1.75rem 0 1.25rem;
+  color: #6b7280; font-size: 0.75rem; font-weight: 600; text-transform: uppercase; letter-spacing: 0.08em;
+}
+.section-divider::before,
+.section-divider::after { content: ''; flex: 1; height: 1px; background: rgba(239,68,68,0.12); }
+
+textarea.mono { font-family: 'Menlo', 'Monaco', 'Consolas', monospace; font-size: 0.8rem; }
 
 .form-actions { display: flex; gap: 0.75rem; align-items: center; }
 .btn-submit {
