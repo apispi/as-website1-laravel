@@ -15,6 +15,6 @@ class AgentController extends Controller
     public function show(string $slug)
     {
         $agent = Agent::where('slug', $slug)->where('is_active', true)->firstOrFail();
-        return view("agents.{$slug}", compact('agent'));
+        return view('agents.show', compact('agent'));
     }
 }
