@@ -53,7 +53,7 @@ class AgentSeeder extends Seeder
                 'badge'       => 'New',
                 'rating'      => 4.90,
                 'users_count' => '520+',
-                'price'       => '$250/mo',
+                'price'       => '$800',
                 'category'    => 'Communications & Avatar',
                 'is_featured' => false,
                 'sort_order'  => 4,
