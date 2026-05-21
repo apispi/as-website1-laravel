@@ -100,10 +100,10 @@
             <input v-model="search" type="text" placeholder="Search agents…" class="ac-search-input">
           </div>
           <div class="ac-filter-tabs">
-            <button v-for="cat in categories" :key="cat"
-                    :class="['ac-tab', { active: activeCategory === cat }]"
-                    @click="activeCategory = cat">
-              {{ cat }}
+            <button v-for="f in filters" :key="f"
+                    :class="['ac-tab', { active: activeFilter === f }]"
+                    @click="activeFilter = f">
+              {{ f }}
             </button>
           </div>
         </div>
@@ -112,26 +112,46 @@
         <div v-if="filtered.length === 0" class="ac-empty">
           <div class="ac-empty-icon">◎</div>
           <div class="ac-empty-title">No agents found</div>
-          <div class="ac-empty-desc">Try a different search or category.</div>
+          <div class="ac-empty-desc">Try a different search or filter.</div>
         </div>
 
-        <!-- Grid -->
-        <div v-else class="ac-grid">
-          <a v-for="agent in filtered" :key="agent.id"
-             :href="`/agents/${agent.slug}`"
-             class="ac-card">
-            <div class="ac-card-top">
-              <div class="ac-card-icon">◈</div>
-              <span v-if="agent.badge" class="ac-badge" :class="agent.badge.toLowerCase()">{{ agent.badge }}</span>
-            </div>
-            <div class="ac-card-name">{{ agent.name }}</div>
-            <div class="ac-card-category">{{ agent.category }}</div>
-            <div class="ac-card-desc">{{ agent.description }}</div>
-            <div class="ac-card-footer">
-              <span class="ac-card-price">{{ agent.price ?? '—' }}</span>
-              <span class="ac-card-cta">View →</span>
-            </div>
-          </a>
+        <!-- Table -->
+        <div v-else class="ac-table-wrap">
+          <table class="ac-table">
+            <thead>
+              <tr>
+                <th>Agent</th>
+                <th>Badge</th>
+                <th>Rating</th>
+                <th>Users</th>
+                <th>Price</th>
+                <th></th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr v-for="agent in filtered" :key="agent.id">
+                <td>
+                  <a :href="`/agents/${agent.slug}`" class="ac-agent-cell">
+                    <div class="ac-agent-icon">◈</div>
+                    <div>
+                      <div class="ac-agent-name">{{ agent.name }}</div>
+                      <div class="ac-agent-category">{{ agent.category }}</div>
+                    </div>
+                  </a>
+                </td>
+                <td>
+                  <span v-if="agent.badge" class="ac-badge" :class="agent.badge.toLowerCase()">{{ agent.badge }}</span>
+                  <span v-else class="ac-muted">—</span>
+                </td>
+                <td class="ac-rating">{{ agent.rating ? '⭐ ' + agent.rating : '—' }}</td>
+                <td class="ac-muted">{{ agent.users_count || '—' }}</td>
+                <td class="ac-price">{{ agent.price || '—' }}</td>
+                <td class="ac-actions">
+                  <a :href="`/agents/${agent.slug}`" class="ac-btn-view">View →</a>
+                </td>
+              </tr>
+            </tbody>
+          </table>
         </div>
       </main>
     </div>
@@ -148,23 +168,19 @@ const props = defineProps({
   agents:    { type: Array,  default: () => [] },
 });
 
-const sidebarOpen    = ref(false);
-const search         = ref('');
-const activeCategory = ref('All');
+const sidebarOpen  = ref(false);
+const search       = ref('');
+const activeFilter = ref('All');
+const filters      = ['All', 'Popular', 'Premium', 'New'];
 
 const initial = computed(() => (props.user.name || 'U').charAt(0).toUpperCase());
-
-const categories = computed(() => {
-  const cats = [...new Set(props.agents.map(a => a.category).filter(Boolean))].sort();
-  return ['All', ...cats];
-});
 
 const filtered = computed(() => {
   return props.agents.filter(a => {
     const q = search.value.toLowerCase();
     const matchesSearch = !q || a.name.toLowerCase().includes(q) || (a.description || '').toLowerCase().includes(q);
-    const matchesCat    = activeCategory.value === 'All' || a.category === activeCategory.value;
-    return matchesSearch && matchesCat;
+    const matchesFilter = activeFilter.value === 'All' || a.badge === activeFilter.value;
+    return matchesSearch && matchesFilter;
   });
 });
 </script>
@@ -233,28 +249,30 @@ const filtered = computed(() => {
 .ac-empty-title { font-size: 1rem; font-weight: 700; color: #e5e7eb; margin-bottom: 0.4rem; }
 .ac-empty-desc { font-size: 0.875rem; color: #6b7280; }
 
-.ac-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); gap: 1rem; }
-.ac-card {
-  display: flex; flex-direction: column;
-  background: rgba(28,24,16,0.7); border: 1px solid rgba(217,119,6,0.12);
-  border-radius: 1rem; padding: 1.25rem;
-  text-decoration: none; color: inherit;
-  transition: border-color 0.2s, transform 0.2s, background 0.2s;
-}
-.ac-card:hover { border-color: rgba(217,119,6,0.35); transform: translateY(-2px); background: rgba(217,119,6,0.04); }
-.ac-card-top { display: flex; align-items: center; justify-content: space-between; margin-bottom: 0.875rem; }
-.ac-card-icon { font-size: 1.25rem; color: #FCD34D; opacity: 0.8; }
-.ac-badge { display: inline-block; padding: 0.15rem 0.45rem; border-radius: 99px; font-size: 0.67rem; font-weight: 600; }
+.ac-table-wrap { background: rgba(28,24,16,0.7); border: 1px solid rgba(217,119,6,0.12); border-radius: 1rem; overflow: hidden; overflow-x: auto; }
+.ac-table { width: 100%; border-collapse: collapse; font-size: 0.875rem; min-width: 650px; }
+.ac-table th { padding: 0.75rem 1rem; text-align: left; font-size: 0.72rem; font-weight: 600; text-transform: uppercase; letter-spacing: 0.06em; color: #6b7280; border-bottom: 1px solid rgba(217,119,6,0.1); background: rgba(217,119,6,0.03); }
+.ac-table td { padding: 0.875rem 1rem; border-bottom: 1px solid rgba(217,119,6,0.07); vertical-align: middle; }
+.ac-table tbody tr:last-child td { border-bottom: none; }
+.ac-table tbody tr:hover td { background: rgba(217,119,6,0.03); }
+
+.ac-agent-cell { display: flex; align-items: center; gap: 0.75rem; text-decoration: none; }
+.ac-agent-cell:hover .ac-agent-name { color: #FCD34D; }
+.ac-agent-icon { width: 34px; height: 34px; border-radius: 0.5rem; flex-shrink: 0; background: rgba(217,119,6,0.08); border: 1px solid rgba(217,119,6,0.2); display: flex; align-items: center; justify-content: center; font-size: 1rem; color: #FCD34D; }
+.ac-agent-name { font-size: 0.875rem; font-weight: 600; color: #e5e7eb; }
+.ac-agent-category { font-size: 0.75rem; color: #6b7280; margin-top: 0.1rem; }
+
+.ac-badge { display: inline-block; padding: 0.2rem 0.55rem; border-radius: 99px; font-size: 0.72rem; font-weight: 600; }
 .ac-badge.popular { background: rgba(217,119,6,0.12); color: #FCD34D; }
 .ac-badge.premium { background: rgba(239,68,68,0.12); color: #fca5a5; }
 .ac-badge.new     { background: rgba(0,217,126,0.1);  color: #00d97e; }
-.ac-card-name { font-size: 0.95rem; font-weight: 700; color: #e5e7eb; margin-bottom: 0.2rem; line-height: 1.3; }
-.ac-card-category { font-size: 0.75rem; color: #6b7280; margin-bottom: 0.625rem; }
-.ac-card-desc { font-size: 0.8rem; color: #9ca3af; line-height: 1.5; flex: 1; margin-bottom: 1rem; display: -webkit-box; -webkit-line-clamp: 3; -webkit-box-orient: vertical; overflow: hidden; }
-.ac-card-footer { display: flex; align-items: center; justify-content: space-between; padding-top: 0.875rem; border-top: 1px solid rgba(217,119,6,0.08); }
-.ac-card-price { font-size: 0.95rem; font-weight: 700; color: #FCD34D; }
-.ac-card-cta { font-size: 0.8rem; font-weight: 600; color: #D97706; transition: transform 0.18s; }
-.ac-card:hover .ac-card-cta { transform: translateX(3px); }
+
+.ac-rating { color: #e5e7eb; font-size: 0.82rem; white-space: nowrap; }
+.ac-muted  { color: #6b7280; font-size: 0.82rem; }
+.ac-price  { color: #FCD34D; font-weight: 600; font-size: 0.875rem; white-space: nowrap; }
+.ac-actions { text-align: right; }
+.ac-btn-view { font-size: 0.78rem; font-weight: 600; color: #FCD34D; text-decoration: none; padding: 0.35rem 0.65rem; border-radius: 0.4rem; border: 1px solid rgba(217,119,6,0.25); background: rgba(217,119,6,0.08); transition: all 0.18s; white-space: nowrap; }
+.ac-btn-view:hover { background: rgba(217,119,6,0.18); }
 
 @media (max-width: 768px) {
   .ac-sidebar { transform: translateX(-100%); }
@@ -264,10 +282,6 @@ const filtered = computed(() => {
   .ac-topbar { display: flex; }
   .ac-content { padding: 1.25rem; }
   .ac-page-title { font-size: 1.3rem; }
-  .ac-grid { grid-template-columns: 1fr 1fr; }
-}
-
-@media (max-width: 480px) {
-  .ac-grid { grid-template-columns: 1fr; }
+  .ac-toolbar { flex-direction: column; align-items: stretch; }
 }
 </style>
