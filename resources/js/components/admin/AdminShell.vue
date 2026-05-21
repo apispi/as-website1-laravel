@@ -37,7 +37,7 @@
           <span class="adm-nav-icon">◎</span> Agent Catalog
         </a>
         <a href="/admin/subscriptions" class="adm-nav-link" :class="{ active: page === 'all-agents' }">
-          <span class="adm-nav-icon">◈</span> All Agents
+          <span class="adm-nav-icon">◈</span> Active Agents
         </a>
         <a href="/blog" class="adm-nav-link">
           <span class="adm-nav-icon">◷</span> Blog

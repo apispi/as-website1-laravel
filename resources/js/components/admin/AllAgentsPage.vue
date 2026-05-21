@@ -2,7 +2,7 @@
   <AdminShell :user="currentUser" :csrf-token="csrfToken" page="all-agents">
 
     <div class="page-header">
-      <h1 class="page-title">All Agents</h1>
+      <h1 class="page-title">Active Agents</h1>
       <p class="page-sub">All agent subscriptions across all users</p>
     </div>
 
