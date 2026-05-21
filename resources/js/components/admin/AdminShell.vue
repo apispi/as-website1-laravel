@@ -39,6 +39,9 @@
         <a href="/admin/agents" class="adm-nav-link" :class="{ active: page === 'agents' }">
           <span class="adm-nav-icon">◎</span> Agent Catalog
         </a>
+        <a href="/admin/skills" class="adm-nav-link" :class="{ active: page === 'skills' }">
+          <span class="adm-nav-icon">◇</span> Skills
+        </a>
         <a href="/blog" class="adm-nav-link">
           <span class="adm-nav-icon">◷</span> Blog
         </a>

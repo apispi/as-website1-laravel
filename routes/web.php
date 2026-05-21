@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\Admin\AgentController as AdminAgents;
 use App\Http\Controllers\Admin\DashboardController as AdminDashboard;
+use App\Http\Controllers\Admin\SkillController as AdminSkills;
 use App\Http\Controllers\Admin\SubscriptionController as AdminSubscriptions;
 use App\Http\Controllers\Admin\UserController as AdminUsers;
 use App\Http\Controllers\AgentController;
@@ -59,6 +60,12 @@ Route::middleware(['auth', 'admin'])->prefix('admin')->name('admin.')->group(fun
     Route::get('/users/{user}/agents', [AdminSubscriptions::class, 'userAgents'])->name('users.agents');
     Route::post('/users/{user}/agents', [AdminSubscriptions::class, 'assign'])->name('users.agents.assign');
     Route::delete('/users/{user}/agents/{subscription}', [AdminSubscriptions::class, 'revoke'])->name('users.agents.revoke');
+    Route::get('/skills', [AdminSkills::class, 'index'])->name('skills.index');
+    Route::get('/skills/create', [AdminSkills::class, 'create'])->name('skills.create');
+    Route::post('/skills', [AdminSkills::class, 'store'])->name('skills.store');
+    Route::get('/skills/{skill}/edit', [AdminSkills::class, 'edit'])->name('skills.edit');
+    Route::put('/skills/{skill}', [AdminSkills::class, 'update'])->name('skills.update');
+    Route::delete('/skills/{skill}', [AdminSkills::class, 'destroy'])->name('skills.destroy');
     Route::get('/agents', [AdminAgents::class, 'index'])->name('agents.index');
     Route::get('/agents/create', [AdminAgents::class, 'create'])->name('agents.create');
     Route::post('/agents', [AdminAgents::class, 'store'])->name('agents.store');

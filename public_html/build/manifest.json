@@ -56,7 +56,7 @@
     "src": "_instrument-sans-600-normal-DMks36a2.woff"
   },
   "resources/css/app.css": {
-    "file": "assets/app-BZw0HVz3.css",
+    "file": "assets/app-Dv-HOWvq.css",
     "name": "app",
     "names": [
       "app.css"
@@ -65,7 +65,7 @@
     "isEntry": true
   },
   "resources/js/admin.js": {
-    "file": "assets/admin-D4q8SJ6n.js",
+    "file": "assets/admin-CUdKt5xT.js",
     "name": "admin",
     "src": "resources/js/admin.js",
     "isEntry": true,
@@ -73,7 +73,7 @@
       "__plugin-vue_export-helper-BWdJzRwT.js"
     ],
     "css": [
-      "assets/admin-ClD7WhXV.css"
+      "assets/admin-CGFHWgdj.css"
     ]
   },
   "resources/js/agent-detail.js": {
