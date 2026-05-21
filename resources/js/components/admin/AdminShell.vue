@@ -33,11 +33,11 @@
         <a href="/admin/users" class="adm-nav-link" :class="{ active: page === 'users' }">
           <span class="adm-nav-icon">◈</span> Users
         </a>
-        <a href="/admin/agents" class="adm-nav-link" :class="{ active: page === 'agents' }">
-          <span class="adm-nav-icon">◎</span> Agent Catalog
-        </a>
         <a href="/admin/subscriptions" class="adm-nav-link" :class="{ active: page === 'all-agents' }">
           <span class="adm-nav-icon">◈</span> Active Agents
+        </a>
+        <a href="/admin/agents" class="adm-nav-link" :class="{ active: page === 'agents' }">
+          <span class="adm-nav-icon">◎</span> Agent Catalog
         </a>
         <a href="/blog" class="adm-nav-link">
           <span class="adm-nav-icon">◷</span> Blog
