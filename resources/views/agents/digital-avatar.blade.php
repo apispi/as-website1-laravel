@@ -16,9 +16,9 @@
                         <div class="stars">⭐⭐⭐⭐⭐</div>
                         <span class="count">4.9/5 (520+ reviews)</span>
                     </div>
-                    <div class="agent-price">$250 / month</div>
+                    <div class="agent-price">$800</div>
                     <div class="agent-actions">
-                        <a href="{{ route('checkout') }}?agent=Digital+Avatar&amount=250" class="btn btn-primary">Subscribe Now</a>
+                        <a href="{{ route('checkout') }}?agent=Digital+Avatar&amount=800" class="btn btn-primary">Subscribe Now</a>
                         <a href="mailto:sales@apispi.com?subject=Digital%20Avatar%20Agent%20Free%20Trial" class="btn btn-secondary">Try Free Trial</a>
                     </div>
                     <div style="margin-top: 2rem; padding: 1.5rem; background: rgba(217, 119, 6, 0.05); border: 1px solid rgba(217, 119, 6, 0.2); border-radius: 1rem;">
@@ -90,8 +90,8 @@
                         <div style="background: #FCD34D; color: #0D0B08; padding: 0.25rem 1rem; border-radius: 9999px; display: inline-block; font-size: 0.75rem; font-weight: 600; margin-bottom: 1rem;">POPULAR</div>
                         <h3 style="margin-bottom: 0.5rem;">Professional</h3>
                         <p style="color: #6b7280; margin-bottom: 1rem;">For teams and businesses</p>
-                        <div style="font-size: 2rem; font-weight: 700; color: #FCD34D; margin-bottom: 1.5rem;">$250<span style="font-size: 1rem; color: #6b7280;">/month</span></div>
-                        <a href="{{ route('checkout') }}?agent=Digital+Avatar&amount=250" class="btn btn-primary" style="display: inline-block; width: auto; margin-bottom: 1rem;">Get Started</a>
+                        <div style="font-size: 2rem; font-weight: 700; color: #FCD34D; margin-bottom: 1.5rem;">$800</div>
+                        <a href="{{ route('checkout') }}?agent=Digital+Avatar&amount=800" class="btn btn-primary" style="display: inline-block; width: auto; margin-bottom: 1rem;">Get Started</a>
                         <ul style="list-style: none; text-align: left; color: #6b7280; font-size: 0.9rem;">
                             <li style="margin-bottom: 0.5rem;">✓ 50 videos/month</li>
                             <li style="margin-bottom: 0.5rem;">✓ Voice cloning</li>
@@ -139,7 +139,7 @@
             <h2>Scale Your Presence with AI</h2>
             <p>Deploy professional avatars for enterprise and government</p>
             <div class="cta-buttons">
-                <a href="{{ route('checkout') }}?agent=Digital+Avatar&amount=250" class="btn btn-outline">Subscribe Now</a>
+                <a href="{{ route('checkout') }}?agent=Digital+Avatar&amount=800" class="btn btn-outline">Subscribe Now</a>
                 <a href="{{ route('contact') }}" class="btn btn-secondary">Get Support</a>
             </div>
         </div>
