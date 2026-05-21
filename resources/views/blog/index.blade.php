@@ -20,6 +20,36 @@
         <div class="container">
             <div class="blog-grid" style="grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));">
                 <article class="blog-card">
+                    <div class="blog-date">May 21, 2026</div>
+                    <h3><a href="{{ route('blog.show', 'claude-4-agentic-leap') }}">Claude 4: The Agentic Leap That Changes Everything</a></h3>
+                    <p>Opus 4.7, Sonnet 4.6, and Haiku 4.5 bring extended thinking, native multi-agent orchestration, and dramatically improved accuracy for production agent workloads.</p>
+                    <div class="blog-meta">
+                        <span class="category">News</span>
+                        <span class="read-time">11 min read</span>
+                    </div>
+                </article>
+
+                <article class="blog-card">
+                    <div class="blog-date">May 19, 2026</div>
+                    <h3><a href="{{ route('blog.show', 'mcp-model-context-protocol') }}">MCP: The Protocol Quietly Becoming the Backbone of Enterprise AI Agents</a></h3>
+                    <p>Model Context Protocol has crossed the adoption inflection point. With 400+ community servers and native support from every major AI platform, it's the connectivity layer serious agent deployments now run on.</p>
+                    <div class="blog-meta">
+                        <span class="category">Infrastructure</span>
+                        <span class="read-time">9 min read</span>
+                    </div>
+                </article>
+
+                <article class="blog-card">
+                    <div class="blog-date">May 17, 2026</div>
+                    <h3><a href="{{ route('blog.show', 'agentic-ai-government-procurement') }}">Agentic AI in Government Procurement: Australia's 2026 Landscape</a></h3>
+                    <p>How AI agents are reshaping the competitive dynamics of Australian government tender responses — and what the regulatory framework means for organisations using them.</p>
+                    <div class="blog-meta">
+                        <span class="category">Insights</span>
+                        <span class="read-time">10 min read</span>
+                    </div>
+                </article>
+
+                <article class="blog-card">
                     <div class="blog-date">May 15, 2026</div>
                     <h3><a href="{{ route('blog.show', 'getting-started-with-agents') }}">Getting Started with AI Agents: A Beginner's Guide</a></h3>
                     <p>Learn the fundamentals of AI agents, how they work, and how to deploy your first agent in production. Perfect for beginners.</p>

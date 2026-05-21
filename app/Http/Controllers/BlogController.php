@@ -5,6 +5,9 @@ namespace App\Http\Controllers;
 class BlogController extends Controller
 {
     private array $validSlugs = [
+        'claude-4-agentic-leap',
+        'mcp-model-context-protocol',
+        'agentic-ai-government-procurement',
         'getting-started-with-agents',
         'agent-best-practices',
         'future-of-agentic-ai',
