@@ -29,7 +29,7 @@
 
                     <div class="agent-rating">
                         <div class="stars">⭐⭐⭐⭐⭐</div>
-                        <span class="count">{{ $agent->rating }}/5 ({{ number_format($agent->users_count) }}+ reviews)</span>
+                        <span class="count">{{ $agent->rating }}/5 ({{ number_format((int) $agent->users_count) }}+ reviews)</span>
                     </div>
 
                     <div class="agent-price">{{ $agent->price }}</div>
