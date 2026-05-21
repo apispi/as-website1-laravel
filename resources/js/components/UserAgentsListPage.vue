@@ -28,8 +28,8 @@
         <a href="/dashboard/agents" class="ual-nav-link active">
           <span class="ual-nav-icon">◈</span> My Agents
         </a>
-        <a href="/agents" class="ual-nav-link">
-          <span class="ual-nav-icon">◈</span> Browse Agents
+        <a href="/dashboard/catalog" class="ual-nav-link">
+          <span class="ual-nav-icon">◎</span> Agent Catalog
         </a>
         <a href="/training" class="ual-nav-link">
           <span class="ual-nav-icon">◷</span> Training
@@ -92,7 +92,7 @@
             <h1 class="ual-page-title">My Agents</h1>
             <p class="ual-page-sub">{{ subscriptions.length }} agent{{ subscriptions.length !== 1 ? 's' : '' }} acquired</p>
           </div>
-          <a href="/agents" class="ual-btn-browse">Browse Marketplace →</a>
+          <a href="/dashboard/catalog" class="ual-btn-browse">Agent Catalog →</a>
         </div>
 
         <!-- Empty -->
@@ -100,7 +100,7 @@
           <div class="ual-empty-icon">◈</div>
           <div class="ual-empty-title">No agents yet</div>
           <div class="ual-empty-desc">Visit the marketplace to find your first AI agent.</div>
-          <a href="/agents" class="ual-btn-browse ual-mt">Browse Agents →</a>
+          <a href="/dashboard/catalog" class="ual-btn-browse ual-mt">Browse Catalog →</a>
         </div>
 
         <!-- List -->

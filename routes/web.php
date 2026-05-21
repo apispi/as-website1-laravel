@@ -43,6 +43,7 @@ Route::middleware('guest')->group(function () {
 // Authenticated routes
 Route::middleware('auth')->group(function () {
     Route::get('/dashboard', [AuthController::class, 'dashboard'])->name('dashboard');
+    Route::get('/dashboard/catalog', [AuthController::class, 'catalog'])->name('dashboard.catalog');
     Route::get('/dashboard/agents', [AuthController::class, 'userAgents'])->name('dashboard.agents.index');
     Route::get('/dashboard/agents/{subscription}', [AuthController::class, 'userAgent'])->name('dashboard.agents.show');
     Route::post('/logout', [AuthController::class, 'logout'])->name('logout');

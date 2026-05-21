@@ -1,6 +1,6 @@
 {
-  "__plugin-vue_export-helper-LRW4f8gt.js": {
-    "file": "assets/_plugin-vue_export-helper-LRW4f8gt.js",
+  "__plugin-vue_export-helper-BWdJzRwT.js": {
+    "file": "assets/_plugin-vue_export-helper-BWdJzRwT.js",
     "name": "_plugin-vue_export-helper"
   },
   "_fonts-DkuEHybc.css": {
@@ -56,7 +56,7 @@
     "src": "_instrument-sans-600-normal-DMks36a2.woff"
   },
   "resources/css/app.css": {
-    "file": "assets/app-BLohg50f.css",
+    "file": "assets/app-BZw0HVz3.css",
     "name": "app",
     "names": [
       "app.css"
@@ -65,39 +65,39 @@
     "isEntry": true
   },
   "resources/js/admin.js": {
-    "file": "assets/admin-BcMHy4cR.js",
+    "file": "assets/admin-CBuGX1zb.js",
     "name": "admin",
     "src": "resources/js/admin.js",
     "isEntry": true,
     "imports": [
-      "__plugin-vue_export-helper-LRW4f8gt.js"
+      "__plugin-vue_export-helper-BWdJzRwT.js"
     ],
     "css": [
       "assets/admin-BJdlr_WA.css"
     ]
   },
   "resources/js/agent-detail.js": {
-    "file": "assets/agent-detail-Do7F2PZC.js",
+    "file": "assets/agent-detail-DoW1uJVf.js",
     "name": "agent-detail",
     "src": "resources/js/agent-detail.js",
     "isEntry": true,
     "imports": [
-      "__plugin-vue_export-helper-LRW4f8gt.js"
+      "__plugin-vue_export-helper-BWdJzRwT.js"
     ],
     "css": [
-      "assets/agent-detail-CBk7Lan-.css"
+      "assets/agent-detail-B42omE3w.css"
     ]
   },
   "resources/js/agents-list.js": {
-    "file": "assets/agents-list-tdw824d0.js",
+    "file": "assets/agents-list-QMdl0X7O.js",
     "name": "agents-list",
     "src": "resources/js/agents-list.js",
     "isEntry": true,
     "imports": [
-      "__plugin-vue_export-helper-LRW4f8gt.js"
+      "__plugin-vue_export-helper-BWdJzRwT.js"
     ],
     "css": [
-      "assets/agents-list-DlEfLA8S.css"
+      "assets/agents-list-1t7QRFv8.css"
     ]
   },
   "resources/js/app.js": {
@@ -106,16 +106,28 @@
     "src": "resources/js/app.js",
     "isEntry": true
   },
+  "resources/js/catalog.js": {
+    "file": "assets/catalog-B6FCYGX4.js",
+    "name": "catalog",
+    "src": "resources/js/catalog.js",
+    "isEntry": true,
+    "imports": [
+      "__plugin-vue_export-helper-BWdJzRwT.js"
+    ],
+    "css": [
+      "assets/catalog-C3vYIiV7.css"
+    ]
+  },
   "resources/js/dashboard.js": {
-    "file": "assets/dashboard-DaX5FpvC.js",
+    "file": "assets/dashboard-CIf1DY3Y.js",
     "name": "dashboard",
     "src": "resources/js/dashboard.js",
     "isEntry": true,
     "imports": [
-      "__plugin-vue_export-helper-LRW4f8gt.js"
+      "__plugin-vue_export-helper-BWdJzRwT.js"
     ],
     "css": [
-      "assets/dashboard-wzMIv1JI.css"
+      "assets/dashboard-B3bJ8-yK.css"
     ]
   }
 }

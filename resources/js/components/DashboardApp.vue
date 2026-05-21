@@ -31,6 +31,9 @@
         <a href="/dashboard/agents" class="db-nav-link">
           <span class="db-nav-icon">◈</span> My Agents
         </a>
+        <a href="/dashboard/catalog" class="db-nav-link">
+          <span class="db-nav-icon">◎</span> Agent Catalog
+        </a>
         <a href="/training" class="db-nav-link">
           <span class="db-nav-icon">◷</span> Training
         </a>
@@ -219,7 +222,7 @@ const stats = computed(() => [
 ]);
 
 const actions = [
-  { icon: '◈', label: 'Browse Agents', desc: 'Explore and deploy AI agents', href: '/agents' },
+  { icon: '◎', label: 'Agent Catalog', desc: 'Explore and deploy AI agents', href: '/dashboard/catalog' },
   { icon: '◷', label: 'Training', desc: 'Learn to build better AI workflows', href: '/training' },
   { icon: '◉', label: 'Support', desc: 'Get help from our team', href: '/contact' },
 ];

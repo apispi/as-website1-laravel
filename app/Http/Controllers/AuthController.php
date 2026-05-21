@@ -8,6 +8,7 @@ use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Password;
 use Illuminate\Auth\Events\PasswordReset;
 use Illuminate\Support\Str;
+use App\Models\Agent;
 use App\Models\Subscription;
 use App\Models\User;
 
@@ -121,6 +122,12 @@ class AuthController extends Controller
             ->get();
 
         return view('auth.dashboard', compact('subscriptions'));
+    }
+
+    public function catalog()
+    {
+        $agents = Agent::active()->orderBy('sort_order')->get();
+        return view('auth.catalog', compact('agents'));
     }
 
     public function userAgents()
