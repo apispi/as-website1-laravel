@@ -3,7 +3,7 @@
 
     <div class="page-header">
       <div>
-        <h1 class="page-title">Agent Marketplace</h1>
+        <h1 class="page-title">Agent Catalog</h1>
         <p class="page-sub">{{ filtered.length }} of {{ agents.length }} agents</p>
       </div>
       <a href="/admin/agents/create" class="btn-primary">+ New Agent</a>
@@ -42,13 +42,13 @@
         <tbody>
           <tr v-for="agent in filtered" :key="agent.id">
             <td>
-              <div class="agent-cell">
+              <a :href="`/admin/agents/${agent.id}/edit`" class="agent-cell">
                 <div class="agent-icon">◈</div>
                 <div>
                   <div class="agent-name">{{ agent.name }}</div>
                   <div class="agent-slug">{{ agent.slug }}</div>
                 </div>
-              </div>
+              </a>
             </td>
             <td>
               <span v-if="agent.badge" class="badge" :class="agent.badge.toLowerCase()">{{ agent.badge }}</span>
@@ -165,7 +165,8 @@ function confirmDelete(event, name) {
 .data-table tbody tr:last-child td { border-bottom: none; }
 .data-table tbody tr:hover td { background: rgba(239,68,68,0.03); }
 
-.agent-cell { display: flex; align-items: center; gap: 0.75rem; }
+.agent-cell { display: flex; align-items: center; gap: 0.75rem; text-decoration: none; }
+.agent-cell:hover .agent-name { color: #fca5a5; }
 .agent-icon { width: 34px; height: 34px; border-radius: 0.5rem; flex-shrink: 0; background: rgba(239,68,68,0.1); border: 1px solid rgba(239,68,68,0.2); display: flex; align-items: center; justify-content: center; font-size: 1rem; color: #fca5a5; }
 .agent-name { font-size: 0.875rem; font-weight: 600; color: #e5e7eb; }
 .agent-slug { font-size: 0.75rem; color: #4b5563; margin-top: 0.1rem; font-family: monospace; }
