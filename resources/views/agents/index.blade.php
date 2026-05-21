@@ -42,12 +42,15 @@
                     <label for="categoryFilter">Category:</label>
                     <select id="categoryFilter">
                         <option value="">All Categories</option>
-                        <option value="procurement">Government &amp; Procurement</option>
+                        <option value="government">Government &amp; Procurement</option>
                         <option value="security">Security &amp; Compliance</option>
                         <option value="architecture">Architecture &amp; Strategy</option>
                         <option value="communications">Communications &amp; Avatar</option>
                         <option value="knowledge">Knowledge Management</option>
                         <option value="cyber">Cyber Operations</option>
+                        <option value="content">Content &amp; Marketing</option>
+                        <option value="customer">Customer Support</option>
+                        <option value="data">Data &amp; Analytics</option>
                     </select>
                 </div>
                 <div class="filter-group">
@@ -106,3 +109,50 @@
         </div>
     </section>
 @endsection
+
+@push('scripts')
+<script>
+(function () {
+    const searchInput    = document.getElementById('searchInput');
+    const categoryFilter = document.getElementById('categoryFilter');
+    const sortFilter     = document.getElementById('sortFilter');
+    const container      = document.getElementById('agentsContainer');
+
+    function applyFilters() {
+        const q   = searchInput.value.toLowerCase().trim();
+        const cat = categoryFilter.value.toLowerCase();
+
+        let cards = Array.from(container.querySelectorAll('.agent-card'));
+
+        // Filter
+        cards.forEach(card => {
+            const name = card.dataset.name || '';
+            const desc = card.querySelector('p')?.textContent.toLowerCase() || '';
+            const cardCat = card.dataset.category || '';
+
+            const matchesSearch = !q || name.includes(q) || desc.includes(q);
+            const matchesCat    = !cat || cardCat.includes(cat);
+
+            card.style.display = (matchesSearch && matchesCat) ? '' : 'none';
+        });
+
+        // Sort visible cards
+        const visible = cards.filter(c => c.style.display !== 'none');
+        const sort = sortFilter.value;
+
+        visible.sort((a, b) => {
+            if (sort === 'rating')     return parseFloat(b.dataset.rating || 0) - parseFloat(a.dataset.rating || 0);
+            if (sort === 'price-low')  return parseFloat(a.dataset.price  || 0) - parseFloat(b.dataset.price  || 0);
+            if (sort === 'price-high') return parseFloat(b.dataset.price  || 0) - parseFloat(a.dataset.price  || 0);
+            return 0; // popular / newest: keep server order
+        });
+
+        visible.forEach(card => container.appendChild(card));
+    }
+
+    searchInput.addEventListener('input', applyFilters);
+    categoryFilter.addEventListener('change', applyFilters);
+    sortFilter.addEventListener('change', applyFilters);
+})();
+</script>
+@endpush
