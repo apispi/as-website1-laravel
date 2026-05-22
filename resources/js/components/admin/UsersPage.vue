@@ -40,7 +40,7 @@
           </tr>
         </thead>
         <tbody>
-          <tr v-for="u in filtered" :key="u.id" @click="viewUser(u.id)" class="clickable-row">
+          <tr v-for="u in filtered" :key="u.id" @click="() => (window.location.href = `/admin/users/${u.id}`)" style="cursor:pointer">
             <td>
               <div class="user-cell">
                 <div class="mini-avatar">{{ u.name.charAt(0).toUpperCase() }}</div>
