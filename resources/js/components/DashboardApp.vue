@@ -110,33 +110,6 @@
           </div>
         </div>
 
-        <!-- My Agents -->
-        <section class="db-section">
-          <div class="db-section-head">
-            <h2 class="db-section-title">My Agents</h2>
-            <a href="/dashboard/agents" class="db-section-link">View all →</a>
-          </div>
-
-          <div v-if="subscriptions.length === 0" class="db-agents-empty">
-            <span class="db-agents-empty-icon">◈</span>
-            <span>No agents yet. <a href="/agents" class="db-link">Browse the marketplace →</a></span>
-          </div>
-
-          <div v-else class="db-agent-list">
-            <a v-for="sub in subscriptions" :key="sub.id"
-               href="/dashboard/agents"
-               class="db-agent-row">
-              <div class="db-agent-row-icon">◈</div>
-              <div class="db-agent-row-body">
-                <div class="db-agent-row-name">{{ sub.agent?.name ?? '—' }}</div>
-                <div class="db-agent-row-meta">{{ sub.agent?.category ?? '' }}</div>
-              </div>
-              <span class="db-agent-status" :class="sub.status">{{ sub.status }}</span>
-              <span class="db-agent-row-arrow">→</span>
-            </a>
-          </div>
-        </section>
-
         <!-- Quick Actions -->
         <section class="db-section">
           <h2 class="db-section-title">Quick Actions</h2>
@@ -375,42 +348,6 @@ const gettingStarted = computed(() => [
 .db-section-title { font-size: 1rem; font-weight: 700; color: #e5e7eb; }
 .db-section-link { font-size: 0.82rem; color: #D97706; text-decoration: none; }
 .db-section-link:hover { text-decoration: underline; }
-
-/* Agent list */
-.db-agents-empty {
-  display: flex; align-items: center; gap: 0.5rem;
-  padding: 1.25rem; background: rgba(28,24,16,0.5);
-  border: 1px dashed rgba(217,119,6,0.2); border-radius: 0.875rem;
-  color: #6b7280; font-size: 0.875rem;
-}
-.db-agents-empty-icon { font-size: 1.1rem; opacity: 0.4; }
-.db-link { color: #D97706; text-decoration: none; }
-.db-link:hover { text-decoration: underline; }
-
-.db-agent-list { display: flex; flex-direction: column; gap: 0.5rem; }
-.db-agent-row {
-  display: flex; align-items: center; gap: 1rem;
-  background: rgba(28,24,16,0.7); border: 1px solid rgba(217,119,6,0.12);
-  border-radius: 0.875rem; padding: 0.875rem 1rem;
-  text-decoration: none; color: inherit;
-  transition: border-color 0.2s, background 0.2s;
-}
-.db-agent-row:hover { border-color: rgba(217,119,6,0.35); background: rgba(217,119,6,0.05); }
-.db-agent-row-icon {
-  width: 36px; height: 36px; border-radius: 0.5rem; flex-shrink: 0;
-  background: rgba(217,119,6,0.1); border: 1px solid rgba(217,119,6,0.2);
-  display: flex; align-items: center; justify-content: center;
-  font-size: 0.95rem; color: #FCD34D;
-}
-.db-agent-row-body { flex: 1; min-width: 0; }
-.db-agent-row-name { font-size: 0.9rem; font-weight: 600; color: #e5e7eb; }
-.db-agent-row-meta { font-size: 0.78rem; color: #6b7280; margin-top: 0.1rem; }
-.db-agent-status { font-size: 0.68rem; font-weight: 600; padding: 0.2rem 0.5rem; border-radius: 99px; flex-shrink: 0; }
-.db-agent-status.active    { background: rgba(0,217,126,0.1);    color: #00d97e; }
-.db-agent-status.cancelled { background: rgba(239,68,68,0.1);    color: #fca5a5; }
-.db-agent-status.expired   { background: rgba(107,114,128,0.12); color: #9ca3af; }
-.db-agent-row-arrow { color: #D97706; font-size: 1rem; flex-shrink: 0; transition: transform 0.2s; }
-.db-agent-row:hover .db-agent-row-arrow { transform: translateX(3px); }
 
 /* Actions */
 .db-action-grid { display: flex; flex-direction: column; gap: 0.75rem; }
