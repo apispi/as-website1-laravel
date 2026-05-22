@@ -3,10 +3,12 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Models\ActivityLog;
 use App\Models\Agent;
 use App\Models\Subscription;
 use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class SubscriptionController extends Controller
 {
@@ -39,19 +41,24 @@ class SubscriptionController extends Controller
             'expires_at' => 'nullable|date',
         ]);
 
-        Subscription::create([
+        $subscription = Subscription::create([
             'user_id'    => $user->id,
             'agent_id'   => $data['agent_id'],
             'status'     => $data['status'],
             'expires_at' => $data['expires_at'] ?? null,
         ]);
 
+        $agentName = Agent::find($data['agent_id'])?->name ?? 'Agent';
+        ActivityLog::log('subscription.assign', "Assigned {$agentName} to {$user->name}", $user->id, Auth::id());
+
         return back()->with('success', 'Agent assigned successfully.');
     }
 
     public function revoke(User $user, Subscription $subscription)
     {
+        $agentName = $subscription->agent?->name ?? 'Agent';
         $subscription->delete();
+        ActivityLog::log('subscription.revoke', "Removed {$agentName} from {$user->name}", $user->id, Auth::id());
         return back()->with('success', 'Agent removed from user.');
     }
 }

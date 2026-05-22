@@ -42,6 +42,9 @@
         <a href="/admin/skills" class="adm-nav-link" :class="{ active: page === 'skills' }">
           <span class="adm-nav-icon">◇</span> Skills
         </a>
+        <a href="/admin/activity" class="adm-nav-link" :class="{ active: page === 'activity-log' }">
+          <span class="adm-nav-icon">◑</span> Activity Log
+        </a>
         <a href="/blog" class="adm-nav-link">
           <span class="adm-nav-icon">◷</span> Blog
         </a>

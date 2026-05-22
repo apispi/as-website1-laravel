@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Admin\ActivityLogController as AdminActivity;
 use App\Http\Controllers\Admin\AgentController as AdminAgents;
 use App\Http\Controllers\Admin\DashboardController as AdminDashboard;
 use App\Http\Controllers\Admin\SkillController as AdminSkills;
@@ -56,6 +57,7 @@ Route::middleware('auth')->group(function () {
 // Admin routes
 Route::middleware(['auth', 'admin'])->prefix('admin')->name('admin.')->group(function () {
     Route::get('/', [AdminDashboard::class, 'index'])->name('dashboard');
+    Route::get('/activity', [AdminActivity::class, 'index'])->name('activity');
     Route::get('/users', [AdminUsers::class, 'index'])->name('users.index');
     Route::get('/users/{user}', [AdminUsers::class, 'show'])->name('users.show');
     Route::post('/users/{user}/toggle-admin', [AdminUsers::class, 'toggleAdmin'])->name('users.toggle-admin');

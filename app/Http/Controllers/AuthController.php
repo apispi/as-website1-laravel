@@ -8,6 +8,7 @@ use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Password;
 use Illuminate\Auth\Events\PasswordReset;
 use Illuminate\Support\Str;
+use App\Models\ActivityLog;
 use App\Models\Agent;
 use App\Models\Subscription;
 use App\Models\User;
@@ -28,6 +29,7 @@ class AuthController extends Controller
 
         if (Auth::attempt($credentials, $request->boolean('remember'))) {
             $request->session()->regenerate();
+            ActivityLog::log('login', 'Logged in');
             return redirect()->intended(route('dashboard'));
         }
 
@@ -56,12 +58,14 @@ class AuthController extends Controller
         ]);
 
         Auth::login($user);
+        ActivityLog::log('register', 'Created account', $user->id);
 
         return redirect()->route('dashboard');
     }
 
     public function logout(Request $request)
     {
+        ActivityLog::log('logout', 'Logged out');
         Auth::logout();
         $request->session()->invalidate();
         $request->session()->regenerateToken();
@@ -157,6 +161,7 @@ class AuthController extends Controller
     {
         $request->validate(['name' => ['required', 'string', 'max:255']]);
         Auth::user()->update(['name' => $request->name]);
+        ActivityLog::log('profile.update', 'Updated profile name');
         return back()->with('success', 'Profile updated successfully.');
     }
 
@@ -172,6 +177,7 @@ class AuthController extends Controller
         }
 
         Auth::user()->update(['password' => Hash::make($request->password)]);
+        ActivityLog::log('password.change', 'Changed password');
         return back()->with('success', 'Password updated successfully.');
     }
 }

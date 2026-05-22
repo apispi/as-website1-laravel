@@ -8,8 +8,9 @@ import UserAgentsPage from './components/admin/UserAgentsPage.vue';
 import AllAgentsPage from './components/admin/AllAgentsPage.vue';
 import SkillsPage from './components/admin/SkillsPage.vue';
 import SkillFormPage from './components/admin/SkillFormPage.vue';
+import ActivityLogPage from './components/admin/ActivityLogPage.vue';
 
-const pages = { dashboard: DashboardPage, users: UsersPage, 'user-detail': UserDetailPage, 'user-agents': UserAgentsPage, agents: AgentsPage, 'agent-form': AgentFormPage, 'all-agents': AllAgentsPage, skills: SkillsPage, 'skill-form': SkillFormPage };
+const pages = { dashboard: DashboardPage, users: UsersPage, 'user-detail': UserDetailPage, 'user-agents': UserAgentsPage, agents: AgentsPage, 'agent-form': AgentFormPage, 'all-agents': AllAgentsPage, skills: SkillsPage, 'skill-form': SkillFormPage, 'activity-log': ActivityLogPage };
 
 const el = document.getElementById('admin-app');
 if (el) {

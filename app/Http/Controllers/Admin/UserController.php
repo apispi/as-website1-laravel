@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Models\ActivityLog;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -27,6 +28,9 @@ class UserController extends Controller
         }
 
         $user->update(['is_admin' => ! $user->is_admin]);
+
+        $verb = $user->is_admin ? 'Granted admin role to' : 'Removed admin role from';
+        ActivityLog::log('admin.toggle', "{$verb} {$user->name}", $user->id, Auth::id());
 
         return back()->with('success', $user->name . ' is now ' . ($user->is_admin ? 'an admin' : 'a regular user') . '.');
     }
