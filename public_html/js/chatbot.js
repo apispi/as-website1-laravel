@@ -201,30 +201,30 @@
     qr: ['Contact Us', 'Our Agents', 'Pricing']
   };
 
-  // Page-relative URLs
+  // Absolute site URLs
+  const HREF_MAP = {
+    'Our Agents':              '/agents',
+    'Browse Agents':           '/agents',
+    'Pricing':                 '/agents',
+    'Training':                '/training',
+    'View Training':           '/training',
+    'Contact Us':              '/contact',
+    'Go to Contact':           '/contact',
+    'Get Started':             '/contact',
+    'View Bid & Tender':       '/agents/bid-tender',
+    'Bid & Tender':            '/agents/bid-tender',
+    'View Security Agent':     '/agents/security-compliance',
+    'Security & IRAP':         '/agents/security-compliance',
+    'View Architecture Agent': '/agents/enterprise-architecture',
+    'View Digital Avatar':     '/agents/digital-avatar',
+    'Digital Avatar':          '/agents/digital-avatar',
+    'View Knowledge Agent':    '/agents/knowledge-management',
+    'View Cyber Agent':        '/agents/cyber-incident',
+    'Cyber Incident':          '/agents/cyber-incident',
+  };
+
   function resolveHref(label) {
-    const root = window.location.pathname.includes('/agents/') || window.location.pathname.includes('/blog/') ? '../' : '';
-    const map = {
-      'Our Agents':           root + 'agents/index.html',
-      'Browse Agents':        root + 'agents/index.html',
-      'Pricing':              root + 'agents/index.html',
-      'Training':             root + 'training.html',
-      'View Training':        root + 'training.html',
-      'Contact Us':           root + 'contact.html',
-      'Go to Contact':        root + 'contact.html',
-      'Get Started':          root + 'contact.html',
-      'View Bid & Tender':    root + 'agents/bid-tender.html',
-      'Bid & Tender':         root + 'agents/bid-tender.html',
-      'View Security Agent':  root + 'agents/security-compliance.html',
-      'Security & IRAP':      root + 'agents/security-compliance.html',
-      'View Architecture Agent': root + 'agents/enterprise-architecture.html',
-      'View Digital Avatar':  root + 'agents/digital-avatar.html',
-      'Digital Avatar':       root + 'agents/digital-avatar.html',
-      'View Knowledge Agent': root + 'agents/knowledge-management.html',
-      'View Cyber Agent':     root + 'agents/cyber-incident.html',
-      'Cyber Incident':       root + 'agents/cyber-incident.html',
-    };
-    return map[label] || null;
+    return HREF_MAP[label] || null;
   }
 
   // ── DOM CREATION ─────────────────────────────────────────────────────────
