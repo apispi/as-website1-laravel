@@ -52,13 +52,13 @@
       </nav>
 
       <div class="db-sidebar-footer">
-        <div class="db-user-row">
+        <a href="/dashboard/profile" class="db-user-row">
           <div class="db-avatar">{{ initial }}</div>
           <div class="db-user-text">
             <div class="db-user-name">{{ user.name }}</div>
             <div class="db-user-email">{{ user.email }}</div>
           </div>
-        </div>
+        </a>
         <form method="POST" :action="logoutUrl">
           <input type="hidden" name="_token" :value="csrfToken">
           <button type="submit" class="db-signout">⏻ Sign Out</button>
@@ -284,7 +284,12 @@ const gettingStarted = computed(() => [
   border-top: 1px solid rgba(217,119,6,0.1);
   flex-shrink: 0;
 }
-.db-user-row { display: flex; align-items: center; gap: 0.75rem; margin-bottom: 0.75rem; }
+.db-user-row {
+  display: flex; align-items: center; gap: 0.75rem; margin-bottom: 0.75rem;
+  text-decoration: none; color: inherit;
+  padding: 0.4rem 0.5rem; border-radius: 0.5rem; transition: background 0.15s;
+}
+.db-user-row:hover { background: rgba(217,119,6,0.08); }
 .db-avatar {
   width: 36px; height: 36px; border-radius: 50%;
   background: linear-gradient(135deg, #D97706, #FCD34D);

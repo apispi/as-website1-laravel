@@ -1,0 +1,13 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>@yield('title', 'Profile - ApiSpi')</title>
+    <link rel="icon" type="image/svg+xml" href="{{ asset('favicon.svg') }}">
+    @vite(['resources/css/app.css', 'resources/js/profile.js'])
+</head>
+<body style="margin:0; background:#0a0805;">
+    @yield('content')
+</body>
+</html>

@@ -147,4 +147,31 @@ class AuthController extends Controller
         $subscription->load('agent');
         return view('auth.agent', compact('subscription'));
     }
+
+    public function profile()
+    {
+        return view('auth.profile');
+    }
+
+    public function updateProfile(Request $request)
+    {
+        $request->validate(['name' => ['required', 'string', 'max:255']]);
+        Auth::user()->update(['name' => $request->name]);
+        return back()->with('success', 'Profile updated successfully.');
+    }
+
+    public function updatePassword(Request $request)
+    {
+        $request->validate([
+            'current_password' => ['required'],
+            'password'         => ['required', 'min:8', 'confirmed'],
+        ]);
+
+        if (!Hash::check($request->current_password, Auth::user()->password)) {
+            return back()->withErrors(['current_password' => 'The current password is incorrect.']);
+        }
+
+        Auth::user()->update(['password' => Hash::make($request->password)]);
+        return back()->with('success', 'Password updated successfully.');
+    }
 }

@@ -47,13 +47,13 @@
       </nav>
 
       <div class="ual-sidebar-footer">
-        <div class="ual-user-row">
+        <a href="/dashboard/profile" class="ual-user-row">
           <div class="ual-avatar">{{ initial }}</div>
           <div class="ual-user-text">
             <div class="ual-user-name">{{ user.name }}</div>
             <div class="ual-user-email">{{ user.email }}</div>
           </div>
-        </div>
+        </a>
         <form method="POST" action="/logout">
           <input type="hidden" name="_token" :value="csrfToken">
           <button type="submit" class="ual-signout">⏻ Sign Out</button>
@@ -178,7 +178,12 @@ function formatDate(dateStr) {
 .ual-nav-icon { font-size: 1rem; width: 20px; text-align: center; flex-shrink: 0; }
 
 .ual-sidebar-footer { padding: 1rem 0.75rem; border-top: 1px solid rgba(217,119,6,0.1); flex-shrink: 0; }
-.ual-user-row { display: flex; align-items: center; gap: 0.75rem; margin-bottom: 0.75rem; }
+.ual-user-row {
+  display: flex; align-items: center; gap: 0.75rem; margin-bottom: 0.75rem;
+  text-decoration: none; color: inherit;
+  padding: 0.4rem 0.5rem; border-radius: 0.5rem; transition: background 0.15s;
+}
+.ual-user-row:hover { background: rgba(217,119,6,0.08); }
 .ual-avatar { width: 36px; height: 36px; border-radius: 50%; background: linear-gradient(135deg, #D97706, #FCD34D); display: flex; align-items: center; justify-content: center; font-weight: 700; font-size: 0.85rem; color: #0a0805; flex-shrink: 0; }
 .ual-avatar-sm { width: 32px; height: 32px; font-size: 0.8rem; }
 .ual-user-text { min-width: 0; }
