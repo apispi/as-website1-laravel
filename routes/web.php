@@ -10,6 +10,7 @@ use App\Http\Controllers\Admin\UserController as AdminUsers;
 use App\Http\Controllers\AgentController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\BlogController;
+use App\Http\Controllers\ChatController;
 use App\Http\Controllers\ContactController;
 use App\Http\Controllers\PageController;
 use App\Http\Controllers\SubscribeController;
@@ -22,6 +23,7 @@ Route::get('/checkout', [PageController::class, 'checkout'])->name('checkout');
 
 Route::get('/contact', [ContactController::class, 'show'])->name('contact');
 Route::post('/contact', [ContactController::class, 'send'])->name('contact.send');
+Route::post('/chat', [ChatController::class, 'send'])->name('chat.send')->middleware('throttle:30,1');
 
 Route::post('/subscribe', [SubscribeController::class, 'store'])->name('subscribe');
 
