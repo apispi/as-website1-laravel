@@ -42,13 +42,13 @@
         <tbody>
           <tr v-for="u in filtered" :key="u.id" @click="() => (window.location.href = `/admin/users/${u.id}`)" style="cursor:pointer">
             <td>
-              <div class="user-cell">
+              <a :href="`/admin/users/${u.id}`" class="user-cell">
                 <div class="mini-avatar">{{ u.name.charAt(0).toUpperCase() }}</div>
                 <div>
                   <div class="user-name">{{ u.name }}</div>
                   <div class="user-email">{{ u.email }}</div>
                 </div>
-              </div>
+              </a>
             </td>
             <td>
               <span class="role-badge" :class="u.is_admin ? 'admin' : 'user'">
@@ -174,7 +174,8 @@ function viewUser(userId) {
 .data-table tbody tr:last-child td { border-bottom: none; }
 .data-table tbody tr:hover td { background: rgba(239,68,68,0.03); }
 
-.user-cell { display: flex; align-items: center; gap: 0.75rem; }
+.user-cell { display: flex; align-items: center; gap: 0.75rem; text-decoration: none; color: inherit; }
+.user-cell:hover .user-name { color: #fca5a5; }
 .mini-avatar {
   width: 32px; height: 32px; border-radius: 50%;
   background: linear-gradient(135deg, #ef4444, #fca5a5);
