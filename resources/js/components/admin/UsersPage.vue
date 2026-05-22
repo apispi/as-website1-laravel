@@ -40,7 +40,7 @@
           </tr>
         </thead>
         <tbody>
-          <tr v-for="u in filtered" :key="u.id">
+          <tr v-for="u in filtered" :key="u.id" @click="viewUser(u.id)" class="clickable-row">
             <td>
               <div class="user-cell">
                 <div class="mini-avatar">{{ u.name.charAt(0).toUpperCase() }}</div>
@@ -56,7 +56,7 @@
               </span>
             </td>
             <td class="muted small">{{ formatDate(u.created_at) }}</td>
-            <td class="actions">
+            <td class="actions" @click.stop>
               <a :href="`/admin/users/${u.id}`" class="btn-ghost">View</a>
               <form v-if="u.id !== user.id" method="POST" :action="`/admin/users/${u.id}/toggle-admin`" style="display:inline;">
                 <input type="hidden" name="_token" :value="csrfToken">
@@ -106,6 +106,10 @@ const filtered = computed(() => {
 function formatDate(dateStr) {
   if (!dateStr) return '—';
   return new Date(dateStr).toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' });
+}
+
+function viewUser(userId) {
+  window.location.href = `/admin/users/${userId}`;
 }
 </script>
 
@@ -206,6 +210,11 @@ function formatDate(dateStr) {
 .btn-toggle.promote:hover { background: rgba(239,68,68,0.2); }
 .btn-toggle.demote { background: rgba(107,114,128,0.1); color: #9ca3af; }
 .btn-toggle.demote:hover { background: rgba(107,114,128,0.2); }
+
+.clickable-row {
+  cursor: pointer; transition: background-color 0.15s;
+}
+.clickable-row:hover td { background: rgba(239,68,68,0.05); }
 
 @media (max-width: 640px) {
   .toolbar { flex-direction: column; align-items: stretch; }
