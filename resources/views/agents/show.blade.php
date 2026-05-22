@@ -3,7 +3,30 @@
 
 @section('title', $agent->name . ' - ApiSpi')
 
+@push('head')
+@auth
+@if(Auth::user()->is_admin)
+<style>
+    .admin-edit-bar { position: fixed; bottom: 0; left: 0; right: 0; z-index: 8000; background: rgba(13,11,8,0.95); border-top: 1px solid rgba(217,119,6,0.3); padding: 0.6rem 1.5rem; display: flex; align-items: center; gap: 1rem; font-size: 0.8rem; color: rgba(252,211,77,0.7); backdrop-filter: blur(8px); }
+    .admin-edit-bar strong { color: #FCD34D; }
+    .admin-edit-bar a { padding: 0.3rem 0.75rem; border-radius: 0.375rem; background: rgba(217,119,6,0.15); border: 1px solid rgba(217,119,6,0.3); color: #FCD34D; text-decoration: none; font-weight: 600; transition: background 0.15s; }
+    .admin-edit-bar a:hover { background: rgba(217,119,6,0.3); }
+</style>
+@endif
+@endauth
+@endpush
+
 @section('content')
+@auth
+@if(Auth::user()->is_admin)
+<div class="admin-edit-bar">
+    <strong>Admin</strong>
+    <a href="{{ route('admin.agents.edit', $agent->id) }}">Edit Agent ↗</a>
+    <a href="{{ route('admin.agents.index') }}">All Agents</a>
+</div>
+@endif
+@endauth
+
     <section class="agent-detail">
         <div class="container">
             <div class="agent-header">

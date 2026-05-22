@@ -18,7 +18,29 @@
 </style>
 @endpush
 
+@push('head')
+@auth
+@if(Auth::user()->is_admin)
+<style>
+    .admin-edit-bar { position: fixed; bottom: 0; left: 0; right: 0; z-index: 8000; background: rgba(13,11,8,0.95); border-top: 1px solid rgba(217,119,6,0.3); padding: 0.6rem 1.5rem; display: flex; align-items: center; gap: 1rem; font-size: 0.8rem; color: rgba(252,211,77,0.7); backdrop-filter: blur(8px); }
+    .admin-edit-bar strong { color: #FCD34D; }
+    .admin-edit-bar a { padding: 0.3rem 0.75rem; border-radius: 0.375rem; background: rgba(217,119,6,0.15); border: 1px solid rgba(217,119,6,0.3); color: #FCD34D; text-decoration: none; font-weight: 600; transition: background 0.15s; }
+    .admin-edit-bar a:hover { background: rgba(217,119,6,0.3); }
+</style>
+@endif
+@endauth
+@endpush
+
 @section('content')
+@auth
+@if(Auth::user()->is_admin)
+<div class="admin-edit-bar">
+    <strong>Admin</strong>
+    <a href="{{ route('admin.agents.index') }}">Manage Agents ↗</a>
+    <a href="{{ route('admin.agents.create') }}">+ New Agent</a>
+</div>
+@endif
+@endauth
     <section class="hero">
         <div class="container">
             <div class="hero-content">
@@ -72,27 +94,36 @@
             <div class="agents-grid" id="agentsContainer">
 
                 @foreach($agents as $agent)
-                <a href="{{ route('agents.show', $agent->slug) }}"
-                   class="agent-card {{ $agent->is_featured ? 'featured-highlight' : '' }}"
-                   data-name="{{ strtolower($agent->name) }}"
-                   data-category="{{ strtolower($agent->category ?? '') }}"
-                   data-badge="{{ strtolower($agent->badge ?? '') }}"
-                   data-rating="{{ $agent->rating }}"
-                   data-price="{{ preg_replace('/[^0-9.]/', '', $agent->price ?? '0') }}">
-                    @if($agent->badge)
-                        <div class="agent-badge {{ strtolower($agent->badge) === 'premium' ? 'premium' : '' }}">{{ $agent->badge }}</div>
+                <div style="position:relative;">
+                    @auth
+                    @if(Auth::user()->is_admin)
+                    <a href="{{ route('admin.agents.edit', $agent->id) }}"
+                       style="position:absolute;top:0.6rem;right:0.6rem;z-index:10;padding:0.25rem 0.6rem;font-size:0.7rem;font-weight:700;background:rgba(13,11,8,0.85);border:1px solid rgba(217,119,6,0.4);color:#FCD34D;border-radius:0.375rem;text-decoration:none;backdrop-filter:blur(4px);"
+                       onclick="event.stopPropagation();">Edit</a>
                     @endif
-                    <h3>{{ $agent->name }}</h3>
-                    <p>{{ $agent->description }}</p>
-                    <div class="agent-stats">
-                        @if($agent->rating)<span>⭐ {{ $agent->rating }}/5</span>@endif
-                        @if($agent->users_count)<span>{{ $agent->users_count }} users</span>@endif
-                    </div>
-                    <div style="margin-top: 1rem; padding-top: 1rem; border-top: 1px solid rgba(217, 119, 6, 0.1); display: flex; justify-content: space-between; align-items: center;">
-                        <span style="font-size: 1.5rem; font-weight: 700; color: #FCD34D;">{{ $agent->price }}</span>
-                        <span style="padding: 0.5rem 1rem; font-size: 0.9rem; background: rgba(217,119,6,0.15); border: 1px solid rgba(217,119,6,0.35); border-radius: 0.5rem; color: #FCD34D; font-weight: 600;">View →</span>
-                    </div>
-                </a>
+                    @endauth
+                    <a href="{{ route('agents.show', $agent->slug) }}"
+                       class="agent-card {{ $agent->is_featured ? 'featured-highlight' : '' }}"
+                       data-name="{{ strtolower($agent->name) }}"
+                       data-category="{{ strtolower($agent->category ?? '') }}"
+                       data-badge="{{ strtolower($agent->badge ?? '') }}"
+                       data-rating="{{ $agent->rating }}"
+                       data-price="{{ preg_replace('/[^0-9.]/', '', $agent->price ?? '0') }}">
+                        @if($agent->badge)
+                            <div class="agent-badge {{ strtolower($agent->badge) === 'premium' ? 'premium' : '' }}">{{ $agent->badge }}</div>
+                        @endif
+                        <h3>{{ $agent->name }}</h3>
+                        <p>{{ $agent->description }}</p>
+                        <div class="agent-stats">
+                            @if($agent->rating)<span>⭐ {{ $agent->rating }}/5</span>@endif
+                            @if($agent->users_count)<span>{{ $agent->users_count }} users</span>@endif
+                        </div>
+                        <div style="margin-top: 1rem; padding-top: 1rem; border-top: 1px solid rgba(217, 119, 6, 0.1); display: flex; justify-content: space-between; align-items: center;">
+                            <span style="font-size: 1.5rem; font-weight: 700; color: #FCD34D;">{{ $agent->price }}</span>
+                            <span style="padding: 0.5rem 1rem; font-size: 0.9rem; background: rgba(217,119,6,0.15); border: 1px solid rgba(217,119,6,0.35); border-radius: 0.5rem; color: #FCD34D; font-weight: 600;">View →</span>
+                        </div>
+                    </a>
+                </div>
                 @endforeach
 
             </div>
