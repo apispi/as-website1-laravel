@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\Admin\ActivityLogController as AdminActivity;
 use App\Http\Controllers\Admin\AgentController as AdminAgents;
+use App\Http\Controllers\Admin\TrainingController as AdminTrainings;
 use App\Http\Controllers\Admin\DashboardController as AdminDashboard;
 use App\Http\Controllers\Admin\SkillController as AdminSkills;
 use App\Http\Controllers\Admin\SubscriptionController as AdminSubscriptions;
@@ -58,6 +59,12 @@ Route::middleware('auth')->group(function () {
 Route::middleware(['auth', 'admin'])->prefix('admin')->name('admin.')->group(function () {
     Route::get('/', [AdminDashboard::class, 'index'])->name('dashboard');
     Route::get('/activity', [AdminActivity::class, 'index'])->name('activity');
+    Route::get('/trainings', [AdminTrainings::class, 'index'])->name('trainings.index');
+    Route::get('/trainings/create', [AdminTrainings::class, 'create'])->name('trainings.create');
+    Route::post('/trainings', [AdminTrainings::class, 'store'])->name('trainings.store');
+    Route::get('/trainings/{training}/edit', [AdminTrainings::class, 'edit'])->name('trainings.edit');
+    Route::put('/trainings/{training}', [AdminTrainings::class, 'update'])->name('trainings.update');
+    Route::delete('/trainings/{training}', [AdminTrainings::class, 'destroy'])->name('trainings.destroy');
     Route::get('/users', [AdminUsers::class, 'index'])->name('users.index');
     Route::get('/users/{user}', [AdminUsers::class, 'show'])->name('users.show');
     Route::post('/users/{user}/toggle-admin', [AdminUsers::class, 'toggleAdmin'])->name('users.toggle-admin');

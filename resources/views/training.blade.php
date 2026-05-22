@@ -40,6 +40,12 @@
     .why-item .icon { width: 48px; height: 48px; display: flex; align-items: center; justify-content: center; background: rgba(217, 119, 6, 0.08); border: 1.5px solid rgba(252, 211, 77, 0.2); border-radius: 14px; margin: 0 auto 0.75rem; color: var(--accent); filter: drop-shadow(0 0 6px rgba(252, 211, 77, 0.25)); }
     .why-item h3 { font-size: 1rem; margin-bottom: 0.5rem; }
     .why-item p { font-size: 0.9rem; color: var(--gray); }
+    .course-banner-generic { background: linear-gradient(135deg, #0d0400 0%, #2a1000 60%, #0d0400 100%); display: flex; align-items: flex-end; }
+    .course-banner-inner { padding: 1.75rem 2rem; }
+    .course-banner-category { font-size: 0.7rem; font-family: monospace; letter-spacing: 0.12em; color: #D97706; margin-bottom: 0.6rem; opacity: 0.85; }
+    .course-banner-title { font-size: 1.8rem; font-weight: 800; color: #fff; line-height: 1.15; margin-bottom: 0.5rem; }
+    .course-banner-meta { font-size: 0.72rem; font-family: monospace; letter-spacing: 0.06em; color: #D97706; opacity: 0.65; }
+    .badge-cert { background: rgba(59,130,246,0.2); border: 1px solid rgba(59,130,246,0.4); color: #93c5fd; }
 </style>
 @endpush
 
@@ -82,175 +88,84 @@
     <section class="courses-section">
         <div class="container">
             <h2 style="text-align:center;">Available Courses</h2>
-            <p style="text-align:center;color:var(--gray);margin-top:0.5rem;">2 courses · Updated May 2026</p>
+            <p style="text-align:center;color:var(--gray);margin-top:0.5rem;">{{ $trainings->count() }} {{ Str::plural('course', $trainings->count()) }} · Updated {{ now()->format('F Y') }}</p>
 
             <div class="courses-grid">
-
-                <!-- Course 1: Digital Avatar -->
+                @foreach($trainings as $training)
+                @php
+                    $badgeClass = match(strtolower($training->badge ?? '')) {
+                        'popular'       => 'badge-popular',
+                        'new'           => 'badge-new',
+                        'certification' => 'badge-cert',
+                        default         => '',
+                    };
+                @endphp
                 <div class="course-card">
-                    <div class="course-banner">
-                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 560 220" preserveAspectRatio="xMidYMid slice">
-                            <defs>
-                                <linearGradient id="av-bg" x1="0" y1="0" x2="1" y2="1">
-                                    <stop offset="0%" stop-color="#0d0400"/>
-                                    <stop offset="100%" stop-color="#2d0e00"/>
-                                </linearGradient>
-                                <radialGradient id="av-glow-r" cx="72%" cy="45%" r="45%">
-                                    <stop offset="0%" stop-color="#D97706" stop-opacity="0.35"/>
-                                    <stop offset="100%" stop-color="#D97706" stop-opacity="0"/>
-                                </radialGradient>
-                                <radialGradient id="av-glow-l" cx="18%" cy="65%" r="35%">
-                                    <stop offset="0%" stop-color="#EA580C" stop-opacity="0.18"/>
-                                    <stop offset="100%" stop-color="#EA580C" stop-opacity="0"/>
-                                </radialGradient>
-                            </defs>
-                            <rect width="560" height="220" fill="url(#av-bg)"/>
-                            <rect width="560" height="220" fill="url(#av-glow-r)"/>
-                            <rect width="560" height="220" fill="url(#av-glow-l)"/>
-                            <text x="25" y="55" font-size="9" fill="#D97706" font-family="monospace" letter-spacing="3" opacity="0.8">DIGITAL AVATAR COURSE</text>
-                            <text x="22" y="105" font-size="44" font-weight="800" fill="white" font-family="'Outfit',sans-serif" letter-spacing="-1">SCALE YOUR</text>
-                            <text x="22" y="152" font-size="44" font-weight="800" fill="#FCD34D" font-family="'Outfit',sans-serif" letter-spacing="-1">PRESENCE</text>
-                            <line x1="22" y1="165" x2="248" y2="165" stroke="#D97706" stroke-width="1" opacity="0.35"/>
-                            <text x="22" y="181" font-size="9" fill="#D97706" font-family="monospace" opacity="0.65" letter-spacing="0.5">VIDEO · LIVE · SOCIAL · MULTILINGUAL</text>
-                            <g transform="rotate(-9,440,105)"><rect x="362" y="22" width="82" height="108" rx="5" fill="#1a0800" stroke="#EA580C" stroke-width="1" opacity="0.4"/></g>
-                            <g transform="rotate(-3,443,103)"><rect x="378" y="16" width="82" height="108" rx="5" fill="#1a0800" stroke="#D97706" stroke-width="1.2" opacity="0.62"/></g>
-                            <rect x="396" y="10" width="82" height="108" rx="5" fill="#200d00" stroke="#FCD34D" stroke-width="2" opacity="0.95"/>
-                            <circle cx="437" cy="46" r="21" fill="#2d1200" stroke="#FCD34D" stroke-width="1" opacity="0.8"/>
-                            <circle cx="430" cy="43" r="3.5" fill="#FCD34D" opacity="0.85"/>
-                            <circle cx="444" cy="43" r="3.5" fill="#FCD34D" opacity="0.85"/>
-                            <path d="M430,58 Q437,65 444,58" fill="none" stroke="#FCD34D" stroke-width="1.5" opacity="0.65"/>
-                            <path d="M404,115 Q404,92 437,88 Q470,92 470,115" fill="none" stroke="#FCD34D" stroke-width="1" opacity="0.55"/>
-                            <rect x="396" y="100" width="82" height="18" rx="0 0 5 5" fill="#D97706" opacity="0.85"/>
-                            <text x="437" y="112" text-anchor="middle" font-size="7.5" font-weight="700" fill="#0d0400" font-family="monospace" letter-spacing="1">LIVE ANYWHERE</text>
-                            <text x="502" y="75" text-anchor="middle" font-size="34" font-weight="800" fill="#FCD34D" font-family="sans-serif" opacity="0.9">×∞</text>
-                            <text x="502" y="93" text-anchor="middle" font-size="8" fill="#D97706" font-family="monospace" opacity="0.6" letter-spacing="1">INSTANCES</text>
-                            <line x1="480" y1="60" x2="495" y2="72" stroke="#D97706" stroke-width="1" opacity="0.35" stroke-dasharray="3,3"/>
-                            <g font-size="8.5" font-family="monospace" fill="#D97706" opacity="0.55" letter-spacing="0.5">
-                                <text x="396" y="148">VIDEO</text>
-                                <text x="396" y="162">TRAINING</text>
-                                <text x="396" y="176">DEMOS</text>
-                            </g>
-                        </svg>
-                        <span class="course-badge badge-new">New</span>
+                    <div class="course-banner course-banner-generic">
+                        <div class="course-banner-inner">
+                            <div class="course-banner-category">{{ strtoupper($training->category ?? 'Course') }}</div>
+                            <div class="course-banner-title">{{ $training->title }}</div>
+                            @if($training->format)
+                            <div class="course-banner-meta">{{ strtoupper($training->format) }}{{ $training->duration ? ' · ' . strtoupper($training->duration) : '' }}</div>
+                            @endif
+                        </div>
+                        @if($training->badge)
+                        <span class="course-badge {{ $badgeClass }}">{{ $training->badge }}</span>
+                        @endif
                     </div>
                     <div class="course-body">
                         <div class="course-meta">
-                            <span><span data-icon="clock" data-size="14" style="vertical-align:middle;margin-right:4px"></span> 6 hours</span>
-                            <span><span data-icon="book" data-size="14" style="vertical-align:middle;margin-right:4px"></span> 8 modules</span>
-                            <span><span data-icon="star" data-size="14" style="vertical-align:middle;margin-right:4px"></span> Beginner–Intermediate</span>
+                            @if($training->duration)
+                            <span><span data-icon="clock" data-size="14" style="vertical-align:middle;margin-right:4px"></span> {{ $training->duration }}</span>
+                            @endif
+                            @if($training->modules_count)
+                            <span><span data-icon="book" data-size="14" style="vertical-align:middle;margin-right:4px"></span> {{ $training->modules_count }} {{ $training->format === 'Workshop' ? 'topics' : 'modules' }}</span>
+                            @endif
+                            @if($training->level)
+                            <span><span data-icon="star" data-size="14" style="vertical-align:middle;margin-right:4px"></span> {{ $training->level }}</span>
+                            @endif
                         </div>
-                        <h2>Digital Avatar</h2>
-                        <p>Create lifelike AI-powered digital avatars for business, content creation, and customer engagement. Learn to build, train, and deploy your own avatar from scratch.</p>
+                        <h2>{{ $training->title }}</h2>
+                        <p>{{ $training->description }}</p>
+                        @if($training->instructor)
                         <div class="instructor-row">
                             <div class="instructor-avatar"><span data-icon="bolt" data-size="20" data-color="#ffffff"></span></div>
                             <div class="instructor-info">
-                                <strong>ApiSpi Team</strong>
-                                <span>AI & Creative Technology</span>
+                                <strong>{{ $training->instructor }}</strong>
+                                @if($training->instructor_role)<span>{{ $training->instructor_role }}</span>@endif
                             </div>
                         </div>
+                        @endif
+                        @if($training->topics && count($training->topics))
                         <ul class="course-topics">
-                            <li>What are digital avatars & real-world use cases</li>
-                            <li>Choosing the right AI models (image, voice, video)</li>
-                            <li>Building a custom avatar with generative AI</li>
-                            <li>Lip-sync, animation & real-time rendering</li>
-                            <li>Integrating your avatar into web & mobile apps</li>
-                            <li>Monetizing digital avatar products</li>
+                            @foreach($training->topics as $topic)
+                            <li>{{ $topic }}</li>
+                            @endforeach
                         </ul>
-                        <div class="course-footer">
-                            <div class="course-price">$250 <span>/ avatar</span></div>
-                            <a href="{{ route('checkout') }}?agent=Digital+Avatar+Course&amount=250" class="btn btn-primary">Enrol Now</a>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Course 2: Introduction to AI -->
-                <div class="course-card">
-                    <div class="course-banner">
-                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 560 220" preserveAspectRatio="xMidYMid slice">
-                            <defs>
-                                <linearGradient id="ai-bg" x1="0" y1="0" x2="1" y2="1">
-                                    <stop offset="0%" stop-color="#0d0400"/>
-                                    <stop offset="100%" stop-color="#331000"/>
-                                </linearGradient>
-                                <radialGradient id="ai-glow" cx="25%" cy="70%" r="40%">
-                                    <stop offset="0%" stop-color="#EA580C" stop-opacity="0.3"/>
-                                    <stop offset="100%" stop-color="#EA580C" stop-opacity="0"/>
-                                </radialGradient>
-                                <linearGradient id="ai-bar-grad" x1="0" y1="0" x2="0" y2="1">
-                                    <stop offset="0%" stop-color="#FCD34D" stop-opacity="0.9"/>
-                                    <stop offset="100%" stop-color="#D97706" stop-opacity="0.4"/>
-                                </linearGradient>
-                            </defs>
-                            <rect width="560" height="220" fill="url(#ai-bg)"/>
-                            <rect width="560" height="220" fill="url(#ai-glow)"/>
-                            <text x="25" y="55" font-size="9" fill="#D97706" font-family="monospace" letter-spacing="3" opacity="0.8">INTRODUCTION TO AI</text>
-                            <text x="20" y="148" font-size="100" font-weight="800" fill="#FCD34D" font-family="'Outfit',sans-serif" opacity="0.95">5</text>
-                            <text x="98" y="100" font-size="20" font-weight="700" fill="white" font-family="'Outfit',sans-serif">AI TOOLS</text>
-                            <text x="98" y="124" font-size="20" font-weight="700" fill="white" font-family="'Outfit',sans-serif">THAT CHANGE</text>
-                            <text x="98" y="148" font-size="20" font-weight="700" fill="#FCD34D" font-family="'Outfit',sans-serif">EVERYTHING</text>
-                            <line x1="22" y1="162" x2="245" y2="162" stroke="#D97706" stroke-width="1" opacity="0.35"/>
-                            <text x="22" y="178" font-size="9" fill="#D97706" font-family="monospace" opacity="0.65" letter-spacing="0.5">One full day · Hands-on · Lifetime access</text>
-                            <g stroke="#D97706" stroke-width="0.4" opacity="0.12">
-                                <line x1="265" y1="30" x2="265" y2="195"/>
-                                <line x1="265" y1="80" x2="545" y2="80"/>
-                                <line x1="265" y1="120" x2="545" y2="120"/>
-                                <line x1="265" y1="160" x2="545" y2="160"/>
-                            </g>
-                            <rect x="272" y="148" width="32" height="47" rx="3" fill="url(#ai-bar-grad)" opacity="0.45"/>
-                            <rect x="322" y="120" width="32" height="75" rx="3" fill="url(#ai-bar-grad)" opacity="0.55"/>
-                            <rect x="372" y="90"  width="32" height="105" rx="3" fill="url(#ai-bar-grad)" opacity="0.65"/>
-                            <rect x="422" y="60"  width="32" height="135" rx="3" fill="url(#ai-bar-grad)" opacity="0.75"/>
-                            <rect x="472" y="25"  width="32" height="170" rx="3" fill="url(#ai-bar-grad)" opacity="0.9"/>
-                            <polyline points="288,148 338,120 388,90 438,60 488,25" fill="none" stroke="#FCD34D" stroke-width="2" opacity="0.85"/>
-                            <circle cx="288" cy="148" r="4" fill="#D97706" opacity="0.8"/>
-                            <circle cx="338" cy="120" r="4" fill="#D97706" opacity="0.85"/>
-                            <circle cx="388" cy="90"  r="4" fill="#EA580C" opacity="0.9"/>
-                            <circle cx="438" cy="60"  r="5" fill="#FCD34D" opacity="0.9"/>
-                            <circle cx="488" cy="25"  r="6" fill="#FCD34D" opacity="1"/>
-                            <polyline points="481,18 488,8 495,18" fill="none" stroke="#FCD34D" stroke-width="2" opacity="0.9"/>
-                            <g font-size="7" font-family="monospace" fill="#D97706" opacity="0.65" text-anchor="middle">
-                                <text x="288" y="210">ChatGPT</text>
-                                <text x="338" y="210">Claude</text>
-                                <text x="388" y="210">HeyGen</text>
-                                <text x="438" y="210">Notebook</text>
-                                <text x="488" y="210">Hermes</text>
-                            </g>
-                        </svg>
-                        <span class="course-badge badge-popular">Popular</span>
-                    </div>
-                    <div class="course-body">
-                        <div class="course-meta">
-                            <span><span data-icon="clock" data-size="14" style="vertical-align:middle;margin-right:4px"></span> Full Day (8 hrs)</span>
-                            <span><span data-icon="book" data-size="14" style="vertical-align:middle;margin-right:4px"></span> 5 tools</span>
-                            <span><span data-icon="star" data-size="14" style="vertical-align:middle;margin-right:4px"></span> All levels</span>
-                        </div>
-                        <h2>Introduction to AI</h2>
-                        <p>A full day, hands-on workshop covering the 5 top AI tools for personal efficiency. Work through real exercises with each tool, leave with skills you can apply immediately — and revisit everything with lifetime video access after the course.</p>
-                        <div class="instructor-row">
-                            <div class="instructor-avatar"><span data-icon="bolt" data-size="20" data-color="#ffffff"></span></div>
-                            <div class="instructor-info">
-                                <strong>ApiSpi Team</strong>
-                                <span>AI Productivity & Tools</span>
-                            </div>
-                        </div>
-                        <ul class="course-topics">
-                            <li>ChatGPT — writing, research & idea generation</li>
-                            <li>Claude — analysis, summarisation & long-form work</li>
-                            <li>HeyGen — AI video avatars & personalised video at scale</li>
-                            <li>NotebookLM — AI-powered research, notes & source analysis</li>
-                            <li>Hermes Agent — autonomous AI agent for personal task automation</li>
-                        </ul>
+                        @endif
+                        @if($training->includes && count($training->includes))
                         <div style="margin-bottom:1.5rem;padding:1rem;background:rgba(0,217,255,0.05);border:1px solid rgba(0,217,255,0.15);border-radius:0.75rem;font-size:0.85rem;color:var(--gray);">
                             <strong style="color:var(--light);display:block;margin-bottom:0.4rem;">What's included</strong>
-                            ✓ Full day live hands-on workshop &nbsp;·&nbsp; ✓ Lifetime video replay access &nbsp;·&nbsp; ✓ Course materials & templates &nbsp;·&nbsp; ✓ Certificate of completion
+                            {{ collect($training->includes)->map(fn($i) => '✓ ' . $i)->implode(' &nbsp;·&nbsp; ') }}
                         </div>
+                        @endif
                         <div class="course-footer">
-                            <div class="course-price">$1,500 <span>/ per person</span></div>
-                            <a href="{{ route('checkout') }}?agent=Introduction+to+AI+Course&amount=1500" class="btn btn-primary">Enrol Now</a>
+                            @if($training->price)
+                            <div class="course-price">{{ $training->price }} @if($training->price_unit)<span>/ {{ $training->price_unit }}</span>@endif</div>
+                            @endif
+                            @if($training->checkout_amount)
+                            <a href="{{ route('checkout') }}?agent={{ urlencode($training->checkout_name ?? $training->title) }}&amount={{ $training->checkout_amount }}" class="btn btn-primary">Enrol Now</a>
+                            @else
+                            <a href="{{ route('contact') }}" class="btn btn-secondary">Get in Touch</a>
+                            @endif
                         </div>
                     </div>
                 </div>
+                @endforeach
 
+                @if($trainings->isEmpty())
+                <p style="text-align:center;color:var(--gray);grid-column:1/-1;padding:3rem 0;">No courses available at the moment. Check back soon.</p>
+                @endif
             </div>
         </div>
     </section>

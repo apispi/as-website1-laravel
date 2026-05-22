@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Training;
+
 class PageController extends Controller
 {
     public function home()
@@ -16,7 +18,8 @@ class PageController extends Controller
 
     public function training()
     {
-        return view('training');
+        $trainings = Training::active()->get();
+        return view('training', compact('trainings'));
     }
 
     public function checkout()
