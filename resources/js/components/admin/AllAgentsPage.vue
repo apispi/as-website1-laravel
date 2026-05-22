@@ -34,7 +34,6 @@
           <tr>
             <th>Agent</th>
             <th>User</th>
-            <th>Category</th>
             <th>Price</th>
             <th>Status</th>
             <th>Started</th>
@@ -59,7 +58,6 @@
                 <div class="user-email">{{ sub.user?.email ?? '' }}</div>
               </a>
             </td>
-            <td class="muted">{{ sub.agent?.category ?? '—' }}</td>
             <td class="price">{{ sub.agent?.price ?? '—' }}</td>
             <td>
               <span class="status-badge" :class="sub.status">{{ sub.status }}</span>
