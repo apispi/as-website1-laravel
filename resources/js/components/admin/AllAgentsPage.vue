@@ -32,8 +32,8 @@
       <table class="data-table">
         <thead>
           <tr>
-            <th>User</th>
             <th>Agent</th>
+            <th>User</th>
             <th>Category</th>
             <th>Price</th>
             <th>Status</th>
@@ -45,12 +45,6 @@
         <tbody>
           <tr v-for="sub in subscriptions" :key="sub.id">
             <td>
-              <a :href="`/admin/users/${sub.user?.id}`" class="user-link">
-                <div class="user-name">{{ sub.user?.name ?? '—' }}</div>
-                <div class="user-email">{{ sub.user?.email ?? '' }}</div>
-              </a>
-            </td>
-            <td>
               <div class="agent-cell">
                 <div class="agent-icon">◈</div>
                 <div>
@@ -58,6 +52,12 @@
                   <span v-if="sub.agent?.badge" class="badge-inline" :class="sub.agent.badge.toLowerCase()">{{ sub.agent.badge }}</span>
                 </div>
               </div>
+            </td>
+            <td>
+              <a :href="`/admin/users/${sub.user?.id}`" class="user-link">
+                <div class="user-name">{{ sub.user?.name ?? '—' }}</div>
+                <div class="user-email">{{ sub.user?.email ?? '' }}</div>
+              </a>
             </td>
             <td class="muted">{{ sub.agent?.category ?? '—' }}</td>
             <td class="price">{{ sub.agent?.price ?? '—' }}</td>
