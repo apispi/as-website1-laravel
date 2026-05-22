@@ -1,3 +1,4 @@
+@php $agent->load('skills'); @endphp
 @extends('layouts.app')
 
 @section('title', $agent->name . ' - ApiSpi')
@@ -80,6 +81,27 @@
                     <div style="background: rgba(28,24,16,0.6); border: 1px solid rgba(217,119,6,0.1); border-radius: 1rem; padding: 1.5rem;">
                         <h3 style="margin-bottom: 0.75rem;">{{ $case['title'] }}</h3>
                         <p style="color: #6b7280;">{{ $case['description'] }}</p>
+                    </div>
+                    @endforeach
+                </div>
+            </div>
+            @endif
+
+            @if($agent->skills->isNotEmpty())
+            @php $skillsByCategory = $agent->skills->groupBy('category'); @endphp
+            <div style="margin-top: 4rem; padding-top: 4rem; border-top: 1px solid rgba(217,119,6,0.1);">
+                <h2>Skills</h2>
+                <div style="display: grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); gap: 1.25rem; margin-top: 2rem;">
+                    @foreach($skillsByCategory as $category => $skills)
+                    <div style="background: rgba(28,24,16,0.6); border: 1px solid rgba(217,119,6,0.1); border-radius: 0.875rem; padding: 1.25rem;">
+                        <div style="font-size: 0.72rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.07em; color: #D97706; margin-bottom: 0.75rem;">{{ $category }}</div>
+                        <ul style="list-style: none;">
+                            @foreach($skills as $skill)
+                            <li style="{{ $loop->last ? '' : 'margin-bottom: 0.4rem;' }} display: flex; align-items: center; gap: 0.5rem; font-size: 0.85rem; color: #d1d5db;">
+                                <span style="color: #D97706; font-size: 0.65rem;">◇</span> {{ $skill->name }}
+                            </li>
+                            @endforeach
+                        </ul>
                     </div>
                     @endforeach
                 </div>

@@ -21,4 +21,9 @@ class Skill extends Model
     {
         return $query->where('is_active', true)->orderBy('sort_order')->orderBy('name');
     }
+
+    public function agents()
+    {
+        return $this->belongsToMany(Agent::class);
+    }
 }

@@ -140,6 +140,23 @@
           </div>
         </div>
 
+        <div class="section-divider">
+          <span>Skills</span>
+        </div>
+
+        <div class="skills-grid">
+          <div v-for="(categorySkills, category) in allSkills" :key="category" class="skill-category">
+            <div class="skill-category-label">{{ category }}</div>
+            <div class="skill-checkboxes">
+              <label v-for="skill in categorySkills" :key="skill.id" class="skill-checkbox-label">
+                <input type="checkbox" name="skill_ids[]" :value="skill.id"
+                       :checked="selectedSkillIds.includes(skill.id)">
+                {{ skill.name }}
+              </label>
+            </div>
+          </div>
+        </div>
+
         <div class="form-actions">
           <button type="submit" class="btn-submit">{{ agent ? 'Save Changes' : 'Create Agent' }}</button>
           <a href="/admin/agents" class="btn-cancel">Cancel</a>
@@ -151,16 +168,20 @@
 </template>
 
 <script setup>
+import { ref } from 'vue';
 import AdminShell from './AdminShell.vue';
 
 const props = defineProps({
-  user:      { type: Object, default: () => ({}) },
-  csrfToken: { type: String, default: '' },
-  agent:     { type: Object, default: null },
-  errors:    { type: Array, default: () => [] },
+  user:           { type: Object, default: () => ({}) },
+  csrfToken:      { type: String, default: '' },
+  agent:          { type: Object, default: null },
+  errors:         { type: Array,  default: () => [] },
+  allSkills:      { type: Object, default: () => ({}) },
+  agentSkillIds:  { type: Array,  default: () => [] },
 });
 
 const formAction = props.agent ? `/admin/agents/${props.agent.id}` : '/admin/agents';
+const selectedSkillIds = ref([...props.agentSkillIds]);
 </script>
 
 <style scoped>
@@ -216,6 +237,13 @@ select option { background: #140606; }
 }
 .section-divider::before,
 .section-divider::after { content: ''; flex: 1; height: 1px; background: rgba(239,68,68,0.12); }
+
+.skills-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); gap: 1rem; margin-bottom: 1.5rem; }
+.skill-category { background: rgba(12,4,4,0.5); border: 1px solid rgba(239,68,68,0.1); border-radius: 0.625rem; padding: 0.875rem; }
+.skill-category-label { font-size: 0.72rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.07em; color: #ef4444; margin-bottom: 0.625rem; }
+.skill-checkboxes { display: flex; flex-direction: column; gap: 0.4rem; }
+.skill-checkbox-label { display: flex; align-items: center; gap: 0.5rem; font-size: 0.82rem; color: #d1d5db; cursor: pointer; font-weight: 400; }
+.skill-checkbox-label input[type="checkbox"] { width: 14px; height: 14px; accent-color: #ef4444; flex-shrink: 0; }
 
 textarea.mono { font-family: 'Menlo', 'Monaco', 'Consolas', monospace; font-size: 0.8rem; }
 

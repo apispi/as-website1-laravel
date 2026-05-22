@@ -33,6 +33,11 @@ class Agent extends Model
         return $query->where('is_active', true)->orderBy('sort_order')->orderBy('name');
     }
 
+    public function skills()
+    {
+        return $this->belongsToMany(Skill::class)->orderBy('sort_order');
+    }
+
     public function subscriptions()
     {
         return $this->hasMany(Subscription::class);

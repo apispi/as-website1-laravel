@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Models\Agent;
+use App\Models\Skill;
 use Illuminate\Http\Request;
 
 class AgentController extends Controller
@@ -16,25 +17,30 @@ class AgentController extends Controller
 
     public function create()
     {
-        return view('admin.agents.form');
+        $skills = Skill::orderBy('category')->orderBy('sort_order')->get();
+        return view('admin.agents.form', compact('skills'));
     }
 
     public function store(Request $request)
     {
         $data = $this->validated($request);
-        Agent::create($data);
+        $agent = Agent::create($data);
+        $agent->skills()->sync($request->input('skill_ids', []));
         return redirect()->route('admin.agents.index')->with('success', 'Agent created.');
     }
 
     public function edit(Agent $agent)
     {
-        return view('admin.agents.form', compact('agent'));
+        $skills = Skill::orderBy('category')->orderBy('sort_order')->get();
+        $agent->load('skills');
+        return view('admin.agents.form', compact('agent', 'skills'));
     }
 
     public function update(Request $request, Agent $agent)
     {
         $data = $this->validated($request);
         $agent->update($data);
+        $agent->skills()->sync($request->input('skill_ids', []));
         return redirect()->route('admin.agents.index')->with('success', 'Agent updated.');
     }
 
