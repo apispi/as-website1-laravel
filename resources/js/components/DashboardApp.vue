@@ -167,29 +167,6 @@
           </div>
         </section>
 
-        <!-- Account info -->
-        <section class="db-section">
-          <h2 class="db-section-title">Account</h2>
-          <div class="db-info-card">
-            <div class="db-info-row">
-              <span class="db-info-label">Name</span>
-              <span class="db-info-val">{{ user.name }}</span>
-            </div>
-            <div class="db-info-row">
-              <span class="db-info-label">Email</span>
-              <span class="db-info-val">{{ user.email }}</span>
-            </div>
-            <div class="db-info-row">
-              <span class="db-info-label">Member since</span>
-              <span class="db-info-val">{{ memberSince }}</span>
-            </div>
-            <div class="db-info-row">
-              <span class="db-info-label">Plan</span>
-              <span class="db-info-val"><span class="db-badge">Free</span></span>
-            </div>
-          </div>
-        </section>
-
       </main>
     </div>
 
@@ -210,11 +187,6 @@ const logoutUrl = '/logout';
 
 const initial = computed(() => (props.user.name || 'U').charAt(0).toUpperCase());
 const firstName = computed(() => (props.user.name || 'there').split(' ')[0]);
-const memberSince = computed(() => {
-  if (!props.user.created_at) return '—';
-  return new Date(props.user.created_at).toLocaleDateString('en-US', { month: 'long', year: 'numeric' });
-});
-
 const stats = computed(() => [
   { icon: '◈', value: props.subscriptions.length, label: 'Active Agents' },
   { icon: '⬡', value: '0', label: 'API Calls' },
@@ -488,28 +460,6 @@ const gettingStarted = computed(() => [
   white-space: nowrap;
 }
 .db-step-cta:hover { background: rgba(217,119,6,0.12); border-color: rgba(217,119,6,0.5); }
-
-/* Info card */
-.db-info-card {
-  background: rgba(28,24,16,0.7);
-  border: 1px solid rgba(217,119,6,0.12);
-  border-radius: 1rem;
-  overflow: hidden;
-}
-.db-info-row {
-  display: flex; align-items: center; justify-content: space-between;
-  padding: 0.875rem 1.25rem;
-  border-bottom: 1px solid rgba(217,119,6,0.07);
-  gap: 1rem;
-}
-.db-info-row:last-child { border-bottom: none; }
-.db-info-label { font-size: 0.82rem; color: #6b7280; flex-shrink: 0; }
-.db-info-val { font-size: 0.875rem; color: #e5e7eb; text-align: right; }
-.db-badge {
-  display: inline-block; padding: 0.2rem 0.6rem;
-  background: rgba(217,119,6,0.12); color: #FCD34D;
-  border-radius: 99px; font-size: 0.75rem; font-weight: 600;
-}
 
 /* Mobile */
 @media (max-width: 768px) {
