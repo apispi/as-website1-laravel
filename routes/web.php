@@ -89,6 +89,9 @@ Route::middleware(['auth', 'admin'])->prefix('admin')->name('admin.')->group(fun
     Route::put('/skills/{skill}', [AdminSkills::class, 'update'])->name('skills.update');
     Route::delete('/skills/{skill}', [AdminSkills::class, 'destroy'])->name('skills.destroy');
     Route::get('/user-connectors', [AdminUserConnectors::class, 'index'])->name('user-connectors.index');
+    Route::get('/users/{user}/connectors', [AdminUserConnectors::class, 'userConnectors'])->name('users.connectors');
+    Route::post('/users/{user}/connectors', [AdminUserConnectors::class, 'assign'])->name('users.connectors.assign');
+    Route::delete('/users/{user}/connectors/{userConnector}', [AdminUserConnectors::class, 'revoke'])->name('users.connectors.revoke');
     Route::get('/connectors', [AdminConnectors::class, 'index'])->name('connectors.index');
     Route::get('/connectors/create', [AdminConnectors::class, 'create'])->name('connectors.create');
     Route::post('/connectors', [AdminConnectors::class, 'store'])->name('connectors.store');

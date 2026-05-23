@@ -55,6 +55,13 @@
           </div>
           <div class="action-item">
             <div>
+              <div class="action-title">Connectors</div>
+              <div class="action-desc">Manage integrations connected to this user.</div>
+            </div>
+            <a :href="`/admin/users/${subject.id}/connectors`" class="btn-action promote">View Connectors</a>
+          </div>
+          <div class="action-item">
+            <div>
               <div class="action-title">{{ subject.is_admin ? 'Remove Admin' : 'Grant Admin' }}</div>
               <div class="action-desc">{{ subject.is_admin ? 'Revoke admin access for this user.' : 'Give this user admin access.' }}</div>
             </div>
