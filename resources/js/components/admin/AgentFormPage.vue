@@ -140,42 +140,60 @@
           </div>
         </div>
 
-        <div class="section-divider">
-          <span>Skills</span>
-        </div>
+        <!-- Association tabs -->
+        <div class="assoc-tabs-wrap">
+          <div class="assoc-tab-bar">
+            <button type="button"
+                    :class="['assoc-tab', { active: assocTab === 'skills' }]"
+                    @click="assocTab = 'skills'">
+              Skills
+              <span class="assoc-tab-count">{{ selectedSkillCount }}</span>
+            </button>
+            <button type="button"
+                    :class="['assoc-tab', { active: assocTab === 'connectors' }]"
+                    @click="assocTab = 'connectors'">
+              Connectors
+              <span class="assoc-tab-count">{{ selectedConnectorCount }}</span>
+            </button>
+          </div>
 
-        <div class="skills-grid">
-          <div v-for="(categorySkills, category) in allSkills" :key="category" class="skill-category">
-            <div class="skill-category-label">{{ category }}</div>
-            <div class="skill-checkboxes">
-              <label v-for="skill in categorySkills" :key="skill.id" class="skill-checkbox-label">
-                <input type="checkbox" name="skill_ids[]" :value="skill.id"
-                       :checked="selectedSkillIds.includes(skill.id)">
-                {{ skill.name }}
-              </label>
+          <!-- Skills panel -->
+          <div v-show="assocTab === 'skills'" class="assoc-panel">
+            <div v-if="Object.keys(allSkills).length === 0" class="assoc-empty">
+              No skills defined yet. <a href="/admin/skills/create" class="assoc-link">Create one →</a>
+            </div>
+            <div v-else class="skills-grid">
+              <div v-for="(categorySkills, category) in allSkills" :key="category" class="skill-category">
+                <div class="skill-category-label">{{ category }}</div>
+                <div class="skill-checkboxes">
+                  <label v-for="skill in categorySkills" :key="skill.id" class="skill-checkbox-label">
+                    <input type="checkbox" name="skill_ids[]" :value="skill.id"
+                           v-model="selectedSkillIds" :true-value="skill.id">
+                    {{ skill.name }}
+                  </label>
+                </div>
+              </div>
             </div>
           </div>
-        </div>
 
-        <div class="section-divider">
-          <span>Required Connectors</span>
-        </div>
-
-        <p class="connectors-desc">Select the connectors this agent requires users to have connected.</p>
-
-        <div v-if="Object.keys(allConnectors).length === 0" class="connectors-empty">
-          No connectors defined yet. <a href="/admin/connectors/create" class="connectors-link">Create one →</a>
-        </div>
-        <div v-else class="skills-grid">
-          <div v-for="(categoryConnectors, category) in allConnectors" :key="category" class="skill-category">
-            <div class="skill-category-label">{{ category || 'Other' }}</div>
-            <div class="skill-checkboxes">
-              <label v-for="connector in categoryConnectors" :key="connector.id" class="skill-checkbox-label">
-                <input type="checkbox" name="connector_ids[]" :value="connector.id"
-                       :checked="selectedConnectorIds.includes(connector.id)">
-                <span v-if="connector.icon" class="connector-icon-sm">{{ connector.icon }}</span>
-                {{ connector.name }}
-              </label>
+          <!-- Connectors panel -->
+          <div v-show="assocTab === 'connectors'" class="assoc-panel">
+            <p class="assoc-desc">Select the connectors this agent requires users to have connected.</p>
+            <div v-if="Object.keys(allConnectors).length === 0" class="assoc-empty">
+              No connectors defined yet. <a href="/admin/connectors/create" class="assoc-link">Create one →</a>
+            </div>
+            <div v-else class="skills-grid">
+              <div v-for="(categoryConnectors, category) in allConnectors" :key="category" class="skill-category">
+                <div class="skill-category-label">{{ category || 'Other' }}</div>
+                <div class="skill-checkboxes">
+                  <label v-for="connector in categoryConnectors" :key="connector.id" class="skill-checkbox-label">
+                    <input type="checkbox" name="connector_ids[]" :value="connector.id"
+                           v-model="selectedConnectorIds" :true-value="connector.id">
+                    <span v-if="connector.icon" class="connector-icon-sm">{{ connector.icon }}</span>
+                    {{ connector.name }}
+                  </label>
+                </div>
+              </div>
             </div>
           </div>
         </div>
@@ -191,7 +209,7 @@
 </template>
 
 <script setup>
-import { ref } from 'vue';
+import { ref, computed } from 'vue';
 import AdminShell from './AdminShell.vue';
 
 const props = defineProps({
@@ -205,9 +223,13 @@ const props = defineProps({
   agentConnectorIds:  { type: Array,  default: () => [] },
 });
 
-const formAction = props.agent ? `/admin/agents/${props.agent.id}` : '/admin/agents';
-const selectedSkillIds      = ref([...props.agentSkillIds]);
-const selectedConnectorIds  = ref([...props.agentConnectorIds]);
+const formAction           = props.agent ? `/admin/agents/${props.agent.id}` : '/admin/agents';
+const selectedSkillIds     = ref([...props.agentSkillIds]);
+const selectedConnectorIds = ref([...props.agentConnectorIds]);
+const assocTab             = ref('skills');
+
+const selectedSkillCount     = computed(() => selectedSkillIds.value.length);
+const selectedConnectorCount = computed(() => selectedConnectorIds.value.length);
 </script>
 
 <style scoped>
@@ -264,7 +286,22 @@ select option { background: #140606; }
 .section-divider::before,
 .section-divider::after { content: ''; flex: 1; height: 1px; background: rgba(239,68,68,0.12); }
 
-.skills-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); gap: 1rem; margin-bottom: 1.5rem; }
+/* Association tabs */
+.assoc-tabs-wrap { margin-top: 1.75rem; border: 1px solid rgba(239,68,68,0.1); border-radius: 0.875rem; overflow: hidden; margin-bottom: 1.5rem; }
+.assoc-tab-bar { display: flex; background: rgba(12,4,4,0.6); border-bottom: 1px solid rgba(239,68,68,0.1); }
+.assoc-tab { flex: 1; padding: 0.75rem 1rem; background: none; border: none; border-bottom: 2px solid transparent; margin-bottom: -1px; cursor: pointer; font-family: inherit; font-size: 0.82rem; font-weight: 600; color: #6b7280; display: flex; align-items: center; justify-content: center; gap: 0.5rem; transition: all 0.18s; }
+.assoc-tab:hover { color: #fca5a5; }
+.assoc-tab.active { color: #fca5a5; border-bottom-color: #ef4444; background: rgba(239,68,68,0.04); }
+.assoc-tab-count { display: inline-flex; align-items: center; justify-content: center; min-width: 20px; height: 18px; padding: 0 5px; border-radius: 99px; font-size: 0.68rem; font-weight: 700; background: rgba(239,68,68,0.1); color: #ef4444; }
+.assoc-tab.active .assoc-tab-count { background: rgba(239,68,68,0.2); }
+
+.assoc-panel { padding: 1.25rem; }
+.assoc-desc  { font-size: 0.82rem; color: #6b7280; margin-bottom: 1rem; }
+.assoc-empty { font-size: 0.82rem; color: #4b5563; }
+.assoc-link  { color: #fca5a5; text-decoration: none; }
+.assoc-link:hover { text-decoration: underline; }
+
+.skills-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); gap: 1rem; }
 .skill-category { background: rgba(12,4,4,0.5); border: 1px solid rgba(239,68,68,0.1); border-radius: 0.625rem; padding: 0.875rem; }
 .skill-category-label { font-size: 0.72rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.07em; color: #ef4444; margin-bottom: 0.625rem; }
 .skill-checkboxes { display: flex; flex-direction: column; gap: 0.4rem; }
@@ -273,10 +310,6 @@ select option { background: #140606; }
 
 textarea.mono { font-family: 'Menlo', 'Monaco', 'Consolas', monospace; font-size: 0.8rem; }
 
-.connectors-desc  { font-size: 0.82rem; color: #6b7280; margin-bottom: 1rem; }
-.connectors-empty { font-size: 0.82rem; color: #4b5563; margin-bottom: 1.5rem; }
-.connectors-link  { color: #fca5a5; text-decoration: none; }
-.connectors-link:hover { text-decoration: underline; }
 .connector-icon-sm { font-size: 0.85rem; line-height: 1; }
 
 .form-actions { display: flex; gap: 0.75rem; align-items: center; }
