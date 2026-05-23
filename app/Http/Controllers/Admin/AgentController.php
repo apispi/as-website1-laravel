@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Models\Agent;
+use App\Models\Connector;
 use App\Models\Skill;
 use Illuminate\Http\Request;
 
@@ -17,23 +18,26 @@ class AgentController extends Controller
 
     public function create()
     {
-        $skills = Skill::orderBy('category')->orderBy('sort_order')->get();
-        return view('admin.agents.form', compact('skills'));
+        $skills     = Skill::orderBy('category')->orderBy('sort_order')->get();
+        $connectors = Connector::where('is_active', true)->orderBy('category')->orderBy('name')->get();
+        return view('admin.agents.form', compact('skills', 'connectors'));
     }
 
     public function store(Request $request)
     {
-        $data = $this->validated($request);
+        $data  = $this->validated($request);
         $agent = Agent::create($data);
         $agent->skills()->sync($request->input('skill_ids', []));
+        $agent->connectors()->sync($request->input('connector_ids', []));
         return redirect()->route('admin.agents.index')->with('success', 'Agent created.');
     }
 
     public function edit(Agent $agent)
     {
-        $skills = Skill::orderBy('category')->orderBy('sort_order')->get();
-        $agent->load('skills');
-        return view('admin.agents.form', compact('agent', 'skills'));
+        $skills     = Skill::orderBy('category')->orderBy('sort_order')->get();
+        $connectors = Connector::where('is_active', true)->orderBy('category')->orderBy('name')->get();
+        $agent->load('skills', 'connectors');
+        return view('admin.agents.form', compact('agent', 'skills', 'connectors'));
     }
 
     public function update(Request $request, Agent $agent)
@@ -41,6 +45,7 @@ class AgentController extends Controller
         $data = $this->validated($request);
         $agent->update($data);
         $agent->skills()->sync($request->input('skill_ids', []));
+        $agent->connectors()->sync($request->input('connector_ids', []));
         return redirect()->route('admin.agents.index')->with('success', 'Agent updated.');
     }
 

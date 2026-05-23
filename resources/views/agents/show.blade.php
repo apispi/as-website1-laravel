@@ -1,4 +1,4 @@
-@php $agent->load('skills'); @endphp
+@php $agent->load('skills', 'connectors'); @endphp
 @extends('layouts.app')
 
 @section('title', $agent->name . ' - ApiSpi')
@@ -125,6 +125,28 @@
                             </li>
                             @endforeach
                         </ul>
+                    </div>
+                    @endforeach
+                </div>
+            </div>
+            @endif
+
+            @if($agent->connectors->isNotEmpty())
+            <div style="margin-top: 4rem; padding-top: 4rem; border-top: 1px solid rgba(217,119,6,0.1);">
+                <h2>Required Connectors</h2>
+                <p style="color: #6b7280; font-size: 0.95rem; margin-top: 0.75rem; margin-bottom: 2rem;">This agent works with the following integrations. Connect them from your dashboard to get started.</p>
+                <div style="display: flex; flex-wrap: wrap; gap: 1rem;">
+                    @foreach($agent->connectors as $connector)
+                    <div style="background: rgba(28,24,16,0.6); border: 1px solid rgba(217,119,6,0.1); border-radius: 0.875rem; padding: 1rem 1.25rem; display: flex; align-items: center; gap: 0.75rem; min-width: 160px;">
+                        @if($connector->icon)
+                        <span style="font-size: 1.4rem; line-height: 1;">{{ $connector->icon }}</span>
+                        @endif
+                        <div>
+                            <div style="font-size: 0.9rem; font-weight: 600; color: #e5e7eb;">{{ $connector->name }}</div>
+                            @if($connector->category)
+                            <div style="font-size: 0.75rem; color: #6b7280; margin-top: 0.1rem;">{{ $connector->category }}</div>
+                            @endif
+                        </div>
                     </div>
                     @endforeach
                 </div>

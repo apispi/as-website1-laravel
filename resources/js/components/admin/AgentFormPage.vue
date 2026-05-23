@@ -157,6 +157,29 @@
           </div>
         </div>
 
+        <div class="section-divider">
+          <span>Required Connectors</span>
+        </div>
+
+        <p class="connectors-desc">Select the connectors this agent requires users to have connected.</p>
+
+        <div v-if="Object.keys(allConnectors).length === 0" class="connectors-empty">
+          No connectors defined yet. <a href="/admin/connectors/create" class="connectors-link">Create one →</a>
+        </div>
+        <div v-else class="skills-grid">
+          <div v-for="(categoryConnectors, category) in allConnectors" :key="category" class="skill-category">
+            <div class="skill-category-label">{{ category || 'Other' }}</div>
+            <div class="skill-checkboxes">
+              <label v-for="connector in categoryConnectors" :key="connector.id" class="skill-checkbox-label">
+                <input type="checkbox" name="connector_ids[]" :value="connector.id"
+                       :checked="selectedConnectorIds.includes(connector.id)">
+                <span v-if="connector.icon" class="connector-icon-sm">{{ connector.icon }}</span>
+                {{ connector.name }}
+              </label>
+            </div>
+          </div>
+        </div>
+
         <div class="form-actions">
           <button type="submit" class="btn-submit">{{ agent ? 'Save Changes' : 'Create Agent' }}</button>
           <a href="/admin/agents" class="btn-cancel">Cancel</a>
@@ -172,16 +195,19 @@ import { ref } from 'vue';
 import AdminShell from './AdminShell.vue';
 
 const props = defineProps({
-  user:           { type: Object, default: () => ({}) },
-  csrfToken:      { type: String, default: '' },
-  agent:          { type: Object, default: null },
-  errors:         { type: Array,  default: () => [] },
-  allSkills:      { type: Object, default: () => ({}) },
-  agentSkillIds:  { type: Array,  default: () => [] },
+  user:               { type: Object, default: () => ({}) },
+  csrfToken:          { type: String, default: '' },
+  agent:              { type: Object, default: null },
+  errors:             { type: Array,  default: () => [] },
+  allSkills:          { type: Object, default: () => ({}) },
+  agentSkillIds:      { type: Array,  default: () => [] },
+  allConnectors:      { type: Object, default: () => ({}) },
+  agentConnectorIds:  { type: Array,  default: () => [] },
 });
 
 const formAction = props.agent ? `/admin/agents/${props.agent.id}` : '/admin/agents';
-const selectedSkillIds = ref([...props.agentSkillIds]);
+const selectedSkillIds      = ref([...props.agentSkillIds]);
+const selectedConnectorIds  = ref([...props.agentConnectorIds]);
 </script>
 
 <style scoped>
@@ -246,6 +272,12 @@ select option { background: #140606; }
 .skill-checkbox-label input[type="checkbox"] { width: 14px; height: 14px; accent-color: #ef4444; flex-shrink: 0; }
 
 textarea.mono { font-family: 'Menlo', 'Monaco', 'Consolas', monospace; font-size: 0.8rem; }
+
+.connectors-desc  { font-size: 0.82rem; color: #6b7280; margin-bottom: 1rem; }
+.connectors-empty { font-size: 0.82rem; color: #4b5563; margin-bottom: 1.5rem; }
+.connectors-link  { color: #fca5a5; text-decoration: none; }
+.connectors-link:hover { text-decoration: underline; }
+.connector-icon-sm { font-size: 0.85rem; line-height: 1; }
 
 .form-actions { display: flex; gap: 0.75rem; align-items: center; }
 .btn-submit {
