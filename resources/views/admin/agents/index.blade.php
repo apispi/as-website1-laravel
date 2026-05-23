@@ -9,6 +9,7 @@
         'user'         => ['id' => Auth::id(), 'name' => Auth::user()->name, 'email' => Auth::user()->email],
         'csrfToken'    => csrf_token(),
         'agents'       => $agents,
+        'connectors'   => $connectors,
         'flashSuccess' => session('success', ''),
         'flashError'   => session('error', ''),
     ]) }}">
