@@ -11,6 +11,7 @@ class Connector extends Model
         'is_active', 'sort_order',
         'is_oauth', 'oauth_client_id', 'oauth_client_secret',
         'oauth_auth_url', 'oauth_token_url', 'oauth_scopes', 'oauth_extra_params',
+        'config_schema',
     ];
 
     protected function casts(): array
@@ -20,6 +21,7 @@ class Connector extends Model
             'is_oauth'          => 'boolean',
             'oauth_client_secret' => 'encrypted',
             'oauth_extra_params'  => 'array',
+            'config_schema'       => 'array',
         ];
     }
 

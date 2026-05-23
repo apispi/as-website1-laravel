@@ -14,11 +14,12 @@
             'status'       => $uc->status,
             'connected_at' => $uc->connected_at,
             'connector'    => $uc->connector ? [
-                'id'       => $uc->connector->id,
-                'name'     => $uc->connector->name,
-                'category' => $uc->connector->category,
-                'icon'     => $uc->connector->icon,
-                'is_oauth' => $uc->connector->is_oauth,
+                'id'               => $uc->connector->id,
+                'name'             => $uc->connector->name,
+                'category'         => $uc->connector->category,
+                'icon'             => $uc->connector->icon,
+                'is_oauth'         => $uc->connector->is_oauth,
+                'has_config_schema'=> !empty($uc->connector->config_schema),
             ] : null,
         ]),
         'availableConnectors' => $availableConnectors->map(fn($c) => [

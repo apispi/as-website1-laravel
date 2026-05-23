@@ -122,7 +122,36 @@
           </template>
         </div>
 
-        <div class="form-actions">
+        <!-- Config schema builder -->
+        <div class="section-divider"></div>
+        <div class="section-label">User Config Schema</div>
+        <p class="schema-desc">Define fields users must fill in to configure this connector (e.g. API keys, workspace IDs).</p>
+
+        <input type="hidden" name="config_schema" :value="configSchemaJson">
+
+        <div class="schema-fields">
+          <div v-for="(field, i) in schemaFields" :key="i" class="schema-row">
+            <input v-model="field.key"         type="text"   placeholder="key (e.g. api_key)"  class="schema-input" />
+            <input v-model="field.label"       type="text"   placeholder="Label"               class="schema-input" />
+            <select v-model="field.type" class="schema-select">
+              <option value="text">Text</option>
+              <option value="password">Password</option>
+              <option value="url">URL</option>
+              <option value="email">Email</option>
+              <option value="textarea">Textarea</option>
+            </select>
+            <input v-model="field.placeholder" type="text"   placeholder="Placeholder (opt.)"  class="schema-input schema-input-sm" />
+            <input v-model="field.hint"        type="text"   placeholder="Hint text (opt.)"    class="schema-input schema-input-sm" />
+            <label class="schema-check"><input type="checkbox" v-model="field.required"> Required</label>
+            <button type="button" class="btn-remove-field" @click="removeField(i)" title="Remove">✕</button>
+          </div>
+
+          <div v-if="schemaFields.length === 0" class="schema-empty">No config fields defined.</div>
+        </div>
+
+        <button type="button" class="btn-add-field" @click="addField">+ Add Field</button>
+
+        <div class="form-actions" style="margin-top: 1.75rem;">
           <button type="submit" class="btn-submit">{{ connector ? 'Save Changes' : 'Create Connector' }}</button>
           <a href="/admin/connectors" class="btn-cancel">Cancel</a>
         </div>
@@ -156,6 +185,21 @@ const callbackUrl = computed(() => {
   const slug = props.connector?.slug;
   if (!slug) return window.location.origin + '/connectors/{slug}/callback';
   return window.location.origin + `/connectors/${slug}/callback`;
+});
+
+// Config schema builder
+const defaultField = () => ({ key: '', label: '', type: 'text', placeholder: '', hint: '', required: false });
+
+const schemaFields = ref(
+  (props.connector?.config_schema ?? []).map(f => ({ ...defaultField(), ...f }))
+);
+
+function addField()        { schemaFields.value.push(defaultField()); }
+function removeField(i)    { schemaFields.value.splice(i, 1); }
+
+const configSchemaJson = computed(() => {
+  const fields = schemaFields.value.filter(f => f.key && f.label);
+  return fields.length ? JSON.stringify(fields) : '';
 });
 </script>
 
@@ -232,10 +276,30 @@ textarea { resize: vertical; min-height: 80px; }
 }
 .btn-cancel:hover { border-color: rgba(239,68,68,0.25); color: #9ca3af; }
 
+.schema-desc { font-size: 0.82rem; color: #6b7280; margin-bottom: 1rem; }
+.schema-fields { display: flex; flex-direction: column; gap: 0.6rem; margin-bottom: 0.875rem; }
+.schema-row { display: flex; gap: 0.5rem; align-items: center; flex-wrap: wrap; background: rgba(239,68,68,0.03); border: 1px solid rgba(239,68,68,0.08); border-radius: 0.5rem; padding: 0.6rem 0.75rem; }
+.schema-input { flex: 1; min-width: 100px; padding: 0.45rem 0.6rem; background: rgba(12,4,4,0.8); border: 1px solid rgba(239,68,68,0.15); border-radius: 0.4rem; color: #e5e7eb; font-size: 0.85rem; font-family: inherit; }
+.schema-input-sm { flex: 0.7; }
+.schema-input:focus { outline: none; border-color: rgba(239,68,68,0.4); }
+.schema-input::placeholder { color: #374151; }
+.schema-select { padding: 0.45rem 0.6rem; background: rgba(12,4,4,0.8); border: 1px solid rgba(239,68,68,0.15); border-radius: 0.4rem; color: #e5e7eb; font-size: 0.85rem; font-family: inherit; flex-shrink: 0; }
+.schema-select:focus { outline: none; border-color: rgba(239,68,68,0.4); }
+.schema-select option { background: #140606; }
+.schema-check { display: flex; align-items: center; gap: 0.35rem; font-size: 0.8rem; color: #9ca3af; cursor: pointer; flex-shrink: 0; white-space: nowrap; }
+.schema-check input[type="checkbox"] { accent-color: #ef4444; }
+.schema-empty { font-size: 0.82rem; color: #4b5563; padding: 0.5rem 0; }
+.btn-remove-field { background: none; border: none; color: #6b7280; cursor: pointer; font-size: 0.85rem; padding: 0.25rem; flex-shrink: 0; transition: color 0.15s; }
+.btn-remove-field:hover { color: #fca5a5; }
+.btn-add-field { padding: 0.45rem 0.875rem; border-radius: 0.5rem; background: none; border: 1px dashed rgba(239,68,68,0.25); color: #6b7280; font-size: 0.82rem; font-family: inherit; cursor: pointer; transition: all 0.18s; }
+.btn-add-field:hover { border-color: rgba(239,68,68,0.4); color: #fca5a5; }
+
 @media (max-width: 600px) {
   .form-grid { grid-template-columns: 1fr; }
   .form-group.full { grid-column: 1; }
   .form-group.checkboxes { grid-column: 1; }
   .page-title { font-size: 1.3rem; }
+  .schema-row { flex-direction: column; align-items: stretch; }
+  .schema-input, .schema-input-sm, .schema-select { width: 100%; }
 }
 </style>

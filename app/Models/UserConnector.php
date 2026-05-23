@@ -8,7 +8,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 class UserConnector extends Model
 {
     protected $fillable = [
-        'user_id', 'connector_id', 'status', 'connected_at', 'disconnected_at', 'notes',
+        'user_id', 'connector_id', 'status', 'connected_at', 'disconnected_at', 'notes', 'config',
     ];
 
     protected function casts(): array
@@ -16,6 +16,7 @@ class UserConnector extends Model
         return [
             'connected_at'    => 'datetime',
             'disconnected_at' => 'datetime',
+            'config'          => 'encrypted:array',
         ];
     }
 

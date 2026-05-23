@@ -62,6 +62,7 @@ class ConnectorController extends Controller
             'oauth_token_url'    => 'nullable|url|max:500',
             'oauth_scopes'       => 'nullable|string',
             'oauth_extra_params' => 'nullable|json',
+            'config_schema'      => 'nullable|json',
         ]) + ['is_active' => false, 'is_oauth' => false];
 
         // Blank secret on edit = keep existing
@@ -69,11 +70,13 @@ class ConnectorController extends Controller
             unset($data['oauth_client_secret']);
         }
 
-        // Parse JSON extra params
-        if (isset($data['oauth_extra_params']) && $data['oauth_extra_params'] !== '') {
-            $data['oauth_extra_params'] = json_decode($data['oauth_extra_params'], true);
-        } else {
-            $data['oauth_extra_params'] = null;
+        // Parse JSON fields
+        foreach (['oauth_extra_params', 'config_schema'] as $field) {
+            if (isset($data[$field]) && $data[$field] !== '') {
+                $data[$field] = json_decode($data[$field], true);
+            } else {
+                $data[$field] = null;
+            }
         }
 
         return $data;

@@ -91,6 +91,8 @@ Route::middleware(['auth', 'admin'])->prefix('admin')->name('admin.')->group(fun
     Route::get('/user-connectors', [AdminUserConnectors::class, 'index'])->name('user-connectors.index');
     Route::get('/users/{user}/connectors', [AdminUserConnectors::class, 'userConnectors'])->name('users.connectors');
     Route::post('/users/{user}/connectors', [AdminUserConnectors::class, 'assign'])->name('users.connectors.assign');
+    Route::get('/users/{user}/connectors/{userConnector}/config',  [AdminUserConnectors::class, 'editConfig'])->name('users.connectors.config');
+    Route::put('/users/{user}/connectors/{userConnector}/config',  [AdminUserConnectors::class, 'updateConfig'])->name('users.connectors.config.update');
     Route::delete('/users/{user}/connectors/{userConnector}', [AdminUserConnectors::class, 'revoke'])->name('users.connectors.revoke');
     Route::get('/connectors', [AdminConnectors::class, 'index'])->name('connectors.index');
     Route::get('/connectors/create', [AdminConnectors::class, 'create'])->name('connectors.create');

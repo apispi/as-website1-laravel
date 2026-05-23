@@ -56,6 +56,7 @@
             <th>Connected</th>
             <th></th>
           </tr>
+
         </thead>
         <tbody>
           <tr v-for="uc in userConnectors" :key="uc.id">
@@ -75,6 +76,9 @@
             </td>
             <td class="muted small">{{ uc.connected_at ? formatDate(uc.connected_at) : '—' }}</td>
             <td class="actions">
+              <a v-if="uc.connector?.has_config_schema"
+                 :href="`/admin/users/${subject.id}/connectors/${uc.id}/config`"
+                 class="btn-ghost">Configure</a>
               <form method="POST" :action="`/admin/users/${subject.id}/connectors/${uc.id}`"
                     @submit.prevent="confirmRevoke($event, uc.connector?.name)">
                 <input type="hidden" name="_token" :value="csrfToken">

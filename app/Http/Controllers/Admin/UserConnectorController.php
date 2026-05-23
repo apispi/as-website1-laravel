@@ -46,6 +46,39 @@ class UserConnectorController extends Controller
         return back()->with('success', 'Connector assigned successfully.');
     }
 
+    public function editConfig(User $user, UserConnector $userConnector)
+    {
+        $userConnector->load('connector');
+        return view('admin.users.connector-config', compact('user', 'userConnector'));
+    }
+
+    public function updateConfig(Request $request, User $user, UserConnector $userConnector)
+    {
+        $schema = $userConnector->connector->config_schema ?? [];
+        $config = [];
+
+        foreach ($schema as $field) {
+            $key   = $field['key'] ?? null;
+            $type  = $field['type'] ?? 'text';
+            if (! $key) continue;
+
+            $value = $request->input("config.{$key}");
+
+            // Blank password field on edit = keep existing value
+            if ($type === 'password' && $value === '' && isset($userConnector->config[$key])) {
+                $config[$key] = $userConnector->config[$key];
+            } else {
+                $config[$key] = $value;
+            }
+        }
+
+        $userConnector->update(['config' => $config ?: null]);
+
+        return redirect()
+            ->route('admin.users.connectors', $user)
+            ->with('success', 'Connector configuration saved.');
+    }
+
     public function revoke(User $user, UserConnector $userConnector)
     {
         $userConnector->delete();
