@@ -145,6 +145,24 @@ class AuthController extends Controller
         return view('auth.agents', compact('subscriptions'));
     }
 
+    public function userConnectors()
+    {
+        $userConnectors = Auth::user()
+            ->userConnectors()
+            ->with('connector')
+            ->latest('connected_at')
+            ->get();
+
+        $assignedIds         = $userConnectors->pluck('connector_id');
+        $availableConnectors = \App\Models\Connector::where('is_active', true)
+            ->whereNotIn('id', $assignedIds)
+            ->orderBy('sort_order')
+            ->orderBy('name')
+            ->get(['id', 'name', 'slug', 'category', 'icon', 'is_oauth']);
+
+        return view('auth.connectors', compact('userConnectors', 'availableConnectors'));
+    }
+
     public function userAgent(Subscription $subscription)
     {
         abort_if($subscription->user_id !== Auth::id(), 403);

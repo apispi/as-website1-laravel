@@ -28,6 +28,9 @@
         <a href="/dashboard/agents" class="ac-nav-link">
           <span class="ac-nav-icon">◈</span> My Agents
         </a>
+        <a href="/dashboard/connectors" class="ac-nav-link">
+          <span class="ac-nav-icon">⬡</span> My Connectors
+        </a>
         <a href="/dashboard/catalog" class="ac-nav-link active">
           <span class="ac-nav-icon">◎</span> Agent Catalog
         </a>

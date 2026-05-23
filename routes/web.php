@@ -54,6 +54,7 @@ Route::middleware('auth')->group(function () {
     Route::get('/dashboard/catalog', [AuthController::class, 'catalog'])->name('dashboard.catalog');
     Route::get('/dashboard/agents', [AuthController::class, 'userAgents'])->name('dashboard.agents.index');
     Route::get('/dashboard/agents/{subscription}', [AuthController::class, 'userAgent'])->name('dashboard.agents.show');
+    Route::get('/dashboard/connectors', [AuthController::class, 'userConnectors'])->name('dashboard.connectors');
     Route::get('/dashboard/profile', [AuthController::class, 'profile'])->name('dashboard.profile');
     Route::put('/dashboard/profile', [AuthController::class, 'updateProfile'])->name('dashboard.profile.update');
     Route::put('/dashboard/profile/password', [AuthController::class, 'updatePassword'])->name('dashboard.profile.password');
