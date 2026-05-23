@@ -174,71 +174,94 @@
           <div v-if="flashSuccess" class="flash success">{{ flashSuccess }}</div>
           <div v-if="flashError"   class="flash error">{{ flashError }}</div>
 
-          <!-- Connected -->
-          <div v-if="userConnectors.length > 0" class="cn-section">
-            <div class="cn-section-label">Connected</div>
-            <div class="cn-list">
-              <div v-for="uc in userConnectors" :key="uc.id" class="cn-row">
-                <div class="cn-row-icon">{{ uc.connector?.icon || '⬡' }}</div>
-                <div class="cn-row-body">
-                  <div class="cn-row-top">
-                    <span class="cn-row-name">{{ uc.connector?.name ?? '—' }}</span>
-                    <span v-if="uc.connector?.is_oauth" class="cn-type-badge oauth">OAuth</span>
-                    <span v-else class="cn-type-badge api">API</span>
-                  </div>
-                  <div class="cn-row-meta">
-                    <span v-if="uc.connector?.category">{{ uc.connector.category }}</span>
-                    <span v-if="uc.connected_at" class="cn-dot">·</span>
-                    <span v-if="uc.connected_at">Connected {{ formatDate(uc.connected_at) }}</span>
-                  </div>
-                </div>
-                <div class="cn-row-right">
-                  <span class="cn-status" :class="uc.status">{{ uc.status }}</span>
-                  <form v-if="uc.connector?.is_oauth && uc.status === 'active'"
-                        method="POST" :action="`/connectors/${uc.connector.slug}/disconnect`"
-                        class="cn-inline-form">
-                    <input type="hidden" name="_token" :value="csrfToken">
-                    <button type="submit" class="cn-btn-disconnect"
-                            @click.prevent="confirmDisconnect($event, uc.connector.name)">
-                      Disconnect
-                    </button>
-                  </form>
-                  <a v-if="uc.connector?.is_oauth && uc.status === 'disconnected'"
-                     :href="`/connectors/${uc.connector.slug}/authorize`"
-                     class="cn-btn-connect">Reconnect →</a>
-                </div>
-              </div>
+          <div class="ac-toolbar">
+            <div class="ac-search-wrap">
+              <span class="ac-search-icon">◎</span>
+              <input v-model="cnSearch" type="text" placeholder="Search connectors…" class="ac-search-input">
+            </div>
+            <div class="ac-filter-tabs">
+              <button v-for="f in cnFilters" :key="f"
+                      :class="['ac-filter-tab', { active: cnFilter === f }]"
+                      @click="cnFilter = f; cnPage = 1">
+                {{ f }}
+              </button>
             </div>
           </div>
 
-          <!-- Available -->
-          <div v-if="available.length > 0" class="cn-section">
-            <div class="cn-section-label">Available</div>
-            <div class="cn-list">
-              <div v-for="c in available" :key="c.id" class="cn-row cn-row-available">
-                <div class="cn-row-icon muted">{{ c.icon || '⬡' }}</div>
-                <div class="cn-row-body">
-                  <div class="cn-row-top">
-                    <span class="cn-row-name">{{ c.name }}</span>
-                    <span v-if="c.is_oauth" class="cn-type-badge oauth">OAuth</span>
-                    <span v-else class="cn-type-badge api">API</span>
-                  </div>
-                  <div class="cn-row-meta">{{ c.category }}</div>
-                </div>
-                <div class="cn-row-right">
-                  <a v-if="c.is_oauth" :href="`/connectors/${c.slug}/authorize`" class="cn-btn-connect">Connect →</a>
-                  <span v-else class="cn-not-available">Contact support</span>
-                </div>
-              </div>
-            </div>
-          </div>
-
-          <!-- Empty -->
-          <div v-if="userConnectors.length === 0 && available.length === 0" class="ac-empty">
+          <div v-if="cnPageRows.length === 0" class="ac-empty">
             <div class="ac-empty-icon">⬡</div>
-            <div class="ac-empty-title">No connectors available</div>
-            <div class="ac-empty-desc">Check back soon for integrations.</div>
+            <div class="ac-empty-title">No connectors found</div>
+            <div class="ac-empty-desc">Try a different search or filter.</div>
           </div>
+
+          <template v-else>
+            <div class="ac-table-wrap">
+              <table class="ac-table">
+                <thead>
+                  <tr>
+                    <th>Connector</th>
+                    <th>Type</th>
+                    <th>Status</th>
+                    <th>Connected</th>
+                    <th></th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr v-for="row in cnPageRows" :key="row.key">
+                    <td>
+                      <div class="ac-agent-cell">
+                        <div class="cn-icon-cell">{{ row.icon || '⬡' }}</div>
+                        <div>
+                          <div class="ac-agent-name">{{ row.name }}</div>
+                          <div class="ac-agent-category">{{ row.category }}</div>
+                        </div>
+                      </div>
+                    </td>
+                    <td>
+                      <span v-if="row.is_oauth" class="cn-type-badge oauth">OAuth</span>
+                      <span v-else class="cn-type-badge api">API</span>
+                    </td>
+                    <td>
+                      <span class="cn-status-badge" :class="row.status">{{ row.statusLabel }}</span>
+                    </td>
+                    <td class="ac-muted" style="font-size:0.8rem; white-space:nowrap;">
+                      {{ row.connected_at ? formatDate(row.connected_at) : '—' }}
+                    </td>
+                    <td class="ac-actions">
+                      <template v-if="row.status === 'active' && row.is_oauth">
+                        <form method="POST" :action="`/connectors/${row.slug}/disconnect`" class="cn-inline-form">
+                          <input type="hidden" name="_token" :value="csrfToken">
+                          <button type="submit" class="cn-btn-disconnect"
+                                  @click.prevent="confirmDisconnect($event, row.name)">
+                            Disconnect
+                          </button>
+                        </form>
+                      </template>
+                      <template v-else-if="row.status === 'disconnected' && row.is_oauth">
+                        <a :href="`/connectors/${row.slug}/authorize`" class="ac-btn-view">Reconnect →</a>
+                      </template>
+                      <template v-else-if="row.status === 'available' && row.is_oauth">
+                        <a :href="`/connectors/${row.slug}/authorize`" class="ac-btn-view">Connect →</a>
+                      </template>
+                      <template v-else-if="row.status === 'available'">
+                        <span class="cn-not-available">Contact support</span>
+                      </template>
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+
+            <!-- Pagination -->
+            <div v-if="cnTotalPages > 1" class="cn-pagination">
+              <button class="cn-page-btn" :disabled="cnPage === 1" @click="cnPage--">‹</button>
+              <button v-for="p in cnPageNumbers" :key="p"
+                      :class="['cn-page-btn', { active: p === cnPage }]"
+                      @click="cnPage = p">{{ p }}</button>
+              <button class="cn-page-btn" :disabled="cnPage === cnTotalPages" @click="cnPage++">›</button>
+              <span class="cn-page-info">{{ cnRangeStart }}–{{ cnRangeEnd }} of {{ cnFiltered.length }}</span>
+            </div>
+          </template>
         </template>
 
       </main>
@@ -248,7 +271,7 @@
 </template>
 
 <script setup>
-import { ref, computed } from 'vue';
+import { ref, computed, watch } from 'vue';
 
 const props = defineProps({
   user:           { type: Object, default: () => ({}) },
@@ -293,7 +316,76 @@ const filteredAgents = computed(() =>
   })
 );
 
-// Connectors tab helpers
+// Connectors tab state
+const cnSearch  = ref('');
+const cnFilter  = ref('All');
+const cnPage    = ref(1);
+const CN_PAGE_SIZE = 10;
+const cnFilters = ['All', 'Connected', 'Available', 'OAuth', 'API'];
+
+// Flatten userConnectors + available into one array for the table
+const allConnectorRows = computed(() => {
+  const connected = props.userConnectors.map(uc => ({
+    key:          `uc-${uc.id}`,
+    id:           uc.connector?.id,
+    name:         uc.connector?.name ?? '—',
+    slug:         uc.connector?.slug ?? '',
+    category:     uc.connector?.category ?? '',
+    icon:         uc.connector?.icon ?? '',
+    is_oauth:     uc.connector?.is_oauth ?? false,
+    status:       uc.status,
+    statusLabel:  uc.status,
+    connected_at: uc.connected_at,
+  }));
+  const avail = props.available.map(c => ({
+    key:          `av-${c.id}`,
+    id:           c.id,
+    name:         c.name,
+    slug:         c.slug,
+    category:     c.category ?? '',
+    icon:         c.icon ?? '',
+    is_oauth:     c.is_oauth,
+    status:       'available',
+    statusLabel:  'available',
+    connected_at: null,
+  }));
+  return [...connected, ...avail];
+});
+
+const cnFiltered = computed(() => {
+  const q = cnSearch.value.toLowerCase();
+  return allConnectorRows.value.filter(row => {
+    const matchSearch = !q ||
+      row.name.toLowerCase().includes(q) ||
+      row.category.toLowerCase().includes(q);
+    const matchFilter =
+      cnFilter.value === 'All' ||
+      (cnFilter.value === 'Connected'  && row.status !== 'available') ||
+      (cnFilter.value === 'Available'  && row.status === 'available') ||
+      (cnFilter.value === 'OAuth'      && row.is_oauth) ||
+      (cnFilter.value === 'API'        && !row.is_oauth);
+    return matchSearch && matchFilter;
+  });
+});
+
+const cnTotalPages = computed(() => Math.max(1, Math.ceil(cnFiltered.value.length / CN_PAGE_SIZE)));
+const cnPageRows   = computed(() => {
+  const start = (cnPage.value - 1) * CN_PAGE_SIZE;
+  return cnFiltered.value.slice(start, start + CN_PAGE_SIZE);
+});
+const cnRangeStart  = computed(() => cnFiltered.value.length === 0 ? 0 : (cnPage.value - 1) * CN_PAGE_SIZE + 1);
+const cnRangeEnd    = computed(() => Math.min(cnPage.value * CN_PAGE_SIZE, cnFiltered.value.length));
+const cnPageNumbers = computed(() => {
+  const total = cnTotalPages.value;
+  if (total <= 7) return Array.from({ length: total }, (_, i) => i + 1);
+  const cur = cnPage.value;
+  const pages = new Set([1, total, cur, cur - 1, cur + 1].filter(p => p >= 1 && p <= total));
+  return [...pages].sort((a, b) => a - b);
+});
+
+// Reset page when search or filter changes
+watch(cnSearch, () => { cnPage.value = 1; });
+
 function formatDate(d) {
   return new Date(d).toLocaleDateString('en-US', { month: 'short', year: 'numeric' });
 }
@@ -409,38 +501,29 @@ function confirmDisconnect(event, name) {
 .flash.error   { background: rgba(239,68,68,0.08); border: 1px solid rgba(239,68,68,0.25); color: #ef4444; }
 
 /* Connectors tab */
-.cn-section { margin-bottom: 2rem; }
-.cn-section-label { font-size: 0.72rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.08em; color: #6b7280; margin-bottom: 0.75rem; }
-.cn-list { display: flex; flex-direction: column; gap: 0.5rem; }
+.cn-icon-cell { width: 34px; height: 34px; border-radius: 0.5rem; flex-shrink: 0; background: rgba(217,119,6,0.08); border: 1px solid rgba(217,119,6,0.15); display: flex; align-items: center; justify-content: center; font-size: 1rem; }
 
-.cn-row { display: flex; align-items: center; gap: 1rem; background: rgba(20,14,4,0.8); border: 1px solid rgba(217,119,6,0.12); border-radius: 0.875rem; padding: 1rem 1.25rem; transition: border-color 0.18s; }
-.cn-row-available { opacity: 0.7; }
-.cn-row-available:hover { opacity: 1; border-color: rgba(217,119,6,0.25); }
-
-.cn-row-icon { width: 40px; height: 40px; border-radius: 0.625rem; flex-shrink: 0; background: rgba(217,119,6,0.08); border: 1px solid rgba(217,119,6,0.15); display: flex; align-items: center; justify-content: center; font-size: 1.2rem; }
-.cn-row-icon.muted { opacity: 0.45; }
-
-.cn-row-body { flex: 1; min-width: 0; }
-.cn-row-top  { display: flex; align-items: center; gap: 0.5rem; margin-bottom: 0.2rem; flex-wrap: wrap; }
-.cn-row-name { font-size: 0.95rem; font-weight: 600; color: #e5e7eb; }
-.cn-row-meta { font-size: 0.78rem; color: #6b7280; display: flex; align-items: center; gap: 0.4rem; flex-wrap: wrap; }
-.cn-dot      { color: #4b5563; }
-
-.cn-type-badge { display: inline-block; padding: 0.1rem 0.4rem; border-radius: 99px; font-size: 0.65rem; font-weight: 700; }
+.cn-type-badge { display: inline-block; padding: 0.15rem 0.45rem; border-radius: 99px; font-size: 0.68rem; font-weight: 700; }
 .cn-type-badge.oauth { background: rgba(99,102,241,0.12); color: #a5b4fc; }
 .cn-type-badge.api   { background: rgba(217,119,6,0.12); color: #FCD34D; }
 
-.cn-row-right { display: flex; flex-direction: column; align-items: flex-end; gap: 0.5rem; flex-shrink: 0; }
-.cn-status { display: inline-block; padding: 0.2rem 0.55rem; border-radius: 99px; font-size: 0.72rem; font-weight: 600; text-transform: capitalize; }
-.cn-status.active       { background: rgba(0,217,126,0.1);   color: #00d97e; }
-.cn-status.disconnected { background: rgba(107,114,128,0.12); color: #9ca3af; }
+.cn-status-badge { display: inline-block; padding: 0.2rem 0.55rem; border-radius: 99px; font-size: 0.72rem; font-weight: 600; text-transform: capitalize; }
+.cn-status-badge.active       { background: rgba(0,217,126,0.1);   color: #00d97e; }
+.cn-status-badge.disconnected { background: rgba(107,114,128,0.12); color: #9ca3af; }
+.cn-status-badge.available    { background: rgba(217,119,6,0.1);    color: #D97706; }
 
 .cn-inline-form { display: inline; }
-.cn-btn-disconnect { background: none; border: 1px solid rgba(239,68,68,0.2); border-radius: 0.4rem; color: #9ca3af; font-size: 0.78rem; font-weight: 600; padding: 0.3rem 0.65rem; cursor: pointer; font-family: inherit; transition: all 0.18s; }
+.cn-btn-disconnect { background: none; border: 1px solid rgba(239,68,68,0.2); border-radius: 0.4rem; color: #9ca3af; font-size: 0.78rem; font-weight: 600; padding: 0.3rem 0.65rem; cursor: pointer; font-family: inherit; transition: all 0.18s; white-space: nowrap; }
 .cn-btn-disconnect:hover { border-color: rgba(239,68,68,0.5); color: #fca5a5; }
-.cn-btn-connect { display: inline-block; padding: 0.35rem 0.75rem; border-radius: 0.5rem; background: rgba(217,119,6,0.12); border: 1px solid rgba(217,119,6,0.3); color: #FCD34D; font-size: 0.82rem; font-weight: 600; text-decoration: none; transition: all 0.18s; white-space: nowrap; }
-.cn-btn-connect:hover { background: rgba(217,119,6,0.22); }
 .cn-not-available { font-size: 0.78rem; color: #4b5563; }
+
+/* Pagination */
+.cn-pagination { display: flex; align-items: center; gap: 0.375rem; margin-top: 1rem; flex-wrap: wrap; }
+.cn-page-btn { min-width: 32px; height: 32px; padding: 0 0.5rem; border-radius: 0.4rem; background: none; border: 1px solid rgba(217,119,6,0.15); color: #9ca3af; font-size: 0.82rem; font-family: inherit; cursor: pointer; transition: all 0.18s; display: flex; align-items: center; justify-content: center; }
+.cn-page-btn:hover:not(:disabled) { border-color: rgba(217,119,6,0.35); color: #FCD34D; }
+.cn-page-btn.active { background: rgba(217,119,6,0.15); border-color: rgba(217,119,6,0.4); color: #FCD34D; font-weight: 600; }
+.cn-page-btn:disabled { opacity: 0.3; cursor: not-allowed; }
+.cn-page-info { margin-left: 0.5rem; font-size: 0.78rem; color: #4b5563; }
 
 @media (max-width: 768px) {
   .ac-sidebar { transform: translateX(-100%); }
