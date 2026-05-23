@@ -1,6 +1,6 @@
 {
-  "__plugin-vue_export-helper-tGJHZdKB.js": {
-    "file": "assets/_plugin-vue_export-helper-tGJHZdKB.js",
+  "__plugin-vue_export-helper-nJBRVuwW.js": {
+    "file": "assets/_plugin-vue_export-helper-nJBRVuwW.js",
     "name": "_plugin-vue_export-helper"
   },
   "_fonts-DkuEHybc.css": {
@@ -65,36 +65,36 @@
     "isEntry": true
   },
   "resources/js/admin.js": {
-    "file": "assets/admin-bZcijSPG.js",
+    "file": "assets/admin-BGslq2Qc.js",
     "name": "admin",
     "src": "resources/js/admin.js",
     "isEntry": true,
     "imports": [
-      "__plugin-vue_export-helper-tGJHZdKB.js"
+      "__plugin-vue_export-helper-nJBRVuwW.js"
     ],
     "css": [
-      "assets/admin-B59Q53kw.css"
+      "assets/admin-4dyMbV1d.css"
     ]
   },
   "resources/js/agent-detail.js": {
-    "file": "assets/agent-detail-Bf25LnuT.js",
+    "file": "assets/agent-detail-DyaeeL63.js",
     "name": "agent-detail",
     "src": "resources/js/agent-detail.js",
     "isEntry": true,
     "imports": [
-      "__plugin-vue_export-helper-tGJHZdKB.js"
+      "__plugin-vue_export-helper-nJBRVuwW.js"
     ],
     "css": [
       "assets/agent-detail-CrEzvYGq.css"
     ]
   },
   "resources/js/agents-list.js": {
-    "file": "assets/agents-list-B4ts23jh.js",
+    "file": "assets/agents-list-DHkg3bBT.js",
     "name": "agents-list",
     "src": "resources/js/agents-list.js",
     "isEntry": true,
     "imports": [
-      "__plugin-vue_export-helper-tGJHZdKB.js"
+      "__plugin-vue_export-helper-nJBRVuwW.js"
     ],
     "css": [
       "assets/agents-list-DmodZTcY.css"
@@ -107,48 +107,48 @@
     "isEntry": true
   },
   "resources/js/catalog.js": {
-    "file": "assets/catalog-vmdGfepN.js",
+    "file": "assets/catalog-B5vTzn_i.js",
     "name": "catalog",
     "src": "resources/js/catalog.js",
     "isEntry": true,
     "imports": [
-      "__plugin-vue_export-helper-tGJHZdKB.js"
+      "__plugin-vue_export-helper-nJBRVuwW.js"
     ],
     "css": [
       "assets/catalog-C3Dtluet.css"
     ]
   },
   "resources/js/connectors-user.js": {
-    "file": "assets/connectors-user-JaB1OA-4.js",
+    "file": "assets/connectors-user-BGsggPDR.js",
     "name": "connectors-user",
     "src": "resources/js/connectors-user.js",
     "isEntry": true,
     "imports": [
-      "__plugin-vue_export-helper-tGJHZdKB.js"
+      "__plugin-vue_export-helper-nJBRVuwW.js"
     ],
     "css": [
       "assets/connectors-user-Bl-MOwuh.css"
     ]
   },
   "resources/js/dashboard.js": {
-    "file": "assets/dashboard-D_sXdZ6o.js",
+    "file": "assets/dashboard-CJ5iF0Ri.js",
     "name": "dashboard",
     "src": "resources/js/dashboard.js",
     "isEntry": true,
     "imports": [
-      "__plugin-vue_export-helper-tGJHZdKB.js"
+      "__plugin-vue_export-helper-nJBRVuwW.js"
     ],
     "css": [
       "assets/dashboard-CHDbGg6q.css"
     ]
   },
   "resources/js/profile.js": {
-    "file": "assets/profile-C8exZa1L.js",
+    "file": "assets/profile-C5Gzr6nN.js",
     "name": "profile",
     "src": "resources/js/profile.js",
     "isEntry": true,
     "imports": [
-      "__plugin-vue_export-helper-tGJHZdKB.js"
+      "__plugin-vue_export-helper-nJBRVuwW.js"
     ],
     "css": [
       "assets/profile-CMcv3__V.css"

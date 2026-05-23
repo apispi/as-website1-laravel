@@ -59,7 +59,8 @@
 
         </thead>
         <tbody>
-          <tr v-for="uc in userConnectors" :key="uc.id">
+          <tr v-for="uc in userConnectors" :key="uc.id" class="clickable-row"
+              @click="navigate(`/admin/users/${subject.id}/connectors/${uc.id}/edit`)">
             <td>
               <div class="connector-cell">
                 <div class="connector-icon">{{ uc.connector?.icon || '⬡' }}</div>
@@ -75,7 +76,8 @@
               <span class="status-badge" :class="uc.status">{{ uc.status }}</span>
             </td>
             <td class="muted small">{{ uc.connected_at ? formatDate(uc.connected_at) : '—' }}</td>
-            <td class="actions">
+            <td class="actions" @click.stop>
+              <a :href="`/admin/users/${subject.id}/connectors/${uc.id}/edit`" class="btn-ghost">Edit</a>
               <a v-if="uc.connector?.has_config_schema"
                  :href="`/admin/users/${subject.id}/connectors/${uc.id}/config`"
                  class="btn-ghost">Configure</a>
@@ -109,6 +111,10 @@ const props = defineProps({
 
 function formatDate(d) {
   return new Date(d).toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' });
+}
+
+function navigate(url) {
+  window.location.href = url;
 }
 
 function confirmRevoke(event, name) {
@@ -155,6 +161,7 @@ select:disabled { opacity: 0.5; cursor: not-allowed; }
 .data-table td { padding: 0.875rem 1rem; border-bottom: 1px solid rgba(239,68,68,0.06); vertical-align: middle; }
 .data-table tbody tr:last-child td { border-bottom: none; }
 .data-table tbody tr:hover td { background: rgba(239,68,68,0.03); }
+.clickable-row { cursor: pointer; }
 
 .connector-cell { display: flex; align-items: center; gap: 0.65rem; }
 .connector-icon { width: 30px; height: 30px; border-radius: 0.4rem; flex-shrink: 0; background: rgba(239,68,68,0.08); border: 1px solid rgba(239,68,68,0.15); display: flex; align-items: center; justify-content: center; font-size: 0.95rem; }

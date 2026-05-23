@@ -16,8 +16,9 @@ import ConnectorFormPage from './components/admin/ConnectorFormPage.vue';
 import UserConnectorsPage from './components/admin/UserConnectorsPage.vue';
 import UserConnectorsManagePage from './components/admin/UserConnectorsManagePage.vue';
 import UserConnectorConfigPage from './components/admin/UserConnectorConfigPage.vue';
+import UserConnectorEditPage from './components/admin/UserConnectorEditPage.vue';
 
-const pages = { dashboard: DashboardPage, users: UsersPage, 'user-detail': UserDetailPage, 'user-agents': UserAgentsPage, agents: AgentsPage, 'agent-form': AgentFormPage, 'all-agents': AllAgentsPage, skills: SkillsPage, 'skill-form': SkillFormPage, 'activity-log': ActivityLogPage, trainings: TrainingsPage, 'training-form': TrainingFormPage, connectors: ConnectorsPage, 'connector-form': ConnectorFormPage, 'user-connectors': UserConnectorsPage, 'user-connectors-manage': UserConnectorsManagePage, 'user-connector-config': UserConnectorConfigPage };
+const pages = { dashboard: DashboardPage, users: UsersPage, 'user-detail': UserDetailPage, 'user-agents': UserAgentsPage, agents: AgentsPage, 'agent-form': AgentFormPage, 'all-agents': AllAgentsPage, skills: SkillsPage, 'skill-form': SkillFormPage, 'activity-log': ActivityLogPage, trainings: TrainingsPage, 'training-form': TrainingFormPage, connectors: ConnectorsPage, 'connector-form': ConnectorFormPage, 'user-connectors': UserConnectorsPage, 'user-connectors-manage': UserConnectorsManagePage, 'user-connector-config': UserConnectorConfigPage, 'user-connector-edit': UserConnectorEditPage };
 
 const el = document.getElementById('admin-app');
 if (el) {

@@ -47,7 +47,8 @@
           </tr>
         </thead>
         <tbody>
-          <tr v-for="uc in filtered" :key="uc.id">
+          <tr v-for="uc in filtered" :key="uc.id" class="clickable-row"
+              @click="navigate(`/admin/users/${uc.user?.id}/connectors/${uc.id}/edit`)">
             <td>
               <div class="connector-cell">
                 <div class="connector-icon">{{ uc.connector?.icon || '⬡' }}</div>
@@ -58,7 +59,7 @@
               </div>
             </td>
             <td>
-              <a :href="`/admin/users/${uc.user?.id}`" class="user-link">
+              <a :href="`/admin/users/${uc.user?.id}`" class="user-link" @click.stop>
                 <div class="user-name">{{ uc.user?.name ?? '—' }}</div>
                 <div class="user-email">{{ uc.user?.email ?? '' }}</div>
               </a>
@@ -113,6 +114,10 @@ const filtered = computed(() => {
 function formatDate(d) {
   return new Date(d).toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' });
 }
+
+function navigate(url) {
+  window.location.href = url;
+}
 </script>
 
 <style scoped>
@@ -152,6 +157,7 @@ function formatDate(d) {
 .data-table td { padding: 0.875rem 1rem; border-bottom: 1px solid rgba(239,68,68,0.06); vertical-align: middle; }
 .data-table tbody tr:last-child td { border-bottom: none; }
 .data-table tbody tr:hover td { background: rgba(239,68,68,0.03); }
+.clickable-row { cursor: pointer; }
 
 .connector-cell { display: flex; align-items: center; gap: 0.75rem; }
 .connector-icon { width: 32px; height: 32px; border-radius: 0.4rem; flex-shrink: 0; background: rgba(239,68,68,0.08); border: 1px solid rgba(239,68,68,0.18); display: flex; align-items: center; justify-content: center; font-size: 1rem; }

@@ -46,6 +46,33 @@ class UserConnectorController extends Controller
         return back()->with('success', 'Connector assigned successfully.');
     }
 
+    public function edit(User $user, UserConnector $userConnector)
+    {
+        $userConnector->load('connector');
+        return view('admin.users.connector-edit', compact('user', 'userConnector'));
+    }
+
+    public function update(Request $request, User $user, UserConnector $userConnector)
+    {
+        $data = $request->validate([
+            'status'           => 'required|in:active,disconnected',
+            'connected_at'     => 'nullable|date',
+            'disconnected_at'  => 'nullable|date',
+            'notes'            => 'nullable|string|max:1000',
+        ]);
+
+        $userConnector->update([
+            'status'          => $data['status'],
+            'connected_at'    => $data['connected_at'] ?: null,
+            'disconnected_at' => $data['disconnected_at'] ?: null,
+            'notes'           => $data['notes'] ?: null,
+        ]);
+
+        return redirect()
+            ->route('admin.users.connectors', $user)
+            ->with('success', 'Connector updated successfully.');
+    }
+
     public function editConfig(User $user, UserConnector $userConnector)
     {
         $userConnector->load('connector');
