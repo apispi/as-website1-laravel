@@ -28,6 +28,11 @@ class Connector extends Model
         return $query->where('is_active', true)->orderBy('sort_order')->orderBy('name');
     }
 
+    public function userConnectors()
+    {
+        return $this->hasMany(UserConnector::class);
+    }
+
     public function tokens()
     {
         return $this->hasMany(ConnectorToken::class, 'connector_slug', 'slug');

@@ -37,4 +37,9 @@ class User extends Authenticatable
     {
         return $this->hasMany(Subscription::class);
     }
+
+    public function userConnectors()
+    {
+        return $this->hasMany(UserConnector::class);
+    }
 }

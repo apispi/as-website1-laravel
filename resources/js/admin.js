@@ -13,8 +13,9 @@ import TrainingsPage from './components/admin/TrainingsPage.vue';
 import TrainingFormPage from './components/admin/TrainingFormPage.vue';
 import ConnectorsPage from './components/admin/ConnectorsPage.vue';
 import ConnectorFormPage from './components/admin/ConnectorFormPage.vue';
+import UserConnectorsPage from './components/admin/UserConnectorsPage.vue';
 
-const pages = { dashboard: DashboardPage, users: UsersPage, 'user-detail': UserDetailPage, 'user-agents': UserAgentsPage, agents: AgentsPage, 'agent-form': AgentFormPage, 'all-agents': AllAgentsPage, skills: SkillsPage, 'skill-form': SkillFormPage, 'activity-log': ActivityLogPage, trainings: TrainingsPage, 'training-form': TrainingFormPage, connectors: ConnectorsPage, 'connector-form': ConnectorFormPage };
+const pages = { dashboard: DashboardPage, users: UsersPage, 'user-detail': UserDetailPage, 'user-agents': UserAgentsPage, agents: AgentsPage, 'agent-form': AgentFormPage, 'all-agents': AllAgentsPage, skills: SkillsPage, 'skill-form': SkillFormPage, 'activity-log': ActivityLogPage, trainings: TrainingsPage, 'training-form': TrainingFormPage, connectors: ConnectorsPage, 'connector-form': ConnectorFormPage, 'user-connectors': UserConnectorsPage };
 
 const el = document.getElementById('admin-app');
 if (el) {
