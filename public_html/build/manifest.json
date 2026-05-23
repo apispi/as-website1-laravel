@@ -89,7 +89,7 @@
     ]
   },
   "resources/js/agents-list.js": {
-    "file": "assets/agents-list-DHkg3bBT.js",
+    "file": "assets/agents-list-DoaJJAHL.js",
     "name": "agents-list",
     "src": "resources/js/agents-list.js",
     "isEntry": true,
@@ -97,7 +97,7 @@
       "__plugin-vue_export-helper-nJBRVuwW.js"
     ],
     "css": [
-      "assets/agents-list-DmodZTcY.css"
+      "assets/agents-list-CaQwvadC.css"
     ]
   },
   "resources/js/app.js": {
@@ -107,7 +107,7 @@
     "isEntry": true
   },
   "resources/js/catalog.js": {
-    "file": "assets/catalog-B5vTzn_i.js",
+    "file": "assets/catalog-C2uuTiKY.js",
     "name": "catalog",
     "src": "resources/js/catalog.js",
     "isEntry": true,
@@ -115,7 +115,7 @@
       "__plugin-vue_export-helper-nJBRVuwW.js"
     ],
     "css": [
-      "assets/catalog-C3Dtluet.css"
+      "assets/catalog-C3ZLBSr2.css"
     ]
   },
   "resources/js/connectors-user.js": {
@@ -131,7 +131,7 @@
     ]
   },
   "resources/js/dashboard.js": {
-    "file": "assets/dashboard-CJ5iF0Ri.js",
+    "file": "assets/dashboard-6LhSbIzQ.js",
     "name": "dashboard",
     "src": "resources/js/dashboard.js",
     "isEntry": true,
@@ -139,11 +139,11 @@
       "__plugin-vue_export-helper-nJBRVuwW.js"
     ],
     "css": [
-      "assets/dashboard-CHDbGg6q.css"
+      "assets/dashboard-D4Wup52Q.css"
     ]
   },
   "resources/js/profile.js": {
-    "file": "assets/profile-C5Gzr6nN.js",
+    "file": "assets/profile-BR_3vMKn.js",
     "name": "profile",
     "src": "resources/js/profile.js",
     "isEntry": true,
@@ -151,7 +151,7 @@
       "__plugin-vue_export-helper-nJBRVuwW.js"
     ],
     "css": [
-      "assets/profile-CMcv3__V.css"
+      "assets/profile-CinHQdFD.css"
     ]
   }
 }

@@ -130,8 +130,20 @@ class AuthController extends Controller
 
     public function catalog()
     {
-        $agents = Agent::active()->orderBy('sort_order')->get();
-        return view('auth.catalog', compact('agents'));
+        $agents         = Agent::active()->orderBy('sort_order')->get();
+        $userConnectors = Auth::user()
+            ->userConnectors()
+            ->with('connector')
+            ->latest('connected_at')
+            ->get();
+        $assignedIds         = $userConnectors->pluck('connector_id');
+        $availableConnectors = \App\Models\Connector::where('is_active', true)
+            ->whereNotIn('id', $assignedIds)
+            ->orderBy('sort_order')
+            ->orderBy('name')
+            ->get(['id', 'name', 'slug', 'category', 'icon', 'is_oauth']);
+
+        return view('auth.catalog', compact('agents', 'userConnectors', 'availableConnectors'));
     }
 
     public function userAgents()
@@ -147,20 +159,7 @@ class AuthController extends Controller
 
     public function userConnectors()
     {
-        $userConnectors = Auth::user()
-            ->userConnectors()
-            ->with('connector')
-            ->latest('connected_at')
-            ->get();
-
-        $assignedIds         = $userConnectors->pluck('connector_id');
-        $availableConnectors = \App\Models\Connector::where('is_active', true)
-            ->whereNotIn('id', $assignedIds)
-            ->orderBy('sort_order')
-            ->orderBy('name')
-            ->get(['id', 'name', 'slug', 'category', 'icon', 'is_oauth']);
-
-        return view('auth.connectors', compact('userConnectors', 'availableConnectors'));
+        return redirect('/dashboard/catalog?tab=connectors');
     }
 
     public function userAgent(Subscription $subscription)

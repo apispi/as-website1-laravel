@@ -29,11 +29,8 @@
         <a href="/dashboard/agents" class="up-nav-link">
           <span class="up-nav-icon">◈</span> My Agents
         </a>
-        <a href="/dashboard/connectors" class="up-nav-link">
-          <span class="up-nav-icon">⬡</span> My Connectors
-        </a>
         <a href="/dashboard/catalog" class="up-nav-link">
-          <span class="up-nav-icon">◎</span> Agent Catalog
+          <span class="up-nav-icon">◎</span> Catalog
         </a>
         <a href="/training" class="up-nav-link">
           <span class="up-nav-icon">◷</span> Training
