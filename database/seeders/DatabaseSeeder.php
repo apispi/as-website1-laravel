@@ -27,6 +27,7 @@ class DatabaseSeeder extends Seeder
             SkillSeeder::class,
             AgentSkillSeeder::class,
             TrainingSeeder::class,
+            ConnectorSeeder::class,
         ]);
     }
 }
