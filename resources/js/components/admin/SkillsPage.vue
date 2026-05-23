@@ -3,7 +3,7 @@
 
     <div class="page-header">
       <div>
-        <h1 class="page-title">Skills</h1>
+        <h1 class="page-title">Skills Catalog</h1>
         <p class="page-sub">{{ filtered.length }} of {{ skills.length }} skills</p>
       </div>
       <a href="/admin/skills/create" class="btn-primary">+ New Skill</a>

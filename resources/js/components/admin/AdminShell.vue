@@ -40,7 +40,7 @@
           <span class="adm-nav-icon">◎</span> Agent Catalog
         </a>
         <a href="/admin/skills" class="adm-nav-link" :class="{ active: page === 'skills' }">
-          <span class="adm-nav-icon">◇</span> Skills
+          <span class="adm-nav-icon">◇</span> Skills Catalog
         </a>
         <a href="/admin/connectors" class="adm-nav-link" :class="{ active: page === 'connectors' || page === 'connector-form' }">
           <span class="adm-nav-icon">⬡</span> Connector Catalog
