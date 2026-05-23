@@ -12,8 +12,9 @@ class AgentController extends Controller
 {
     public function index()
     {
-        $agents = Agent::orderBy('sort_order')->orderBy('name')->get();
-        return view('admin.agents.index', compact('agents'));
+        $agents     = Agent::orderBy('sort_order')->orderBy('name')->get();
+        $connectors = Connector::orderBy('sort_order')->orderBy('name')->get();
+        return view('admin.agents.index', compact('agents', 'connectors'));
     }
 
     public function create()
