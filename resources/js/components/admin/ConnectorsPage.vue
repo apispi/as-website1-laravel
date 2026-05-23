@@ -3,7 +3,7 @@
 
     <div class="page-header">
       <div>
-        <h1 class="page-title">Connectors</h1>
+        <h1 class="page-title">Connector Catalog</h1>
         <p class="page-sub">{{ filtered.length }} of {{ connectors.length }} connectors</p>
       </div>
       <a href="/admin/connectors/create" class="btn-primary">+ New Connector</a>

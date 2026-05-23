@@ -1,6 +1,6 @@
 @extends('layouts.admin')
 
-@section('title', 'Connectors - Admin - ApiSpi')
+@section('title', 'Connector Catalog - Admin - ApiSpi')
 
 @section('content')
 <div id="admin-app"
