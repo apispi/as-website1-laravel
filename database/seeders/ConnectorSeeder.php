@@ -14,7 +14,20 @@ class ConnectorSeeder extends Seeder
             ['slug' => 'slack',           'name' => 'Slack',            'category' => 'Communication',  'icon' => '💬', 'description' => 'Send messages, post to channels, and manage notifications in Slack workspaces.',               'website_url' => 'https://slack.com',             'sort_order' => 10],
             ['slug' => 'microsoft-teams', 'name' => 'Microsoft Teams',  'category' => 'Communication',  'icon' => '💼', 'description' => 'Post messages and manage conversations in Microsoft Teams channels.',                          'website_url' => 'https://teams.microsoft.com',   'sort_order' => 11],
             ['slug' => 'gmail',           'name' => 'Gmail',            'category' => 'Communication',  'icon' => '📧', 'description' => 'Read, send, and manage emails via Gmail. Supports drafts, labels, and search.',                'website_url' => 'https://gmail.com',             'sort_order' => 12],
-            ['slug' => 'outlook',         'name' => 'Outlook',          'category' => 'Communication',  'icon' => '📨', 'description' => 'Manage emails and calendar events through Microsoft Outlook.',                               'website_url' => 'https://outlook.com',           'sort_order' => 13],
+            [
+                'slug'               => 'outlook',
+                'name'               => 'Outlook',
+                'category'           => 'Communication',
+                'icon'               => '📨',
+                'description'        => 'Manage emails and calendar events through Microsoft Outlook.',
+                'website_url'        => 'https://outlook.com',
+                'sort_order'         => 13,
+                'is_oauth'           => true,
+                'oauth_auth_url'     => 'https://login.microsoftonline.com/common/oauth2/v2.0/authorize',
+                'oauth_token_url'    => 'https://login.microsoftonline.com/common/oauth2/v2.0/token',
+                'oauth_scopes'       => 'offline_access Mail.ReadWrite Mail.Send Calendars.ReadWrite',
+                'oauth_extra_params' => ['response_mode' => 'query'],
+            ],
 
             // CRM
             ['slug' => 'salesforce',      'name' => 'Salesforce',       'category' => 'CRM',            'icon' => '☁️', 'description' => 'Create and update leads, contacts, opportunities, and cases in Salesforce.',                  'website_url' => 'https://salesforce.com',        'sort_order' => 20],

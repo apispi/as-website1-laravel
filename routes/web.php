@@ -11,6 +11,7 @@ use App\Http\Controllers\Admin\UserController as AdminUsers;
 use App\Http\Controllers\AgentController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\BlogController;
+use App\Http\Controllers\ConnectorOAuthController;
 use App\Http\Controllers\ChatController;
 use App\Http\Controllers\ContactController;
 use App\Http\Controllers\PageController;
@@ -56,6 +57,11 @@ Route::middleware('auth')->group(function () {
     Route::put('/dashboard/profile', [AuthController::class, 'updateProfile'])->name('dashboard.profile.update');
     Route::put('/dashboard/profile/password', [AuthController::class, 'updatePassword'])->name('dashboard.profile.password');
     Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
+
+    // Connector OAuth
+    Route::get('/connectors/{slug}/authorize',   [ConnectorOAuthController::class, 'authorize'])->name('connectors.authorize');
+    Route::get('/connectors/{slug}/callback',    [ConnectorOAuthController::class, 'callback'])->name('connectors.callback');
+    Route::post('/connectors/{slug}/disconnect', [ConnectorOAuthController::class, 'disconnect'])->name('connectors.disconnect');
 });
 
 // Admin routes
