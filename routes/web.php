@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\Admin\ActivityLogController as AdminActivity;
 use App\Http\Controllers\Admin\AgentController as AdminAgents;
+use App\Http\Controllers\Admin\ConnectorController as AdminConnectors;
 use App\Http\Controllers\Admin\TrainingController as AdminTrainings;
 use App\Http\Controllers\Admin\DashboardController as AdminDashboard;
 use App\Http\Controllers\Admin\SkillController as AdminSkills;
@@ -80,6 +81,12 @@ Route::middleware(['auth', 'admin'])->prefix('admin')->name('admin.')->group(fun
     Route::get('/skills/{skill}/edit', [AdminSkills::class, 'edit'])->name('skills.edit');
     Route::put('/skills/{skill}', [AdminSkills::class, 'update'])->name('skills.update');
     Route::delete('/skills/{skill}', [AdminSkills::class, 'destroy'])->name('skills.destroy');
+    Route::get('/connectors', [AdminConnectors::class, 'index'])->name('connectors.index');
+    Route::get('/connectors/create', [AdminConnectors::class, 'create'])->name('connectors.create');
+    Route::post('/connectors', [AdminConnectors::class, 'store'])->name('connectors.store');
+    Route::get('/connectors/{connector}/edit', [AdminConnectors::class, 'edit'])->name('connectors.edit');
+    Route::put('/connectors/{connector}', [AdminConnectors::class, 'update'])->name('connectors.update');
+    Route::delete('/connectors/{connector}', [AdminConnectors::class, 'destroy'])->name('connectors.destroy');
     Route::get('/agents', [AdminAgents::class, 'index'])->name('agents.index');
     Route::get('/agents/create', [AdminAgents::class, 'create'])->name('agents.create');
     Route::post('/agents', [AdminAgents::class, 'store'])->name('agents.store');
