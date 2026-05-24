@@ -217,8 +217,8 @@ const tab = ref('overview');
 
 const tabs = computed(() => [
   { key: 'overview',    label: 'Overview',          count: null },
-  { key: 'connectors',  label: 'Agent Connectors',  count: props.agentConnectors.length },
   { key: 'skills',      label: 'Agent Skills',      count: props.subSkills.length },
+  { key: 'connectors',  label: 'Agent Connectors',  count: props.agentConnectors.length },
 ]);
 
 const editStatus  = ref(props.subscription.status ?? 'active');

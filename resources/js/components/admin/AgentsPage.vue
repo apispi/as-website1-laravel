@@ -4,10 +4,15 @@
     <div class="page-header">
       <div>
         <h1 class="page-title">Catalog</h1>
-        <p class="page-sub">{{ activeTab === 'agents' ? agentFiltered.length + ' of ' + agents.length + ' agents' : cnFiltered.length + ' of ' + connectors.length + ' connectors' }}</p>
+        <p class="page-sub">
+          <template v-if="activeTab === 'agents'">{{ agentFiltered.length }} of {{ agents.length }} agents</template>
+          <template v-else-if="activeTab === 'skills'">{{ skillFiltered.length }} of {{ skills.length }} skills</template>
+          <template v-else>{{ cnFiltered.length }} of {{ connectors.length }} connectors</template>
+        </p>
       </div>
-      <a v-if="activeTab === 'agents'" href="/admin/agents/create" class="btn-primary">+ New Agent</a>
-      <a v-else href="/admin/connectors/create" class="btn-primary">+ New Connector</a>
+      <a v-if="activeTab === 'agents'"     href="/admin/agents/create"     class="btn-primary">+ New Agent</a>
+      <a v-else-if="activeTab === 'skills'" href="/admin/skills/create"    class="btn-primary">+ New Skill</a>
+      <a v-else                             href="/admin/connectors/create" class="btn-primary">+ New Connector</a>
     </div>
 
     <div v-if="flashSuccess" class="flash success">{{ flashSuccess }}</div>
@@ -15,11 +20,14 @@
 
     <!-- Top-level tabs -->
     <div class="top-tab-bar">
-      <button :class="['top-tab', { active: activeTab === 'agents' }]" @click="setTab('agents')">
-        Agents <span class="top-tab-count">{{ agents.length }}</span>
+      <button :class="['top-tab', { active: activeTab === 'agents' }]"     @click="setTab('agents')">
+        All Agents <span class="top-tab-count">{{ agents.length }}</span>
+      </button>
+      <button :class="['top-tab', { active: activeTab === 'skills' }]"     @click="setTab('skills')">
+        All Skills <span class="top-tab-count">{{ skills.length }}</span>
       </button>
       <button :class="['top-tab', { active: activeTab === 'connectors' }]" @click="setTab('connectors')">
-        Connectors <span class="top-tab-count">{{ connectors.length }}</span>
+        All Connectors <span class="top-tab-count">{{ connectors.length }}</span>
       </button>
     </div>
 
@@ -89,6 +97,77 @@
             </tr>
           </tbody>
         </table>
+      </div>
+    </div>
+
+    <!-- ── SKILLS TAB ── -->
+    <div v-show="activeTab === 'skills'">
+      <div class="toolbar">
+        <div class="search-wrap">
+          <span class="search-icon">◎</span>
+          <input v-model="skillSearch" type="text" placeholder="Search skills…" class="search-input">
+        </div>
+        <div class="filter-tabs">
+          <button v-for="f in skillFilters" :key="f" :class="['tab', { active: skillFilter === f }]" @click="skillFilter = f">
+            {{ f }}
+          </button>
+        </div>
+      </div>
+
+      <div class="table-wrap">
+        <table class="data-table">
+          <thead>
+            <tr>
+              <th>Skill</th>
+              <th>Category</th>
+              <th>Description</th>
+              <th>Status</th>
+              <th></th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr v-for="s in skillPage_rows" :key="s.id">
+              <td>
+                <a :href="`/admin/skills/${s.id}/edit`" class="item-cell">
+                  <div class="item-icon">◇</div>
+                  <div>
+                    <div class="item-name">{{ s.name }}</div>
+                    <div class="item-slug">{{ s.slug }}</div>
+                  </div>
+                </a>
+              </td>
+              <td class="muted">{{ s.category || '—' }}</td>
+              <td class="skill-desc muted">{{ s.description || '—' }}</td>
+              <td>
+                <span class="status-badge" :class="s.is_active ? 'active' : 'inactive'">
+                  {{ s.is_active ? 'Active' : 'Inactive' }}
+                </span>
+              </td>
+              <td class="actions">
+                <a :href="`/admin/skills/${s.id}/edit`" class="btn-ghost">Edit</a>
+                <form method="POST" :action="`/admin/skills/${s.id}`" style="display:inline;"
+                      @submit.prevent="confirmDeleteSkill($event, s.name)">
+                  <input type="hidden" name="_token" :value="csrfToken">
+                  <input type="hidden" name="_method" value="DELETE">
+                  <button type="submit" class="btn-danger">Delete</button>
+                </form>
+              </td>
+            </tr>
+            <tr v-if="skillFiltered.length === 0">
+              <td colspan="5" style="text-align:center; padding:2.5rem; color:#4b5563;">No skills found</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <!-- Pagination -->
+      <div v-if="skillTotalPages > 1" class="pagination">
+        <button class="page-btn" :disabled="skillCurPage === 1" @click="skillCurPage--">‹</button>
+        <template v-for="p in skillPageNumbers" :key="p">
+          <span v-if="p === '…'" class="page-ellipsis">…</span>
+          <button v-else :class="['page-btn', { active: p === skillCurPage }]" @click="skillCurPage = p">{{ p }}</button>
+        </template>
+        <button class="page-btn" :disabled="skillCurPage === skillTotalPages" @click="skillCurPage++">›</button>
       </div>
     </div>
 
@@ -177,14 +256,16 @@ const props = defineProps({
   user:         { type: Object, default: () => ({}) },
   csrfToken:    { type: String, default: '' },
   agents:       { type: Array,  default: () => [] },
+  skills:       { type: Array,  default: () => [] },
   connectors:   { type: Array,  default: () => [] },
   flashSuccess: { type: String, default: '' },
   flashError:   { type: String, default: '' },
 });
 
 // ── Tab state ──
-const urlTab = new URLSearchParams(window.location.search).get('tab');
-const activeTab = ref(urlTab === 'connectors' ? 'connectors' : 'agents');
+const urlTab    = new URLSearchParams(window.location.search).get('tab');
+const validTabs = ['agents', 'skills', 'connectors'];
+const activeTab = ref(validTabs.includes(urlTab) ? urlTab : 'agents');
 
 function setTab(t) {
   activeTab.value = t;
@@ -216,6 +297,48 @@ const agentFiltered = computed(() => {
 
 function confirmDelete(event, name) {
   if (confirm(`Delete agent "${name}"? This cannot be undone.`)) {
+    event.target.submit();
+  }
+}
+
+// ── Skills ──
+const skillSearch  = ref('');
+const skillFilter  = ref('All');
+const skillCurPage = ref(1);
+const SKILL_PER_PAGE = 20;
+
+const skillFilters = computed(() => {
+  const cats = [...new Set(props.skills.map(s => s.category).filter(Boolean))].sort();
+  return ['All', ...cats, 'Active', 'Inactive'];
+});
+
+const skillFiltered = computed(() => {
+  const q = skillSearch.value.toLowerCase();
+  return props.skills.filter(s => {
+    const matchesSearch = !q ||
+      s.name.toLowerCase().includes(q) ||
+      (s.description || '').toLowerCase().includes(q) ||
+      (s.category || '').toLowerCase().includes(q);
+    const matchesFilter =
+      skillFilter.value === 'All' ||
+      (skillFilter.value === 'Active'   && s.is_active) ||
+      (skillFilter.value === 'Inactive' && !s.is_active) ||
+      s.category === skillFilter.value;
+    return matchesSearch && matchesFilter;
+  });
+});
+
+watch([skillSearch, skillFilter], () => { skillCurPage.value = 1; });
+
+const skillTotalPages = computed(() => Math.max(1, Math.ceil(skillFiltered.value.length / SKILL_PER_PAGE)));
+const skillPage_rows  = computed(() => {
+  const start = (skillCurPage.value - 1) * SKILL_PER_PAGE;
+  return skillFiltered.value.slice(start, start + SKILL_PER_PAGE);
+});
+const skillPageNumbers = computed(() => pageNumbers(skillCurPage.value, skillTotalPages.value));
+
+function confirmDeleteSkill(event, name) {
+  if (confirm(`Delete skill "${name}"? This cannot be undone.`)) {
     event.target.submit();
   }
 }
@@ -255,9 +378,9 @@ const cnPage_rows  = computed(() => {
   return cnFiltered.value.slice(start, start + CN_PER_PAGE);
 });
 
-const cnPageNumbers = computed(() => {
-  const total = cnTotalPages.value;
-  const cur   = cnCurPage.value;
+const cnPageNumbers = computed(() => pageNumbers(cnCurPage.value, cnTotalPages.value));
+
+function pageNumbers(cur, total) {
   if (total <= 7) return Array.from({ length: total }, (_, i) => i + 1);
   const pages = new Set([1, total, cur, cur - 1, cur + 1].filter(p => p >= 1 && p <= total));
   const sorted = [...pages].sort((a, b) => a - b);
@@ -267,7 +390,7 @@ const cnPageNumbers = computed(() => {
     result.push(sorted[i]);
   }
   return result;
-});
+}
 
 function confirmDeleteCn(event, name) {
   if (confirm(`Delete connector "${name}"? This cannot be undone.`)) {
@@ -366,6 +489,7 @@ function confirmDeleteCn(event, name) {
 .price  { color: #FCD34D; font-weight: 600; font-size: 0.875rem; white-space: nowrap; }
 .url-link { font-size: 0.8rem; color: #6b7280; text-decoration: none; }
 .url-link:hover { color: #fca5a5; }
+.skill-desc { max-width: 320px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; font-size: 0.82rem; }
 
 .actions { text-align: right; white-space: nowrap; display: flex; align-items: center; justify-content: flex-end; gap: 0.375rem; }
 .btn-ghost  { display: inline-block; padding: 0.35rem 0.6rem; border: 1px solid rgba(239,68,68,0.15); border-radius: 0.4rem; color: #9ca3af; font-size: 0.78rem; text-decoration: none; transition: all 0.18s; }

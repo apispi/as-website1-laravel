@@ -10,6 +10,7 @@
         'csrfToken'    => csrf_token(),
         'agents'       => $agents,
         'connectors'   => $connectors,
+        'skills'       => $skills->map(fn($s) => ['id' => $s->id, 'slug' => $s->slug, 'name' => $s->name, 'description' => $s->description, 'category' => $s->category, 'is_active' => $s->is_active])->values(),
         'flashSuccess' => session('success', ''),
         'flashError'   => session('error', ''),
     ]) }}">

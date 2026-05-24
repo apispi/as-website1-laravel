@@ -15,7 +15,8 @@ class AgentController extends Controller
     {
         $agents     = Agent::orderBy('sort_order')->orderBy('name')->get();
         $connectors = Connector::orderBy('sort_order')->orderBy('name')->get();
-        return view('admin.agents.index', compact('agents', 'connectors'));
+        $skills     = Skill::orderBy('category')->orderBy('sort_order')->orderBy('name')->get();
+        return view('admin.agents.index', compact('agents', 'connectors', 'skills'));
     }
 
     public function show(Agent $agent)
