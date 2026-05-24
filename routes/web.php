@@ -106,6 +106,7 @@ Route::middleware(['auth', 'admin'])->prefix('admin')->name('admin.')->group(fun
     Route::get('/agents', [AdminAgents::class, 'index'])->name('agents.index');
     Route::get('/agents/create', [AdminAgents::class, 'create'])->name('agents.create');
     Route::post('/agents', [AdminAgents::class, 'store'])->name('agents.store');
+    Route::get('/agents/{agent}', [AdminAgents::class, 'show'])->name('agents.show');
     Route::get('/agents/{agent}/edit', [AdminAgents::class, 'edit'])->name('agents.edit');
     Route::put('/agents/{agent}', [AdminAgents::class, 'update'])->name('agents.update');
     Route::delete('/agents/{agent}', [AdminAgents::class, 'destroy'])->name('agents.destroy');

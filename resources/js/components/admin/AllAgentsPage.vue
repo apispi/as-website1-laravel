@@ -44,12 +44,16 @@
         <tbody>
           <tr v-for="sub in subscriptions" :key="sub.id">
             <td>
-              <div class="agent-cell">
+              <a v-if="sub.agent?.id" :href="`/admin/agents/${sub.agent.id}`" class="agent-cell">
                 <div class="agent-icon">◈</div>
                 <div>
                   <div class="agent-name">{{ sub.agent?.name ?? '—' }}</div>
                   <span v-if="sub.agent?.badge" class="badge-inline" :class="sub.agent.badge.toLowerCase()">{{ sub.agent.badge }}</span>
                 </div>
+              </a>
+              <div v-else class="agent-cell">
+                <div class="agent-icon">◈</div>
+                <div class="agent-name">—</div>
               </div>
             </td>
             <td>
@@ -130,7 +134,8 @@ function formatDate(dateStr) {
 .user-email { font-size: 0.75rem; color: #6b7280; margin-top: 0.1rem; }
 .user-link:hover .user-name { color: #fca5a5; }
 
-.agent-cell { display: flex; align-items: center; gap: 0.75rem; }
+.agent-cell { display: flex; align-items: center; gap: 0.75rem; text-decoration: none; }
+.agent-cell:hover .agent-name { color: #fca5a5; }
 .agent-icon { width: 30px; height: 30px; border-radius: 0.4rem; flex-shrink: 0; background: rgba(239,68,68,0.08); border: 1px solid rgba(239,68,68,0.18); display: flex; align-items: center; justify-content: center; font-size: 0.85rem; color: #fca5a5; }
 .agent-name { font-size: 0.875rem; font-weight: 600; color: #e5e7eb; margin-bottom: 0.15rem; }
 

@@ -17,6 +17,12 @@ class AgentController extends Controller
         return view('admin.agents.index', compact('agents', 'connectors'));
     }
 
+    public function show(Agent $agent)
+    {
+        $agent->load('skills', 'connectors');
+        return view('admin.agents.show', compact('agent'));
+    }
+
     public function create()
     {
         $skills     = Skill::orderBy('category')->orderBy('sort_order')->get();

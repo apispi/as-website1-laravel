@@ -1,0 +1,297 @@
+<template>
+  <AdminShell :user="user" :csrf-token="csrfToken" page="all-agents">
+
+    <div class="page-header">
+      <a href="/admin/subscriptions" class="back-link">← Active Agents</a>
+      <div class="header-row">
+        <div class="agent-avatar">◈</div>
+        <div>
+          <h1 class="page-title">{{ agent.name }}</h1>
+          <div class="agent-meta">
+            <span v-if="agent.category" class="meta-item">{{ agent.category }}</span>
+            <span v-if="agent.badge" class="badge-inline" :class="agent.badge.toLowerCase()">{{ agent.badge }}</span>
+            <span class="status-badge" :class="agent.is_active ? 'active' : 'inactive'">
+              {{ agent.is_active ? 'Active' : 'Inactive' }}
+            </span>
+          </div>
+        </div>
+        <a :href="`/admin/agents/${agent.id}/edit`" class="btn-edit">Edit Agent</a>
+      </div>
+    </div>
+
+    <!-- Top-level tabs -->
+    <div class="top-tab-bar">
+      <button :class="['top-tab', { active: tab === 'details' }]"    @click="tab = 'details'">Details</button>
+      <button :class="['top-tab', { active: tab === 'skills' }]"     @click="tab = 'skills'">
+        Skills <span class="top-tab-count">{{ skills.length }}</span>
+      </button>
+      <button :class="['top-tab', { active: tab === 'connectors' }]" @click="tab = 'connectors'">
+        Connectors <span class="top-tab-count">{{ connectors.length }}</span>
+      </button>
+    </div>
+
+    <!-- ── DETAILS TAB ── -->
+    <div v-show="tab === 'details'" class="tab-content">
+      <div class="detail-grid">
+
+        <div class="card">
+          <div class="card-header">Overview</div>
+          <div class="info-rows">
+            <div class="info-row">
+              <span class="info-label">Slug</span>
+              <span class="info-val mono">{{ agent.slug }}</span>
+            </div>
+            <div class="info-row">
+              <span class="info-label">Rating</span>
+              <span class="info-val">{{ agent.rating ? '⭐ ' + agent.rating : '—' }}</span>
+            </div>
+            <div class="info-row">
+              <span class="info-label">Users</span>
+              <span class="info-val">{{ agent.users_count || '—' }}</span>
+            </div>
+            <div class="info-row">
+              <span class="info-label">Price</span>
+              <span class="info-val price">{{ agent.price || '—' }}</span>
+            </div>
+            <div class="info-row">
+              <span class="info-label">Sort order</span>
+              <span class="info-val mono">{{ agent.sort_order ?? 0 }}</span>
+            </div>
+            <div class="info-row">
+              <span class="info-label">Featured</span>
+              <span class="info-val">{{ agent.is_featured ? 'Yes' : 'No' }}</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="card">
+          <div class="card-header">Description</div>
+          <div class="card-body">
+            <p class="description-text">{{ agent.description || '—' }}</p>
+          </div>
+        </div>
+
+        <div v-if="agent.tagline || agent.target_audience" class="card span-2">
+          <div class="card-header">Positioning</div>
+          <div class="info-rows">
+            <div v-if="agent.tagline" class="info-row">
+              <span class="info-label">Tagline</span>
+              <span class="info-val">{{ agent.tagline }}</span>
+            </div>
+            <div v-if="agent.target_audience" class="info-row">
+              <span class="info-label">Target Audience</span>
+              <span class="info-val">{{ agent.target_audience }}</span>
+            </div>
+            <div v-if="agent.cta_headline" class="info-row">
+              <span class="info-label">CTA Headline</span>
+              <span class="info-val">{{ agent.cta_headline }}</span>
+            </div>
+          </div>
+        </div>
+
+        <div v-if="agent.features?.length" class="card">
+          <div class="card-header">Key Capabilities</div>
+          <ul class="feature-list">
+            <li v-for="f in agent.features" :key="f">{{ f }}</li>
+          </ul>
+        </div>
+
+        <div v-if="agent.includes?.length" class="card">
+          <div class="card-header">What's Included</div>
+          <ul class="feature-list">
+            <li v-for="f in agent.includes" :key="f">{{ f }}</li>
+          </ul>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- ── SKILLS TAB ── -->
+    <div v-show="tab === 'skills'" class="tab-content">
+      <div v-if="skills.length === 0" class="empty-state">
+        <div class="empty-icon">◇</div>
+        <div class="empty-title">No skills assigned</div>
+        <div class="empty-desc">
+          <a :href="`/admin/agents/${agent.id}/edit?tab=skills`" class="empty-link">Edit agent to assign skills →</a>
+        </div>
+      </div>
+      <div v-else class="table-wrap">
+        <table class="data-table">
+          <thead>
+            <tr><th>Skill</th><th>Category</th></tr>
+          </thead>
+          <tbody>
+            <tr v-for="s in skills" :key="s.id">
+              <td class="item-name">{{ s.name }}</td>
+              <td class="muted">{{ s.category || '—' }}</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- ── CONNECTORS TAB ── -->
+    <div v-show="tab === 'connectors'" class="tab-content">
+      <div v-if="connectors.length === 0" class="empty-state">
+        <div class="empty-icon">⬡</div>
+        <div class="empty-title">No connectors assigned</div>
+        <div class="empty-desc">
+          <a :href="`/admin/agents/${agent.id}/edit?tab=connectors`" class="empty-link">Edit agent to assign connectors →</a>
+        </div>
+      </div>
+      <div v-else class="table-wrap">
+        <table class="data-table">
+          <thead>
+            <tr><th>Connector</th><th>Category</th><th>Type</th></tr>
+          </thead>
+          <tbody>
+            <tr v-for="c in connectors" :key="c.id">
+              <td>
+                <div class="item-cell">
+                  <div class="item-icon">{{ c.icon || '⬡' }}</div>
+                  <span class="item-name">{{ c.name }}</span>
+                </div>
+              </td>
+              <td class="muted">{{ c.category || '—' }}</td>
+              <td>
+                <span class="type-badge" :class="c.is_oauth ? 'oauth' : 'api'">
+                  {{ c.is_oauth ? 'OAuth' : 'API' }}
+                </span>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+  </AdminShell>
+</template>
+
+<script setup>
+import { ref } from 'vue';
+import AdminShell from './AdminShell.vue';
+
+const props = defineProps({
+  user:       { type: Object, default: () => ({}) },
+  csrfToken:  { type: String, default: '' },
+  agent:      { type: Object, default: () => ({}) },
+  skills:     { type: Array,  default: () => [] },
+  connectors: { type: Array,  default: () => [] },
+});
+
+const tab = ref('details');
+</script>
+
+<style scoped>
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+.page-header { margin-bottom: 1.5rem; }
+.back-link { font-size: 0.8rem; color: #6b7280; text-decoration: none; display: block; margin-bottom: 0.75rem; }
+.back-link:hover { color: #fca5a5; }
+
+.header-row { display: flex; align-items: center; gap: 1rem; flex-wrap: wrap; }
+.agent-avatar {
+  width: 48px; height: 48px; border-radius: 0.75rem; flex-shrink: 0;
+  background: rgba(239,68,68,0.1); border: 1px solid rgba(239,68,68,0.25);
+  display: flex; align-items: center; justify-content: center;
+  font-size: 1.3rem; color: #fca5a5;
+}
+.page-title { font-size: 1.5rem; font-weight: 700; color: #f1f5f9; margin-bottom: 0.3rem; }
+.agent-meta { display: flex; align-items: center; gap: 0.5rem; flex-wrap: wrap; }
+.meta-item  { font-size: 0.82rem; color: #6b7280; }
+
+.badge-inline { display: inline-block; padding: 0.2rem 0.5rem; border-radius: 99px; font-size: 0.68rem; font-weight: 600; }
+.badge-inline.popular { background: rgba(217,119,6,0.12); color: #FCD34D; }
+.badge-inline.premium { background: rgba(239,68,68,0.12); color: #fca5a5; }
+.badge-inline.new     { background: rgba(0,217,126,0.1);  color: #00d97e; }
+
+.status-badge { display: inline-block; padding: 0.2rem 0.5rem; border-radius: 99px; font-size: 0.68rem; font-weight: 600; }
+.status-badge.active   { background: rgba(0,217,126,0.1);   color: #00d97e; }
+.status-badge.inactive { background: rgba(107,114,128,0.12); color: #9ca3af; }
+
+.btn-edit {
+  margin-left: auto; padding: 0.5rem 1rem; border-radius: 0.5rem;
+  background: rgba(239,68,68,0.12); border: 1px solid rgba(239,68,68,0.3);
+  color: #fca5a5; font-size: 0.82rem; font-weight: 600;
+  text-decoration: none; transition: all 0.18s; white-space: nowrap;
+}
+.btn-edit:hover { background: rgba(239,68,68,0.22); }
+
+/* Tabs */
+.top-tab-bar {
+  display: flex; gap: 0.25rem;
+  border-bottom: 1px solid rgba(239,68,68,0.12);
+  margin-bottom: 1.75rem;
+}
+.top-tab {
+  padding: 0.6rem 1.1rem; border-radius: 0.5rem 0.5rem 0 0;
+  font-size: 0.875rem; font-weight: 600; cursor: pointer;
+  background: none; border: 1px solid transparent; border-bottom: none;
+  color: #6b7280; font-family: inherit; transition: all 0.18s;
+  display: flex; align-items: center; gap: 0.5rem;
+}
+.top-tab:hover { color: #fca5a5; background: rgba(239,68,68,0.05); }
+.top-tab.active {
+  color: #fca5a5; background: rgba(239,68,68,0.08);
+  border-color: rgba(239,68,68,0.2); border-bottom-color: transparent;
+  position: relative; bottom: -1px;
+}
+.top-tab-count {
+  font-size: 0.7rem; font-weight: 700;
+  background: rgba(239,68,68,0.12); color: #fca5a5;
+  border-radius: 99px; padding: 0.1rem 0.45rem;
+}
+
+.tab-content { max-width: 900px; }
+
+/* Detail grid */
+.detail-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1.25rem; align-items: start; }
+.card { background: rgba(24,10,10,0.6); border: 1px solid rgba(239,68,68,0.1); border-radius: 1rem; overflow: hidden; }
+.card.span-2 { grid-column: 1 / -1; }
+.card-header { padding: 0.875rem 1.25rem; font-size: 0.78rem; font-weight: 600; text-transform: uppercase; letter-spacing: 0.07em; color: #6b7280; border-bottom: 1px solid rgba(239,68,68,0.08); background: rgba(239,68,68,0.03); }
+.card-body { padding: 1.25rem; }
+.description-text { font-size: 0.9rem; color: #d1d5db; line-height: 1.65; }
+
+.info-rows {}
+.info-row { display: flex; justify-content: space-between; align-items: center; padding: 0.75rem 1.25rem; border-bottom: 1px solid rgba(239,68,68,0.06); gap: 1rem; }
+.info-row:last-child { border-bottom: none; }
+.info-label { font-size: 0.82rem; color: #6b7280; flex-shrink: 0; }
+.info-val { font-size: 0.875rem; color: #e5e7eb; text-align: right; }
+.info-val.price { color: #FCD34D; font-weight: 600; }
+.mono { font-family: monospace; font-size: 0.8rem; color: #9ca3af; }
+
+.feature-list { list-style: none; padding: 0.75rem 1.25rem; display: flex; flex-direction: column; gap: 0.5rem; }
+.feature-list li { font-size: 0.875rem; color: #d1d5db; padding-left: 1rem; position: relative; }
+.feature-list li::before { content: '›'; position: absolute; left: 0; color: #ef4444; font-weight: 700; }
+
+/* Tables */
+.table-wrap { background: rgba(24,10,10,0.6); border: 1px solid rgba(239,68,68,0.1); border-radius: 1rem; overflow: hidden; overflow-x: auto; }
+.data-table { width: 100%; border-collapse: collapse; font-size: 0.875rem; }
+.data-table th { padding: 0.75rem 1rem; text-align: left; font-size: 0.72rem; font-weight: 600; text-transform: uppercase; letter-spacing: 0.06em; color: #6b7280; border-bottom: 1px solid rgba(239,68,68,0.08); background: rgba(239,68,68,0.03); }
+.data-table td { padding: 0.875rem 1rem; border-bottom: 1px solid rgba(239,68,68,0.06); vertical-align: middle; }
+.data-table tbody tr:last-child td { border-bottom: none; }
+.data-table tbody tr:hover td { background: rgba(239,68,68,0.03); }
+
+.item-cell { display: flex; align-items: center; gap: 0.65rem; }
+.item-icon { width: 28px; height: 28px; border-radius: 0.375rem; flex-shrink: 0; background: rgba(239,68,68,0.08); border: 1px solid rgba(239,68,68,0.15); display: flex; align-items: center; justify-content: center; font-size: 0.85rem; }
+.item-name { font-size: 0.875rem; font-weight: 600; color: #e5e7eb; }
+.muted { color: #6b7280; font-size: 0.875rem; }
+
+.type-badge { display: inline-block; padding: 0.15rem 0.45rem; border-radius: 99px; font-size: 0.68rem; font-weight: 700; }
+.type-badge.oauth { background: rgba(99,102,241,0.12); color: #a5b4fc; }
+.type-badge.api   { background: rgba(217,119,6,0.12);  color: #FCD34D; }
+
+.empty-state { background: rgba(24,10,10,0.6); border: 1px solid rgba(239,68,68,0.1); border-radius: 1rem; padding: 3rem 2rem; text-align: center; max-width: 400px; }
+.empty-icon  { font-size: 2rem; opacity: 0.2; margin-bottom: 0.75rem; }
+.empty-title { font-size: 1rem; font-weight: 700; color: #e5e7eb; margin-bottom: 0.4rem; }
+.empty-desc  { font-size: 0.875rem; color: #6b7280; }
+.empty-link  { color: #fca5a5; text-decoration: none; }
+.empty-link:hover { text-decoration: underline; }
+
+@media (max-width: 640px) {
+  .detail-grid { grid-template-columns: 1fr; }
+  .card.span-2 { grid-column: 1; }
+  .page-title { font-size: 1.25rem; }
+  .btn-edit { margin-left: 0; }
+}
+</style>
