@@ -14,6 +14,7 @@
         'agentSkillIds'      => isset($agent) ? $agent->skills->pluck('id')->toArray() : [],
         'allConnectors'      => $connectors->map(fn($c) => ['id' => $c->id, 'name' => $c->name, 'icon' => $c->icon, 'category' => $c->category])->toArray(),
         'agentConnectorIds'  => isset($agent) ? $agent->connectors->pluck('id')->toArray() : [],
+        'initialTab'         => session('active_tab', 'details'),
     ]) }}">
 </div>
 @endsection

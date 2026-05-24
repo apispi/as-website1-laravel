@@ -30,7 +30,8 @@ class AgentController extends Controller
         $agent = Agent::create($data);
         $agent->skills()->sync($request->input('skill_ids', []));
         $agent->connectors()->sync($request->input('connector_ids', []));
-        return redirect()->route('admin.agents.index')->with('success', 'Agent created.');
+        return redirect()->route('admin.agents.edit', $agent)->with('success', 'Agent created.')
+            ->with('active_tab', $this->safeTab($request));
     }
 
     public function edit(Agent $agent)
@@ -47,13 +48,21 @@ class AgentController extends Controller
         $agent->update($data);
         $agent->skills()->sync($request->input('skill_ids', []));
         $agent->connectors()->sync($request->input('connector_ids', []));
-        return redirect()->route('admin.agents.index')->with('success', 'Agent updated.');
+        return redirect()->route('admin.agents.edit', $agent)->with('success', 'Agent updated.')
+            ->with('active_tab', $this->safeTab($request));
     }
 
     public function destroy(Agent $agent)
     {
         $agent->delete();
         return redirect()->route('admin.agents.index')->with('success', 'Agent deleted.');
+    }
+
+    private function safeTab(Request $request): string
+    {
+        return in_array($request->input('active_tab'), ['details', 'skills', 'connectors'])
+            ? $request->input('active_tab')
+            : 'details';
     }
 
     private function validated(Request $request): array

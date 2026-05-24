@@ -16,6 +16,7 @@
       <form method="POST" :action="formAction">
         <input type="hidden" name="_token" :value="csrfToken">
         <input v-if="agent" type="hidden" name="_method" value="PUT">
+        <input type="hidden" name="active_tab" :value="mainTab">
 
         <!-- Hidden inputs — always in DOM so all selections submit regardless of active tab/page -->
         <template v-for="id in selectedSkillIds" :key="'sk' + id">
@@ -305,12 +306,13 @@ const props = defineProps({
   agentSkillIds:      { type: Array,  default: () => [] },
   allConnectors:      { type: Array,  default: () => [] },
   agentConnectorIds:  { type: Array,  default: () => [] },
+  initialTab:         { type: String, default: 'details' },
 });
 
 const formAction           = props.agent ? `/admin/agents/${props.agent.id}` : '/admin/agents';
 const selectedSkillIds     = ref([...props.agentSkillIds]);
 const selectedConnectorIds = ref([...props.agentConnectorIds]);
-const mainTab              = ref('details');
+const mainTab              = ref(['details', 'skills', 'connectors'].includes(props.initialTab) ? props.initialTab : 'details');
 
 const PER_PAGE = 15;
 
