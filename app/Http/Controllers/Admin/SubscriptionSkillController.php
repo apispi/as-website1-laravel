@@ -12,10 +12,13 @@ class SubscriptionSkillController extends Controller
 {
     public function show(Subscription $subscription, Skill $skill)
     {
+        $subscription->load(['user', 'agent.skills']);
+
         $subSkill = $subscription->skills()->where('skills.id', $skill->id)->first();
         abort_unless($subSkill, 404);
 
-        $agentDefault = $subscription->agent->skills()->where('skills.id', $skill->id)->first();
+        // Agent's customized definition; falls back to catalog in the view if absent
+        $agentDefault = $subscription->agent?->skills->firstWhere('id', $skill->id);
 
         return view('admin.subscription-skill', compact('subscription', 'skill', 'subSkill', 'agentDefault'));
     }
@@ -68,16 +71,16 @@ class SubscriptionSkillController extends Controller
 
     public function refresh(Subscription $subscription, Skill $skill)
     {
-        $agentDefault = $subscription->agent->skills()->where('skills.id', $skill->id)->first();
-        abort_unless($agentDefault, 404);
+        $subscription->load('agent.skills');
+        $agentDefault = $subscription->agent?->skills->firstWhere('id', $skill->id);
 
         DB::table('subscription_skill')
             ->where('subscription_id', $subscription->id)
             ->where('skill_id', $skill->id)
             ->update([
-                'name'         => $agentDefault->pivot->name ?: $skill->name,
-                'description'  => $agentDefault->pivot->description ?: $skill->description,
-                'category'     => $agentDefault->pivot->category ?: $skill->category,
+                'name'         => ($agentDefault?->pivot->name) ?: $skill->name,
+                'description'  => ($agentDefault?->pivot->description) ?: $skill->description,
+                'category'     => ($agentDefault?->pivot->category) ?: $skill->category,
                 'refreshed_at' => now(),
             ]);
 

@@ -34,11 +34,11 @@
             'category'     => $subSkill->pivot->category,
             'refreshed_at' => $subSkill->pivot->refreshed_at,
         ],
-        'agentDefault' => $agentDefault ? [
-            'name'        => $agentDefault->pivot->name ?: $skill->name,
-            'description' => $agentDefault->pivot->description ?: $skill->description,
-            'category'    => $agentDefault->pivot->category ?: $skill->category,
-        ] : null,
+        'agentDefault' => [
+            'name'        => ($agentDefault?->pivot->name) ?: $skill->name,
+            'description' => ($agentDefault?->pivot->description) ?: $skill->description,
+            'category'    => ($agentDefault?->pivot->category) ?: $skill->category,
+        ],
     ]) }}">
 </div>
 @endsection
