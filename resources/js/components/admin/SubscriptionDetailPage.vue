@@ -162,6 +162,15 @@
 
     <!-- Skills tab -->
     <div v-show="tab === 'skills'">
+      <div v-if="missingCount > 0" class="populate-bar">
+        <span class="populate-msg">
+          <strong>{{ missingCount }}</strong> agent skill{{ missingCount !== 1 ? 's are' : ' is' }} not yet in this user's profile.
+        </span>
+        <form :action="`/admin/subscriptions/${subscription.id}/skills/populate`" method="POST" style="display:inline">
+          <input type="hidden" name="_token" :value="csrfToken">
+          <button type="submit" class="btn-populate">+ Add Missing Skills</button>
+        </form>
+      </div>
       <div v-if="subSkills.length === 0" class="empty-state">
         <div class="empty-icon">◈</div>
         <div class="empty-title">No skills assigned</div>
@@ -200,6 +209,7 @@ const props = defineProps({
   agent:           { type: Object, default: null },
   agentConnectors: { type: Array,  default: () => [] },
   subSkills:       { type: Array,  default: () => [] },
+  agentSkillCount: { type: Number, default: 0 },
   userConnectors:  { type: Array,  default: () => [] },
 });
 
@@ -214,7 +224,8 @@ const tabs = computed(() => [
 const editStatus  = ref(props.subscription.status ?? 'active');
 const editExpires = ref(props.subscription.expires_at ? props.subscription.expires_at.substring(0, 10) : '');
 
-const userInitial = computed(() => (props.subUser?.name ?? '?')[0].toUpperCase());
+const userInitial    = computed(() => (props.subUser?.name ?? '?')[0].toUpperCase());
+const missingCount   = computed(() => props.agentSkillCount - props.subSkills.length);
 
 function userConnectorStatus(connectorId) {
   const uc = props.userConnectors.find(u => u.connector_id === connectorId);
@@ -326,10 +337,11 @@ function formatDate(dateStr) {
 .type-badge.oauth { background: rgba(139,92,246,0.12); color: #c4b5fd; }
 .type-badge.api   { background: rgba(59,130,246,0.1);  color: #93c5fd; }
 
-.scope-notice { margin-bottom: 0.875rem; padding: 0.65rem 0.9rem; border-radius: 0.5rem; background: rgba(252,211,77,0.05); border: 1px solid rgba(252,211,77,0.15); font-size: 0.8rem; color: #9ca3af; line-height: 1.5; }
-.scope-notice strong { color: #fbbf24; font-weight: 600; }
-.scope-agent-link { color: #fca5a5; text-decoration: none; }
-.scope-agent-link:hover { text-decoration: underline; }
+.populate-bar { display: flex; align-items: center; justify-content: space-between; gap: 1rem; flex-wrap: wrap; margin-bottom: 0.875rem; padding: 0.65rem 1rem; border-radius: 0.5rem; background: rgba(252,211,77,0.05); border: 1px solid rgba(252,211,77,0.15); }
+.populate-msg { font-size: 0.82rem; color: #9ca3af; }
+.populate-msg strong { color: #fbbf24; }
+.btn-populate { padding: 0.35rem 0.85rem; border-radius: 0.4rem; background: rgba(252,211,77,0.1); border: 1px solid rgba(252,211,77,0.3); color: #fbbf24; font-size: 0.78rem; font-weight: 600; cursor: pointer; transition: all 0.15s; white-space: nowrap; }
+.btn-populate:hover { background: rgba(252,211,77,0.18); border-color: rgba(252,211,77,0.5); }
 .skill-link { font-weight: 500; color: #e5e7eb; text-decoration: none; }
 .skill-link:hover { color: #fca5a5; text-decoration: underline; }
 .clickable-row { cursor: pointer; }

@@ -38,6 +38,34 @@ class SubscriptionSkillController extends Controller
             ->with('success', 'Skill definition updated.');
     }
 
+    public function populate(Subscription $subscription)
+    {
+        $subscription->load('agent.skills', 'skills');
+
+        $existingIds = $subscription->skills->pluck('id')->all();
+        $added = 0;
+
+        foreach ($subscription->agent->skills as $skill) {
+            if (!in_array($skill->id, $existingIds)) {
+                $subscription->skills()->attach($skill->id, [
+                    'name'         => $skill->pivot->name ?: $skill->name,
+                    'description'  => $skill->pivot->description ?: $skill->description,
+                    'category'     => $skill->pivot->category ?: $skill->category,
+                    'refreshed_at' => now(),
+                ]);
+                $added++;
+            }
+        }
+
+        $msg = $added > 0
+            ? "{$added} skill" . ($added > 1 ? 's' : '') . " added from agent defaults."
+            : "All agent skills are already present — nothing to add.";
+
+        return redirect()
+            ->route('admin.subscriptions.show', $subscription)
+            ->with('success', $msg);
+    }
+
     public function refresh(Subscription $subscription, Skill $skill)
     {
         $agentDefault = $subscription->agent->skills()->where('skills.id', $skill->id)->first();

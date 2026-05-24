@@ -85,6 +85,7 @@ Route::middleware(['auth', 'admin'])->prefix('admin')->name('admin.')->group(fun
     Route::get('/subscriptions/{subscription}/skills/{skill}', [\App\Http\Controllers\Admin\SubscriptionSkillController::class, 'show'])->name('subscriptions.skills.show');
     Route::put('/subscriptions/{subscription}/skills/{skill}', [\App\Http\Controllers\Admin\SubscriptionSkillController::class, 'update'])->name('subscriptions.skills.update');
     Route::post('/subscriptions/{subscription}/skills/{skill}/refresh', [\App\Http\Controllers\Admin\SubscriptionSkillController::class, 'refresh'])->name('subscriptions.skills.refresh');
+    Route::post('/subscriptions/{subscription}/skills/populate', [\App\Http\Controllers\Admin\SubscriptionSkillController::class, 'populate'])->name('subscriptions.skills.populate');
     Route::get('/users/{user}/agents', [AdminSubscriptions::class, 'userAgents'])->name('users.agents');
     Route::post('/users/{user}/agents', [AdminSubscriptions::class, 'assign'])->name('users.agents.assign');
     Route::delete('/users/{user}/agents/{subscription}', [AdminSubscriptions::class, 'revoke'])->name('users.agents.revoke');

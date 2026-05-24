@@ -41,6 +41,7 @@
             'name'     => $s->pivot->name ?: $s->name,
             'category' => $s->pivot->category ?: $s->category,
         ])->values(),
+        'agentSkillCount' => $subscription->agent?->skills->count() ?? 0,
         'userConnectors' => $subscription->user?->userConnectors->map(fn($uc) => [
             'id'           => $uc->id,
             'connector_id' => $uc->connector_id,
