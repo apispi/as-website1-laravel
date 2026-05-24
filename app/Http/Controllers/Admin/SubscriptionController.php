@@ -61,4 +61,25 @@ class SubscriptionController extends Controller
         ActivityLog::log('subscription.revoke', "Removed {$agentName} from {$user->name}", $user->id, Auth::id());
         return redirect()->route('admin.users.show', $user)->with('success', 'Agent removed from user.')->with('active_tab', 'agents');
     }
+
+    public function show(Subscription $subscription)
+    {
+        $subscription->load([
+            'user.userConnectors.connector',
+            'agent.connectors',
+            'agent.skills',
+        ]);
+        return view('admin.subscription-detail', compact('subscription'));
+    }
+
+    public function update(Request $request, Subscription $subscription)
+    {
+        $data = $request->validate([
+            'status'     => 'required|in:active,cancelled,expired',
+            'expires_at' => 'nullable|date',
+        ]);
+        $subscription->update($data);
+        ActivityLog::log('subscription.update', "Updated subscription status to {$data['status']}", $subscription->user_id, Auth::id());
+        return redirect()->route('admin.subscriptions.show', $subscription)->with('success', 'Subscription updated.');
+    }
 }
