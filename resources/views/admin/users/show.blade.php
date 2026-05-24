@@ -16,8 +16,13 @@
             'created_at'         => $user->created_at,
             'email_verified_at'  => $user->email_verified_at,
         ],
-        'flashSuccess' => session('success', ''),
-        'flashError'   => session('error', ''),
+        'subscriptions'      => $subscriptions,
+        'availableAgents'    => $availableAgents,
+        'userConnectors'     => $userConnectors,
+        'availableConnectors'=> $availableConnectors,
+        'initialTab'         => session('active_tab', 'details'),
+        'flashSuccess'       => session('success', ''),
+        'flashError'         => session('error', ''),
     ]) }}">
 </div>
 @endsection

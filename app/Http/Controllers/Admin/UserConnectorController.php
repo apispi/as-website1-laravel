@@ -43,7 +43,7 @@ class UserConnectorController extends Controller
             ['status' => $data['status'], 'connected_at' => now(), 'disconnected_at' => null]
         );
 
-        return back()->with('success', 'Connector assigned successfully.');
+        return redirect()->route('admin.users.show', $user)->with('success', 'Connector assigned successfully.')->with('active_tab', 'connectors');
     }
 
     public function edit(User $user, UserConnector $userConnector)
@@ -69,8 +69,9 @@ class UserConnectorController extends Controller
         ]);
 
         return redirect()
-            ->route('admin.users.connectors', $user)
-            ->with('success', 'Connector updated successfully.');
+            ->route('admin.users.show', $user)
+            ->with('success', 'Connector updated successfully.')
+            ->with('active_tab', 'connectors');
     }
 
     public function editConfig(User $user, UserConnector $userConnector)
@@ -102,13 +103,14 @@ class UserConnectorController extends Controller
         $userConnector->update(['config' => $config ?: null]);
 
         return redirect()
-            ->route('admin.users.connectors', $user)
-            ->with('success', 'Connector configuration saved.');
+            ->route('admin.users.show', $user)
+            ->with('success', 'Connector configuration saved.')
+            ->with('active_tab', 'connectors');
     }
 
     public function revoke(User $user, UserConnector $userConnector)
     {
         $userConnector->delete();
-        return back()->with('success', 'Connector removed from user.');
+        return redirect()->route('admin.users.show', $user)->with('success', 'Connector removed from user.')->with('active_tab', 'connectors');
     }
 }

@@ -51,7 +51,7 @@ class SubscriptionController extends Controller
         $agentName = Agent::find($data['agent_id'])?->name ?? 'Agent';
         ActivityLog::log('subscription.assign', "Assigned {$agentName} to {$user->name}", $user->id, Auth::id());
 
-        return back()->with('success', 'Agent assigned successfully.');
+        return redirect()->route('admin.users.show', $user)->with('success', 'Agent assigned successfully.')->with('active_tab', 'agents');
     }
 
     public function revoke(User $user, Subscription $subscription)
@@ -59,6 +59,6 @@ class SubscriptionController extends Controller
         $agentName = $subscription->agent?->name ?? 'Agent';
         $subscription->delete();
         ActivityLog::log('subscription.revoke', "Removed {$agentName} from {$user->name}", $user->id, Auth::id());
-        return back()->with('success', 'Agent removed from user.');
+        return redirect()->route('admin.users.show', $user)->with('success', 'Agent removed from user.')->with('active_tab', 'agents');
     }
 }
