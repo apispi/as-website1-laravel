@@ -13,7 +13,7 @@ class AgentController extends Controller
 {
     public function index()
     {
-        $agents     = Agent::orderBy('sort_order')->orderBy('name')->get();
+        $agents     = Agent::with('skills')->orderBy('sort_order')->orderBy('name')->get();
         $connectors = Connector::orderBy('sort_order')->orderBy('name')->get();
         $skills     = Skill::orderBy('category')->orderBy('sort_order')->orderBy('name')->get();
         return view('admin.agents.index', compact('agents', 'connectors', 'skills'));
