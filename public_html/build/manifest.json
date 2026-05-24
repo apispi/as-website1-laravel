@@ -65,7 +65,7 @@
     "isEntry": true
   },
   "resources/js/admin.js": {
-    "file": "assets/admin-CtvoNGV5.js",
+    "file": "assets/admin-DFgJ8Feq.js",
     "name": "admin",
     "src": "resources/js/admin.js",
     "isEntry": true,
@@ -73,7 +73,7 @@
       "__plugin-vue_export-helper-CPFaSfP0.js"
     ],
     "css": [
-      "assets/admin-Cad9luuo.css"
+      "assets/admin-DSJKO1nb.css"
     ]
   },
   "resources/js/agent-detail.js": {
