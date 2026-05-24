@@ -169,17 +169,83 @@
       <div v-else class="table-wrap">
         <table class="data-table">
           <thead>
-            <tr><th>Skill</th><th>Category</th></tr>
+            <tr>
+              <th>Skill</th>
+              <th>Category</th>
+              <th>Description</th>
+              <th>Last Synced</th>
+              <th></th>
+            </tr>
           </thead>
           <tbody>
             <tr v-for="s in skills" :key="s.id">
-              <td class="item-name">{{ s.name }}</td>
+              <td>
+                <div class="skill-name-cell">
+                  <span class="item-name">{{ s.name }}</span>
+                  <span v-if="hasDrift(s)" class="drift-badge" title="This skill's definition differs from the catalog">⚠ Drifted</span>
+                </div>
+              </td>
               <td class="muted">{{ s.category || '—' }}</td>
+              <td class="muted skill-desc">{{ s.description || '—' }}</td>
+              <td class="muted small">{{ s.refreshed_at ? formatDate(s.refreshed_at) : 'Never' }}</td>
+              <td class="actions">
+                <button class="btn-refresh" @click="openRefreshModal(s)">↻ Refresh</button>
+              </td>
             </tr>
           </tbody>
         </table>
       </div>
     </div>
+
+    <!-- Refresh Confirmation Modal -->
+    <Teleport to="body">
+      <div v-if="refreshTarget" class="modal-overlay" @click.self="closeModal">
+        <div class="modal">
+          <div class="modal-header">
+            <div class="modal-title">Refresh skill from catalog?</div>
+            <button class="modal-close" @click="closeModal">✕</button>
+          </div>
+          <div class="modal-body">
+            <p class="modal-warn">
+              This will overwrite <strong>{{ refreshTarget.name }}</strong>'s agent-specific definition with the current catalog values. Any customisations will be lost.
+            </p>
+            <div v-if="hasDrift(refreshTarget)" class="diff-block">
+              <div class="diff-title">Changes that will be applied:</div>
+              <div v-if="refreshTarget.name !== refreshTarget.catalog_name" class="diff-row">
+                <span class="diff-label">Name</span>
+                <span class="diff-from">{{ refreshTarget.name }}</span>
+                <span class="diff-arrow">→</span>
+                <span class="diff-to">{{ refreshTarget.catalog_name }}</span>
+              </div>
+              <div v-if="refreshTarget.category !== refreshTarget.catalog_category" class="diff-row">
+                <span class="diff-label">Category</span>
+                <span class="diff-from">{{ refreshTarget.category || '—' }}</span>
+                <span class="diff-arrow">→</span>
+                <span class="diff-to">{{ refreshTarget.catalog_category || '—' }}</span>
+              </div>
+              <div v-if="refreshTarget.description !== refreshTarget.catalog_desc" class="diff-row diff-row-col">
+                <span class="diff-label">Description</span>
+                <div class="diff-desc-pair">
+                  <div class="diff-desc from">{{ refreshTarget.description || '—' }}</div>
+                  <div class="diff-desc-arrow">↓</div>
+                  <div class="diff-desc to">{{ refreshTarget.catalog_desc || '—' }}</div>
+                </div>
+              </div>
+            </div>
+            <div v-else class="no-drift">
+              No differences found — this agent's definition already matches the catalog.
+            </div>
+          </div>
+          <div class="modal-footer">
+            <button class="btn-cancel" @click="closeModal">Cancel</button>
+            <form :action="`/admin/agents/${agent.id}/skills/${refreshTarget.id}/refresh`" method="POST" style="display:inline">
+              <input type="hidden" name="_token" :value="csrfToken">
+              <button type="submit" class="btn-confirm-refresh">Refresh from Catalog</button>
+            </form>
+          </div>
+        </div>
+      </div>
+    </Teleport>
 
     <!-- ── CONNECTORS TAB ── -->
     <div v-show="tab === 'connectors'" class="tab-content">
@@ -231,11 +297,21 @@ const props = defineProps({
   subscriptions: { type: Array,  default: () => [] },
 });
 
-const tab = ref('details');
+const tab           = ref('details');
+const refreshTarget = ref(null);
 
 const activeCount    = computed(() => props.subscriptions.filter(s => s.status === 'active').length);
 const cancelledCount = computed(() => props.subscriptions.filter(s => s.status === 'cancelled').length);
 const expiredCount   = computed(() => props.subscriptions.filter(s => s.status === 'expired').length);
+
+function hasDrift(s) {
+  return s.name !== s.catalog_name
+    || s.category !== s.catalog_category
+    || s.description !== s.catalog_desc;
+}
+
+function openRefreshModal(skill) { refreshTarget.value = skill; }
+function closeModal()            { refreshTarget.value = null; }
 
 function formatDate(dateStr) {
   if (!dateStr) return '—';
@@ -371,6 +447,45 @@ function formatDate(dateStr) {
 .empty-desc  { font-size: 0.875rem; color: #6b7280; }
 .empty-link  { color: #fca5a5; text-decoration: none; }
 .empty-link:hover { text-decoration: underline; }
+
+/* Skills table extras */
+.skill-name-cell { display: flex; align-items: center; gap: 0.5rem; }
+.drift-badge { font-size: 0.65rem; font-weight: 700; padding: 0.12rem 0.45rem; border-radius: 99px; background: rgba(245,158,11,0.12); color: #fbbf24; white-space: nowrap; }
+.skill-desc { max-width: 280px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; font-size: 0.8rem; }
+.btn-refresh { padding: 0.3rem 0.65rem; border-radius: 0.4rem; background: rgba(239,68,68,0.06); border: 1px solid rgba(239,68,68,0.18); color: #9ca3af; font-size: 0.75rem; font-weight: 600; cursor: pointer; transition: all 0.15s; white-space: nowrap; }
+.btn-refresh:hover { background: rgba(239,68,68,0.15); color: #fca5a5; border-color: rgba(239,68,68,0.35); }
+
+/* Modal */
+.modal-overlay { position: fixed; inset: 0; background: rgba(0,0,0,0.7); backdrop-filter: blur(4px); display: flex; align-items: center; justify-content: center; z-index: 9999; padding: 1rem; }
+.modal { background: #140808; border: 1px solid rgba(239,68,68,0.2); border-radius: 1rem; width: 100%; max-width: 520px; overflow: hidden; }
+.modal-header { display: flex; justify-content: space-between; align-items: center; padding: 1.1rem 1.4rem; border-bottom: 1px solid rgba(239,68,68,0.1); }
+.modal-title { font-size: 1rem; font-weight: 700; color: #f1f5f9; }
+.modal-close { background: none; border: none; color: #6b7280; cursor: pointer; font-size: 1rem; padding: 0.2rem; line-height: 1; }
+.modal-close:hover { color: #fca5a5; }
+.modal-body { padding: 1.25rem 1.4rem; }
+.modal-warn { font-size: 0.875rem; color: #d1d5db; line-height: 1.6; margin-bottom: 1rem; }
+.modal-warn strong { color: #fca5a5; }
+
+.diff-block { background: rgba(239,68,68,0.04); border: 1px solid rgba(239,68,68,0.12); border-radius: 0.6rem; padding: 0.75rem 1rem; display: flex; flex-direction: column; gap: 0.6rem; }
+.diff-title { font-size: 0.72rem; font-weight: 600; text-transform: uppercase; letter-spacing: 0.05em; color: #6b7280; margin-bottom: 0.25rem; }
+.diff-row { display: flex; align-items: center; gap: 0.6rem; flex-wrap: wrap; font-size: 0.82rem; }
+.diff-row-col { flex-direction: column; align-items: flex-start; }
+.diff-label { font-size: 0.7rem; font-weight: 600; color: #6b7280; min-width: 70px; }
+.diff-from { color: #fca5a5; text-decoration: line-through; opacity: 0.7; }
+.diff-arrow { color: #4b5563; }
+.diff-to { color: #00d97e; font-weight: 600; }
+.diff-desc-pair { display: flex; flex-direction: column; gap: 0.3rem; width: 100%; margin-top: 0.2rem; }
+.diff-desc { font-size: 0.8rem; padding: 0.4rem 0.6rem; border-radius: 0.35rem; line-height: 1.5; }
+.diff-desc.from { background: rgba(239,68,68,0.08); color: #fca5a5; text-decoration: line-through; opacity: 0.7; }
+.diff-desc.to   { background: rgba(0,217,126,0.06);  color: #00d97e; }
+.diff-desc-arrow { color: #4b5563; font-size: 0.8rem; padding-left: 0.4rem; }
+.no-drift { font-size: 0.85rem; color: #6b7280; font-style: italic; }
+
+.modal-footer { display: flex; justify-content: flex-end; gap: 0.75rem; padding: 1rem 1.4rem; border-top: 1px solid rgba(239,68,68,0.1); }
+.btn-cancel { padding: 0.5rem 1rem; border-radius: 0.5rem; background: rgba(107,114,128,0.1); border: 1px solid rgba(107,114,128,0.2); color: #9ca3af; font-size: 0.85rem; font-weight: 600; cursor: pointer; transition: all 0.15s; }
+.btn-cancel:hover { background: rgba(107,114,128,0.2); color: #e5e7eb; }
+.btn-confirm-refresh { padding: 0.5rem 1rem; border-radius: 0.5rem; background: rgba(239,68,68,0.15); border: 1px solid rgba(239,68,68,0.35); color: #fca5a5; font-size: 0.85rem; font-weight: 600; cursor: pointer; transition: all 0.15s; }
+.btn-confirm-refresh:hover { background: rgba(239,68,68,0.28); }
 
 @media (max-width: 640px) {
   .detail-grid { grid-template-columns: 1fr; }

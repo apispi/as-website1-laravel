@@ -7,6 +7,7 @@ use App\Models\Agent;
 use App\Models\Connector;
 use App\Models\Skill;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class AgentController extends Controller
 {
@@ -35,7 +36,7 @@ class AgentController extends Controller
     {
         $data  = $this->validated($request);
         $agent = Agent::create($data);
-        $agent->skills()->sync($request->input('skill_ids', []));
+        $this->syncSkills($agent, $request->input('skill_ids', []));
         $agent->connectors()->sync($request->input('connector_ids', []));
         return redirect()->route('admin.agents.edit', $agent)->with('success', 'Agent created.')
             ->with('active_tab', $this->safeTab($request));
@@ -53,7 +54,7 @@ class AgentController extends Controller
     {
         $data = $this->validated($request);
         $agent->update($data);
-        $agent->skills()->sync($request->input('skill_ids', []));
+        $this->syncSkills($agent, $request->input('skill_ids', []));
         $agent->connectors()->sync($request->input('connector_ids', []));
         return redirect()->route('admin.agents.edit', $agent)->with('success', 'Agent updated.')
             ->with('active_tab', $this->safeTab($request));
@@ -63,6 +64,32 @@ class AgentController extends Controller
     {
         $agent->delete();
         return redirect()->route('admin.agents.index')->with('success', 'Agent deleted.');
+    }
+
+    private function syncSkills(Agent $agent, array $newIds): void
+    {
+        $newIds  = array_map('intval', $newIds);
+        $currIds = $agent->skills()->pluck('skills.id')->toArray();
+
+        $toDetach = array_diff($currIds, $newIds);
+        $toAttach = array_diff($newIds, $currIds);
+
+        if ($toDetach) {
+            $agent->skills()->detach($toDetach);
+        }
+
+        if ($toAttach) {
+            $skills = Skill::whereIn('id', $toAttach)->get()->keyBy('id');
+            foreach ($toAttach as $skillId) {
+                $s = $skills[$skillId] ?? null;
+                $agent->skills()->attach($skillId, [
+                    'name'         => $s?->name ?? '',
+                    'description'  => $s?->description ?? '',
+                    'category'     => $s?->category ?? '',
+                    'refreshed_at' => now(),
+                ]);
+            }
+        }
     }
 
     private function safeTab(Request $request): string

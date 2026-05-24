@@ -35,7 +35,9 @@ class Agent extends Model
 
     public function skills()
     {
-        return $this->belongsToMany(Skill::class)->orderBy('sort_order');
+        return $this->belongsToMany(Skill::class)
+            ->withPivot(['name', 'description', 'category', 'refreshed_at'])
+            ->orderBy('sort_order');
     }
 
     public function connectors()
