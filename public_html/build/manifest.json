@@ -77,7 +77,7 @@
     ]
   },
   "resources/js/agent-detail.js": {
-    "file": "assets/agent-detail--Eh3LR7a.js",
+    "file": "assets/agent-detail-DrKXl-_h.js",
     "name": "agent-detail",
     "src": "resources/js/agent-detail.js",
     "isEntry": true,
@@ -85,7 +85,7 @@
       "__plugin-vue_export-helper-CPFaSfP0.js"
     ],
     "css": [
-      "assets/agent-detail-CrEzvYGq.css"
+      "assets/agent-detail-C7gZioww.css"
     ]
   },
   "resources/js/agents-list.js": {

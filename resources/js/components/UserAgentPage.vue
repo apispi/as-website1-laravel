@@ -23,11 +23,14 @@
 
       <nav class="ua-nav">
         <span class="ua-nav-label">Workspace</span>
-        <a href="/dashboard" class="ua-nav-link active">
+        <a href="/dashboard" class="ua-nav-link">
           <span class="ua-nav-icon">⬡</span> Overview
         </a>
+        <a href="/dashboard/agents" class="ua-nav-link active">
+          <span class="ua-nav-icon">◈</span> My Agents
+        </a>
         <a href="/dashboard/catalog" class="ua-nav-link">
-          <span class="ua-nav-icon">◎</span> Agent Catalog
+          <span class="ua-nav-icon">◎</span> Catalog
         </a>
         <a href="/training" class="ua-nav-link">
           <span class="ua-nav-icon">◷</span> Training
