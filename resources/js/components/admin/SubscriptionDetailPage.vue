@@ -162,6 +162,11 @@
 
     <!-- Skills tab -->
     <div v-show="tab === 'skills'">
+      <div class="scope-notice">
+        Skills are defined at the <strong>agent level</strong> — shared across all subscribers of
+        <a :href="`/admin/agents/${agent?.id}`" class="scope-agent-link">{{ agent?.name }}</a>.
+        Editing a skill here changes it for every user subscribed to this agent.
+      </div>
       <div v-if="agentSkills.length === 0" class="empty-state">
         <div class="empty-icon">◈</div>
         <div class="empty-title">No skills assigned</div>
@@ -326,6 +331,10 @@ function formatDate(dateStr) {
 .type-badge.oauth { background: rgba(139,92,246,0.12); color: #c4b5fd; }
 .type-badge.api   { background: rgba(59,130,246,0.1);  color: #93c5fd; }
 
+.scope-notice { margin-bottom: 0.875rem; padding: 0.65rem 0.9rem; border-radius: 0.5rem; background: rgba(252,211,77,0.05); border: 1px solid rgba(252,211,77,0.15); font-size: 0.8rem; color: #9ca3af; line-height: 1.5; }
+.scope-notice strong { color: #fbbf24; font-weight: 600; }
+.scope-agent-link { color: #fca5a5; text-decoration: none; }
+.scope-agent-link:hover { text-decoration: underline; }
 .skill-link { font-weight: 500; color: #e5e7eb; text-decoration: none; }
 .skill-link:hover { color: #fca5a5; text-decoration: underline; }
 .clickable-row { cursor: pointer; }
