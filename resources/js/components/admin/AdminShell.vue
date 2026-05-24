@@ -37,7 +37,7 @@
           <span class="adm-nav-icon">◈</span> Active Agents
         </a>
         <a href="/admin/agents" class="adm-nav-link" :class="{ active: page === 'agents' }">
-          <span class="adm-nav-icon">◎</span> Agent Catalog
+          <span class="adm-nav-icon">◎</span> Catalog
         </a>
         <a href="/admin/agents?tab=connectors" class="adm-nav-link" :class="{ active: page === 'connector-form' }">
           <span class="adm-nav-icon">⬡</span> Connector Catalog
