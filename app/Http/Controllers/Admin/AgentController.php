@@ -20,7 +20,8 @@ class AgentController extends Controller
     public function show(Agent $agent)
     {
         $agent->load('skills', 'connectors');
-        return view('admin.agents.show', compact('agent'));
+        $subscriptions = $agent->subscriptions()->with('user')->latest('started_at')->get();
+        return view('admin.agents.show', compact('agent', 'subscriptions'));
     }
 
     public function create()

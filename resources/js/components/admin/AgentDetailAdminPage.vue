@@ -21,11 +21,14 @@
 
     <!-- Top-level tabs -->
     <div class="top-tab-bar">
-      <button :class="['top-tab', { active: tab === 'details' }]"    @click="tab = 'details'">Details</button>
-      <button :class="['top-tab', { active: tab === 'skills' }]"     @click="tab = 'skills'">
+      <button :class="['top-tab', { active: tab === 'details' }]"     @click="tab = 'details'">Details</button>
+      <button :class="['top-tab', { active: tab === 'subscribers' }]" @click="tab = 'subscribers'">
+        Subscribers <span class="top-tab-count">{{ subscriptions.length }}</span>
+      </button>
+      <button :class="['top-tab', { active: tab === 'skills' }]"      @click="tab = 'skills'">
         Skills <span class="top-tab-count">{{ skills.length }}</span>
       </button>
-      <button :class="['top-tab', { active: tab === 'connectors' }]" @click="tab = 'connectors'">
+      <button :class="['top-tab', { active: tab === 'connectors' }]"  @click="tab = 'connectors'">
         Connectors <span class="top-tab-count">{{ connectors.length }}</span>
       </button>
     </div>
@@ -71,7 +74,7 @@
           </div>
         </div>
 
-        <div v-if="agent.tagline || agent.target_audience" class="card span-2">
+        <div v-if="agent.tagline || agent.target_audience || agent.cta_headline" class="card span-2">
           <div class="card-header">Positioning</div>
           <div class="info-rows">
             <div v-if="agent.tagline" class="info-row">
@@ -103,6 +106,54 @@
           </ul>
         </div>
 
+      </div>
+    </div>
+
+    <!-- ── SUBSCRIBERS TAB ── -->
+    <div v-show="tab === 'subscribers'" class="tab-content">
+      <div class="sub-stats">
+        <div class="stat-pill"><span class="stat-num">{{ activeCount }}</span> active</div>
+        <div class="stat-pill"><span class="stat-num">{{ cancelledCount }}</span> cancelled</div>
+        <div class="stat-pill"><span class="stat-num">{{ expiredCount }}</span> expired</div>
+      </div>
+
+      <div v-if="subscriptions.length === 0" class="empty-state">
+        <div class="empty-icon">◈</div>
+        <div class="empty-title">No subscribers yet</div>
+        <div class="empty-desc">Assign this agent to users from the Users section.</div>
+      </div>
+
+      <div v-else class="table-wrap">
+        <table class="data-table">
+          <thead>
+            <tr>
+              <th>User</th>
+              <th>Status</th>
+              <th>Started</th>
+              <th>Expires</th>
+              <th></th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr v-for="sub in subscriptions" :key="sub.id">
+              <td>
+                <a :href="`/admin/users/${sub.user?.id}?tab=agents`" class="user-cell">
+                  <div class="user-avatar">{{ sub.user?.name?.charAt(0)?.toUpperCase() ?? '?' }}</div>
+                  <div>
+                    <div class="user-name">{{ sub.user?.name ?? '—' }}</div>
+                    <div class="user-email">{{ sub.user?.email ?? '' }}</div>
+                  </div>
+                </a>
+              </td>
+              <td><span class="status-badge" :class="sub.status">{{ sub.status }}</span></td>
+              <td class="muted small">{{ formatDate(sub.started_at) }}</td>
+              <td class="muted small">{{ sub.expires_at ? formatDate(sub.expires_at) : 'Ongoing' }}</td>
+              <td class="actions">
+                <a :href="`/admin/users/${sub.user?.id}?tab=agents`" class="btn-ghost">Manage →</a>
+              </td>
+            </tr>
+          </tbody>
+        </table>
       </div>
     </div>
 
@@ -168,18 +219,28 @@
 </template>
 
 <script setup>
-import { ref } from 'vue';
+import { ref, computed } from 'vue';
 import AdminShell from './AdminShell.vue';
 
 const props = defineProps({
-  user:       { type: Object, default: () => ({}) },
-  csrfToken:  { type: String, default: '' },
-  agent:      { type: Object, default: () => ({}) },
-  skills:     { type: Array,  default: () => [] },
-  connectors: { type: Array,  default: () => [] },
+  user:          { type: Object, default: () => ({}) },
+  csrfToken:     { type: String, default: '' },
+  agent:         { type: Object, default: () => ({}) },
+  skills:        { type: Array,  default: () => [] },
+  connectors:    { type: Array,  default: () => [] },
+  subscriptions: { type: Array,  default: () => [] },
 });
 
 const tab = ref('details');
+
+const activeCount    = computed(() => props.subscriptions.filter(s => s.status === 'active').length);
+const cancelledCount = computed(() => props.subscriptions.filter(s => s.status === 'cancelled').length);
+const expiredCount   = computed(() => props.subscriptions.filter(s => s.status === 'expired').length);
+
+function formatDate(dateStr) {
+  if (!dateStr) return '—';
+  return new Date(dateStr).toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' });
+}
 </script>
 
 <style scoped>
@@ -205,9 +266,11 @@ const tab = ref('details');
 .badge-inline.premium { background: rgba(239,68,68,0.12); color: #fca5a5; }
 .badge-inline.new     { background: rgba(0,217,126,0.1);  color: #00d97e; }
 
-.status-badge { display: inline-block; padding: 0.2rem 0.5rem; border-radius: 99px; font-size: 0.68rem; font-weight: 600; }
-.status-badge.active   { background: rgba(0,217,126,0.1);   color: #00d97e; }
-.status-badge.inactive { background: rgba(107,114,128,0.12); color: #9ca3af; }
+.status-badge { display: inline-block; padding: 0.2rem 0.5rem; border-radius: 99px; font-size: 0.68rem; font-weight: 600; text-transform: capitalize; }
+.status-badge.active    { background: rgba(0,217,126,0.1);   color: #00d97e; }
+.status-badge.inactive  { background: rgba(107,114,128,0.12); color: #9ca3af; }
+.status-badge.cancelled { background: rgba(239,68,68,0.1);   color: #fca5a5; }
+.status-badge.expired   { background: rgba(107,114,128,0.12); color: #9ca3af; }
 
 .btn-edit {
   margin-left: auto; padding: 0.5rem 1rem; border-radius: 0.5rem;
@@ -244,6 +307,11 @@ const tab = ref('details');
 
 .tab-content { max-width: 900px; }
 
+/* Subscriber stats */
+.sub-stats { display: flex; gap: 0.75rem; flex-wrap: wrap; margin-bottom: 1.25rem; }
+.stat-pill { padding: 0.4rem 0.85rem; border-radius: 99px; background: rgba(239,68,68,0.06); border: 1px solid rgba(239,68,68,0.15); font-size: 0.82rem; color: #9ca3af; }
+.stat-num  { font-weight: 700; color: #fca5a5; }
+
 /* Detail grid */
 .detail-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1.25rem; align-items: start; }
 .card { background: rgba(24,10,10,0.6); border: 1px solid rgba(239,68,68,0.1); border-radius: 1rem; overflow: hidden; }
@@ -272,14 +340,30 @@ const tab = ref('details');
 .data-table tbody tr:last-child td { border-bottom: none; }
 .data-table tbody tr:hover td { background: rgba(239,68,68,0.03); }
 
+.user-cell { display: flex; align-items: center; gap: 0.75rem; text-decoration: none; }
+.user-cell:hover .user-name { color: #fca5a5; }
+.user-avatar {
+  width: 32px; height: 32px; border-radius: 50%; flex-shrink: 0;
+  background: linear-gradient(135deg, #ef4444, #fca5a5);
+  display: flex; align-items: center; justify-content: center;
+  font-weight: 700; font-size: 0.78rem; color: #fff;
+}
+.user-name  { font-size: 0.875rem; font-weight: 600; color: #e5e7eb; }
+.user-email { font-size: 0.75rem; color: #6b7280; margin-top: 0.1rem; }
+
 .item-cell { display: flex; align-items: center; gap: 0.65rem; }
 .item-icon { width: 28px; height: 28px; border-radius: 0.375rem; flex-shrink: 0; background: rgba(239,68,68,0.08); border: 1px solid rgba(239,68,68,0.15); display: flex; align-items: center; justify-content: center; font-size: 0.85rem; }
 .item-name { font-size: 0.875rem; font-weight: 600; color: #e5e7eb; }
 .muted { color: #6b7280; font-size: 0.875rem; }
+.small { font-size: 0.8rem; white-space: nowrap; }
 
 .type-badge { display: inline-block; padding: 0.15rem 0.45rem; border-radius: 99px; font-size: 0.68rem; font-weight: 700; }
 .type-badge.oauth { background: rgba(99,102,241,0.12); color: #a5b4fc; }
 .type-badge.api   { background: rgba(217,119,6,0.12);  color: #FCD34D; }
+
+.actions { text-align: right; }
+.btn-ghost { display: inline-block; padding: 0.3rem 0.55rem; border: 1px solid rgba(239,68,68,0.15); border-radius: 0.4rem; color: #9ca3af; font-size: 0.78rem; text-decoration: none; transition: all 0.18s; }
+.btn-ghost:hover { border-color: rgba(239,68,68,0.35); color: #fca5a5; }
 
 .empty-state { background: rgba(24,10,10,0.6); border: 1px solid rgba(239,68,68,0.1); border-radius: 1rem; padding: 3rem 2rem; text-align: center; max-width: 400px; }
 .empty-icon  { font-size: 2rem; opacity: 0.2; margin-bottom: 0.75rem; }
@@ -293,5 +377,6 @@ const tab = ref('details');
   .card.span-2 { grid-column: 1; }
   .page-title { font-size: 1.25rem; }
   .btn-edit { margin-left: 0; }
+  .top-tab { padding: 0.5rem 0.75rem; font-size: 0.8rem; }
 }
 </style>

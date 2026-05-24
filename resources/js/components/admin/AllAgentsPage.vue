@@ -44,7 +44,7 @@
         <tbody>
           <tr v-for="sub in subscriptions" :key="sub.id">
             <td>
-              <a v-if="sub.agent?.id" :href="`/admin/users/${sub.user?.id}?tab=agents`" class="agent-cell">
+              <a v-if="sub.agent?.id" :href="`/admin/agents/${sub.agent.id}`" class="agent-cell">
                 <div class="agent-icon">◈</div>
                 <div>
                   <div class="agent-name">{{ sub.agent?.name ?? '—' }}</div>
