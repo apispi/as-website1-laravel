@@ -25,20 +25,30 @@ class AgentSkillController extends Controller
             'description' => 'nullable|string',
         ]);
 
-        $agent->skills()->updateExistingPivot($skill->id, $data);
+        \DB::table('agent_skill')
+            ->where('agent_id', $agent->id)
+            ->where('skill_id', $skill->id)
+            ->update($data);
 
-        return back()->with('success', 'Skill definition updated.');
+        return redirect()
+            ->route('admin.agents.skills.show', [$agent, $skill])
+            ->with('success', 'Skill definition updated.');
     }
 
     public function refresh(Agent $agent, Skill $skill)
     {
-        $agent->skills()->updateExistingPivot($skill->id, [
-            'name'         => $skill->name,
-            'description'  => $skill->description,
-            'category'     => $skill->category,
-            'refreshed_at' => now(),
-        ]);
+        \DB::table('agent_skill')
+            ->where('agent_id', $agent->id)
+            ->where('skill_id', $skill->id)
+            ->update([
+                'name'         => $skill->name,
+                'description'  => $skill->description,
+                'category'     => $skill->category,
+                'refreshed_at' => now(),
+            ]);
 
-        return back()->with('success', "Skill \"{$skill->name}\" refreshed from catalog.");
+        return redirect()
+            ->route('admin.agents.skills.show', [$agent, $skill])
+            ->with('success', "Skill \"{$skill->name}\" refreshed from catalog.");
     }
 }
