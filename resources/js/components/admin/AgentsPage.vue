@@ -50,7 +50,6 @@
           <thead>
             <tr>
               <th>Agent</th>
-              <th>Skills</th>
               <th>Badge</th>
               <th>Rating</th>
               <th>Users</th>
@@ -69,14 +68,6 @@
                     <div class="item-slug">{{ agent.slug }}</div>
                   </div>
                 </a>
-              </td>
-              <td>
-                <div v-if="agent.skills && agent.skills.length" class="skill-chips">
-                  <a v-for="s in agent.skills" :key="s.id"
-                     :href="`/admin/agents/${agent.id}/skills/${s.id}`"
-                     class="skill-chip">{{ s.name }}</a>
-                </div>
-                <span v-else class="muted">—</span>
               </td>
               <td>
                 <span v-if="agent.badge" class="badge" :class="agent.badge.toLowerCase()">{{ agent.badge }}</span>
@@ -102,7 +93,7 @@
               </td>
             </tr>
             <tr v-if="agentFiltered.length === 0">
-              <td colspan="8" style="text-align:center; padding:2.5rem; color:#4b5563;">No agents found</td>
+              <td colspan="7" style="text-align:center; padding:2.5rem; color:#4b5563;">No agents found</td>
             </tr>
           </tbody>
         </table>
@@ -499,15 +490,6 @@ function confirmDeleteCn(event, name) {
 .url-link { font-size: 0.8rem; color: #6b7280; text-decoration: none; }
 .url-link:hover { color: #fca5a5; }
 .skill-desc { max-width: 320px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; font-size: 0.82rem; }
-
-.skill-chips { display: flex; flex-wrap: wrap; gap: 0.3rem; max-width: 260px; }
-.skill-chip {
-  display: inline-block; padding: 0.18rem 0.55rem; border-radius: 99px;
-  font-size: 0.72rem; font-weight: 600; white-space: nowrap;
-  background: rgba(239,68,68,0.08); border: 1px solid rgba(239,68,68,0.2);
-  color: #fca5a5; text-decoration: none; transition: all 0.15s;
-}
-.skill-chip:hover { background: rgba(239,68,68,0.18); border-color: rgba(239,68,68,0.4); }
 
 .actions { text-align: right; white-space: nowrap; display: flex; align-items: center; justify-content: flex-end; gap: 0.375rem; }
 .btn-ghost  { display: inline-block; padding: 0.35rem 0.6rem; border: 1px solid rgba(239,68,68,0.15); border-radius: 0.4rem; color: #9ca3af; font-size: 0.78rem; text-decoration: none; transition: all 0.18s; }

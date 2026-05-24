@@ -191,6 +191,7 @@
                     </th>
                     <th>Skill</th>
                     <th>Category</th>
+                    <th v-if="agent"></th>
                   </tr>
                 </thead>
                 <tbody>
@@ -204,6 +205,11 @@
                     </td>
                     <td class="item-name">{{ skill.name }}</td>
                     <td class="item-cat">{{ skill.category || '—' }}</td>
+                    <td v-if="agent" class="col-detail" @click.stop>
+                      <a v-if="selectedSkillIds.includes(skill.id)"
+                         :href="`/admin/agents/${agent.id}/skills/${skill.id}`"
+                         class="detail-link">Details →</a>
+                    </td>
                   </tr>
                   <tr v-if="skillFiltered.length === 0">
                     <td colspan="3" class="assoc-empty-row">No skills found</td>
@@ -531,12 +537,15 @@ textarea.mono { font-family: 'Menlo', 'Monaco', 'Consolas', monospace; font-size
 .assoc-table tbody tr { cursor: pointer; transition: background 0.12s; }
 .assoc-table tbody tr:hover td { background: rgba(239,68,68,0.04); }
 .assoc-table tbody tr.selected td { background: rgba(239,68,68,0.06); }
-.col-check { width: 40px; padding-left: 0.875rem; }
-.row-check { width: 14px; height: 14px; accent-color: #ef4444; cursor: pointer; display: block; }
-.item-name { font-weight: 500; color: #e5e7eb; }
-.item-cat  { color: #6b7280; font-size: 0.78rem; }
-.cn-icon   { margin-right: 0.35rem; font-size: 0.9rem; }
+.col-check  { width: 40px; padding-left: 0.875rem; }
+.col-detail { width: 80px; text-align: right; padding-right: 0.875rem; }
+.row-check  { width: 14px; height: 14px; accent-color: #ef4444; cursor: pointer; display: block; }
+.item-name  { font-weight: 500; color: #e5e7eb; }
+.item-cat   { color: #6b7280; font-size: 0.78rem; }
+.cn-icon    { margin-right: 0.35rem; font-size: 0.9rem; }
 .assoc-empty-row { text-align: center; padding: 2rem; color: #4b5563; }
+.detail-link { font-size: 0.75rem; color: #6b7280; text-decoration: none; white-space: nowrap; }
+.detail-link:hover { color: #fca5a5; }
 
 .assoc-pagination { display: flex; align-items: center; justify-content: center; gap: 0.3rem; margin-top: 0.875rem; flex-wrap: wrap; }
 .pg-btn {
