@@ -8,6 +8,7 @@
     data-props="{{ json_encode([
         'user'      => ['id' => Auth::id(), 'name' => Auth::user()->name, 'email' => Auth::user()->email],
         'csrfToken' => csrf_token(),
+        'flashSuccess' => session('success', ''),
         'agent' => [
             'id'   => $agent->id,
             'name' => $agent->name,

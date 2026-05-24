@@ -6,6 +6,8 @@
       <a :href="`/admin/agents/${agent.id}`" class="back-link">← {{ agent.name }}</a>
     </div>
 
+    <div v-if="flashSuccess" class="flash success">{{ flashSuccess }}</div>
+
     <!-- Header -->
     <div class="page-header">
       <div class="header-main">
@@ -31,7 +33,10 @@
       <!-- Agent definition -->
       <div class="card">
         <div class="card-header">
-          <span>Agent Definition</span>
+          <div class="card-header-left">
+            <span>Agent Definition</span>
+            <span class="scope-note">Unique to {{ agent.name }}</span>
+          </div>
           <button v-if="!editing" class="btn-edit-inline" @click="startEdit">Edit</button>
           <button v-else class="btn-cancel-inline" @click="cancelEdit">Cancel</button>
         </div>
@@ -75,6 +80,7 @@
             </div>
             <div class="edit-actions">
               <button type="submit" class="btn-save">Save Changes</button>
+              <p class="scope-hint">Changes apply only to <strong>{{ agent.name }}</strong> — other agents and the catalog are unaffected.</p>
             </div>
           </form>
         </template>
@@ -162,11 +168,12 @@ import { ref, computed } from 'vue';
 import AdminShell from './AdminShell.vue';
 
 const props = defineProps({
-  currentUser: { type: Object, default: () => ({}) },
-  csrfToken:   { type: String, default: '' },
-  agent:       { type: Object, default: () => ({}) },
-  skill:       { type: Object, default: () => ({}) },
-  pivot:       { type: Object, default: () => ({}) },
+  currentUser:  { type: Object, default: () => ({}) },
+  csrfToken:    { type: String, default: '' },
+  flashSuccess: { type: String, default: '' },
+  agent:        { type: Object, default: () => ({}) },
+  skill:        { type: Object, default: () => ({}) },
+  pivot:        { type: Object, default: () => ({}) },
 });
 
 const showModal = ref(false);
@@ -198,6 +205,8 @@ function formatDate(dateStr) {
 <style scoped>
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
+.flash.success { margin-bottom: 1rem; padding: 0.75rem 1rem; border-radius: 0.5rem; background: rgba(0,217,126,0.08); border: 1px solid rgba(0,217,126,0.2); color: #00d97e; font-size: 0.875rem; }
+
 .back-row { margin-bottom: 1rem; }
 .back-link { font-size: 0.82rem; color: #6b7280; text-decoration: none; }
 .back-link:hover { color: #fca5a5; }
@@ -228,6 +237,9 @@ function formatDate(dateStr) {
 
 .card { background: rgba(24,10,10,0.6); border: 1px solid rgba(239,68,68,0.1); border-radius: 1rem; overflow: hidden; }
 .catalog-card { border-color: rgba(107,114,128,0.15); background: rgba(12,12,14,0.6); }
+
+.card-header-left { display: flex; flex-direction: column; gap: 0.15rem; }
+.scope-note { font-size: 0.65rem; font-weight: 400; color: #4b5563; text-transform: none; letter-spacing: 0; }
 
 .card-header {
   display: flex; justify-content: space-between; align-items: center;
@@ -267,6 +279,8 @@ function formatDate(dateStr) {
 .edit-actions { padding: 0.875rem 1.25rem; }
 .btn-save { padding: 0.45rem 1.1rem; border-radius: 0.45rem; background: rgba(239,68,68,0.12); border: 1px solid rgba(239,68,68,0.3); color: #fca5a5; font-size: 0.85rem; font-weight: 600; cursor: pointer; transition: all 0.15s; }
 .btn-save:hover { background: rgba(239,68,68,0.24); }
+.scope-hint { margin-top: 0.6rem; font-size: 0.75rem; color: #4b5563; line-height: 1.5; }
+.scope-hint strong { color: #6b7280; }
 
 /* Modal */
 .modal-overlay { position: fixed; inset: 0; background: rgba(0,0,0,0.7); backdrop-filter: blur(4px); display: flex; align-items: center; justify-content: center; z-index: 9999; padding: 1rem; }
