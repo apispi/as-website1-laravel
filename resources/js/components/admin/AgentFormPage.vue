@@ -206,7 +206,7 @@
                     <td class="item-name">{{ skill.name }}</td>
                     <td class="item-cat">{{ skill.category || '—' }}</td>
                     <td v-if="agent" class="col-detail" @click.stop>
-                      <a v-if="selectedSkillIds.includes(skill.id)"
+                      <a v-if="agentSkillIds.includes(skill.id)"
                          :href="`/admin/agents/${agent.id}/skills/${skill.id}`"
                          class="detail-link">Details →</a>
                     </td>
