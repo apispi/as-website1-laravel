@@ -1,57 +1,55 @@
 <template>
   <AdminShell :user="currentUser" :csrf-token="csrfToken" page="all-agents">
 
-    <!-- Breadcrumb -->
     <div class="back-row">
-      <a :href="`/admin/agents/${agent.id}`" class="back-link">← {{ agent.name }}</a>
+      <a :href="`/admin/subscriptions/${subscription.id}`" class="back-link">← {{ subUser?.name }} · {{ agent?.name }}</a>
     </div>
 
     <div v-if="flashSuccess" class="flash success">{{ flashSuccess }}</div>
 
-    <!-- Header -->
     <div class="page-header">
       <div class="header-main">
         <div class="skill-avatar">◇</div>
         <div class="header-text">
           <h1 class="page-title">{{ pivot.name || skill.catalog_name }}</h1>
           <div class="header-sub">
-            <span class="muted">Agent skill on</span>
-            <a :href="`/admin/agents/${agent.id}`" class="agent-link">{{ agent.name }}</a>
+            <span class="muted">User skill for</span>
+            <a :href="`/admin/users/${subUser?.id}`" class="user-link">{{ subUser?.name }}</a>
+            <span class="sep">·</span>
+            <a :href="`/admin/agents/${agent?.id}`" class="agent-link">{{ agent?.name }}</a>
           </div>
         </div>
         <div class="header-actions">
-          <span v-if="hasDrift" class="drift-pill">⚠ Drifted from catalog</span>
-          <span v-else class="sync-pill">✓ In sync</span>
-          <button class="btn-refresh" @click="showModal = true">↻ Refresh from Catalog</button>
+          <span v-if="hasDrift" class="drift-pill">⚠ Differs from agent default</span>
+          <span v-else class="sync-pill">✓ Matches agent default</span>
+          <button class="btn-refresh" @click="showModal = true">↻ Reset to Agent Default</button>
         </div>
       </div>
     </div>
 
-    <!-- Comparison cards -->
     <div class="compare-grid">
 
-      <!-- Agent definition -->
+      <!-- User definition -->
       <div class="card">
         <div class="card-header">
           <div class="card-header-left">
-            <span>Agent Definition</span>
-            <span class="scope-note">Default for new subscribers of {{ agent.name }}</span>
+            <span>User Definition</span>
+            <span class="scope-note">Unique to {{ subUser?.name }}</span>
           </div>
           <button v-if="!editing" class="btn-edit-inline" @click="startEdit">Edit</button>
           <button v-else class="btn-cancel-inline" @click="cancelEdit">Cancel</button>
         </div>
 
-        <!-- View mode -->
         <template v-if="!editing">
-          <div class="field-block" :class="{ drifted: pivot.name !== skill.catalog_name }">
+          <div class="field-block" :class="{ drifted: pivot.name !== agentDefault?.name }">
             <div class="field-label">Name</div>
             <div class="field-val">{{ pivot.name || '—' }}</div>
           </div>
-          <div class="field-block" :class="{ drifted: pivot.category !== skill.catalog_category }">
+          <div class="field-block" :class="{ drifted: pivot.category !== agentDefault?.category }">
             <div class="field-label">Category</div>
             <div class="field-val">{{ pivot.category || '—' }}</div>
           </div>
-          <div class="field-block desc-block" :class="{ drifted: pivot.description !== skill.catalog_desc }">
+          <div class="field-block desc-block" :class="{ drifted: pivot.description !== agentDefault?.description }">
             <div class="field-label">Description</div>
             <div class="field-val desc">{{ pivot.description || '—' }}</div>
           </div>
@@ -61,9 +59,8 @@
           </div>
         </template>
 
-        <!-- Edit mode -->
         <template v-else>
-          <form :action="`/admin/agents/${agent.id}/skills/${skill.id}`" method="POST" class="edit-form">
+          <form :action="`/admin/subscriptions/${subscription.id}/skills/${skill.id}`" method="POST" class="edit-form">
             <input type="hidden" name="_token" :value="csrfToken">
             <input type="hidden" name="_method" value="PUT">
             <div class="edit-field">
@@ -72,7 +69,7 @@
             </div>
             <div class="edit-field">
               <label class="field-label">Category</label>
-              <input type="text" name="category" class="edit-input" v-model="editCategory" placeholder="e.g. NLP, Document">
+              <input type="text" name="category" class="edit-input" v-model="editCategory">
             </div>
             <div class="edit-field">
               <label class="field-label">Description</label>
@@ -80,80 +77,83 @@
             </div>
             <div class="edit-actions">
               <button type="submit" class="btn-save">Save Changes</button>
-              <p class="scope-hint">Sets the default for <strong>new subscribers</strong> of {{ agent.name }} — existing users' personal definitions are unaffected.</p>
+              <p class="scope-hint">Changes apply only to <strong>{{ subUser?.name }}</strong>'s subscription — other users are unaffected.</p>
             </div>
           </form>
         </template>
       </div>
 
-      <!-- Catalog definition -->
-      <div class="card catalog-card">
+      <!-- Agent default -->
+      <div class="card default-card">
         <div class="card-header">
-          <span>Catalog Definition</span>
-          <a :href="`/admin/skills/${skill.id}/edit`" class="edit-catalog-link">Edit in Catalog →</a>
+          <span>Agent Default</span>
+          <a :href="`/admin/agents/${agent?.id}/skills/${skill.id}`" class="edit-default-link">Edit Default →</a>
         </div>
-        <div class="field-block" :class="{ drifted: pivot.name !== skill.catalog_name }">
+        <div class="field-block" :class="{ drifted: pivot.name !== agentDefault?.name }">
           <div class="field-label">Name</div>
-          <div class="field-val">{{ skill.catalog_name || '—' }}</div>
+          <div class="field-val">{{ agentDefault?.name || '—' }}</div>
         </div>
-        <div class="field-block" :class="{ drifted: pivot.category !== skill.catalog_category }">
+        <div class="field-block" :class="{ drifted: pivot.category !== agentDefault?.category }">
           <div class="field-label">Category</div>
-          <div class="field-val">{{ skill.catalog_category || '—' }}</div>
+          <div class="field-val">{{ agentDefault?.category || '—' }}</div>
         </div>
-        <div class="field-block desc-block" :class="{ drifted: pivot.description !== skill.catalog_desc }">
+        <div class="field-block desc-block" :class="{ drifted: pivot.description !== agentDefault?.description }">
           <div class="field-label">Description</div>
-          <div class="field-val desc">{{ skill.catalog_desc || '—' }}</div>
+          <div class="field-val desc">{{ agentDefault?.description || '—' }}</div>
         </div>
         <div class="field-block">
-          <div class="field-label">Skill ID</div>
-          <div class="field-val muted-val mono">{{ skill.id }}</div>
+          <div class="field-label">Agent</div>
+          <div class="field-val muted-val">
+            <a :href="`/admin/agents/${agent?.id}`" class="agent-link-sm">{{ agent?.name }}</a>
+          </div>
         </div>
       </div>
 
     </div>
 
-    <!-- Refresh Confirmation Modal -->
+    <!-- Reset Confirmation Modal -->
     <Teleport to="body">
       <div v-if="showModal" class="modal-overlay" @click.self="showModal = false">
         <div class="modal">
           <div class="modal-header">
-            <div class="modal-title">Refresh from catalog?</div>
+            <div class="modal-title">Reset to agent default?</div>
             <button class="modal-close" @click="showModal = false">✕</button>
           </div>
           <div class="modal-body">
             <p class="modal-warn">
-              This will overwrite the agent-specific definition of <strong>{{ pivot.name || skill.catalog_name }}</strong> with the current catalog values. Any customisations will be lost.
+              This will overwrite <strong>{{ subUser?.name }}</strong>'s definition of
+              <strong>{{ pivot.name || skill.catalog_name }}</strong> with the current agent default. Any personalisation will be lost.
             </p>
             <div v-if="hasDrift" class="diff-block">
               <div class="diff-title">Changes that will be applied:</div>
-              <div v-if="pivot.name !== skill.catalog_name" class="diff-row">
+              <div v-if="pivot.name !== agentDefault?.name" class="diff-row">
                 <span class="diff-label">Name</span>
                 <span class="diff-from">{{ pivot.name }}</span>
                 <span class="diff-arrow">→</span>
-                <span class="diff-to">{{ skill.catalog_name }}</span>
+                <span class="diff-to">{{ agentDefault?.name }}</span>
               </div>
-              <div v-if="pivot.category !== skill.catalog_category" class="diff-row">
+              <div v-if="pivot.category !== agentDefault?.category" class="diff-row">
                 <span class="diff-label">Category</span>
                 <span class="diff-from">{{ pivot.category || '—' }}</span>
                 <span class="diff-arrow">→</span>
-                <span class="diff-to">{{ skill.catalog_category || '—' }}</span>
+                <span class="diff-to">{{ agentDefault?.category || '—' }}</span>
               </div>
-              <div v-if="pivot.description !== skill.catalog_desc" class="diff-row diff-row-col">
+              <div v-if="pivot.description !== agentDefault?.description" class="diff-row diff-row-col">
                 <span class="diff-label">Description</span>
                 <div class="diff-desc-pair">
                   <div class="diff-desc from">{{ pivot.description || '—' }}</div>
                   <div class="diff-desc-arrow">↓</div>
-                  <div class="diff-desc to">{{ skill.catalog_desc || '—' }}</div>
+                  <div class="diff-desc to">{{ agentDefault?.description || '—' }}</div>
                 </div>
               </div>
             </div>
-            <div v-else class="no-drift">No differences — already in sync with the catalog.</div>
+            <div v-else class="no-drift">Already matches the agent default — no changes will be made.</div>
           </div>
           <div class="modal-footer">
             <button class="btn-cancel" @click="showModal = false">Cancel</button>
-            <form :action="`/admin/agents/${agent.id}/skills/${skill.id}/refresh`" method="POST" style="display:inline">
+            <form :action="`/admin/subscriptions/${subscription.id}/skills/${skill.id}/refresh`" method="POST" style="display:inline">
               <input type="hidden" name="_token" :value="csrfToken">
-              <button type="submit" class="btn-confirm-refresh">Refresh from Catalog</button>
+              <button type="submit" class="btn-confirm-refresh">Reset to Agent Default</button>
             </form>
           </div>
         </div>
@@ -171,16 +171,19 @@ const props = defineProps({
   currentUser:  { type: Object, default: () => ({}) },
   csrfToken:    { type: String, default: '' },
   flashSuccess: { type: String, default: '' },
-  agent:        { type: Object, default: () => ({}) },
+  subscription: { type: Object, default: () => ({}) },
+  subUser:      { type: Object, default: null },
+  agent:        { type: Object, default: null },
   skill:        { type: Object, default: () => ({}) },
   pivot:        { type: Object, default: () => ({}) },
+  agentDefault: { type: Object, default: null },
 });
 
-const showModal = ref(false);
-const editing   = ref(false);
-const editName        = ref('');
-const editCategory    = ref('');
-const editDescription = ref('');
+const showModal        = ref(false);
+const editing          = ref(false);
+const editName         = ref('');
+const editCategory     = ref('');
+const editDescription  = ref('');
 
 function startEdit() {
   editName.value        = props.pivot.name        ?? '';
@@ -191,9 +194,9 @@ function startEdit() {
 function cancelEdit() { editing.value = false; }
 
 const hasDrift = computed(() =>
-  props.pivot.name        !== props.skill.catalog_name ||
-  props.pivot.category    !== props.skill.catalog_category ||
-  props.pivot.description !== props.skill.catalog_desc
+  props.pivot.name        !== props.agentDefault?.name ||
+  props.pivot.category    !== props.agentDefault?.category ||
+  props.pivot.description !== props.agentDefault?.description
 );
 
 function formatDate(dateStr) {
@@ -213,17 +216,15 @@ function formatDate(dateStr) {
 
 .page-header { margin-bottom: 1.75rem; }
 .header-main { display: flex; align-items: flex-start; gap: 1rem; flex-wrap: wrap; }
-.skill-avatar {
-  width: 44px; height: 44px; border-radius: 0.6rem; flex-shrink: 0;
-  background: rgba(239,68,68,0.08); border: 1px solid rgba(239,68,68,0.2);
-  display: flex; align-items: center; justify-content: center;
-  font-size: 1.2rem; color: #fca5a5;
-}
+.skill-avatar { width: 44px; height: 44px; border-radius: 0.6rem; flex-shrink: 0; background: rgba(239,68,68,0.08); border: 1px solid rgba(239,68,68,0.2); display: flex; align-items: center; justify-content: center; font-size: 1.2rem; color: #fca5a5; }
 .header-text { flex: 1; min-width: 0; }
 .page-title { font-size: 1.5rem; font-weight: 700; color: #f1f5f9; margin-bottom: 0.25rem; }
 .header-sub { font-size: 0.85rem; color: #6b7280; display: flex; gap: 0.35rem; align-items: center; flex-wrap: wrap; }
+.user-link  { color: #fca5a5; text-decoration: none; font-weight: 500; }
+.user-link:hover { text-decoration: underline; }
 .agent-link { color: #fca5a5; text-decoration: none; font-weight: 500; }
 .agent-link:hover { text-decoration: underline; }
+.sep { color: #4b5563; }
 .muted { color: #6b7280; }
 
 .header-actions { display: flex; align-items: center; gap: 0.75rem; flex-wrap: wrap; margin-left: auto; }
@@ -232,40 +233,29 @@ function formatDate(dateStr) {
 .btn-refresh { padding: 0.45rem 0.9rem; border-radius: 0.45rem; background: rgba(239,68,68,0.08); border: 1px solid rgba(239,68,68,0.25); color: #fca5a5; font-size: 0.82rem; font-weight: 600; cursor: pointer; transition: all 0.15s; }
 .btn-refresh:hover { background: rgba(239,68,68,0.18); }
 
-/* Comparison grid */
 .compare-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1.25rem; align-items: start; max-width: 900px; }
 
 .card { background: rgba(24,10,10,0.6); border: 1px solid rgba(239,68,68,0.1); border-radius: 1rem; overflow: hidden; }
-.catalog-card { border-color: rgba(107,114,128,0.15); background: rgba(12,12,14,0.6); }
+.default-card { border-color: rgba(107,114,128,0.15); background: rgba(12,12,14,0.6); }
 
+.card-header { display: flex; justify-content: space-between; align-items: center; padding: 0.875rem 1.25rem; font-size: 0.78rem; font-weight: 600; text-transform: uppercase; letter-spacing: 0.07em; color: #6b7280; border-bottom: 1px solid rgba(239,68,68,0.08); background: rgba(239,68,68,0.03); }
+.default-card .card-header { background: rgba(107,114,128,0.05); border-color: rgba(107,114,128,0.1); }
 .card-header-left { display: flex; flex-direction: column; gap: 0.15rem; }
 .scope-note { font-size: 0.65rem; font-weight: 400; color: #4b5563; text-transform: none; letter-spacing: 0; }
-
-.card-header {
-  display: flex; justify-content: space-between; align-items: center;
-  padding: 0.875rem 1.25rem;
-  font-size: 0.78rem; font-weight: 600; text-transform: uppercase; letter-spacing: 0.07em;
-  color: #6b7280; border-bottom: 1px solid rgba(239,68,68,0.08);
-  background: rgba(239,68,68,0.03);
-}
-.catalog-card .card-header { background: rgba(107,114,128,0.05); border-color: rgba(107,114,128,0.1); }
-.card-sub { font-size: 0.7rem; font-weight: 400; color: #4b5563; text-transform: none; letter-spacing: 0; }
-.edit-catalog-link { font-size: 0.72rem; font-weight: 600; color: #6b7280; text-decoration: none; text-transform: none; letter-spacing: 0; }
-.edit-catalog-link:hover { color: #fca5a5; }
+.edit-default-link { font-size: 0.72rem; font-weight: 600; color: #6b7280; text-decoration: none; text-transform: none; letter-spacing: 0; }
+.edit-default-link:hover { color: #fca5a5; }
 
 .field-block { padding: 0.875rem 1.25rem; border-bottom: 1px solid rgba(239,68,68,0.06); transition: background 0.15s; }
-.catalog-card .field-block { border-color: rgba(107,114,128,0.08); }
+.default-card .field-block { border-color: rgba(107,114,128,0.08); }
 .field-block:last-child { border-bottom: none; }
 .field-block.drifted { background: rgba(245,158,11,0.04); }
-
 .field-label { font-size: 0.72rem; font-weight: 600; text-transform: uppercase; letter-spacing: 0.05em; color: #6b7280; margin-bottom: 0.35rem; }
 .field-val { font-size: 0.9rem; color: #e5e7eb; }
 .field-val.desc { line-height: 1.6; font-size: 0.875rem; color: #d1d5db; }
 .muted-val { color: #6b7280; font-size: 0.82rem; }
-.mono { font-family: monospace; }
-.desc-block { }
+.agent-link-sm { color: #fca5a5; text-decoration: none; font-size: 0.82rem; }
+.agent-link-sm:hover { text-decoration: underline; }
 
-/* Inline edit */
 .btn-edit-inline   { padding: 0.2rem 0.6rem; border-radius: 0.35rem; font-size: 0.72rem; font-weight: 600; cursor: pointer; background: rgba(239,68,68,0.08); border: 1px solid rgba(239,68,68,0.2); color: #fca5a5; transition: all 0.15s; }
 .btn-edit-inline:hover { background: rgba(239,68,68,0.18); }
 .btn-cancel-inline { padding: 0.2rem 0.6rem; border-radius: 0.35rem; font-size: 0.72rem; font-weight: 600; cursor: pointer; background: rgba(107,114,128,0.1); border: 1px solid rgba(107,114,128,0.2); color: #9ca3af; transition: all 0.15s; }
@@ -282,7 +272,6 @@ function formatDate(dateStr) {
 .scope-hint { margin-top: 0.6rem; font-size: 0.75rem; color: #4b5563; line-height: 1.5; }
 .scope-hint strong { color: #6b7280; }
 
-/* Modal */
 .modal-overlay { position: fixed; inset: 0; background: rgba(0,0,0,0.7); backdrop-filter: blur(4px); display: flex; align-items: center; justify-content: center; z-index: 9999; padding: 1rem; }
 .modal { background: #140808; border: 1px solid rgba(239,68,68,0.2); border-radius: 1rem; width: 100%; max-width: 520px; overflow: hidden; }
 .modal-header { display: flex; justify-content: space-between; align-items: center; padding: 1.1rem 1.4rem; border-bottom: 1px solid rgba(239,68,68,0.1); }

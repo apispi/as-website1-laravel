@@ -162,12 +162,7 @@
 
     <!-- Skills tab -->
     <div v-show="tab === 'skills'">
-      <div class="scope-notice">
-        Skills are defined at the <strong>agent level</strong> — shared across all subscribers of
-        <a :href="`/admin/agents/${agent?.id}`" class="scope-agent-link">{{ agent?.name }}</a>.
-        Editing a skill here changes it for every user subscribed to this agent.
-      </div>
-      <div v-if="agentSkills.length === 0" class="empty-state">
+      <div v-if="subSkills.length === 0" class="empty-state">
         <div class="empty-icon">◈</div>
         <div class="empty-title">No skills assigned</div>
         <div class="empty-desc">This agent has no associated skills.</div>
@@ -181,8 +176,8 @@
             </tr>
           </thead>
           <tbody>
-            <tr v-for="s in agentSkills" :key="s.id" class="clickable-row" @click="goSkill(s.id)">
-              <td><a :href="`/admin/agents/${agent.id}/skills/${s.id}`" class="skill-link" @click.stop>{{ s.name }}</a></td>
+            <tr v-for="s in subSkills" :key="s.id" class="clickable-row" @click="goSkill(s.id)">
+              <td><a :href="`/admin/subscriptions/${subscription.id}/skills/${s.id}`" class="skill-link" @click.stop>{{ s.name }}</a></td>
               <td class="muted small">{{ s.category || '—' }}</td>
             </tr>
           </tbody>
@@ -204,7 +199,7 @@ const props = defineProps({
   subUser:         { type: Object, default: null },
   agent:           { type: Object, default: null },
   agentConnectors: { type: Array,  default: () => [] },
-  agentSkills:     { type: Array,  default: () => [] },
+  subSkills:       { type: Array,  default: () => [] },
   userConnectors:  { type: Array,  default: () => [] },
 });
 
@@ -213,7 +208,7 @@ const tab = ref('overview');
 const tabs = computed(() => [
   { key: 'overview',    label: 'Overview',    count: null },
   { key: 'connectors',  label: 'Connectors',  count: props.agentConnectors.length },
-  { key: 'skills',      label: 'Skills',      count: props.agentSkills.length },
+  { key: 'skills',      label: 'Skills',      count: props.subSkills.length },
 ]);
 
 const editStatus  = ref(props.subscription.status ?? 'active');
@@ -226,7 +221,7 @@ function userConnectorStatus(connectorId) {
   return uc?.status ?? null;
 }
 
-function goSkill(skillId) { window.location.href = `/admin/agents/${props.agent?.id}/skills/${skillId}`; }
+function goSkill(skillId) { window.location.href = `/admin/subscriptions/${props.subscription.id}/skills/${skillId}`; }
 
 function formatDate(dateStr) {
   if (!dateStr) return '—';

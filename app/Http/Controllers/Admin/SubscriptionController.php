@@ -48,7 +48,18 @@ class SubscriptionController extends Controller
             'expires_at' => $data['expires_at'] ?? null,
         ]);
 
-        $agentName = Agent::find($data['agent_id'])?->name ?? 'Agent';
+        // Seed per-user skill definitions from the agent's defaults
+        $agent = Agent::with('skills')->find($data['agent_id']);
+        foreach ($agent->skills as $skill) {
+            $subscription->skills()->attach($skill->id, [
+                'name'         => $skill->pivot->name ?: $skill->name,
+                'description'  => $skill->pivot->description ?: $skill->description,
+                'category'     => $skill->pivot->category ?: $skill->category,
+                'refreshed_at' => now(),
+            ]);
+        }
+
+        $agentName = $agent->name;
         ActivityLog::log('subscription.assign', "Assigned {$agentName} to {$user->name}", $user->id, Auth::id());
 
         return redirect()->route('admin.users.show', $user)->with('success', 'Agent assigned successfully.')->with('active_tab', 'agents');
@@ -68,6 +79,7 @@ class SubscriptionController extends Controller
             'user.userConnectors.connector',
             'agent.connectors',
             'agent.skills',
+            'skills',
         ]);
         return view('admin.subscription-detail', compact('subscription'));
     }

@@ -36,11 +36,11 @@
             'category' => $c->category,
             'is_oauth' => $c->is_oauth ?? false,
         ])->values() ?? [],
-        'agentSkills' => $subscription->agent?->skills->map(fn($s) => [
+        'subSkills' => $subscription->skills->map(fn($s) => [
             'id'       => $s->id,
             'name'     => $s->pivot->name ?: $s->name,
             'category' => $s->pivot->category ?: $s->category,
-        ])->values() ?? [],
+        ])->values(),
         'userConnectors' => $subscription->user?->userConnectors->map(fn($uc) => [
             'id'           => $uc->id,
             'connector_id' => $uc->connector_id,
