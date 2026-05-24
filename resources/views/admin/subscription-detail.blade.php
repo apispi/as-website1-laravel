@@ -38,8 +38,8 @@
         ])->values() ?? [],
         'agentSkills' => $subscription->agent?->skills->map(fn($s) => [
             'id'       => $s->id,
-            'name'     => $s->name,
-            'category' => $s->category,
+            'name'     => $s->pivot->name ?: $s->name,
+            'category' => $s->pivot->category ?: $s->category,
         ])->values() ?? [],
         'userConnectors' => $subscription->user?->userConnectors->map(fn($uc) => [
             'id'           => $uc->id,

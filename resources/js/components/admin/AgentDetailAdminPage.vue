@@ -181,7 +181,7 @@
             <tr v-for="s in skills" :key="s.id">
               <td>
                 <div class="skill-name-cell">
-                  <span class="item-name">{{ s.name }}</span>
+                  <a :href="`/admin/agents/${agent.id}/skills/${s.id}`" class="item-name skill-link">{{ s.name }}</a>
                   <span v-if="hasDrift(s)" class="drift-badge" title="This skill's definition differs from the catalog">⚠ Drifted</span>
                 </div>
               </td>
@@ -449,6 +449,8 @@ function formatDate(dateStr) {
 .empty-link:hover { text-decoration: underline; }
 
 /* Skills table extras */
+.skill-link { text-decoration: none; }
+.skill-link:hover { color: #fca5a5 !important; text-decoration: underline; }
 .skill-name-cell { display: flex; align-items: center; gap: 0.5rem; }
 .drift-badge { font-size: 0.65rem; font-weight: 700; padding: 0.12rem 0.45rem; border-radius: 99px; background: rgba(245,158,11,0.12); color: #fbbf24; white-space: nowrap; }
 .skill-desc { max-width: 280px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; font-size: 0.8rem; }

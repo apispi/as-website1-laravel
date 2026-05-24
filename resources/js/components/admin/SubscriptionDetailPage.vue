@@ -176,8 +176,8 @@
             </tr>
           </thead>
           <tbody>
-            <tr v-for="s in agentSkills" :key="s.id">
-              <td><a :href="`/admin/skills/${s.id}/edit`" class="skill-link">{{ s.name }}</a></td>
+            <tr v-for="s in agentSkills" :key="s.id" class="clickable-row" @click="goSkill(s.id)">
+              <td><a :href="`/admin/agents/${agent.id}/skills/${s.id}`" class="skill-link" @click.stop>{{ s.name }}</a></td>
               <td class="muted small">{{ s.category || '—' }}</td>
             </tr>
           </tbody>
@@ -220,6 +220,8 @@ function userConnectorStatus(connectorId) {
   const uc = props.userConnectors.find(u => u.connector_id === connectorId);
   return uc?.status ?? null;
 }
+
+function goSkill(skillId) { window.location.href = `/admin/agents/${props.agent?.id}/skills/${skillId}`; }
 
 function formatDate(dateStr) {
   if (!dateStr) return '—';
@@ -326,6 +328,8 @@ function formatDate(dateStr) {
 
 .skill-link { font-weight: 500; color: #e5e7eb; text-decoration: none; }
 .skill-link:hover { color: #fca5a5; text-decoration: underline; }
+.clickable-row { cursor: pointer; }
+.clickable-row:hover td { background: rgba(239,68,68,0.04) !important; }
 
 /* Empty state */
 .empty-state { background: rgba(24,10,10,0.6); border: 1px solid rgba(239,68,68,0.1); border-radius: 1rem; padding: 3rem 2rem; text-align: center; max-width: 400px; }
