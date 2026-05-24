@@ -32,24 +32,52 @@
       <div class="card">
         <div class="card-header">
           <span>Agent Definition</span>
-          <span class="card-sub">Customised for {{ agent.name }}</span>
+          <button v-if="!editing" class="btn-edit-inline" @click="startEdit">Edit</button>
+          <button v-else class="btn-cancel-inline" @click="cancelEdit">Cancel</button>
         </div>
-        <div class="field-block" :class="{ drifted: pivot.name !== skill.catalog_name }">
-          <div class="field-label">Name</div>
-          <div class="field-val">{{ pivot.name || '—' }}</div>
-        </div>
-        <div class="field-block" :class="{ drifted: pivot.category !== skill.catalog_category }">
-          <div class="field-label">Category</div>
-          <div class="field-val">{{ pivot.category || '—' }}</div>
-        </div>
-        <div class="field-block desc-block" :class="{ drifted: pivot.description !== skill.catalog_desc }">
-          <div class="field-label">Description</div>
-          <div class="field-val desc">{{ pivot.description || '—' }}</div>
-        </div>
-        <div class="field-block">
-          <div class="field-label">Last Synced</div>
-          <div class="field-val muted-val">{{ pivot.refreshed_at ? formatDate(pivot.refreshed_at) : 'Never' }}</div>
-        </div>
+
+        <!-- View mode -->
+        <template v-if="!editing">
+          <div class="field-block" :class="{ drifted: pivot.name !== skill.catalog_name }">
+            <div class="field-label">Name</div>
+            <div class="field-val">{{ pivot.name || '—' }}</div>
+          </div>
+          <div class="field-block" :class="{ drifted: pivot.category !== skill.catalog_category }">
+            <div class="field-label">Category</div>
+            <div class="field-val">{{ pivot.category || '—' }}</div>
+          </div>
+          <div class="field-block desc-block" :class="{ drifted: pivot.description !== skill.catalog_desc }">
+            <div class="field-label">Description</div>
+            <div class="field-val desc">{{ pivot.description || '—' }}</div>
+          </div>
+          <div class="field-block">
+            <div class="field-label">Last Synced</div>
+            <div class="field-val muted-val">{{ pivot.refreshed_at ? formatDate(pivot.refreshed_at) : 'Never' }}</div>
+          </div>
+        </template>
+
+        <!-- Edit mode -->
+        <template v-else>
+          <form :action="`/admin/agents/${agent.id}/skills/${skill.id}`" method="POST" class="edit-form">
+            <input type="hidden" name="_token" :value="csrfToken">
+            <input type="hidden" name="_method" value="PUT">
+            <div class="edit-field">
+              <label class="field-label">Name</label>
+              <input type="text" name="name" class="edit-input" v-model="editName" required>
+            </div>
+            <div class="edit-field">
+              <label class="field-label">Category</label>
+              <input type="text" name="category" class="edit-input" v-model="editCategory" placeholder="e.g. NLP, Document">
+            </div>
+            <div class="edit-field">
+              <label class="field-label">Description</label>
+              <textarea name="description" class="edit-textarea" v-model="editDescription" rows="4"></textarea>
+            </div>
+            <div class="edit-actions">
+              <button type="submit" class="btn-save">Save Changes</button>
+            </div>
+          </form>
+        </template>
       </div>
 
       <!-- Catalog definition -->
@@ -142,6 +170,18 @@ const props = defineProps({
 });
 
 const showModal = ref(false);
+const editing   = ref(false);
+const editName        = ref('');
+const editCategory    = ref('');
+const editDescription = ref('');
+
+function startEdit() {
+  editName.value        = props.pivot.name        ?? '';
+  editCategory.value    = props.pivot.category    ?? '';
+  editDescription.value = props.pivot.description ?? '';
+  editing.value = true;
+}
+function cancelEdit() { editing.value = false; }
 
 const hasDrift = computed(() =>
   props.pivot.name        !== props.skill.catalog_name ||
@@ -212,6 +252,21 @@ function formatDate(dateStr) {
 .muted-val { color: #6b7280; font-size: 0.82rem; }
 .mono { font-family: monospace; }
 .desc-block { }
+
+/* Inline edit */
+.btn-edit-inline   { padding: 0.2rem 0.6rem; border-radius: 0.35rem; font-size: 0.72rem; font-weight: 600; cursor: pointer; background: rgba(239,68,68,0.08); border: 1px solid rgba(239,68,68,0.2); color: #fca5a5; transition: all 0.15s; }
+.btn-edit-inline:hover { background: rgba(239,68,68,0.18); }
+.btn-cancel-inline { padding: 0.2rem 0.6rem; border-radius: 0.35rem; font-size: 0.72rem; font-weight: 600; cursor: pointer; background: rgba(107,114,128,0.1); border: 1px solid rgba(107,114,128,0.2); color: #9ca3af; transition: all 0.15s; }
+.btn-cancel-inline:hover { background: rgba(107,114,128,0.2); color: #e5e7eb; }
+
+.edit-form { padding: 0; }
+.edit-field { padding: 0.875rem 1.25rem; border-bottom: 1px solid rgba(239,68,68,0.06); display: flex; flex-direction: column; gap: 0.4rem; }
+.edit-field:last-of-type { border-bottom: none; }
+.edit-input, .edit-textarea { width: 100%; padding: 0.5rem 0.7rem; background: rgba(12,4,4,0.8); border: 1px solid rgba(252,211,77,0.35); border-radius: 0.4rem; color: #e5e7eb; font-size: 0.875rem; font-family: inherit; transition: border-color 0.18s; resize: vertical; }
+.edit-input:focus, .edit-textarea:focus { outline: none; border-color: rgba(252,211,77,0.85); box-shadow: 0 0 0 3px rgba(252,211,77,0.1); }
+.edit-actions { padding: 0.875rem 1.25rem; }
+.btn-save { padding: 0.45rem 1.1rem; border-radius: 0.45rem; background: rgba(239,68,68,0.12); border: 1px solid rgba(239,68,68,0.3); color: #fca5a5; font-size: 0.85rem; font-weight: 600; cursor: pointer; transition: all 0.15s; }
+.btn-save:hover { background: rgba(239,68,68,0.24); }
 
 /* Modal */
 .modal-overlay { position: fixed; inset: 0; background: rgba(0,0,0,0.7); backdrop-filter: blur(4px); display: flex; align-items: center; justify-content: center; z-index: 9999; padding: 1rem; }

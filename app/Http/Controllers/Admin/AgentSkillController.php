@@ -17,6 +17,19 @@ class AgentSkillController extends Controller
         return view('admin.agent-skill', compact('agent', 'skill', 'agentSkill'));
     }
 
+    public function update(\Illuminate\Http\Request $request, Agent $agent, Skill $skill)
+    {
+        $data = $request->validate([
+            'name'        => 'required|string|max:255',
+            'category'    => 'nullable|string|max:100',
+            'description' => 'nullable|string',
+        ]);
+
+        $agent->skills()->updateExistingPivot($skill->id, $data);
+
+        return back()->with('success', 'Skill definition updated.');
+    }
+
     public function refresh(Agent $agent, Skill $skill)
     {
         $agent->skills()->updateExistingPivot($skill->id, [

@@ -110,6 +110,7 @@ Route::middleware(['auth', 'admin'])->prefix('admin')->name('admin.')->group(fun
     Route::post('/agents', [AdminAgents::class, 'store'])->name('agents.store');
     Route::get('/agents/{agent}', [AdminAgents::class, 'show'])->name('agents.show');
     Route::get('/agents/{agent}/skills/{skill}', [\App\Http\Controllers\Admin\AgentSkillController::class, 'show'])->name('agents.skills.show');
+    Route::put('/agents/{agent}/skills/{skill}', [\App\Http\Controllers\Admin\AgentSkillController::class, 'update'])->name('agents.skills.update');
     Route::post('/agents/{agent}/skills/{skill}/refresh', [\App\Http\Controllers\Admin\AgentSkillController::class, 'refresh'])->name('agents.skills.refresh');
     Route::get('/agents/{agent}/edit', [AdminAgents::class, 'edit'])->name('agents.edit');
     Route::put('/agents/{agent}', [AdminAgents::class, 'update'])->name('agents.update');
