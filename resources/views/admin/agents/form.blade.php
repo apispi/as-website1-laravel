@@ -10,9 +10,9 @@
         'csrfToken'      => csrf_token(),
         'agent'          => $agent ?? null,
         'errors'         => $errors->all(),
-        'allSkills'          => $skills->groupBy('category')->map(fn($g) => $g->values())->toArray(),
+        'allSkills'          => $skills->map(fn($s) => ['id' => $s->id, 'name' => $s->name, 'category' => $s->category])->toArray(),
         'agentSkillIds'      => isset($agent) ? $agent->skills->pluck('id')->toArray() : [],
-        'allConnectors'      => $connectors->groupBy('category')->map(fn($g) => $g->values()->map(fn($c) => ['id' => $c->id, 'name' => $c->name, 'icon' => $c->icon]))->toArray(),
+        'allConnectors'      => $connectors->map(fn($c) => ['id' => $c->id, 'name' => $c->name, 'icon' => $c->icon, 'category' => $c->category])->toArray(),
         'agentConnectorIds'  => isset($agent) ? $agent->connectors->pluck('id')->toArray() : [],
     ]) }}">
 </div>
