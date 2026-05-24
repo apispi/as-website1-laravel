@@ -17,130 +17,7 @@
         <input type="hidden" name="_token" :value="csrfToken">
         <input v-if="agent" type="hidden" name="_method" value="PUT">
 
-        <div class="form-grid">
-          <div class="form-group full">
-            <label>Name <span class="req">*</span></label>
-            <input type="text" name="name" :value="agent?.name" required placeholder="e.g. Bid & Tender Response">
-          </div>
-
-          <div class="form-group">
-            <label>Slug <span class="req">*</span></label>
-            <input type="text" name="slug" :value="agent?.slug" required placeholder="e.g. bid-tender">
-            <p class="hint">Used in the URL: /agents/slug</p>
-          </div>
-
-          <div class="form-group">
-            <label>Category</label>
-            <input type="text" name="category" :value="agent?.category" placeholder="e.g. Security & Compliance">
-          </div>
-
-          <div class="form-group full">
-            <label>Description <span class="req">*</span></label>
-            <textarea name="description" rows="3" required placeholder="Short description shown on the marketplace card.">{{ agent?.description }}</textarea>
-          </div>
-
-          <div class="form-group">
-            <label>Badge</label>
-            <select name="badge">
-              <option value="">None</option>
-              <option value="Popular"  :selected="agent?.badge === 'Popular'">Popular</option>
-              <option value="Premium"  :selected="agent?.badge === 'Premium'">Premium</option>
-              <option value="New"      :selected="agent?.badge === 'New'">New</option>
-            </select>
-          </div>
-
-          <div class="form-group">
-            <label>Rating</label>
-            <input type="number" name="rating" :value="agent?.rating" step="0.01" min="0" max="5" placeholder="e.g. 4.90">
-          </div>
-
-          <div class="form-group">
-            <label>Users Count</label>
-            <input type="text" name="users_count" :value="agent?.users_count" placeholder="e.g. 340+">
-          </div>
-
-          <div class="form-group">
-            <label>Price</label>
-            <input type="text" name="price" :value="agent?.price" placeholder="e.g. $499/mo">
-          </div>
-
-          <div class="form-group">
-            <label>Sort Order</label>
-            <input type="number" name="sort_order" :value="agent?.sort_order ?? 0" min="0">
-          </div>
-
-          <div class="form-group checkboxes">
-            <label class="checkbox-label">
-              <input type="hidden" name="is_featured" value="0">
-              <input type="checkbox" name="is_featured" value="1" :checked="agent?.is_featured">
-              Featured (highlighted card on marketplace)
-            </label>
-            <label class="checkbox-label">
-              <input type="hidden" name="is_active" value="0">
-              <input type="checkbox" name="is_active" value="1" :checked="agent?.is_active ?? true">
-              Active (visible on marketplace)
-            </label>
-          </div>
-        </div>
-
-        <div class="section-divider">
-          <span>Rich Content</span>
-        </div>
-
-        <div class="form-grid">
-          <div class="form-group">
-            <label>Checkout Name</label>
-            <input type="text" name="checkout_name" :value="agent?.checkout_name" placeholder="e.g. Bid+Tender+Response">
-            <p class="hint">Used in checkout URL query string.</p>
-          </div>
-
-          <div class="form-group">
-            <label>Target Audience</label>
-            <input type="text" name="target_audience" :value="agent?.target_audience" placeholder="e.g. ICT consultancies, Defence contractors">
-          </div>
-
-          <div class="form-group">
-            <label>Tagline</label>
-            <input type="text" name="tagline" :value="agent?.tagline" placeholder="Short tagline (optional)">
-          </div>
-
-          <div class="form-group">
-            <label>CTA Headline</label>
-            <input type="text" name="cta_headline" :value="agent?.cta_headline" placeholder="e.g. Win More Tenders with AI">
-          </div>
-
-          <div class="form-group full">
-            <label>CTA Subtext</label>
-            <input type="text" name="cta_sub" :value="agent?.cta_sub" placeholder="e.g. Start automating your government bid responses today">
-          </div>
-
-          <div class="form-group full">
-            <label>Key Capabilities (one per line)</label>
-            <textarea name="features" rows="6" placeholder="Reads and parses RFQs&#10;Matches CVs to selection criteria&#10;...">{{ agent?.features ? agent.features.join('\n') : '' }}</textarea>
-          </div>
-
-          <div class="form-group full">
-            <label>What's Included (one per line)</label>
-            <textarea name="includes" rows="6" placeholder="RFQ/RFT document analysis&#10;CV-to-criteria matching&#10;...">{{ agent?.includes ? agent.includes.join('\n') : '' }}</textarea>
-          </div>
-
-          <div class="form-group full">
-            <label>Use Cases (JSON array)</label>
-            <textarea name="use_cases" rows="8" class="mono" placeholder='[{"title":"...","description":"..."}]'>{{ agent?.use_cases ? JSON.stringify(agent.use_cases, null, 2) : '' }}</textarea>
-          </div>
-
-          <div class="form-group full">
-            <label>Pricing Plans (JSON array)</label>
-            <textarea name="pricing_plans" rows="12" class="mono" placeholder='[{"name":"Starter","description":"...","price":"$299/month","amount":299,"features":["..."],"is_recommended":false,"checkout_name":"..."}]'>{{ agent?.pricing_plans ? JSON.stringify(agent.pricing_plans, null, 2) : '' }}</textarea>
-          </div>
-
-          <div class="form-group full">
-            <label>FAQs (JSON array)</label>
-            <textarea name="faqs" rows="8" class="mono" placeholder='[{"question":"...","answer":"..."}]'>{{ agent?.faqs ? JSON.stringify(agent.faqs, null, 2) : '' }}</textarea>
-          </div>
-        </div>
-
-        <!-- Hidden inputs — always in DOM so all selections submit regardless of page -->
+        <!-- Hidden inputs — always in DOM so all selections submit regardless of active tab/page -->
         <template v-for="id in selectedSkillIds" :key="'sk' + id">
           <input type="hidden" name="skill_ids[]" :value="id">
         </template>
@@ -148,142 +25,261 @@
           <input type="hidden" name="connector_ids[]" :value="id">
         </template>
 
-        <!-- Association tabs -->
-        <div class="assoc-tabs-wrap">
-          <div class="assoc-tab-bar">
-            <button type="button"
-                    :class="['assoc-tab', { active: assocTab === 'skills' }]"
-                    @click="assocTab = 'skills'">
-              Skills
-              <span class="assoc-tab-count">{{ selectedSkillIds.length }}</span>
-            </button>
-            <button type="button"
-                    :class="['assoc-tab', { active: assocTab === 'connectors' }]"
-                    @click="assocTab = 'connectors'">
-              Connectors
-              <span class="assoc-tab-count">{{ selectedConnectorIds.length }}</span>
-            </button>
+        <!-- Top-level tab bar -->
+        <div class="top-tab-bar">
+          <button type="button" :class="['top-tab', { active: mainTab === 'details' }]" @click="mainTab = 'details'">
+            Details
+          </button>
+          <button type="button" :class="['top-tab', { active: mainTab === 'skills' }]" @click="mainTab = 'skills'">
+            Skills <span class="top-tab-count">{{ selectedSkillIds.length }}</span>
+          </button>
+          <button type="button" :class="['top-tab', { active: mainTab === 'connectors' }]" @click="mainTab = 'connectors'">
+            Connectors <span class="top-tab-count">{{ selectedConnectorIds.length }}</span>
+          </button>
+        </div>
+
+        <!-- ── DETAILS TAB ── -->
+        <div v-show="mainTab === 'details'" class="tab-panel">
+          <div class="form-grid">
+            <div class="form-group full">
+              <label>Name <span class="req">*</span></label>
+              <input type="text" name="name" :value="agent?.name" required placeholder="e.g. Bid & Tender Response">
+            </div>
+
+            <div class="form-group">
+              <label>Slug <span class="req">*</span></label>
+              <input type="text" name="slug" :value="agent?.slug" required placeholder="e.g. bid-tender">
+              <p class="hint">Used in the URL: /agents/slug</p>
+            </div>
+
+            <div class="form-group">
+              <label>Category</label>
+              <input type="text" name="category" :value="agent?.category" placeholder="e.g. Security & Compliance">
+            </div>
+
+            <div class="form-group full">
+              <label>Description <span class="req">*</span></label>
+              <textarea name="description" rows="3" required placeholder="Short description shown on the marketplace card.">{{ agent?.description }}</textarea>
+            </div>
+
+            <div class="form-group">
+              <label>Badge</label>
+              <select name="badge">
+                <option value="">None</option>
+                <option value="Popular" :selected="agent?.badge === 'Popular'">Popular</option>
+                <option value="Premium" :selected="agent?.badge === 'Premium'">Premium</option>
+                <option value="New"     :selected="agent?.badge === 'New'">New</option>
+              </select>
+            </div>
+
+            <div class="form-group">
+              <label>Rating</label>
+              <input type="number" name="rating" :value="agent?.rating" step="0.01" min="0" max="5" placeholder="e.g. 4.90">
+            </div>
+
+            <div class="form-group">
+              <label>Users Count</label>
+              <input type="text" name="users_count" :value="agent?.users_count" placeholder="e.g. 340+">
+            </div>
+
+            <div class="form-group">
+              <label>Price</label>
+              <input type="text" name="price" :value="agent?.price" placeholder="e.g. $499/mo">
+            </div>
+
+            <div class="form-group">
+              <label>Sort Order</label>
+              <input type="number" name="sort_order" :value="agent?.sort_order ?? 0" min="0">
+            </div>
+
+            <div class="form-group checkboxes">
+              <label class="checkbox-label">
+                <input type="hidden" name="is_featured" value="0">
+                <input type="checkbox" name="is_featured" value="1" :checked="agent?.is_featured">
+                Featured (highlighted card on marketplace)
+              </label>
+              <label class="checkbox-label">
+                <input type="hidden" name="is_active" value="0">
+                <input type="checkbox" name="is_active" value="1" :checked="agent?.is_active ?? true">
+                Active (visible on marketplace)
+              </label>
+            </div>
           </div>
 
-          <!-- Skills panel -->
-          <div v-show="assocTab === 'skills'" class="assoc-panel">
-            <div v-if="allSkills.length === 0" class="assoc-empty">
-              No skills defined yet. <a href="/admin/skills/create" class="assoc-link">Create one →</a>
-            </div>
-            <template v-else>
-              <div class="assoc-toolbar">
-                <div class="assoc-search-wrap">
-                  <span class="assoc-search-icon">◎</span>
-                  <input v-model="skillSearch" type="text" placeholder="Search skills…" class="assoc-search-input">
-                </div>
-                <div class="assoc-filter-tabs">
-                  <button type="button" :class="['assoc-ftab', { active: skillView === 'all' }]"     @click="skillView = 'all'">All <span class="assoc-ftab-n">{{ allSkills.length }}</span></button>
-                  <button type="button" :class="['assoc-ftab', { active: skillView === 'selected' }]" @click="skillView = 'selected'">Selected <span class="assoc-ftab-n">{{ selectedSkillIds.length }}</span></button>
-                </div>
-              </div>
-              <div class="assoc-table-wrap">
-                <table class="assoc-table">
-                  <thead>
-                    <tr>
-                      <th class="col-check">
-                        <input type="checkbox" class="row-check"
-                               :checked="skillPageAllSelected"
-                               :indeterminate="skillPageSomeSelected && !skillPageAllSelected"
-                               @change="toggleSkillPage">
-                      </th>
-                      <th>Skill</th>
-                      <th>Category</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    <tr v-for="skill in skillPageRows" :key="skill.id"
-                        :class="{ selected: selectedSkillIds.includes(skill.id) }"
-                        @click="toggleSkill(skill.id)">
-                      <td class="col-check" @click.stop>
-                        <input type="checkbox" class="row-check"
-                               :checked="selectedSkillIds.includes(skill.id)"
-                               @change="toggleSkill(skill.id)">
-                      </td>
-                      <td class="item-name">{{ skill.name }}</td>
-                      <td class="item-cat">{{ skill.category || '—' }}</td>
-                    </tr>
-                    <tr v-if="skillFiltered.length === 0">
-                      <td colspan="3" class="assoc-empty-row">No skills found</td>
-                    </tr>
-                  </tbody>
-                </table>
-              </div>
-              <div v-if="skillTotalPages > 1" class="assoc-pagination">
-                <button type="button" class="pg-btn" :disabled="skillPage === 1" @click="skillPage--">‹</button>
-                <template v-for="p in skillPageNumbers" :key="p">
-                  <span v-if="p === '…'" class="pg-ellipsis">…</span>
-                  <button v-else type="button" :class="['pg-btn', { active: p === skillPage }]" @click="skillPage = p">{{ p }}</button>
-                </template>
-                <button type="button" class="pg-btn" :disabled="skillPage === skillTotalPages" @click="skillPage++">›</button>
-              </div>
-            </template>
-          </div>
+          <div class="section-divider"><span>Rich Content</span></div>
 
-          <!-- Connectors panel -->
-          <div v-show="assocTab === 'connectors'" class="assoc-panel">
-            <div v-if="allConnectors.length === 0" class="assoc-empty">
-              No connectors defined yet. <a href="/admin/connectors/create" class="assoc-link">Create one →</a>
+          <div class="form-grid">
+            <div class="form-group">
+              <label>Checkout Name</label>
+              <input type="text" name="checkout_name" :value="agent?.checkout_name" placeholder="e.g. Bid+Tender+Response">
+              <p class="hint">Used in checkout URL query string.</p>
             </div>
-            <template v-else>
-              <div class="assoc-toolbar">
-                <div class="assoc-search-wrap">
-                  <span class="assoc-search-icon">◎</span>
-                  <input v-model="cnSearch" type="text" placeholder="Search connectors…" class="assoc-search-input">
-                </div>
-                <div class="assoc-filter-tabs">
-                  <button type="button" :class="['assoc-ftab', { active: cnView === 'all' }]"      @click="cnView = 'all'">All <span class="assoc-ftab-n">{{ allConnectors.length }}</span></button>
-                  <button type="button" :class="['assoc-ftab', { active: cnView === 'selected' }]" @click="cnView = 'selected'">Selected <span class="assoc-ftab-n">{{ selectedConnectorIds.length }}</span></button>
-                </div>
-              </div>
-              <div class="assoc-table-wrap">
-                <table class="assoc-table">
-                  <thead>
-                    <tr>
-                      <th class="col-check">
-                        <input type="checkbox" class="row-check"
-                               :checked="cnPageAllSelected"
-                               :indeterminate="cnPageSomeSelected && !cnPageAllSelected"
-                               @change="toggleCnPage">
-                      </th>
-                      <th>Connector</th>
-                      <th>Category</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    <tr v-for="cn in cnPageRows" :key="cn.id"
-                        :class="{ selected: selectedConnectorIds.includes(cn.id) }"
-                        @click="toggleConnector(cn.id)">
-                      <td class="col-check" @click.stop>
-                        <input type="checkbox" class="row-check"
-                               :checked="selectedConnectorIds.includes(cn.id)"
-                               @change="toggleConnector(cn.id)">
-                      </td>
-                      <td class="item-name">
-                        <span v-if="cn.icon" class="cn-icon">{{ cn.icon }}</span>{{ cn.name }}
-                      </td>
-                      <td class="item-cat">{{ cn.category || '—' }}</td>
-                    </tr>
-                    <tr v-if="cnFiltered.length === 0">
-                      <td colspan="3" class="assoc-empty-row">No connectors found</td>
-                    </tr>
-                  </tbody>
-                </table>
-              </div>
-              <div v-if="cnTotalPages > 1" class="assoc-pagination">
-                <button type="button" class="pg-btn" :disabled="cnPage === 1" @click="cnPage--">‹</button>
-                <template v-for="p in cnPageNumbers" :key="p">
-                  <span v-if="p === '…'" class="pg-ellipsis">…</span>
-                  <button v-else type="button" :class="['pg-btn', { active: p === cnPage }]" @click="cnPage = p">{{ p }}</button>
-                </template>
-                <button type="button" class="pg-btn" :disabled="cnPage === cnTotalPages" @click="cnPage++">›</button>
-              </div>
-            </template>
+
+            <div class="form-group">
+              <label>Target Audience</label>
+              <input type="text" name="target_audience" :value="agent?.target_audience" placeholder="e.g. ICT consultancies, Defence contractors">
+            </div>
+
+            <div class="form-group">
+              <label>Tagline</label>
+              <input type="text" name="tagline" :value="agent?.tagline" placeholder="Short tagline (optional)">
+            </div>
+
+            <div class="form-group">
+              <label>CTA Headline</label>
+              <input type="text" name="cta_headline" :value="agent?.cta_headline" placeholder="e.g. Win More Tenders with AI">
+            </div>
+
+            <div class="form-group full">
+              <label>CTA Subtext</label>
+              <input type="text" name="cta_sub" :value="agent?.cta_sub" placeholder="e.g. Start automating your government bid responses today">
+            </div>
+
+            <div class="form-group full">
+              <label>Key Capabilities (one per line)</label>
+              <textarea name="features" rows="6" placeholder="Reads and parses RFQs&#10;Matches CVs to selection criteria&#10;...">{{ agent?.features ? agent.features.join('\n') : '' }}</textarea>
+            </div>
+
+            <div class="form-group full">
+              <label>What's Included (one per line)</label>
+              <textarea name="includes" rows="6" placeholder="RFQ/RFT document analysis&#10;CV-to-criteria matching&#10;...">{{ agent?.includes ? agent.includes.join('\n') : '' }}</textarea>
+            </div>
+
+            <div class="form-group full">
+              <label>Use Cases (JSON array)</label>
+              <textarea name="use_cases" rows="8" class="mono" placeholder='[{"title":"...","description":"..."}]'>{{ agent?.use_cases ? JSON.stringify(agent.use_cases, null, 2) : '' }}</textarea>
+            </div>
+
+            <div class="form-group full">
+              <label>Pricing Plans (JSON array)</label>
+              <textarea name="pricing_plans" rows="12" class="mono" placeholder='[{"name":"Starter","description":"...","price":"$299/month","amount":299,"features":["..."],"is_recommended":false,"checkout_name":"..."}]'>{{ agent?.pricing_plans ? JSON.stringify(agent.pricing_plans, null, 2) : '' }}</textarea>
+            </div>
+
+            <div class="form-group full">
+              <label>FAQs (JSON array)</label>
+              <textarea name="faqs" rows="8" class="mono" placeholder='[{"question":"...","answer":"..."}]'>{{ agent?.faqs ? JSON.stringify(agent.faqs, null, 2) : '' }}</textarea>
+            </div>
           </div>
+        </div>
+
+        <!-- ── SKILLS TAB ── -->
+        <div v-show="mainTab === 'skills'" class="tab-panel">
+          <div v-if="allSkills.length === 0" class="assoc-empty">
+            No skills defined yet. <a href="/admin/skills/create" class="assoc-link">Create one →</a>
+          </div>
+          <template v-else>
+            <div class="assoc-toolbar">
+              <div class="assoc-search-wrap">
+                <span class="assoc-search-icon">◎</span>
+                <input v-model="skillSearch" type="text" placeholder="Search skills…" class="assoc-search-input">
+              </div>
+              <div class="assoc-filter-tabs">
+                <button type="button" :class="['assoc-ftab', { active: skillView === 'all' }]"      @click="skillView = 'all'">All <span class="assoc-ftab-n">{{ allSkills.length }}</span></button>
+                <button type="button" :class="['assoc-ftab', { active: skillView === 'selected' }]" @click="skillView = 'selected'">Selected <span class="assoc-ftab-n">{{ selectedSkillIds.length }}</span></button>
+              </div>
+            </div>
+            <div class="assoc-table-wrap">
+              <table class="assoc-table">
+                <thead>
+                  <tr>
+                    <th class="col-check">
+                      <input type="checkbox" class="row-check"
+                             :checked="skillPageAllSelected"
+                             :indeterminate="skillPageSomeSelected && !skillPageAllSelected"
+                             @change="toggleSkillPage">
+                    </th>
+                    <th>Skill</th>
+                    <th>Category</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr v-for="skill in skillPageRows" :key="skill.id"
+                      :class="{ selected: selectedSkillIds.includes(skill.id) }"
+                      @click="toggleSkill(skill.id)">
+                    <td class="col-check" @click.stop>
+                      <input type="checkbox" class="row-check"
+                             :checked="selectedSkillIds.includes(skill.id)"
+                             @change="toggleSkill(skill.id)">
+                    </td>
+                    <td class="item-name">{{ skill.name }}</td>
+                    <td class="item-cat">{{ skill.category || '—' }}</td>
+                  </tr>
+                  <tr v-if="skillFiltered.length === 0">
+                    <td colspan="3" class="assoc-empty-row">No skills found</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+            <div v-if="skillTotalPages > 1" class="assoc-pagination">
+              <button type="button" class="pg-btn" :disabled="skillPage === 1" @click="skillPage--">‹</button>
+              <template v-for="p in skillPageNumbers" :key="p">
+                <span v-if="p === '…'" class="pg-ellipsis">…</span>
+                <button v-else type="button" :class="['pg-btn', { active: p === skillPage }]" @click="skillPage = p">{{ p }}</button>
+              </template>
+              <button type="button" class="pg-btn" :disabled="skillPage === skillTotalPages" @click="skillPage++">›</button>
+            </div>
+          </template>
+        </div>
+
+        <!-- ── CONNECTORS TAB ── -->
+        <div v-show="mainTab === 'connectors'" class="tab-panel">
+          <div v-if="allConnectors.length === 0" class="assoc-empty">
+            No connectors defined yet. <a href="/admin/connectors/create" class="assoc-link">Create one →</a>
+          </div>
+          <template v-else>
+            <div class="assoc-toolbar">
+              <div class="assoc-search-wrap">
+                <span class="assoc-search-icon">◎</span>
+                <input v-model="cnSearch" type="text" placeholder="Search connectors…" class="assoc-search-input">
+              </div>
+              <div class="assoc-filter-tabs">
+                <button type="button" :class="['assoc-ftab', { active: cnView === 'all' }]"      @click="cnView = 'all'">All <span class="assoc-ftab-n">{{ allConnectors.length }}</span></button>
+                <button type="button" :class="['assoc-ftab', { active: cnView === 'selected' }]" @click="cnView = 'selected'">Selected <span class="assoc-ftab-n">{{ selectedConnectorIds.length }}</span></button>
+              </div>
+            </div>
+            <div class="assoc-table-wrap">
+              <table class="assoc-table">
+                <thead>
+                  <tr>
+                    <th class="col-check">
+                      <input type="checkbox" class="row-check"
+                             :checked="cnPageAllSelected"
+                             :indeterminate="cnPageSomeSelected && !cnPageAllSelected"
+                             @change="toggleCnPage">
+                    </th>
+                    <th>Connector</th>
+                    <th>Category</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr v-for="cn in cnPageRows" :key="cn.id"
+                      :class="{ selected: selectedConnectorIds.includes(cn.id) }"
+                      @click="toggleConnector(cn.id)">
+                    <td class="col-check" @click.stop>
+                      <input type="checkbox" class="row-check"
+                             :checked="selectedConnectorIds.includes(cn.id)"
+                             @change="toggleConnector(cn.id)">
+                    </td>
+                    <td class="item-name">
+                      <span v-if="cn.icon" class="cn-icon">{{ cn.icon }}</span>{{ cn.name }}
+                    </td>
+                    <td class="item-cat">{{ cn.category || '—' }}</td>
+                  </tr>
+                  <tr v-if="cnFiltered.length === 0">
+                    <td colspan="3" class="assoc-empty-row">No connectors found</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+            <div v-if="cnTotalPages > 1" class="assoc-pagination">
+              <button type="button" class="pg-btn" :disabled="cnPage === 1" @click="cnPage--">‹</button>
+              <template v-for="p in cnPageNumbers" :key="p">
+                <span v-if="p === '…'" class="pg-ellipsis">…</span>
+                <button v-else type="button" :class="['pg-btn', { active: p === cnPage }]" @click="cnPage = p">{{ p }}</button>
+              </template>
+              <button type="button" class="pg-btn" :disabled="cnPage === cnTotalPages" @click="cnPage++">›</button>
+            </div>
+          </template>
         </div>
 
         <div class="form-actions">
@@ -314,7 +310,7 @@ const props = defineProps({
 const formAction           = props.agent ? `/admin/agents/${props.agent.id}` : '/admin/agents';
 const selectedSkillIds     = ref([...props.agentSkillIds]);
 const selectedConnectorIds = ref([...props.agentConnectorIds]);
-const assocTab             = ref('skills');
+const mainTab              = ref('details');
 
 const PER_PAGE = 15;
 
@@ -334,12 +330,9 @@ const skillFiltered = computed(() => {
 
 watch([skillSearch, skillView], () => { skillPage.value = 1; });
 
-const skillTotalPages = computed(() => Math.max(1, Math.ceil(skillFiltered.value.length / PER_PAGE)));
-const skillPageRows   = computed(() => {
-  const start = (skillPage.value - 1) * PER_PAGE;
-  return skillFiltered.value.slice(start, start + PER_PAGE);
-});
-const skillPageNumbers = computed(() => pageNumbers(skillPage.value, skillTotalPages.value));
+const skillTotalPages       = computed(() => Math.max(1, Math.ceil(skillFiltered.value.length / PER_PAGE)));
+const skillPageRows         = computed(() => skillFiltered.value.slice((skillPage.value - 1) * PER_PAGE, skillPage.value * PER_PAGE));
+const skillPageNumbers      = computed(() => pageNumbers(skillPage.value, skillTotalPages.value));
 const skillPageAllSelected  = computed(() => skillPageRows.value.length > 0 && skillPageRows.value.every(s => selectedSkillIds.value.includes(s.id)));
 const skillPageSomeSelected = computed(() => skillPageRows.value.some(s => selectedSkillIds.value.includes(s.id)));
 
@@ -378,12 +371,9 @@ const cnFiltered = computed(() => {
 
 watch([cnSearch, cnView], () => { cnPage.value = 1; });
 
-const cnTotalPages = computed(() => Math.max(1, Math.ceil(cnFiltered.value.length / PER_PAGE)));
-const cnPageRows   = computed(() => {
-  const start = (cnPage.value - 1) * PER_PAGE;
-  return cnFiltered.value.slice(start, start + PER_PAGE);
-});
-const cnPageNumbers = computed(() => pageNumbers(cnPage.value, cnTotalPages.value));
+const cnTotalPages      = computed(() => Math.max(1, Math.ceil(cnFiltered.value.length / PER_PAGE)));
+const cnPageRows        = computed(() => cnFiltered.value.slice((cnPage.value - 1) * PER_PAGE, cnPage.value * PER_PAGE));
+const cnPageNumbers     = computed(() => pageNumbers(cnPage.value, cnTotalPages.value));
 const cnPageAllSelected  = computed(() => cnPageRows.value.length > 0 && cnPageRows.value.every(c => selectedConnectorIds.value.includes(c.id)));
 const cnPageSomeSelected = computed(() => cnPageRows.value.some(c => selectedConnectorIds.value.includes(c.id)));
 
@@ -406,7 +396,6 @@ function toggleCnPage() {
   }
 }
 
-// ── Shared pagination helper ──
 function pageNumbers(cur, total) {
   if (total <= 7) return Array.from({ length: total }, (_, i) => i + 1);
   const pages = new Set([1, total, cur, cur - 1, cur + 1].filter(p => p >= 1 && p <= total));
@@ -436,6 +425,34 @@ function pageNumbers(cur, total) {
   border-radius: 1rem; padding: 1.75rem; max-width: 780px;
 }
 
+/* Top-level tabs */
+.top-tab-bar {
+  display: flex; gap: 0.25rem;
+  border-bottom: 1px solid rgba(239,68,68,0.12);
+  margin-bottom: 1.75rem;
+}
+.top-tab {
+  padding: 0.6rem 1.1rem; border-radius: 0.5rem 0.5rem 0 0;
+  font-size: 0.875rem; font-weight: 600; cursor: pointer;
+  background: none; border: 1px solid transparent; border-bottom: none;
+  color: #6b7280; font-family: inherit; transition: all 0.18s;
+  display: flex; align-items: center; gap: 0.5rem;
+}
+.top-tab:hover { color: #fca5a5; background: rgba(239,68,68,0.05); }
+.top-tab.active {
+  color: #fca5a5; background: rgba(239,68,68,0.08);
+  border-color: rgba(239,68,68,0.2); border-bottom-color: transparent;
+  position: relative; bottom: -1px;
+}
+.top-tab-count {
+  font-size: 0.7rem; font-weight: 700;
+  background: rgba(239,68,68,0.12); color: #fca5a5;
+  border-radius: 99px; padding: 0.1rem 0.45rem;
+}
+
+.tab-panel { margin-bottom: 1.5rem; }
+
+/* Form fields */
 .form-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1.25rem; margin-bottom: 1.5rem; }
 .form-group { display: flex; flex-direction: column; gap: 0.35rem; }
 .form-group.full { grid-column: 1 / -1; }
@@ -474,16 +491,9 @@ select option { background: #140606; }
 .section-divider::before,
 .section-divider::after { content: ''; flex: 1; height: 1px; background: rgba(239,68,68,0.12); }
 
-/* Association tabs */
-.assoc-tabs-wrap { margin-top: 1.75rem; border: 1px solid rgba(239,68,68,0.1); border-radius: 0.875rem; overflow: hidden; margin-bottom: 1.5rem; }
-.assoc-tab-bar { display: flex; background: rgba(12,4,4,0.6); border-bottom: 1px solid rgba(239,68,68,0.1); }
-.assoc-tab { flex: 1; padding: 0.75rem 1rem; background: none; border: none; border-bottom: 2px solid transparent; margin-bottom: -1px; cursor: pointer; font-family: inherit; font-size: 0.82rem; font-weight: 600; color: #6b7280; display: flex; align-items: center; justify-content: center; gap: 0.5rem; transition: all 0.18s; }
-.assoc-tab:hover { color: #fca5a5; }
-.assoc-tab.active { color: #fca5a5; border-bottom-color: #ef4444; background: rgba(239,68,68,0.04); }
-.assoc-tab-count { display: inline-flex; align-items: center; justify-content: center; min-width: 20px; height: 18px; padding: 0 5px; border-radius: 99px; font-size: 0.68rem; font-weight: 700; background: rgba(239,68,68,0.1); color: #ef4444; }
-.assoc-tab.active .assoc-tab-count { background: rgba(239,68,68,0.2); }
+textarea.mono { font-family: 'Menlo', 'Monaco', 'Consolas', monospace; font-size: 0.8rem; }
 
-.assoc-panel { padding: 1.25rem; }
+/* Skills / Connectors tables */
 .assoc-empty { font-size: 0.82rem; color: #4b5563; }
 .assoc-link  { color: #fca5a5; text-decoration: none; }
 .assoc-link:hover { text-decoration: underline; }
@@ -499,6 +509,7 @@ select option { background: #140606; }
 }
 .assoc-search-input:focus { outline: none; border-color: rgba(239,68,68,0.4); }
 .assoc-search-input::placeholder { color: #4b5563; }
+
 .assoc-filter-tabs { display: flex; gap: 0.3rem; flex-shrink: 0; }
 .assoc-ftab {
   padding: 0.4rem 0.7rem; border-radius: 0.4rem; font-size: 0.78rem; font-weight: 600;
@@ -537,9 +548,7 @@ select option { background: #140606; }
 .pg-btn:disabled { opacity: 0.35; cursor: default; }
 .pg-ellipsis { color: #4b5563; font-size: 0.8rem; padding: 0 0.2rem; }
 
-textarea.mono { font-family: 'Menlo', 'Monaco', 'Consolas', monospace; font-size: 0.8rem; }
-
-.form-actions { display: flex; gap: 0.75rem; align-items: center; }
+.form-actions { display: flex; gap: 0.75rem; align-items: center; padding-top: 0.25rem; }
 .btn-submit {
   padding: 0.65rem 1.5rem; border-radius: 0.625rem;
   background: rgba(239,68,68,0.15); border: 1px solid rgba(239,68,68,0.35);
@@ -560,5 +569,6 @@ textarea.mono { font-family: 'Menlo', 'Monaco', 'Consolas', monospace; font-size
   .form-group.full { grid-column: 1; }
   .form-group.checkboxes { grid-column: 1; }
   .page-title { font-size: 1.3rem; }
+  .top-tab { padding: 0.5rem 0.75rem; font-size: 0.8rem; }
 }
 </style>
