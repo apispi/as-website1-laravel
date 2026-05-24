@@ -249,7 +249,8 @@ const props = defineProps({
 });
 
 const VALID_TABS = ['details', 'agents', 'connectors'];
-const tab = ref(VALID_TABS.includes(props.initialTab) ? props.initialTab : 'details');
+const urlTab = new URLSearchParams(window.location.search).get('tab');
+const tab = ref(VALID_TABS.includes(urlTab) ? urlTab : (VALID_TABS.includes(props.initialTab) ? props.initialTab : 'details'));
 
 function formatDate(dateStr) {
   if (!dateStr) return '—';
