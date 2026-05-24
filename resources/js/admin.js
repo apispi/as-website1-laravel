@@ -1,4 +1,5 @@
 import { createApp } from 'vue';
+import '../css/admin.css';
 import DashboardPage from './components/admin/DashboardPage.vue';
 import UsersPage from './components/admin/UsersPage.vue';
 import AgentsPage from './components/admin/AgentsPage.vue';

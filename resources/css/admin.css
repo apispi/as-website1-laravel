@@ -1,0 +1,23 @@
+/*
+ * Global admin form field styles.
+ * #admin-app prefix gives higher specificity than scoped component rules.
+ */
+
+#admin-app input:not([type="checkbox"]):not([type="radio"]):not([type="hidden"]):not([type="submit"]),
+#admin-app select,
+#admin-app textarea {
+  border: 1px solid rgba(252, 211, 77, 0.35) !important;
+  border-radius: 0.4rem;
+  background: rgba(12, 4, 4, 0.8);
+  color: #e5e7eb;
+  font-family: inherit;
+  transition: border-color 0.18s, box-shadow 0.18s;
+}
+
+#admin-app input:not([type="checkbox"]):not([type="radio"]):not([type="hidden"]):not([type="submit"]):focus,
+#admin-app select:focus,
+#admin-app textarea:focus {
+  outline: none !important;
+  border-color: rgba(252, 211, 77, 0.85) !important;
+  box-shadow: 0 0 0 3px rgba(252, 211, 77, 0.12) !important;
+}
