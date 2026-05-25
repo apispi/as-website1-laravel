@@ -593,7 +593,7 @@
           'emoji' => '📋',
         ],
         [
-          'id'    => 'Sds6FJ3JfZo',
+          'id'    => 'LBGEgbbsqqw',
           'ind'   => 'Tax & Accounting',
           'cat'   => 'Year-Round Engagement',
           'title' => 'The EOFY Video That Keeps Clients Coming Back',
@@ -734,31 +734,33 @@
 
 <!-- ── VIDEO MODAL ── -->
 <div class="modal-overlay" id="videoModal" onclick="closeVideoIfOutside(event)">
-  <div class="modal-box">
+  <div class="modal-box" id="modalBox">
     <div class="modal-top">
       <span class="modal-title-text" id="modalTitle"></span>
       <button class="modal-close-btn" onclick="closeVideo()">✕</button>
     </div>
-    <div class="modal-video">
+    <div class="modal-video" id="modalVideo">
       <iframe id="modalIframe" src="" allow="autoplay; encrypted-media" allowfullscreen></iframe>
     </div>
   </div>
 </div>
 
 <script>
-  // Known Shorts IDs — YouTube Shorts use /shorts/ embed path
-  var shortsIds = ['Sds6FJ3JfZo'];
+  var shortsIds = ['LBGEgbbsqqw'];
 
   function openVideo(videoId, title) {
     if (!videoId || videoId.startsWith('ADD_')) {
       alert('Demo video coming soon — check back shortly!');
       return;
     }
-    var base = shortsIds.indexOf(videoId) !== -1
-      ? 'https://www.youtube.com/embed/shorts/'
-      : 'https://www.youtube.com/embed/';
+    var isShort = shortsIds.indexOf(videoId) !== -1;
+    var mv = document.getElementById('modalVideo');
+    mv.style.aspectRatio = isShort ? '9/16' : '16/9';
+    mv.style.maxHeight   = isShort ? '80vh' : '';
+    document.getElementById('modalBox').style.maxWidth = isShort ? '420px' : '900px';
     document.getElementById('modalTitle').textContent = title;
-    document.getElementById('modalIframe').src = base + videoId + '?autoplay=1&rel=0';
+    document.getElementById('modalIframe').src =
+      'https://www.youtube.com/embed/' + videoId + '?autoplay=1&rel=0';
     document.getElementById('videoModal').classList.add('open');
     document.body.style.overflow = 'hidden';
   }
