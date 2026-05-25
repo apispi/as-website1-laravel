@@ -40,4 +40,9 @@ return [
         'model' => env('ANTHROPIC_MODEL', 'claude-sonnet-4-5'),
     ],
 
+    'stripe' => [
+        'key'    => env('STRIPE_KEY'),
+        'secret' => env('STRIPE_SECRET'),
+    ],
+
 ];

@@ -21,9 +21,4 @@ class PageController extends Controller
         $trainings = Training::active()->get();
         return view('training', compact('trainings'));
     }
-
-    public function checkout()
-    {
-        return view('checkout');
-    }
 }

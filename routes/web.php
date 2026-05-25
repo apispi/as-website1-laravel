@@ -11,6 +11,7 @@ use App\Http\Controllers\Admin\SubscriptionController as AdminSubscriptions;
 use App\Http\Controllers\Admin\UserController as AdminUsers;
 use App\Http\Controllers\AgentController;
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\CheckoutController;
 use App\Http\Controllers\BlogController;
 use App\Http\Controllers\ConnectorOAuthController;
 use App\Http\Controllers\ChatController;
@@ -24,7 +25,9 @@ use Illuminate\Support\Facades\Route;
 Route::get('/', [PageController::class, 'home'])->name('home');
 Route::get('/about', [PageController::class, 'about'])->name('about');
 Route::get('/training', [PageController::class, 'training'])->name('training');
-Route::get('/checkout', [PageController::class, 'checkout'])->name('checkout');
+Route::get('/checkout', [CheckoutController::class, 'show'])->name('checkout');
+Route::post('/checkout/session', [CheckoutController::class, 'createSession'])->name('checkout.session');
+Route::get('/checkout/success', [CheckoutController::class, 'success'])->name('checkout.success');
 
 Route::get('/contact', [ContactController::class, 'show'])->name('contact');
 Route::post('/contact', [ContactController::class, 'send'])->name('contact.send');
