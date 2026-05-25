@@ -513,7 +513,7 @@
       @php
       $videos = [
         [
-          'id'    => 'ADD_YOUTUBE_ID_1',
+          'id'    => 'evFW076v9pE',
           'ind'   => 'Tradies',
           'cat'   => 'Lead Generation',
           'title' => 'The Quote Intro That Wins Jobs',
@@ -746,7 +746,7 @@
 </div>
 
 <script>
-  var shortsIds = ['LBGEgbbsqqw'];
+  var shortsIds = ['LBGEgbbsqqw', 'evFW076v9pE'];
 
   function openVideo(videoId, title) {
     if (!videoId || videoId.startsWith('ADD_')) {
