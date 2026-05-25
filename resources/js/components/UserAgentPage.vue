@@ -185,9 +185,26 @@
                 <div class="ua-item-top">
                   <span class="ua-item-name">{{ cn.name }}</span>
                   <span v-if="cn.category" class="ua-item-badge">{{ cn.category }}</span>
+                  <span v-if="cn.user_status === 'active'" class="ua-cn-status connected">● Connected</span>
+                  <span v-else-if="cn.user_status === 'disconnected'" class="ua-cn-status disconnected">● Disconnected</span>
+                  <span v-else class="ua-cn-status not-connected">○ Not connected</span>
                 </div>
                 <p v-if="cn.description" class="ua-item-desc">{{ cn.description }}</p>
-                <a v-if="cn.website_url" :href="cn.website_url" target="_blank" rel="noopener" class="ua-cn-link">Visit website →</a>
+                <div class="ua-cn-actions">
+                  <form v-if="cn.user_status === 'active'"
+                        :action="`/connectors/${cn.slug}/disconnect`"
+                        method="POST"
+                        style="display:inline"
+                        @submit.prevent="confirmDisconnect($event, cn.name)">
+                    <input type="hidden" name="_token" :value="csrfToken">
+                    <input type="hidden" name="_method" value="POST">
+                    <button type="submit" class="ua-cn-btn ua-cn-btn-disconnect">Disconnect</button>
+                  </form>
+                  <a v-else-if="cn.is_oauth" :href="`/connectors/${cn.slug}/authorize`" class="ua-cn-btn ua-cn-btn-connect">
+                    Connect →
+                  </a>
+                  <a v-if="cn.website_url" :href="cn.website_url" target="_blank" rel="noopener" class="ua-cn-link">Visit website →</a>
+                </div>
               </div>
             </div>
           </div>
@@ -214,6 +231,10 @@ const skills = computed(() => props.subscription.skills ?? []);
 const connectors = computed(() => agent.value.connectors ?? []);
 
 const initial = computed(() => (props.user.name || 'U').charAt(0).toUpperCase());
+
+function confirmDisconnect(event, name) {
+  if (confirm(`Disconnect ${name}?`)) event.target.submit();
+}
 
 function formatDate(dateStr) {
   if (!dateStr) return '—';
@@ -397,6 +418,29 @@ function formatDate(dateStr) {
 .ua-item-desc { font-size: 0.85rem; color: #9ca3af; line-height: 1.55; margin-bottom: 0.5rem; }
 .ua-cn-link { font-size: 0.8rem; color: #D97706; text-decoration: none; }
 .ua-cn-link:hover { color: #FCD34D; }
+
+.ua-cn-status { font-size: 0.72rem; font-weight: 600; }
+.ua-cn-status.connected    { color: #00d97e; }
+.ua-cn-status.disconnected { color: #fca5a5; }
+.ua-cn-status.not-connected { color: #6b7280; }
+
+.ua-cn-actions { display: flex; align-items: center; gap: 0.75rem; margin-top: 0.5rem; flex-wrap: wrap; }
+.ua-cn-btn {
+  display: inline-block; padding: 0.35rem 0.9rem;
+  border-radius: 0.5rem; font-size: 0.8rem; font-weight: 600;
+  cursor: pointer; transition: all 0.18s; text-decoration: none;
+  font-family: inherit; border: 1px solid;
+}
+.ua-cn-btn-connect {
+  background: rgba(217,119,6,0.15); border-color: rgba(217,119,6,0.4);
+  color: #FCD34D;
+}
+.ua-cn-btn-connect:hover { background: rgba(217,119,6,0.25); }
+.ua-cn-btn-disconnect {
+  background: rgba(239,68,68,0.08); border-color: rgba(239,68,68,0.25);
+  color: #fca5a5;
+}
+.ua-cn-btn-disconnect:hover { background: rgba(239,68,68,0.15); }
 
 .ua-empty { font-size: 0.875rem; color: #6b7280; padding: 2rem 0; text-align: center; }
 

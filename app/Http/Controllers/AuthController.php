@@ -166,7 +166,15 @@ class AuthController extends Controller
     {
         abort_if($subscription->user_id !== Auth::id(), 403);
         $subscription->load(['agent.connectors', 'skills']);
-        return view('auth.agent', compact('subscription'));
+
+        $connectorIds = $subscription->agent?->connectors->pluck('id') ?? collect();
+        $userConnectors = Auth::user()
+            ->userConnectors()
+            ->whereIn('connector_id', $connectorIds)
+            ->get(['connector_id', 'status', 'connected_at'])
+            ->keyBy('connector_id');
+
+        return view('auth.agent', compact('subscription', 'userConnectors'));
     }
 
     public function profile()
