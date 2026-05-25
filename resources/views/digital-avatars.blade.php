@@ -298,6 +298,8 @@
       .footer-inner { flex-direction: column; text-align: center; }
     }
   </style>
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-9NX96RC3FF"></script>
+    <script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js',new Date());gtag('config','G-9NX96RC3FF');</script>
 </head>
 <body>
 
