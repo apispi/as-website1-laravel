@@ -29,6 +29,9 @@
         <a href="/dashboard/agents" class="ua-nav-link active">
           <span class="ua-nav-icon">◈</span> My Agents
         </a>
+        <a href="/dashboard/connectors" class="ua-nav-link">
+          <span class="ua-nav-icon">⬡</span> My Connectors
+        </a>
         <a href="/dashboard/catalog" class="ua-nav-link">
           <span class="ua-nav-icon">◎</span> Catalog
         </a>
