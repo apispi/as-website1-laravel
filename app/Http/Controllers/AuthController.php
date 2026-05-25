@@ -157,6 +157,40 @@ class AuthController extends Controller
         return view('auth.agents', compact('subscriptions'));
     }
 
+    public function editConnector(\App\Models\UserConnector $userConnector)
+    {
+        abort_if($userConnector->user_id !== Auth::id(), 403);
+        $userConnector->load('connector');
+        return view('auth.connector-edit', compact('userConnector'));
+    }
+
+    public function updateConnector(Request $request, \App\Models\UserConnector $userConnector)
+    {
+        abort_if($userConnector->user_id !== Auth::id(), 403);
+        $userConnector->load('connector');
+
+        $schema = $userConnector->connector->config_schema ?? [];
+        $config = $userConnector->config ?? [];
+
+        foreach ($schema as $field) {
+            $key  = $field['key'] ?? null;
+            $type = $field['type'] ?? 'text';
+            if (! $key) continue;
+
+            $value = $request->input("config.{$key}");
+            if ($type === 'password' && $value === '' && isset($config[$key])) {
+                // keep existing
+            } else {
+                $config[$key] = $value;
+            }
+        }
+
+        $userConnector->update(['config' => $config ?: null]);
+        ActivityLog::log('connector.config', "Updated config for {$userConnector->connector->name}");
+
+        return redirect()->route('dashboard.connectors')->with('success', "{$userConnector->connector->name} configuration saved.");
+    }
+
     public function userConnectors()
     {
         $userConnectors = Auth::user()

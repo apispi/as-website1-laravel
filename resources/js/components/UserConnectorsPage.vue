@@ -99,6 +99,7 @@
               </div>
               <div class="uc-row-right">
                 <span class="uc-status" :class="uc.status">{{ uc.status }}</span>
+                <a :href="`/dashboard/connectors/${uc.id}/edit`" class="uc-btn-configure">Configure →</a>
                 <form v-if="uc.connector?.is_oauth && uc.status === 'active'"
                       method="POST" :action="`/connectors/${uc.connector.slug}/disconnect`"
                       class="uc-disconnect-form">
@@ -271,6 +272,8 @@ function confirmDisconnect(event, name) {
 .uc-btn-disconnect:hover { border-color: rgba(239,68,68,0.5); color: #fca5a5; }
 .uc-btn-connect { display: inline-block; padding: 0.35rem 0.75rem; border-radius: 0.5rem; background: rgba(217,119,6,0.12); border: 1px solid rgba(217,119,6,0.3); color: #FCD34D; font-size: 0.82rem; font-weight: 600; text-decoration: none; transition: all 0.18s; white-space: nowrap; }
 .uc-btn-connect:hover { background: rgba(217,119,6,0.22); }
+.uc-btn-configure { display: inline-block; padding: 0.35rem 0.75rem; border-radius: 0.5rem; background: none; border: 1px solid rgba(217,119,6,0.2); color: #9ca3af; font-size: 0.82rem; font-weight: 600; text-decoration: none; transition: all 0.18s; white-space: nowrap; }
+.uc-btn-configure:hover { border-color: rgba(217,119,6,0.4); color: #FCD34D; }
 .uc-not-available { font-size: 0.78rem; color: #4b5563; }
 
 .uc-empty { text-align: center; padding: 4rem 2rem; }

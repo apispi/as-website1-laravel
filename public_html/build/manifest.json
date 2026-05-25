@@ -119,7 +119,7 @@
     ]
   },
   "resources/js/connectors-user.js": {
-    "file": "assets/connectors-user-CZTu3piq.js",
+    "file": "assets/connectors-user-XKr_FnZP.js",
     "name": "connectors-user",
     "src": "resources/js/connectors-user.js",
     "isEntry": true,
@@ -127,7 +127,7 @@
       "__plugin-vue_export-helper-bIT2iN5t.js"
     ],
     "css": [
-      "assets/connectors-user-BMip1km2.css"
+      "assets/connectors-user-CZ-h4Uoo.css"
     ]
   },
   "resources/js/dashboard.js": {
