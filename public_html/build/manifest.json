@@ -56,7 +56,7 @@
     "src": "_instrument-sans-600-normal-DMks36a2.woff"
   },
   "resources/css/app.css": {
-    "file": "assets/app-BVS4yt67.css",
+    "file": "assets/app-C-xB1P0c.css",
     "name": "app",
     "names": [
       "app.css"
@@ -119,7 +119,7 @@
     ]
   },
   "resources/js/connectors-user.js": {
-    "file": "assets/connectors-user-XKr_FnZP.js",
+    "file": "assets/connectors-user-BulSiY4O.js",
     "name": "connectors-user",
     "src": "resources/js/connectors-user.js",
     "isEntry": true,
@@ -127,7 +127,7 @@
       "__plugin-vue_export-helper-bIT2iN5t.js"
     ],
     "css": [
-      "assets/connectors-user-CZ-h4Uoo.css"
+      "assets/connectors-user-DLTW22z4.css"
     ]
   },
   "resources/js/dashboard.js": {

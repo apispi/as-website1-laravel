@@ -83,7 +83,9 @@
         <div v-if="userConnectors.length > 0" class="section">
           <div class="section-label">Connected</div>
           <div class="uc-list">
-            <div v-for="uc in userConnectors" :key="uc.id" class="uc-row">
+            <a v-for="uc in userConnectors" :key="uc.id"
+               :href="`/dashboard/connectors/${uc.id}/edit`"
+               class="uc-row uc-row-link">
               <div class="uc-row-icon">{{ uc.connector?.icon || '⬡' }}</div>
               <div class="uc-row-body">
                 <div class="uc-row-top">
@@ -99,10 +101,10 @@
               </div>
               <div class="uc-row-right">
                 <span class="uc-status" :class="uc.status">{{ uc.status }}</span>
-                <a :href="`/dashboard/connectors/${uc.id}/edit`" class="uc-btn-configure">Configure →</a>
                 <form v-if="uc.connector?.is_oauth && uc.status === 'active'"
                       method="POST" :action="`/connectors/${uc.connector.slug}/disconnect`"
-                      class="uc-disconnect-form">
+                      class="uc-disconnect-form"
+                      @click.stop>
                   <input type="hidden" name="_token" :value="csrfToken">
                   <button type="submit" class="uc-btn-disconnect"
                           @click.prevent="confirmDisconnect($event, uc.connector.name)">
@@ -111,9 +113,10 @@
                 </form>
                 <a v-if="uc.connector?.is_oauth && uc.status === 'disconnected'"
                    :href="`/connectors/${uc.connector.slug}/authorize`"
-                   class="uc-btn-connect">Reconnect →</a>
+                   class="uc-btn-connect"
+                   @click.stop>Reconnect →</a>
               </div>
-            </div>
+            </a>
           </div>
         </div>
 
@@ -272,8 +275,8 @@ function confirmDisconnect(event, name) {
 .uc-btn-disconnect:hover { border-color: rgba(239,68,68,0.5); color: #fca5a5; }
 .uc-btn-connect { display: inline-block; padding: 0.35rem 0.75rem; border-radius: 0.5rem; background: rgba(217,119,6,0.12); border: 1px solid rgba(217,119,6,0.3); color: #FCD34D; font-size: 0.82rem; font-weight: 600; text-decoration: none; transition: all 0.18s; white-space: nowrap; }
 .uc-btn-connect:hover { background: rgba(217,119,6,0.22); }
-.uc-btn-configure { display: inline-block; padding: 0.35rem 0.75rem; border-radius: 0.5rem; background: none; border: 1px solid rgba(217,119,6,0.2); color: #9ca3af; font-size: 0.82rem; font-weight: 600; text-decoration: none; transition: all 0.18s; white-space: nowrap; }
-.uc-btn-configure:hover { border-color: rgba(217,119,6,0.4); color: #FCD34D; }
+.uc-row-link { text-decoration: none; color: inherit; cursor: pointer; }
+.uc-row-link:hover { border-color: rgba(217,119,6,0.3); background: rgba(28,20,8,0.9); }
 .uc-not-available { font-size: 0.78rem; color: #4b5563; }
 
 .uc-empty { text-align: center; padding: 4rem 2rem; }
