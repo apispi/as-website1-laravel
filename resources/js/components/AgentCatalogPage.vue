@@ -164,7 +164,6 @@
                   <td class="ac-muted">{{ agent.users_count || '—' }}</td>
                   <td class="ac-price">{{ agent.price || '—' }}</td>
                   <td class="ac-actions">
-                    <a :href="`/agents/${agent.slug}`" class="ac-btn-view">View →</a>
                   </td>
                 </tr>
               </tbody>

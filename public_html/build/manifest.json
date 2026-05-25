@@ -107,7 +107,7 @@
     "isEntry": true
   },
   "resources/js/catalog.js": {
-    "file": "assets/catalog-Cf6BzpUd.js",
+    "file": "assets/catalog-CABMUEgR.js",
     "name": "catalog",
     "src": "resources/js/catalog.js",
     "isEntry": true,
@@ -115,7 +115,7 @@
       "__plugin-vue_export-helper-bIT2iN5t.js"
     ],
     "css": [
-      "assets/catalog-sVohw1KI.css"
+      "assets/catalog-DEVEx2xg.css"
     ]
   },
   "resources/js/connectors-user.js": {

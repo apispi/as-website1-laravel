@@ -146,7 +146,7 @@
                         @if($training->includes && count($training->includes))
                         <div style="margin-bottom:1.5rem;padding:1rem;background:rgba(0,217,255,0.05);border:1px solid rgba(0,217,255,0.15);border-radius:0.75rem;font-size:0.85rem;color:var(--gray);">
                             <strong style="color:var(--light);display:block;margin-bottom:0.4rem;">What's included</strong>
-                            {{ collect($training->includes)->map(fn($i) => '✓ ' . $i)->implode(' &nbsp;·&nbsp; ') }}
+                            {{ collect($training->includes)->map(fn($i) => '✓ ' . $i)->implode('  ·  ') }}
                         </div>
                         @endif
                         <div class="course-footer">
