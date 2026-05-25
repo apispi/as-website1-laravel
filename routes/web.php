@@ -16,6 +16,7 @@ use App\Http\Controllers\ConnectorOAuthController;
 use App\Http\Controllers\ChatController;
 use App\Http\Controllers\ContactController;
 use App\Http\Controllers\PageController;
+use App\Http\Controllers\AvatarController;
 use App\Http\Controllers\SubscribeController;
 use Illuminate\Support\Facades\Route;
 
@@ -29,6 +30,9 @@ Route::post('/contact', [ContactController::class, 'send'])->name('contact.send'
 Route::post('/chat', [ChatController::class, 'send'])->name('chat.send')->middleware('throttle:30,1');
 
 Route::post('/subscribe', [SubscribeController::class, 'store'])->name('subscribe');
+
+Route::get('/digital-avatars', [AvatarController::class, 'index'])->name('digital-avatars');
+Route::post('/digital-avatars', [AvatarController::class, 'store'])->name('digital-avatars.store');
 
 Route::get('/agents', [AgentController::class, 'index'])->name('agents.index');
 Route::get('/agents/{slug}', [AgentController::class, 'show'])->name('agents.show');
