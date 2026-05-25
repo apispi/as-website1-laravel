@@ -322,7 +322,7 @@ const PER_PAGE = 15;
 
 // ── Skills ──
 const skillSearch = ref('');
-const skillView   = ref('all');
+const skillView   = ref('selected');
 const skillPage   = ref(1);
 
 const skillFiltered = computed(() => {
