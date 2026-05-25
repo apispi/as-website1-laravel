@@ -105,42 +105,93 @@
           <span class="ua-status-badge" :class="subscription.status">{{ subscription.status }}</span>
         </div>
 
-        <!-- Description -->
-        <section class="ua-section" v-if="agent.description">
-          <h2 class="ua-section-title">About this Agent</h2>
-          <div class="ua-card ua-description">{{ agent.description }}</div>
-        </section>
+        <!-- Tabs -->
+        <div class="ua-tabs">
+          <button class="ua-tab" :class="{ active: activeTab === 'overview' }" @click="activeTab = 'overview'">Overview</button>
+          <button class="ua-tab" :class="{ active: activeTab === 'skills' }" @click="activeTab = 'skills'">
+            Skills
+            <span v-if="skills.length" class="ua-tab-count">{{ skills.length }}</span>
+          </button>
+          <button class="ua-tab" :class="{ active: activeTab === 'connectors' }" @click="activeTab = 'connectors'">
+            Connectors
+            <span v-if="connectors.length" class="ua-tab-count">{{ connectors.length }}</span>
+          </button>
+        </div>
 
-        <!-- Subscription details -->
-        <section class="ua-section">
-          <h2 class="ua-section-title">Subscription Details</h2>
-          <div class="ua-info-card">
-            <div class="ua-info-row">
-              <span class="ua-info-label">Status</span>
-              <span class="ua-status-badge" :class="subscription.status">{{ subscription.status }}</span>
+        <!-- Overview tab -->
+        <template v-if="activeTab === 'overview'">
+          <section class="ua-section" v-if="agent.description">
+            <h2 class="ua-section-title">About this Agent</h2>
+            <div class="ua-card ua-description">{{ agent.description }}</div>
+          </section>
+
+          <section class="ua-section">
+            <h2 class="ua-section-title">Subscription Details</h2>
+            <div class="ua-info-card">
+              <div class="ua-info-row">
+                <span class="ua-info-label">Status</span>
+                <span class="ua-status-badge" :class="subscription.status">{{ subscription.status }}</span>
+              </div>
+              <div class="ua-info-row">
+                <span class="ua-info-label">Price</span>
+                <span class="ua-info-val ua-price">{{ agent.price ?? '—' }}</span>
+              </div>
+              <div class="ua-info-row">
+                <span class="ua-info-label">Started</span>
+                <span class="ua-info-val">{{ formatDate(subscription.started_at) }}</span>
+              </div>
+              <div class="ua-info-row">
+                <span class="ua-info-label">Expires</span>
+                <span class="ua-info-val">{{ subscription.expires_at ? formatDate(subscription.expires_at) : 'Ongoing' }}</span>
+              </div>
             </div>
-            <div class="ua-info-row">
-              <span class="ua-info-label">Price</span>
-              <span class="ua-info-val ua-price">{{ agent.price ?? '—' }}</span>
+          </section>
+
+          <section class="ua-section">
+            <div class="ua-actions">
+              <a :href="`/agents/${agent.slug}`" class="ua-btn-secondary">View on Marketplace →</a>
+              <a href="/contact" class="ua-btn-ghost">Get Support</a>
             </div>
-            <div class="ua-info-row">
-              <span class="ua-info-label">Started</span>
-              <span class="ua-info-val">{{ formatDate(subscription.started_at) }}</span>
-            </div>
-            <div class="ua-info-row">
-              <span class="ua-info-label">Expires</span>
-              <span class="ua-info-val">{{ subscription.expires_at ? formatDate(subscription.expires_at) : 'Ongoing' }}</span>
+          </section>
+        </template>
+
+        <!-- Skills tab -->
+        <template v-else-if="activeTab === 'skills'">
+          <div v-if="!skills.length" class="ua-empty">No skills assigned to this agent yet.</div>
+          <div v-else class="ua-cards-list">
+            <div v-for="skill in skills" :key="skill.id" class="ua-item-card">
+              <div class="ua-item-icon">◇</div>
+              <div class="ua-item-body">
+                <div class="ua-item-top">
+                  <span class="ua-item-name">{{ skill.name }}</span>
+                  <span v-if="skill.category" class="ua-item-badge">{{ skill.category }}</span>
+                </div>
+                <p v-if="skill.description" class="ua-item-desc">{{ skill.description }}</p>
+              </div>
             </div>
           </div>
-        </section>
+        </template>
 
-        <!-- Actions -->
-        <section class="ua-section">
-          <div class="ua-actions">
-            <a :href="`/agents/${agent.slug}`" class="ua-btn-secondary">View on Marketplace →</a>
-            <a href="/contact" class="ua-btn-ghost">Get Support</a>
+        <!-- Connectors tab -->
+        <template v-else-if="activeTab === 'connectors'">
+          <div v-if="!connectors.length" class="ua-empty">No connectors linked to this agent.</div>
+          <div v-else class="ua-cards-list">
+            <div v-for="cn in connectors" :key="cn.id" class="ua-item-card">
+              <div class="ua-item-icon">
+                <img v-if="cn.icon" :src="cn.icon" :alt="cn.name" class="ua-cn-icon">
+                <span v-else>⬡</span>
+              </div>
+              <div class="ua-item-body">
+                <div class="ua-item-top">
+                  <span class="ua-item-name">{{ cn.name }}</span>
+                  <span v-if="cn.category" class="ua-item-badge">{{ cn.category }}</span>
+                </div>
+                <p v-if="cn.description" class="ua-item-desc">{{ cn.description }}</p>
+                <a v-if="cn.website_url" :href="cn.website_url" target="_blank" rel="noopener" class="ua-cn-link">Visit website →</a>
+              </div>
+            </div>
           </div>
-        </section>
+        </template>
       </main>
     </div>
 
@@ -157,7 +208,10 @@ const props = defineProps({
 });
 
 const sidebarOpen = ref(false);
+const activeTab = ref('overview');
 const agent = computed(() => props.subscription.agent ?? {});
+const skills = computed(() => props.subscription.skills ?? []);
+const connectors = computed(() => agent.value.connectors ?? []);
 
 const initial = computed(() => (props.user.name || 'U').charAt(0).toUpperCase());
 
@@ -299,6 +353,52 @@ function formatDate(dateStr) {
   text-decoration: none; transition: all 0.18s; white-space: nowrap;
 }
 .ua-btn-ghost:hover { border-color: rgba(217,119,6,0.4); color: #e5e7eb; }
+
+/* Tabs */
+.ua-tabs { display: flex; gap: 0.25rem; margin-bottom: 1.5rem; border-bottom: 1px solid rgba(217,119,6,0.12); padding-bottom: 0; }
+.ua-tab {
+  background: none; border: none; cursor: pointer;
+  font-family: inherit; font-size: 0.875rem; font-weight: 600;
+  color: #6b7280; padding: 0.5rem 1rem 0.75rem;
+  border-bottom: 2px solid transparent; margin-bottom: -1px;
+  transition: color 0.18s, border-color 0.18s;
+  display: flex; align-items: center; gap: 0.4rem;
+}
+.ua-tab:hover { color: #d1d5db; }
+.ua-tab.active { color: #FCD34D; border-bottom-color: #D97706; }
+.ua-tab-count {
+  font-size: 0.68rem; font-weight: 700;
+  background: rgba(217,119,6,0.15); color: #D97706;
+  padding: 0.1rem 0.4rem; border-radius: 99px;
+}
+
+/* Item cards (skills / connectors) */
+.ua-cards-list { display: flex; flex-direction: column; gap: 0.75rem; }
+.ua-item-card {
+  display: flex; align-items: flex-start; gap: 1rem;
+  background: rgba(28,24,16,0.7); border: 1px solid rgba(217,119,6,0.1);
+  border-radius: 1rem; padding: 1.25rem;
+}
+.ua-item-icon {
+  width: 40px; height: 40px; flex-shrink: 0;
+  background: rgba(217,119,6,0.08); border: 1px solid rgba(217,119,6,0.18);
+  border-radius: 0.625rem; display: flex; align-items: center; justify-content: center;
+  font-size: 1.1rem; color: #D97706;
+}
+.ua-cn-icon { width: 24px; height: 24px; object-fit: contain; }
+.ua-item-body { flex: 1; min-width: 0; }
+.ua-item-top { display: flex; align-items: center; gap: 0.6rem; flex-wrap: wrap; margin-bottom: 0.4rem; }
+.ua-item-name { font-size: 0.9rem; font-weight: 600; color: #f1f5f9; }
+.ua-item-badge {
+  font-size: 0.68rem; font-weight: 600; text-transform: capitalize;
+  background: rgba(217,119,6,0.1); color: #D97706;
+  padding: 0.1rem 0.45rem; border-radius: 99px;
+}
+.ua-item-desc { font-size: 0.85rem; color: #9ca3af; line-height: 1.55; margin-bottom: 0.5rem; }
+.ua-cn-link { font-size: 0.8rem; color: #D97706; text-decoration: none; }
+.ua-cn-link:hover { color: #FCD34D; }
+
+.ua-empty { font-size: 0.875rem; color: #6b7280; padding: 2rem 0; text-align: center; }
 
 /* Mobile */
 @media (max-width: 768px) {

@@ -20,7 +20,22 @@
             'badge'       => $subscription->agent->badge,
             'price'       => $subscription->agent->price,
             'category'    => $subscription->agent->category,
+            'connectors'  => $subscription->agent->connectors->map(fn($c) => [
+                'id'          => $c->id,
+                'name'        => $c->name,
+                'slug'        => $c->slug,
+                'category'    => $c->category,
+                'description' => $c->description,
+                'website_url' => $c->website_url,
+                'icon'        => $c->icon,
+            ])->values(),
         ] : null,
+        'skills' => $subscription->skills->map(fn($s) => [
+            'id'          => $s->id,
+            'name'        => $s->pivot->name ?: $s->name,
+            'category'    => $s->pivot->category ?: $s->category,
+            'description' => $s->pivot->description ?: $s->description,
+        ])->values(),
     ]) }}"
 ></div>
 @endsection

@@ -165,7 +165,7 @@ class AuthController extends Controller
     public function userAgent(Subscription $subscription)
     {
         abort_if($subscription->user_id !== Auth::id(), 403);
-        $subscription->load('agent');
+        $subscription->load(['agent.connectors', 'skills']);
         return view('auth.agent', compact('subscription'));
     }
 
