@@ -3,8 +3,8 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Digital Avatars for Tradies, Property, Finance & Law | ApiSpi</title>
-  <meta name="description" content="Win more business with a professional digital avatar. Made for tradies, property agents, finance brokers, and lawyers. Always on. Always impressive.">
+  <title>Digital Avatars for Tradies, Property, Finance, Law & Accounting | ApiSpi</title>
+  <meta name="description" content="Win more business with a professional digital avatar. Made for tradies, property agents, finance brokers, lawyers, and accountants. Always on. Always impressive.">
   <link rel="icon" type="image/svg+xml" href="{{ asset('favicon.svg') }}">
   <script async src="https://www.googletagmanager.com/gtag/js?id=G-9NX96RC3FF"></script>
   <script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js',new Date());gtag('config','G-9NX96RC3FF');</script>
@@ -333,6 +333,7 @@
         <span class="ind-pill">Property</span>
         <span class="ind-pill">Finance</span>
         <span class="ind-pill">Law</span>
+        <span class="ind-pill">Tax & Accounting</span>
       </div>
       <h1>Your clients decide<br>before they <span class="grad">ever call you.</span></h1>
       <p class="hero-sub">
@@ -484,6 +485,23 @@
         </div>
       </div>
 
+      <div class="industry-card">
+        <span class="ind-icon">🧾</span>
+        <h3 class="ind-h3">Tax Agents & Accountants</h3>
+        <div class="ind-tagline">"Turn tax time chaos into a year-round client relationship."</div>
+        <p class="ind-p">
+          Most clients only think about their accountant in July. A digital avatar keeps you front of mind all year — sending proactive tax tips, deadline reminders, and service explainers that position you as the trusted advisor they can't afford to lose.
+        </p>
+        <div class="ind-uses">
+          <span class="ind-use">Tax time deadline reminders</span>
+          <span class="ind-use">Deduction tip videos</span>
+          <span class="ind-use">New client onboarding</span>
+          <span class="ind-use">EOFY checklists</span>
+          <span class="ind-use">Service package explainers</span>
+          <span class="ind-use">ATO update alerts</span>
+        </div>
+      </div>
+
     </div>
   </div>
 </section>
@@ -580,6 +598,16 @@
           'bg'    => 'linear-gradient(135deg, #251a2a 0%, #180e1a 100%)',
           'emoji' => '📋',
         ],
+        [
+          'id'    => 'ADD_YOUTUBE_ID_9',
+          'ind'   => 'Tax & Accounting',
+          'cat'   => 'Year-Round Engagement',
+          'title' => 'The EOFY Video That Keeps Clients Coming Back',
+          'desc'  => 'A proactive tax-time checklist video from your avatar — sent to every client in June — cements your value before they even think about switching.',
+          'dur'   => '2:11',
+          'bg'    => 'linear-gradient(135deg, #1a2518 0%, #0e1a0c 100%)',
+          'emoji' => '🧾',
+        ],
       ];
       @endphp
 
@@ -673,6 +701,7 @@
               <option value="Property Agent" {{ old('role') === 'Property Agent' ? 'selected' : '' }}>Property / Real Estate Agent</option>
               <option value="Finance Broker" {{ old('role') === 'Finance Broker' ? 'selected' : '' }}>Finance / Mortgage Broker</option>
               <option value="Lawyer" {{ old('role') === 'Lawyer' ? 'selected' : '' }}>Lawyer / Solicitor / Conveyancer</option>
+              <option value="Tax Agent / Accountant" {{ old('role') === 'Tax Agent / Accountant' ? 'selected' : '' }}>Tax Agent / Accountant</option>
               <option value="Other" {{ old('role') === 'Other' ? 'selected' : '' }}>Other professional</option>
             </select>
           </div>
