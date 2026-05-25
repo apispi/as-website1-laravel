@@ -382,12 +382,6 @@
   </div>
 </section>
 
-@if(session('success'))
-<div style="max-width:700px; margin: 0 auto; padding: 0 2rem;">
-  <div class="flash-success">{{ session('success') }}</div>
-</div>
-@endif
-
 <!-- ── TRUST BAR ── -->
 <div class="trust-bar">
   <div class="trust-inner">
@@ -599,7 +593,7 @@
           'emoji' => '📋',
         ],
         [
-          'id'    => 'ADD_YOUTUBE_ID_9',
+          'id'    => 'Sds6FJ3JfZo',
           'ind'   => 'Tax & Accounting',
           'cat'   => 'Year-Round Engagement',
           'title' => 'The EOFY Video That Keeps Clients Coming Back',
@@ -752,14 +746,19 @@
 </div>
 
 <script>
+  // Known Shorts IDs — YouTube Shorts use /shorts/ embed path
+  var shortsIds = ['Sds6FJ3JfZo'];
+
   function openVideo(videoId, title) {
     if (!videoId || videoId.startsWith('ADD_')) {
       alert('Demo video coming soon — check back shortly!');
       return;
     }
+    var base = shortsIds.indexOf(videoId) !== -1
+      ? 'https://www.youtube.com/embed/shorts/'
+      : 'https://www.youtube.com/embed/';
     document.getElementById('modalTitle').textContent = title;
-    document.getElementById('modalIframe').src =
-      'https://www.youtube.com/embed/' + videoId + '?autoplay=1&rel=0';
+    document.getElementById('modalIframe').src = base + videoId + '?autoplay=1&rel=0';
     document.getElementById('videoModal').classList.add('open');
     document.body.style.overflow = 'hidden';
   }

@@ -26,6 +26,7 @@ class AvatarController extends Controller
 
         AvatarLead::create($data);
 
-        return back()->with('success', "Thanks {$data['name']}! We'll be in touch within 1 business day.");
+        return redirect('/digital-avatars#get-started')
+            ->with('success', "Thanks {$data['name']}! We'll be in touch within 1 business day.");
     }
 }
