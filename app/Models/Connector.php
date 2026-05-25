@@ -9,6 +9,7 @@ class Connector extends Model
     protected $fillable = [
         'slug', 'name', 'description', 'category', 'icon', 'website_url',
         'is_active', 'sort_order',
+        'version', 'vendor', 'owner', 'status', 'sla_tier', 'environment', 'tags',
         'is_oauth', 'oauth_client_id', 'oauth_client_secret',
         'oauth_auth_url', 'oauth_token_url', 'oauth_scopes', 'oauth_extra_params',
         'config_schema',
@@ -17,11 +18,13 @@ class Connector extends Model
     protected function casts(): array
     {
         return [
-            'is_active'         => 'boolean',
-            'is_oauth'          => 'boolean',
+            'is_active'           => 'boolean',
+            'is_oauth'            => 'boolean',
             'oauth_client_secret' => 'encrypted',
             'oauth_extra_params'  => 'array',
             'config_schema'       => 'array',
+            'environment'         => 'array',
+            'tags'                => 'array',
         ];
     }
 

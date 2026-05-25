@@ -55,6 +55,14 @@ class ConnectorController extends Controller
             'website_url'        => 'nullable|url|max:500',
             'is_active'          => 'boolean',
             'sort_order'         => 'integer|min:0',
+            'version'            => 'nullable|string|max:50',
+            'vendor'             => 'nullable|string|max:255',
+            'owner'              => 'nullable|string|max:255',
+            'status'             => 'nullable|string|in:active,deprecated,draft',
+            'sla_tier'           => 'nullable|string|in:critical,high,standard,low',
+            'environment'        => 'nullable|array',
+            'environment.*'      => 'string|in:dev,test,prod',
+            'tags'               => 'nullable|string',
             'is_oauth'           => 'boolean',
             'oauth_client_id'    => 'nullable|string|max:255',
             'oauth_client_secret'=> 'nullable|string',
@@ -63,7 +71,7 @@ class ConnectorController extends Controller
             'oauth_scopes'       => 'nullable|string',
             'oauth_extra_params' => 'nullable|json',
             'config_schema'      => 'nullable|json',
-        ]) + ['is_active' => false, 'is_oauth' => false];
+        ]) + ['is_active' => false, 'is_oauth' => false, 'status' => 'active'];
 
         // Blank secret on edit = keep existing
         if ($existing && empty($data['oauth_client_secret'])) {
@@ -77,6 +85,18 @@ class ConnectorController extends Controller
             } else {
                 $data[$field] = null;
             }
+        }
+
+        // Tags: comma-separated string → array
+        if (isset($data['tags']) && $data['tags'] !== '') {
+            $data['tags'] = array_values(array_filter(array_map('trim', explode(',', $data['tags']))));
+        } else {
+            $data['tags'] = null;
+        }
+
+        // Environment: null if empty array
+        if (empty($data['environment'])) {
+            $data['environment'] = null;
         }
 
         return $data;

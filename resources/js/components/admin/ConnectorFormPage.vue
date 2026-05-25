@@ -65,6 +65,62 @@
           </div>
         </div>
 
+        <!-- Catalog metadata -->
+        <div class="section-divider"></div>
+        <div class="section-label">Catalog Metadata</div>
+        <div class="form-grid">
+          <div class="form-group">
+            <label>Version</label>
+            <input type="text" name="version" :value="connector?.version" placeholder="e.g. 1.0.0">
+          </div>
+
+          <div class="form-group">
+            <label>Vendor</label>
+            <input type="text" name="vendor" :value="connector?.vendor" placeholder="e.g. Salesforce">
+          </div>
+
+          <div class="form-group">
+            <label>Owner</label>
+            <input type="text" name="owner" :value="connector?.owner" placeholder="e.g. Platform Team">
+          </div>
+
+          <div class="form-group">
+            <label>Status</label>
+            <select name="status" v-model="catalogStatus">
+              <option value="active">Active</option>
+              <option value="deprecated">Deprecated</option>
+              <option value="draft">Draft</option>
+            </select>
+          </div>
+
+          <div class="form-group">
+            <label>SLA Tier</label>
+            <select name="sla_tier" v-model="slaTier">
+              <option value="">— None —</option>
+              <option value="critical">Critical</option>
+              <option value="high">High</option>
+              <option value="standard">Standard</option>
+              <option value="low">Low</option>
+            </select>
+          </div>
+
+          <div class="form-group">
+            <label>Environment</label>
+            <div class="checkbox-group">
+              <label class="checkbox-label" v-for="env in ['dev','test','prod']" :key="env">
+                <input type="checkbox" name="environment[]" :value="env" :checked="selectedEnvironments.includes(env)" @change="toggleEnv(env)">
+                {{ env }}
+              </label>
+            </div>
+          </div>
+
+          <div class="form-group full">
+            <label>Tags</label>
+            <input type="text" name="tags" :value="tagsValue" placeholder="e.g. crm, sales, cloud">
+            <p class="hint">Comma-separated list of tags for search and discovery.</p>
+          </div>
+        </div>
+
         <!-- OAuth config -->
         <div class="section-divider"></div>
         <div class="section-label">OAuth Configuration</div>
@@ -172,8 +228,18 @@ const props = defineProps({
   errors:    { type: Array,  default: () => [] },
 });
 
-const oauthEnabled = ref(props.connector?.is_oauth ?? false);
-const formAction   = props.connector ? `/admin/connectors/${props.connector.id}` : '/admin/connectors';
+const oauthEnabled        = ref(props.connector?.is_oauth ?? false);
+const catalogStatus       = ref(props.connector?.status ?? 'active');
+const slaTier             = ref(props.connector?.sla_tier ?? '');
+const selectedEnvironments = ref(props.connector?.environment ?? []);
+const tagsValue           = computed(() => (props.connector?.tags ?? []).join(', '));
+const formAction          = props.connector ? `/admin/connectors/${props.connector.id}` : '/admin/connectors';
+
+function toggleEnv(env) {
+  const i = selectedEnvironments.value.indexOf(env);
+  if (i === -1) selectedEnvironments.value.push(env);
+  else selectedEnvironments.value.splice(i, 1);
+}
 
 const extraParamsJson = computed(() => {
   const p = props.connector?.oauth_extra_params;
@@ -255,6 +321,8 @@ textarea { resize: vertical; min-height: 80px; }
 }
 .checkbox-label input[type="checkbox"] { width: 16px; height: 16px; accent-color: #ef4444; flex-shrink: 0; }
 .checkbox-label input[type="hidden"] { display: none; }
+
+.checkbox-group { display: flex; gap: 1rem; flex-wrap: wrap; padding-top: 0.25rem; }
 
 .callback-info { background: rgba(239,68,68,0.04); border: 1px solid rgba(239,68,68,0.12); border-radius: 0.5rem; padding: 0.875rem 1rem; }
 .callback-label { font-size: 0.72rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.06em; color: #6b7280; display: block; margin-bottom: 0.4rem; }
