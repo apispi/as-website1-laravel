@@ -363,7 +363,7 @@ function toggleSkillPage() {
 
 // ── Connectors ──
 const cnSearch = ref('');
-const cnView   = ref('all');
+const cnView   = ref('selected');
 const cnPage   = ref(1);
 
 const cnFiltered = computed(() => {
