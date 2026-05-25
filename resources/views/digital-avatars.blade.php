@@ -513,7 +513,7 @@
       @php
       $videos = [
         [
-          'id'    => 'evFW076v9pE',
+          'id'    => 'ADD_YOUTUBE_ID_1',
           'ind'   => 'Tradies',
           'cat'   => 'Lead Generation',
           'title' => 'The Quote Intro That Wins Jobs',
@@ -523,7 +523,7 @@
           'emoji' => '🔧',
         ],
         [
-          'id'    => 'ADD_YOUTUBE_ID_2',
+          'id'    => 'evFW076v9pE',
           'ind'   => 'Property',
           'cat'   => 'Vendor Outreach',
           'title' => 'Personalised Market Updates at Scale',
