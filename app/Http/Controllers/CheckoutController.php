@@ -34,6 +34,7 @@ class CheckoutController extends Controller
                 'success_url'                                     => route('checkout.success') . '?session_id={CHECKOUT_SESSION_ID}&agent=' . urlencode($agentName),
                 'cancel_url'                                      => route('checkout') . '?agent=' . urlencode($agentName) . '&amount=' . $request->input('amount'),
                 'metadata[agent]'                                 => $agentName,
+                'allow_promotion_codes'                           => 'true',
             ]);
 
         if ($response->failed()) {
