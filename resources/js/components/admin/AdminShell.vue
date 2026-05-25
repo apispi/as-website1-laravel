@@ -51,6 +51,9 @@
         <a href="/admin/trainings" class="adm-nav-link" :class="{ active: page === 'trainings' || page === 'training-form' }">
           <span class="adm-nav-icon">◷</span> Training Catalog
         </a>
+        <a href="/admin/leads" class="adm-nav-link" :class="{ active: page === 'leads' }">
+          <span class="adm-nav-icon">◉</span> Leads
+        </a>
         <a href="/admin/activity" class="adm-nav-link" :class="{ active: page === 'activity-log' }">
           <span class="adm-nav-icon">◑</span> Activity Log
         </a>

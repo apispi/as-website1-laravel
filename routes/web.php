@@ -16,6 +16,7 @@ use App\Http\Controllers\ConnectorOAuthController;
 use App\Http\Controllers\ChatController;
 use App\Http\Controllers\ContactController;
 use App\Http\Controllers\PageController;
+use App\Http\Controllers\Admin\LeadsController;
 use App\Http\Controllers\AvatarController;
 use App\Http\Controllers\SubscribeController;
 use Illuminate\Support\Facades\Route;
@@ -74,6 +75,8 @@ Route::middleware('auth')->group(function () {
 Route::middleware(['auth', 'admin'])->prefix('admin')->name('admin.')->group(function () {
     Route::get('/', [AdminDashboard::class, 'index'])->name('dashboard');
     Route::get('/activity', [AdminActivity::class, 'index'])->name('activity');
+    Route::get('/leads', [LeadsController::class, 'index'])->name('leads.index');
+    Route::delete('/leads/{lead}', [LeadsController::class, 'destroy'])->name('leads.destroy');
     Route::get('/trainings', [AdminTrainings::class, 'index'])->name('trainings.index');
     Route::get('/trainings/create', [AdminTrainings::class, 'create'])->name('trainings.create');
     Route::post('/trainings', [AdminTrainings::class, 'store'])->name('trainings.store');
