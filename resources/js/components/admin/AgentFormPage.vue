@@ -258,15 +258,16 @@
                 </thead>
                 <tbody>
                   <tr v-for="cn in cnPageRows" :key="cn.id"
-                      :class="{ selected: selectedConnectorIds.includes(cn.id) }"
-                      @click="toggleConnector(cn.id)">
-                    <td class="col-check" @click.stop>
+                      :class="{ selected: selectedConnectorIds.includes(cn.id) }">
+                    <td class="col-check">
                       <input type="checkbox" class="row-check"
                              :checked="selectedConnectorIds.includes(cn.id)"
                              @change="toggleConnector(cn.id)">
                     </td>
                     <td class="item-name">
-                      <span v-if="cn.icon" class="cn-icon">{{ cn.icon }}</span>{{ cn.name }}
+                      <a :href="`/admin/connectors/${cn.id}/edit`" class="skill-name-link">
+                        <span v-if="cn.icon" class="cn-icon">{{ cn.icon }}</span>{{ cn.name }}
+                      </a>
                     </td>
                     <td class="item-cat">{{ cn.category || '—' }}</td>
                   </tr>
