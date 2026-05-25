@@ -50,14 +50,14 @@
                 <div class="order-summary">
                     <h2>Order Summary</h2>
                     <div class="order-agent-name" id="summary-agent">Loading…</div>
-                    <div class="order-period">Monthly subscription</div>
+                    <div class="order-period" id="summary-period">Monthly subscription</div>
                     <div class="order-line">
                         <span id="summary-label">Agent plan</span>
                         <span id="summary-price">$0.00</span>
                     </div>
                     <div class="order-line">
                         <span>Billing</span>
-                        <span>Monthly</span>
+                        <span id="summary-billing">Monthly</span>
                     </div>
                     <div class="order-line">
                         <span>Setup fee</span>
@@ -67,7 +67,7 @@
                         <span>Due today</span>
                         <span class="amount" id="summary-total">$0.00</span>
                     </div>
-                    <div class="order-note">
+                    <div class="order-note" id="summary-note">
                         You will be charged <strong id="note-amount">$0.00</strong> monthly.
                         Cancel anytime — access continues through the end of your billing cycle.
                         Payments processed securely via Stripe.
@@ -82,6 +82,7 @@
                         @csrf
                         <input type="hidden" name="agent"  id="form-agent">
                         <input type="hidden" name="amount" id="form-amount">
+                        <input type="hidden" name="type"   id="form-type">
                         <button type="submit" class="btn-stripe" id="pay-btn">
                             <svg class="stripe-logo" width="20" height="20" viewBox="0 0 24 24" fill="none"><path d="M13.479 9.883c-1.626-.604-2.512-1.066-2.512-1.75 0-.608.498-.96 1.395-.96 1.637 0 3.295.634 4.461 1.226l.652-4.018C16.448 3.817 14.779 3 12.36 3 9.36 3 7.2 4.76 7.2 7.453c0 2.606 1.927 3.761 4.226 4.6 1.672.608 2.24 1.066 2.24 1.75 0 .673-.554 1.066-1.578 1.066-1.595 0-3.59-.73-4.9-1.5l-.654 4.05C7.753 18.14 9.76 19 12.3 19c3.12 0 5.49-1.697 5.49-4.618 0-2.492-1.56-3.835-4.311-4.499z" fill="#fff"/></svg>
                             Pay with Card
@@ -106,13 +107,25 @@
     const agent   = params.get('agent')  || 'ApiSpi Agent';
     const amount  = parseFloat(params.get('amount') || '0').toFixed(2);
 
+    const isOneOff = params.get('type') === 'training';
+
     document.getElementById('summary-agent').textContent  = agent;
-    document.getElementById('summary-label').textContent  = agent + ' plan';
+    document.getElementById('summary-label').textContent  = agent + (isOneOff ? '' : ' plan');
     document.getElementById('summary-price').textContent  = '$' + amount;
     document.getElementById('summary-total').textContent  = '$' + amount;
-    document.getElementById('note-amount').textContent    = '$' + amount;
     document.getElementById('form-agent').value           = agent;
     document.getElementById('form-amount').value          = amount;
+    document.getElementById('form-type').value            = params.get('type') || '';
+
+    if (isOneOff) {
+        document.getElementById('summary-period').textContent  = 'One-off payment';
+        document.getElementById('summary-billing').textContent = 'One-off';
+        document.getElementById('summary-note').innerHTML =
+            'This is a one-off payment of <strong>$' + amount + '</strong>. ' +
+            'Payments processed securely via Stripe.';
+    } else {
+        document.getElementById('note-amount').textContent = '$' + amount;
+    }
 
     document.getElementById('stripe-form').addEventListener('submit', function () {
         const btn = document.getElementById('pay-btn');

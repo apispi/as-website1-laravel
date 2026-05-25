@@ -154,7 +154,7 @@
                             <div class="course-price">{{ $training->price }} @if($training->price_unit)<span>/ {{ $training->price_unit }}</span>@endif</div>
                             @endif
                             @if($training->checkout_amount)
-                            <a href="{{ route('checkout') }}?agent={{ urlencode($training->checkout_name ?? $training->title) }}&amount={{ $training->checkout_amount }}" class="btn btn-primary">Enrol Now</a>
+                            <a href="{{ route('checkout') }}?agent={{ urlencode($training->checkout_name ?? $training->title) }}&amount={{ $training->checkout_amount }}&type=training" class="btn btn-primary">Enrol Now</a>
                             @else
                             <a href="{{ route('contact') }}" class="btn btn-secondary">Get in Touch</a>
                             @endif

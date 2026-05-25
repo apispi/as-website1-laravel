@@ -17,22 +17,33 @@ class CheckoutController extends Controller
         $request->validate([
             'agent'  => 'required|string|max:255',
             'amount' => 'required|numeric|min:1',
+            'type'   => 'nullable|string|in:training,agent',
         ]);
 
         $agentName   = $request->input('agent');
         $amountCents = (int) round((float) $request->input('amount') * 100);
+        $isTraining  = $request->input('type') === 'training';
+
+        $productName = $isTraining
+            ? $agentName
+            : $agentName . ' — Monthly Subscription';
+
+        $cancelUrl = route('checkout') . '?agent=' . urlencode($agentName) . '&amount=' . $request->input('amount');
+        if ($isTraining) {
+            $cancelUrl .= '&type=training';
+        }
 
         $response = Http::asForm()
             ->withToken(config('services.stripe.secret'))
             ->post('https://api.stripe.com/v1/checkout/sessions', [
                 'payment_method_types[]'                          => 'card',
                 'line_items[0][price_data][currency]'             => 'aud',
-                'line_items[0][price_data][product_data][name]'   => $agentName . ' — Monthly Subscription',
+                'line_items[0][price_data][product_data][name]'   => $productName,
                 'line_items[0][price_data][unit_amount]'          => $amountCents,
                 'line_items[0][quantity]'                         => 1,
                 'mode'                                            => 'payment',
                 'success_url'                                     => route('checkout.success') . '?session_id={CHECKOUT_SESSION_ID}&agent=' . urlencode($agentName),
-                'cancel_url'                                      => route('checkout') . '?agent=' . urlencode($agentName) . '&amount=' . $request->input('amount'),
+                'cancel_url'                                      => $cancelUrl,
                 'metadata[agent]'                                 => $agentName,
                 'allow_promotion_codes'                           => 'true',
             ]);
