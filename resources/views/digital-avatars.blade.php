@@ -117,8 +117,6 @@
       position: relative; transition: border-color 0.2s;
     }
     .prof-card:hover { border-color: rgba(245,158,11,0.4); }
-    .prof-card:nth-child(2) { transform: translateY(1rem); }
-    .prof-card:nth-child(4) { transform: translateY(1rem); }
     .prof-emoji { font-size: 2.4rem; margin-bottom: 0.75rem; display: block; }
     .prof-name { font-size: 0.88rem; font-weight: 700; color: var(--text); margin-bottom: 0.2rem; }
     .prof-role { font-size: 0.72rem; color: var(--gold-lt); font-weight: 600; letter-spacing: 0.04em; text-transform: uppercase; margin-bottom: 0.6rem; }
@@ -289,7 +287,6 @@
       .hero-inner { grid-template-columns: 1fr; gap: 3rem; }
       .prof-grid { order: -1; grid-template-columns: repeat(4, 1fr); }
       .prof-card { padding: 1rem; }
-      .prof-card:nth-child(2), .prof-card:nth-child(4) { transform: none; }
       .industry-grid { grid-template-columns: 1fr; }
       .trust-inner { grid-template-columns: repeat(2, 1fr); }
       .steps { grid-template-columns: 1fr; gap: 2.5rem; }
