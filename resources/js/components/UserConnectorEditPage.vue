@@ -106,64 +106,66 @@
           <div v-for="e in errors" :key="e">{{ e }}</div>
         </div>
 
-        <!-- No config -->
-        <div v-if="!schema.length" class="uce-empty-config">
-          <div class="uce-empty-icon">⬡</div>
-          <div class="uce-empty-title">No configuration needed</div>
-          <div class="uce-empty-desc">
-            This connector{{ connector.is_oauth ? ' uses OAuth authentication and' : '' }} has no additional settings to configure.
-          </div>
-          <a v-if="connector.website_url" :href="connector.website_url" target="_blank" rel="noopener" class="uce-btn-primary" style="display:inline-block;margin-top:1rem;">
-            Visit website →
-          </a>
-        </div>
-
-        <!-- Config form -->
-        <div v-else class="uce-form-card">
-          <h2 class="uce-section-title">Configuration</h2>
+        <!-- Edit form (always shown) -->
+        <div class="uce-form-card">
           <form :action="`/dashboard/connectors/${userConnector.id}`" method="POST">
             <input type="hidden" name="_token" :value="csrfToken">
             <input type="hidden" name="_method" value="PUT">
 
-            <div class="uce-form-grid">
-              <div
-                v-for="field in schema"
-                :key="field.key"
-                :class="['uce-form-group', field.type === 'textarea' ? 'full' : '']"
-              >
-                <label>
-                  {{ field.label }}
-                  <span v-if="field.required" class="req">*</span>
-                </label>
-
-                <textarea
-                  v-if="field.type === 'textarea'"
-                  :name="`config[${field.key}]`"
-                  rows="4"
-                  :placeholder="field.placeholder || ''"
-                  :required="field.required"
-                >{{ currentValue(field.key) }}</textarea>
-
-                <input
-                  v-else
-                  :type="field.type || 'text'"
-                  :name="`config[${field.key}]`"
-                  :value="field.type === 'password' ? '' : currentValue(field.key)"
-                  :placeholder="field.type === 'password' && hasValue(field.key) ? '••••••••' : (field.placeholder || '')"
-                  :required="field.required && !hasValue(field.key)"
-                  :autocomplete="field.type === 'password' ? 'new-password' : 'off'"
-                >
-
-                <p v-if="field.type === 'password' && hasValue(field.key)" class="hint">
-                  Leave blank to keep the existing value.
-                </p>
-                <p v-if="field.hint" class="hint">{{ field.hint }}</p>
-              </div>
+            <!-- Details section -->
+            <h2 class="uce-section-title">Details</h2>
+            <div class="uce-form-group full" style="margin-bottom:1.5rem;">
+              <label>Notes</label>
+              <textarea name="notes" v-model="form.notes" rows="3"
+                        placeholder="Add any notes about this connection…"></textarea>
             </div>
 
+            <!-- Config fields -->
+            <template v-if="schema.length">
+              <h2 class="uce-section-title">Configuration</h2>
+              <div class="uce-form-grid" style="margin-bottom:1.5rem;">
+                <div
+                  v-for="field in schema"
+                  :key="field.key"
+                  :class="['uce-form-group', field.type === 'textarea' ? 'full' : '']"
+                >
+                  <label>
+                    {{ field.label }}
+                    <span v-if="field.required" class="req">*</span>
+                  </label>
+
+                  <textarea
+                    v-if="field.type === 'textarea'"
+                    :name="`config[${field.key}]`"
+                    rows="4"
+                    :placeholder="field.placeholder || ''"
+                    :required="field.required"
+                  >{{ currentValue(field.key) }}</textarea>
+
+                  <input
+                    v-else
+                    :type="field.type || 'text'"
+                    :name="`config[${field.key}]`"
+                    :value="field.type === 'password' ? '' : currentValue(field.key)"
+                    :placeholder="field.type === 'password' && hasValue(field.key) ? '••••••••' : (field.placeholder || '')"
+                    :required="field.required && !hasValue(field.key)"
+                    :autocomplete="field.type === 'password' ? 'new-password' : 'off'"
+                  >
+
+                  <p v-if="field.type === 'password' && hasValue(field.key)" class="hint">
+                    Leave blank to keep the existing value.
+                  </p>
+                  <p v-if="field.hint" class="hint">{{ field.hint }}</p>
+                </div>
+              </div>
+            </template>
+
             <div class="uce-form-actions">
-              <button type="submit" class="uce-btn-submit">Save Configuration</button>
+              <button type="submit" class="uce-btn-submit">Save</button>
               <a href="/dashboard/connectors" class="uce-btn-cancel">Cancel</a>
+              <a v-if="connector.website_url" :href="connector.website_url" target="_blank" rel="noopener" class="uce-btn-cancel">
+                Visit website →
+              </a>
             </div>
           </form>
         </div>
@@ -175,7 +177,7 @@
 </template>
 
 <script setup>
-import { ref, computed } from 'vue';
+import { ref, reactive, computed } from 'vue';
 
 const props = defineProps({
   user:          { type: Object, default: () => ({}) },
@@ -191,6 +193,8 @@ const initial     = computed(() => (props.user.name || 'U').charAt(0).toUpperCas
 const connector   = computed(() => props.userConnector.connector ?? {});
 const schema      = computed(() => connector.value.config_schema ?? []);
 const config      = computed(() => props.userConnector.config ?? {});
+
+const form = reactive({ notes: props.userConnector.notes ?? '' });
 
 function currentValue(key) { return config.value[key] ?? ''; }
 function hasValue(key)      { return !!config.value[key]; }

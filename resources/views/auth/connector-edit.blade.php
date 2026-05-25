@@ -10,6 +10,7 @@
     data-user-connector="{{ json_encode([
         'id'          => $userConnector->id,
         'status'      => $userConnector->status,
+        'notes'       => $userConnector->notes ?? '',
         'config'      => $userConnector->config ?? [],
         'connected_at'=> $userConnector->connected_at?->toDateString(),
         'connector'   => [

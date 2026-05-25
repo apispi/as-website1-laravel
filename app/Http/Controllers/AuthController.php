@@ -185,8 +185,11 @@ class AuthController extends Controller
             }
         }
 
-        $userConnector->update(['config' => $config ?: null]);
-        ActivityLog::log('connector.config', "Updated config for {$userConnector->connector->name}");
+        $userConnector->update([
+            'config' => $config ?: null,
+            'notes'  => $request->input('notes') ?: null,
+        ]);
+        ActivityLog::log('connector.config', "Updated details for {$userConnector->connector->name}");
 
         return redirect()->route('dashboard.connectors')->with('success', "{$userConnector->connector->name} configuration saved.");
     }
