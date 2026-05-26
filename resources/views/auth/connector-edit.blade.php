@@ -8,20 +8,28 @@
     data-user="{{ json_encode(['name' => Auth::user()->name, 'email' => Auth::user()->email, 'is_admin' => Auth::user()->is_admin]) }}"
     data-csrf="{{ csrf_token() }}"
     data-user-connector="{{ json_encode([
-        'id'          => $userConnector->id,
-        'status'      => $userConnector->status,
-        'notes'       => $userConnector->notes ?? '',
-        'config'      => $userConnector->config ?? [],
-        'connected_at'=> $userConnector->connected_at?->toDateString(),
-        'connector'   => [
+        'id'           => $userConnector->id,
+        'status'       => $userConnector->status,
+        'notes'        => $userConnector->notes ?? '',
+        'config'       => $userConnector->config ?? [],
+        'connected_at' => $userConnector->connected_at?->toDateString(),
+        'connector'    => [
             'id'            => $userConnector->connector->id,
             'name'          => $userConnector->connector->name,
             'slug'          => $userConnector->connector->slug,
+            'description'   => $userConnector->connector->description,
             'category'      => $userConnector->connector->category,
             'icon'          => $userConnector->connector->icon,
             'is_oauth'      => $userConnector->connector->is_oauth,
             'website_url'   => $userConnector->connector->website_url,
             'config_schema' => $userConnector->connector->config_schema ?? [],
+            'version'       => $userConnector->connector->version,
+            'vendor'        => $userConnector->connector->vendor,
+            'owner'         => $userConnector->connector->owner,
+            'status'        => $userConnector->connector->status,
+            'sla_tier'      => $userConnector->connector->sla_tier,
+            'environment'   => $userConnector->connector->environment ?? [],
+            'tags'          => $userConnector->connector->tags ?? [],
         ],
     ]) }}"
     data-flash-success="{{ session('success', '') }}"
