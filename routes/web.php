@@ -22,6 +22,19 @@ use App\Http\Controllers\AvatarController;
 use App\Http\Controllers\SubscribeController;
 use Illuminate\Support\Facades\Route;
 
+// TEMP mail test — remove after confirming email works
+Route::get('/mail-test-x7k2q', function () {
+    try {
+        \Illuminate\Support\Facades\Mail::html(
+            '<p>Test email from ApiSpi — mail is working.</p>',
+            fn ($m) => $m->to('terence.chia@gmail.com')->subject('ApiSpi Mail Test')
+        );
+        return 'Mail sent. Check your inbox.';
+    } catch (\Exception $e) {
+        return 'Mail failed: ' . $e->getMessage();
+    }
+});
+
 Route::get('/', [PageController::class, 'home'])->name('home');
 Route::get('/about', [PageController::class, 'about'])->name('about');
 Route::get('/training', [PageController::class, 'training'])->name('training');
