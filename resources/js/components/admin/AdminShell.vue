@@ -36,17 +36,14 @@
         <a href="/admin/subscriptions" class="adm-nav-link" :class="{ active: page === 'all-agents' }">
           <span class="adm-nav-icon">◈</span> Active Agents
         </a>
+        <a href="/admin/user-connectors" class="adm-nav-link" :class="{ active: page === 'user-connectors' }">
+          <span class="adm-nav-icon">⬡</span> Active Connectors
+        </a>
         <a href="/admin/agents" class="adm-nav-link" :class="{ active: page === 'agents' }">
           <span class="adm-nav-icon">◎</span> Catalog
         </a>
-        <a href="/admin/agents?tab=connectors" class="adm-nav-link" :class="{ active: page === 'connector-form' }">
-          <span class="adm-nav-icon">⬡</span> Connector Catalog
-        </a>
         <a href="/admin/skills" class="adm-nav-link" :class="{ active: page === 'skills' }">
           <span class="adm-nav-icon">◇</span> Skills Catalog
-        </a>
-        <a href="/admin/user-connectors" class="adm-nav-link" :class="{ active: page === 'user-connectors' }">
-          <span class="adm-nav-icon">⬡</span> Active Connectors
         </a>
         <a href="/admin/trainings" class="adm-nav-link" :class="{ active: page === 'trainings' || page === 'training-form' }">
           <span class="adm-nav-icon">◷</span> Training Catalog
