@@ -24,7 +24,7 @@
       <nav class="up-nav">
         <span class="up-nav-label">Workspace</span>
         <a href="/dashboard" class="up-nav-link">
-          <span class="up-nav-icon">⬡</span> Overview
+          <span class="up-nav-icon">⬡</span> Home
         </a>
         <a href="/dashboard/agents" class="up-nav-link">
           <span class="up-nav-icon">◈</span> My Agents

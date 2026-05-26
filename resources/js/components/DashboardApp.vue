@@ -26,7 +26,7 @@
       <nav class="db-nav">
         <span class="db-nav-label">Workspace</span>
         <a href="/dashboard" class="db-nav-link active">
-          <span class="db-nav-icon">⬡</span> Overview
+          <span class="db-nav-icon">⬡</span> Home
         </a>
         <a href="/dashboard/agents" class="db-nav-link">
           <span class="db-nav-icon">◈</span> My Agents

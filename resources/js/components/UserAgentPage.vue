@@ -24,7 +24,7 @@
       <nav class="ua-nav">
         <span class="ua-nav-label">Workspace</span>
         <a href="/dashboard" class="ua-nav-link">
-          <span class="ua-nav-icon">⬡</span> Overview
+          <span class="ua-nav-icon">⬡</span> Home
         </a>
         <a href="/dashboard/agents" class="ua-nav-link active">
           <span class="ua-nav-icon">◈</span> My Agents
@@ -121,7 +121,7 @@
           </button>
         </div>
 
-        <!-- Overview tab -->
+        <!-- Home tab -->
         <template v-if="activeTab === 'overview'">
           <section class="ua-section" v-if="agent.description">
             <h2 class="ua-section-title">About this Agent</h2>

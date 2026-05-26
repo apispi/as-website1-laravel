@@ -77,7 +77,7 @@
     ]
   },
   "resources/js/agent-detail.js": {
-    "file": "assets/agent-detail-AgRc7h2S.js",
+    "file": "assets/agent-detail-DD07a_ik.js",
     "name": "agent-detail",
     "src": "resources/js/agent-detail.js",
     "isEntry": true,
@@ -85,11 +85,11 @@
       "__plugin-vue_export-helper-V0sdoxEM.js"
     ],
     "css": [
-      "assets/agent-detail-DpXG0Cz_.css"
+      "assets/agent-detail-ChaKWbt4.css"
     ]
   },
   "resources/js/agents-list.js": {
-    "file": "assets/agents-list-CiaHoAue.js",
+    "file": "assets/agents-list-Dv3HeVJ9.js",
     "name": "agents-list",
     "src": "resources/js/agents-list.js",
     "isEntry": true,
@@ -97,7 +97,7 @@
       "__plugin-vue_export-helper-V0sdoxEM.js"
     ],
     "css": [
-      "assets/agents-list-p-07XrkE.css"
+      "assets/agents-list-DoiNyVnl.css"
     ]
   },
   "resources/js/app.js": {
@@ -107,7 +107,7 @@
     "isEntry": true
   },
   "resources/js/catalog.js": {
-    "file": "assets/catalog-DROjbc0K.js",
+    "file": "assets/catalog-DhEoHfFj.js",
     "name": "catalog",
     "src": "resources/js/catalog.js",
     "isEntry": true,
@@ -115,11 +115,11 @@
       "__plugin-vue_export-helper-V0sdoxEM.js"
     ],
     "css": [
-      "assets/catalog-DEVEx2xg.css"
+      "assets/catalog-DtC1fHgg.css"
     ]
   },
   "resources/js/connectors-user.js": {
-    "file": "assets/connectors-user-DbJgH-dH.js",
+    "file": "assets/connectors-user-ga1MbxBX.js",
     "name": "connectors-user",
     "src": "resources/js/connectors-user.js",
     "isEntry": true,
@@ -127,7 +127,7 @@
       "__plugin-vue_export-helper-V0sdoxEM.js"
     ],
     "css": [
-      "assets/connectors-user-xDaK-5DO.css"
+      "assets/connectors-user-yinr7JRf.css"
     ]
   },
   "resources/js/dashboard-chat.js": {
@@ -143,7 +143,7 @@
     ]
   },
   "resources/js/dashboard.js": {
-    "file": "assets/dashboard-xmkj6V-N.js",
+    "file": "assets/dashboard-zkXLGIpS.js",
     "name": "dashboard",
     "src": "resources/js/dashboard.js",
     "isEntry": true,
@@ -151,11 +151,11 @@
       "__plugin-vue_export-helper-V0sdoxEM.js"
     ],
     "css": [
-      "assets/dashboard-DF3yKhF4.css"
+      "assets/dashboard-DXwp8DZZ.css"
     ]
   },
   "resources/js/profile.js": {
-    "file": "assets/profile-Ban92VWz.js",
+    "file": "assets/profile-CWx_gjb3.js",
     "name": "profile",
     "src": "resources/js/profile.js",
     "isEntry": true,
@@ -163,7 +163,7 @@
       "__plugin-vue_export-helper-V0sdoxEM.js"
     ],
     "css": [
-      "assets/profile-DgoSul99.css"
+      "assets/profile-B1zOV-A6.css"
     ]
   }
 }

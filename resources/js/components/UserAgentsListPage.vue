@@ -23,7 +23,7 @@
       <nav class="ual-nav">
         <span class="ual-nav-label">Workspace</span>
         <a href="/dashboard" class="ual-nav-link">
-          <span class="ual-nav-icon">⬡</span> Overview
+          <span class="ual-nav-icon">⬡</span> Home
         </a>
         <a href="/dashboard/agents" class="ual-nav-link active">
           <span class="ual-nav-icon">◈</span> My Agents

@@ -23,7 +23,7 @@
 
       <nav class="uce-nav">
         <span class="uce-nav-label">Workspace</span>
-        <a href="/dashboard"            class="uce-nav-link"><span class="uce-nav-icon">⬡</span> Overview</a>
+        <a href="/dashboard"            class="uce-nav-link"><span class="uce-nav-icon">⬡</span> Home</a>
         <a href="/dashboard/agents"     class="uce-nav-link"><span class="uce-nav-icon">◈</span> My Agents</a>
         <a href="/dashboard/connectors" class="uce-nav-link active"><span class="uce-nav-icon">⬡</span> My Connectors</a>
         <a href="/dashboard/catalog"    class="uce-nav-link"><span class="uce-nav-icon">◎</span> Catalog</a>

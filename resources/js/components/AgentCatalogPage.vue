@@ -23,7 +23,7 @@
       <nav class="ac-nav">
         <span class="ac-nav-label">Workspace</span>
         <a href="/dashboard" class="ac-nav-link">
-          <span class="ac-nav-icon">⬡</span> Overview
+          <span class="ac-nav-icon">⬡</span> Home
         </a>
         <a href="/dashboard/agents" class="ac-nav-link">
           <span class="ac-nav-icon">◈</span> My Agents

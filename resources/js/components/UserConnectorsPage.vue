@@ -23,10 +23,10 @@
 
       <nav class="uc-nav">
         <span class="uc-nav-label">Workspace</span>
-        <a href="/dashboard"            class="uc-nav-link"><span class="uc-nav-icon">⬡</span> Overview</a>
+        <a href="/dashboard"            class="uc-nav-link"><span class="uc-nav-icon">⬡</span> Home</a>
         <a href="/dashboard/agents"     class="uc-nav-link"><span class="uc-nav-icon">◈</span> My Agents</a>
-        <a href="/dashboard/catalog"    class="uc-nav-link"><span class="uc-nav-icon">◎</span> Catalog</a>
         <a href="/dashboard/connectors" class="uc-nav-link active"><span class="uc-nav-icon">⬡</span> My Connectors</a>
+        <a href="/dashboard/catalog"    class="uc-nav-link"><span class="uc-nav-icon">◎</span> Catalog</a>
         <a href="/training"             class="uc-nav-link"><span class="uc-nav-icon">◷</span> Training</a>
         <span class="uc-nav-label">Account</span>
         <a href="/contact"              class="uc-nav-link"><span class="uc-nav-icon">◉</span> Support</a>
