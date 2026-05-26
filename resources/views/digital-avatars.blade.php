@@ -658,6 +658,10 @@
 
       <form action="{{ route('digital-avatars.store') }}" method="POST">
         @csrf
+        <div style="position:absolute;left:-9999px;top:-9999px;" aria-hidden="true">
+          <label for="website">Website</label>
+          <input type="text" id="website" name="website" tabindex="-1" autocomplete="off">
+        </div>
         <div class="form-grid">
           <div class="form-group">
             <label class="form-label" for="name">Your Name *</label>

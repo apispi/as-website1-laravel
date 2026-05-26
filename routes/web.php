@@ -49,7 +49,7 @@ Route::post('/chat', [ChatController::class, 'send'])->name('chat.send')->middle
 Route::post('/subscribe', [SubscribeController::class, 'store'])->name('subscribe');
 
 Route::get('/digital-avatars', [AvatarController::class, 'index'])->name('digital-avatars');
-Route::post('/digital-avatars', [AvatarController::class, 'store'])->name('digital-avatars.store');
+Route::post('/digital-avatars', [AvatarController::class, 'store'])->name('digital-avatars.store')->middleware('throttle:5,10');
 
 Route::get('/agents', [AgentController::class, 'index'])->name('agents.index');
 Route::get('/agents/{slug}', [AgentController::class, 'show'])->name('agents.show');

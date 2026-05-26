@@ -15,6 +15,11 @@ class AvatarController extends Controller
 
     public function store(Request $request)
     {
+        if ($request->filled('website')) {
+            return redirect('/digital-avatars#get-started')
+                ->with('success', "Thanks! We'll be in touch within 1 business day.");
+        }
+
         $data = $request->validate([
             'name'     => 'required|string|max:255',
             'email'    => 'required|email|max:255',
