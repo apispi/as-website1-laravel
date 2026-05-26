@@ -140,6 +140,13 @@
     'Get Started':             '/contact',
     'Book a Demo':             '/contact',
     'Blog':                    '/blog',
+    'News':                    '/blog',
+    'Read News':               '/blog',
+    'Partner Program':         '/partners',
+    'Become a Partner':        '/partners',
+    'Partner With Us':         '/partners',
+    'Digital Avatars':         '/digital-avatars',
+    'Book Avatar Demo':        '/digital-avatars',
     'Bid & Tender':            '/agents/bid-tender',
     'View Bid & Tender':       '/agents/bid-tender',
     'Security & IRAP':         '/agents/security-compliance',
@@ -160,8 +167,8 @@
   // ── INTENT RESPONSES ──────────────────────────────────────────────────────
   const RESPONSES = {
     greet: {
-      text: "Hey there! I'm Spi — your ApiSpi guide.\n\nAsk me about our AI agents, training courses, or anything else.",
-      qr: ['Our Agents', 'Training', 'Pricing', 'Contact Us']
+      text: "Hey there! I'm Spi — your ApiSpi guide.\n\nAsk me about our AI agents, digital avatars, training, partner program, or anything else.",
+      qr: ['Our Agents', 'Digital Avatars', 'Training', 'Contact Us']
     },
     'agents.all': {
       text: "We have 9 AI agents ready to deploy:\n\n• Bid & Tender Response — $499/mo\n• Security & IRAP Readiness — $799/mo\n• Enterprise Architecture — $599/mo\n• Digital Avatar & Executive Clone — from $149/mo\n• Knowledge Management & SOP — $399/mo\n• Cyber Incident & Threat Intel — $699/mo\n• Content Creator — $29/mo\n• Customer Support Bot — $49/mo\n• Data Analyzer Pro — $79/mo\n\nAsk me about any of them!",
@@ -180,8 +187,8 @@
       qr: ['View Architecture Agent', 'Pricing', 'Get Started']
     },
     'agents.avatar': {
-      text: "The Digital Avatar & Executive Clone agent creates AI-powered professional avatars for executives, consultants, and trainers — complete with voice cloning and multilingual support.\n\nRating: ⭐ 4.9/5 · 520+ users\nFrom $149/mo (Starter) · $800 (Professional)",
-      qr: ['View Digital Avatar', 'Get Started', 'Pricing']
+      text: "ApiSpi Digital Avatars create AI-powered video personas for professional services — tradies, property agents, lawyers, accountants, beauticians, and hotel marketers.\n\nYour avatar handles lead response, client education, and outreach 24/7. Book a free demo to see yours.",
+      qr: ['Book Avatar Demo', 'View Digital Avatar', 'Get Started']
     },
     'agents.knowledge': {
       text: "The Knowledge Management & SOP agent turns scattered organisational knowledge into searchable operational intelligence and auto-generated standard operating procedures.\n\nRating: ⭐ 4.8/5 · 290+ users\nFrom $199/mo (Starter) · $399/mo (Professional)",
@@ -205,7 +212,7 @@
     },
     pricing: {
       text: "All agents are billed monthly in AUD with no lock-in contracts:\n\n• Content Creator — $29/mo\n• Customer Support Bot — $49/mo\n• Data Analyzer Pro — $79/mo\n• Digital Avatar — from $149/mo\n• Knowledge Management — from $199/mo\n• Bid & Tender — from $299/mo\n• Enterprise Architecture — from $349/mo\n• Cyber Incident — from $399/mo\n• Security & IRAP — from $499/mo\n\nAll plans include onboarding support.",
-      qr: ['Browse Agents', 'Training', 'Contact Us']
+      qr: ['Browse Agents', 'Digital Avatars', 'Contact Us']
     },
     training: {
       text: "We run hands-on AI training for individuals and teams:\n\n• Introduction to AI — Full Day Workshop, $1,500/person ⭐ Popular\n• Digital Avatar — Online, $250/avatar 🆕\n• Prompt Engineering Masterclass — Workshop, $750/person\n• AI for Business Leaders — Half Day Workshop, $995/person\n• Building AI Agents with APIs — Online 3-day, $1,200/person\n• Enterprise AI Strategy — 2-day Workshop, $2,500/person 🎓",
@@ -221,7 +228,15 @@
     },
     getstarted: {
       text: "Getting started is easy:\n\n1. Browse the Agents catalogue\n2. Click into any agent to see full details\n3. Choose your plan and subscribe via secure checkout\n\nNeed help choosing? Happy to recommend one based on your needs.",
-      qr: ['Browse Agents', 'Pricing', 'Contact Us']
+      qr: ['Browse Agents', 'Digital Avatars', 'Contact Us']
+    },
+    partners: {
+      text: "ApiSpi's Partner Program has two types:\n\n🤝 Referral Partner — Earn up to 20% recurring revenue share by referring clients. No delivery required.\n\n🏢 Agency Partner — For agencies delivering AI solutions to clients. Includes agency pricing, volume discounts, and co-sell support.\n\nOnboarding takes 48 hours from approval.",
+      qr: ['Become a Partner', 'Contact Us', 'Our Agents']
+    },
+    news: {
+      text: "Latest from the ApiSpi blog:\n\n• AI Agents for Australian SMBs: The 2026 Opportunity\n• Digital Avatars: How AI Video Personas Are Winning Clients\n• Why Agencies Are Adding AI Agents to Their Stack\n• Claude 4: The Agentic Leap That Changes Everything\n• MCP: The Protocol Becoming the Backbone of Enterprise AI\n\nRead them all on the blog.",
+      qr: ['Read News', 'Our Agents', 'Contact Us']
     },
   };
 
@@ -334,6 +349,19 @@
       'start using', 'how to use', 'onboard', 'register',
       'begin', 'want to start', 'ready to start', 'buy an agent',
     ]},
+    { intent: 'partners', phrases: [
+      'partner program', 'become a partner', 'partner with you',
+      'referral program', 'reseller', 'agency partner', 'referral partner',
+      'partner application', 'revenue share', 'commission', 'refer clients',
+      'partner up', 'partnership', 'affiliate', 'white label',
+      'how do i partner', 'agency program', 'partner benefits',
+    ]},
+    { intent: 'news', phrases: [
+      'news', 'blog', 'articles', 'latest news', 'what\'s new',
+      'recent articles', 'insights', 'updates', 'read the blog',
+      'ai news', 'apispi blog', 'latest updates', 'what have you published',
+      'recent posts', 'blog posts', 'apispi news',
+    ]},
   ];
 
   // ── NLP STATE ─────────────────────────────────────────────────────────────
@@ -441,7 +469,7 @@
   win.querySelector('.spi-close').addEventListener('click', toggle);
 
   function greet() {
-    addBotMsg("Hey there! I'm Spi — your ApiSpi guide.\n\nAsk me about our AI agents, training courses, or anything else.", ['Our Agents', 'Training', 'Pricing', 'Contact Us']);
+    addBotMsg("Hey there! I'm Spi — your ApiSpi guide.\n\nAsk me about our AI agents, digital avatars, training, partner program, or anything else.", ['Our Agents', 'Digital Avatars', 'Training', 'Contact Us']);
   }
 
   function addMsg(text, cls) {
