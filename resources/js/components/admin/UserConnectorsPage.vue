@@ -2,7 +2,7 @@
   <AdminShell :user="user" :csrf-token="csrfToken" page="user-connectors">
 
     <div class="page-header">
-      <h1 class="page-title">User Connectors</h1>
+      <h1 class="page-title">Active Connectors</h1>
       <p class="page-sub">All connector instances across all users</p>
     </div>
 

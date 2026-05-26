@@ -46,7 +46,7 @@
           <span class="adm-nav-icon">◇</span> Skills Catalog
         </a>
         <a href="/admin/user-connectors" class="adm-nav-link" :class="{ active: page === 'user-connectors' }">
-          <span class="adm-nav-icon">⬡</span> User Connectors
+          <span class="adm-nav-icon">⬡</span> Active Connectors
         </a>
         <a href="/admin/trainings" class="adm-nav-link" :class="{ active: page === 'trainings' || page === 'training-form' }">
           <span class="adm-nav-icon">◷</span> Training Catalog
