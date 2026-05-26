@@ -125,19 +125,6 @@
                 </div>
 
                 <div class="tier-card">
-                    <span class="tier-icon">📦</span>
-                    <div class="tier-name">Reseller Partner</div>
-                    <div class="tier-tagline">White-label and resell to your clients.</div>
-                    <p class="tier-desc">Bundle ApiSpi agents into your existing service offering. Sell under your brand, set your own pricing, and retain the client relationship.</p>
-                    <ul class="tier-perks">
-                        <li>Wholesale pricing on all agent subscriptions</li>
-                        <li>White-label branding options</li>
-                        <li>Client management portal</li>
-                        <li>Priority technical support</li>
-                    </ul>
-                </div>
-
-                <div class="tier-card">
                     <span class="tier-icon">🏢</span>
                     <div class="tier-name">Agency Partner</div>
                     <div class="tier-tagline">Deliver AI solutions. We power the stack.</div>
@@ -147,19 +134,6 @@
                         <li>Joint go-to-market opportunities</li>
                         <li>Early access to new agents and features</li>
                         <li>Co-sell support from our team</li>
-                    </ul>
-                </div>
-
-                <div class="tier-card">
-                    <span class="tier-icon">⚙️</span>
-                    <div class="tier-name">Technology Partner</div>
-                    <div class="tier-tagline">Integrate. Extend. Build together.</div>
-                    <p class="tier-desc">Software platforms and SaaS companies that want to embed ApiSpi agents into their product or build deep integrations with our API ecosystem.</p>
-                    <ul class="tier-perks">
-                        <li>Full API access and sandbox environment</li>
-                        <li>Listed in the ApiSpi connector marketplace</li>
-                        <li>Joint product development opportunities</li>
-                        <li>Technical integration support</li>
                     </ul>
                 </div>
 
@@ -263,9 +237,7 @@
                             <select class="form-select" id="partner_type" name="partner_type" required>
                                 <option value="">Select a type…</option>
                                 <option value="Referral Partner" {{ old('partner_type') === 'Referral Partner' ? 'selected' : '' }}>Referral Partner</option>
-                                <option value="Reseller Partner" {{ old('partner_type') === 'Reseller Partner' ? 'selected' : '' }}>Reseller Partner</option>
                                 <option value="Agency Partner" {{ old('partner_type') === 'Agency Partner' ? 'selected' : '' }}>Agency Partner</option>
-                                <option value="Technology Partner" {{ old('partner_type') === 'Technology Partner' ? 'selected' : '' }}>Technology Partner</option>
                             </select>
                         </div>
                         <div class="form-group full">
