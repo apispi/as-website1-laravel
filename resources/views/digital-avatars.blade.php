@@ -528,7 +528,7 @@
       $videos = [
         [
           'id'    => 'ADD_YOUTUBE_ID_1',
-          'ind'   => 'Tradies',
+          'ind'   => 'Tradie',
           'cat'   => 'Lead Generation',
           'title' => 'The Quote Intro That Wins Jobs',
           'desc'  => 'A 90-second avatar video on a tradie\'s website converts browsers into quote requests — 24/7, no phone needed.',
@@ -538,7 +538,7 @@
         ],
         [
           'id'    => 'evFW076v9pE',
-          'ind'   => 'Property',
+          'ind'   => 'Property Agent',
           'cat'   => 'Vendor Outreach',
           'title' => 'Personalised Market Updates at Scale',
           'desc'  => 'Send 200 vendors a personalised suburb report video. Same agent, same message, individually addressed.',
@@ -547,18 +547,8 @@
           'emoji' => '🏡',
         ],
         [
-          'id'    => 'ADD_YOUTUBE_ID_3',
-          'ind'   => 'Finance',
-          'cat'   => 'Client Education',
-          'title' => 'Walking Borrowers Through the Process',
-          'desc'  => 'Pre-approval, LVR, offset accounts — your avatar explains it calmly before the first meeting, so clients arrive ready.',
-          'dur'   => '3:05',
-          'bg'    => 'linear-gradient(135deg, #1a2a1a 0%, #0e1a0e 100%)',
-          'emoji' => '💼',
-        ],
-        [
           'id'    => 'LydnIF2gpzo',
-          'ind'   => 'Law',
+          'ind'   => 'Lawyer',
           'cat'   => 'Client Intake',
           'title' => 'The FAQ Video That Saves 10 Hours a Week',
           'desc'  => 'One conveyancing explainer video, deployed on your site. Clients arrive at consultation already knowing the basics.',
@@ -567,54 +557,34 @@
           'emoji' => '⚖️',
         ],
         [
-          'id'    => 'ADD_YOUTUBE_ID_5',
-          'ind'   => 'Property',
-          'cat'   => 'Open Home Follow-Up',
-          'title' => 'Same-Night Follow-Up for Every Buyer',
-          'desc'  => 'Your avatar sends a personalised follow-up video to every open home attendee within hours. No other agent does this.',
-          'dur'   => '1:38',
-          'bg'    => 'linear-gradient(135deg, #1a1a2a 0%, #0e0e1a 100%)',
-          'emoji' => '🔑',
-        ],
-        [
-          'id'    => 'ADD_YOUTUBE_ID_6',
-          'ind'   => 'Finance',
-          'cat'   => 'Rate Alert Campaign',
-          'title' => 'Rate Change? Your Clients Hear From You First',
-          'desc'  => 'RBA announcement drops. Your avatar has already sent a personalised video to every client in your CRM. Loyalty locked.',
-          'dur'   => '2:02',
-          'bg'    => 'linear-gradient(135deg, #2a2a1a 0%, #1a1a0e 100%)',
-          'emoji' => '📊',
-        ],
-        [
-          'id'    => 'ADD_YOUTUBE_ID_7',
-          'ind'   => 'Tradies',
-          'cat'   => 'After-Hours Enquiries',
-          'title' => 'Never Lose a Lead to Voicemail Again',
-          'desc'  => 'Enquiry lands at 9pm. Your avatar responds instantly with your credentials, pricing, and a booking link.',
-          'dur'   => '1:55',
-          'bg'    => 'linear-gradient(135deg, #1a2a2a 0%, #0e1a1a 100%)',
-          'emoji' => '⚡',
-        ],
-        [
-          'id'    => 'ADD_YOUTUBE_ID_8',
-          'ind'   => 'Law',
-          'cat'   => 'Practice Area Intro',
-          'title' => 'Your Practice Areas Explained in Under 2 Minutes',
-          'desc'  => 'Website visitors understand exactly what you do and who you help — before they decide whether to book.',
-          'dur'   => '2:29',
-          'bg'    => 'linear-gradient(135deg, #251a2a 0%, #180e1a 100%)',
-          'emoji' => '📋',
-        ],
-        [
           'id'    => 'LBGEgbbsqqw',
-          'ind'   => 'Tax & Accounting',
+          'ind'   => 'Accountant',
           'cat'   => 'Year-Round Engagement',
           'title' => 'The EOFY Video That Keeps Clients Coming Back',
-          'desc'  => 'A proactive tax-time checklist video from your avatar — sent to every client in June — cements your value before they even think about switching.',
+          'desc'  => 'A proactive tax-time checklist video sent to every client in June — cements your value before they think about switching.',
           'dur'   => '2:11',
           'bg'    => 'linear-gradient(135deg, #1a2518 0%, #0e1a0c 100%)',
           'emoji' => '🧾',
+        ],
+        [
+          'id'    => 'ADD_YOUTUBE_ID_5',
+          'ind'   => 'Beautician',
+          'cat'   => 'Client Conversion',
+          'title' => 'Fill Your Books While You\'re With a Client',
+          'desc'  => 'Your avatar showcases your treatments and results around the clock — turning Instagram browsers into booked regulars.',
+          'dur'   => '1:45',
+          'bg'    => 'linear-gradient(135deg, #2a1a24 0%, #1a0e16 100%)',
+          'emoji' => '💅',
+        ],
+        [
+          'id'    => 'ADD_YOUTUBE_ID_6',
+          'ind'   => 'Hotel Marketer',
+          'cat'   => 'Direct Bookings',
+          'title' => 'Turn Lookers Into Bookers — All Day, Every Day',
+          'desc'  => 'An avatar walking guests through your rooms and local experiences drives direct bookings even when your team is offline.',
+          'dur'   => '2:05',
+          'bg'    => 'linear-gradient(135deg, #1a2028 0%, #0e1420 100%)',
+          'emoji' => '🏨',
         ],
       ];
       @endphp
@@ -761,7 +731,7 @@
 </div>
 
 <script>
-  var shortsIds = ['LBGEgbbsqqw', 'evFW076v9pE'];
+  var shortsIds = ['LBGEgbbsqqw', 'evFW076v9pE', 'LydnIF2gpzo'];
 
   function openVideo(videoId, title) {
     if (!videoId || videoId.startsWith('ADD_')) {
