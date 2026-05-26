@@ -12,6 +12,7 @@ use App\Http\Controllers\Admin\UserController as AdminUsers;
 use App\Http\Controllers\AgentController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\CheckoutController;
+use App\Http\Controllers\PartnerController;
 use App\Http\Controllers\BlogController;
 use App\Http\Controllers\ConnectorOAuthController;
 use App\Http\Controllers\ChatController;
@@ -24,6 +25,8 @@ use Illuminate\Support\Facades\Route;
 
 Route::get('/', [PageController::class, 'home'])->name('home');
 Route::get('/about', [PageController::class, 'about'])->name('about');
+Route::get('/partners', [PartnerController::class, 'show'])->name('partners');
+Route::post('/partners', [PartnerController::class, 'store'])->name('partners.store')->middleware('throttle:5,10');
 Route::get('/training', [PageController::class, 'training'])->name('training');
 Route::get('/checkout', [CheckoutController::class, 'show'])->name('checkout');
 Route::post('/checkout/session', [CheckoutController::class, 'createSession'])->name('checkout.session');

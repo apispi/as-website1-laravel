@@ -163,6 +163,7 @@
             <p>Whether you're interested in our agents, partnering with us, or joining our team</p>
             <div class="cta-buttons">
                 <a href="{{ route('agents.index') }}" class="btn btn-outline">Explore Agents</a>
+                <a href="{{ route('partners') }}" class="btn btn-primary">Partner With Us</a>
                 <a href="{{ route('contact') }}" class="btn btn-secondary">Get in Touch</a>
             </div>
         </div>
