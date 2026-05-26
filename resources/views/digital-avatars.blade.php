@@ -3,8 +3,8 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Digital Avatars for Tradies, Property, Finance, Law & Accounting | ApiSpi</title>
-  <meta name="description" content="Win more business with a professional digital avatar. Made for tradies, property agents, finance brokers, lawyers, and accountants. Always on. Always impressive.">
+  <title>Digital Avatars for Tradies, Property, Law, Accounting, Beauty & Hospitality | ApiSpi</title>
+  <meta name="description" content="Win more business with a professional digital avatar. Made for tradies, property agents, lawyers, accountants, beauticians, and hotel marketers. Always on. Always impressive.">
   <link rel="icon" type="image/svg+xml" href="{{ asset('favicon.svg') }}">
   <script async src="https://www.googletagmanager.com/gtag/js?id=G-9NX96RC3FF"></script>
   <script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js',new Date());gtag('config','G-9NX96RC3FF');</script>
@@ -330,9 +330,10 @@
       <div class="hero-industries">
         <span class="ind-pill">Tradies</span>
         <span class="ind-pill">Property</span>
-        <span class="ind-pill">Finance</span>
         <span class="ind-pill">Law</span>
-        <span class="ind-pill">Tax & Accounting</span>
+        <span class="ind-pill">Accounting</span>
+        <span class="ind-pill">Beauty</span>
+        <span class="ind-pill">Hospitality</span>
       </div>
       <h1>Your clients decide<br>before they <span class="grad">ever call you.</span></h1>
       <p class="hero-sub">
@@ -354,28 +355,28 @@
         <span class="prof-emoji">🔧</span>
         <div class="prof-name">Dave Tradie</div>
         <div class="prof-role">Electrician · Sydney</div>
-        <div class="prof-quote">"Hi, I'm Dave. I give free quotes within 24 hours and I'm fully licensed. Here's what I can do for you…"</div>
+        <div class="prof-quote">"Hi, I'm Dave. Free quotes within 24 hours, fully licensed. Here's what I can do for you…"</div>
       </div>
       <div class="prof-card">
         <div class="prof-badge">Live</div>
         <span class="prof-emoji">🏡</span>
         <div class="prof-name">Sarah Chen</div>
         <div class="prof-role">Property Agent · Melbourne</div>
-        <div class="prof-quote">"Thinking of selling? I've sold 12 homes in your suburb this year. Let me show you what yours could fetch…"</div>
+        <div class="prof-quote">"Thinking of selling? I've sold 12 homes in your suburb this year. Here's what yours could fetch…"</div>
       </div>
       <div class="prof-card">
         <div class="prof-badge">Live</div>
-        <span class="prof-emoji">💼</span>
-        <div class="prof-name">Mark Broker</div>
-        <div class="prof-role">Finance Broker · Brisbane</div>
-        <div class="prof-quote">"Rates are moving. Here's exactly what that means for your borrowing capacity and how I can help…"</div>
+        <span class="prof-emoji">💅</span>
+        <div class="prof-name">Mia Nguyen</div>
+        <div class="prof-role">Beauty Therapist · Brisbane</div>
+        <div class="prof-quote">"Here's exactly what your first facial includes and why clients come back every single month…"</div>
       </div>
       <div class="prof-card">
         <div class="prof-badge">Live</div>
-        <span class="prof-emoji">⚖️</span>
-        <div class="prof-name">Priya Sharma</div>
-        <div class="prof-role">Solicitor · Perth</div>
-        <div class="prof-quote">"Worried about your contract? Watch this 2-minute explainer before your consultation and save us both time…"</div>
+        <span class="prof-emoji">🏨</span>
+        <div class="prof-name">James Hartley</div>
+        <div class="prof-role">Hotel Marketing · Gold Coast</div>
+        <div class="prof-quote">"Book direct and I'll show you what makes a stay here different to anything else on the strip…"</div>
       </div>
     </div>
   </div>
@@ -415,27 +416,26 @@
 
       <div class="industry-card">
         <span class="ind-icon">🔧</span>
-        <h3 class="ind-h3">Tradies</h3>
-        <div class="ind-tagline">"Win jobs before your competitors even call back."</div>
+        <h3 class="ind-h3">Tradie</h3>
+        <div class="ind-tagline">"Win the job before your competitor calls back."</div>
         <p class="ind-p">
-          Homeowners search online, compare three quotes, and go with whoever feels most professional. A polished video introduction from your avatar — on your website or Google listing — builds trust before you've said a word.
-          Stop losing jobs to less-skilled tradies who just look better online.
+          Homeowners Google, compare three quotes, and pick whoever looks most credible. An avatar intro video on your website or Google listing builds that credibility instantly — before you've even answered the phone. Stop losing jobs to less-skilled tradies who just look better online.
         </p>
         <div class="ind-uses">
           <span class="ind-use">Quote intro videos</span>
           <span class="ind-use">Service explainers</span>
           <span class="ind-use">After-hours enquiries</span>
-          <span class="ind-use">Testimonial narration</span>
           <span class="ind-use">Safety briefings</span>
+          <span class="ind-use">Review narration</span>
         </div>
       </div>
 
       <div class="industry-card">
         <span class="ind-icon">🏡</span>
-        <h3 class="ind-h3">Property Agents</h3>
+        <h3 class="ind-h3">Property Agent</h3>
         <div class="ind-tagline">"More appraisals. More listings. More sold stickers."</div>
         <p class="ind-p">
-          Vendors choose the agent who communicates best. Send a personalised video market update to every prospect on your list — with your avatar delivering it — and watch your appraisal conversion rate climb. Stand out in a suburb with 20 other agents.
+          Vendors pick the agent who communicates best. Send a personalised suburb market update — delivered by your avatar — to every prospect on your list. Stand out in a suburb with 20 other agents competing for the same listing.
         </p>
         <div class="ind-uses">
           <span class="ind-use">Listing presentations</span>
@@ -447,31 +447,15 @@
       </div>
 
       <div class="industry-card">
-        <span class="ind-icon">💼</span>
-        <h3 class="ind-h3">Finance Brokers</h3>
-        <div class="ind-tagline">"Explain the complex. Close more loans."</div>
-        <p class="ind-p">
-          Borrowers are nervous and overwhelmed. An avatar video that walks them through the process — in plain English, at 11pm when they're anxious — converts browsers into booked appointments. Build the trust that banks can't buy.
-        </p>
-        <div class="ind-uses">
-          <span class="ind-use">Loan product explainers</span>
-          <span class="ind-use">Rate change alerts</span>
-          <span class="ind-use">Pre-approval walkthroughs</span>
-          <span class="ind-use">Refinance outreach</span>
-          <span class="ind-use">Compliance education</span>
-        </div>
-      </div>
-
-      <div class="industry-card">
         <span class="ind-icon">⚖️</span>
-        <h3 class="ind-h3">Lawyers & Solicitors</h3>
-        <div class="ind-tagline">"Bill more hours. Spend fewer explaining the basics."</div>
+        <h3 class="ind-h3">Lawyer</h3>
+        <div class="ind-tagline">"Stop explaining the basics. Start billing for the complex."</div>
         <p class="ind-p">
-          Every hour spent explaining the same conveyancing process for the hundredth time is an hour you're not billing. Your avatar handles the FAQs, intake, and client education — so your meetings start at the interesting part.
+          Every minute spent on the same conveyancing questions is a minute you're not billing. Your avatar handles client intake, FAQs, and process education — so consultations start where they should: at the part that actually needs a lawyer.
         </p>
         <div class="ind-uses">
-          <span class="ind-use">Legal process explainers</span>
           <span class="ind-use">Client intake videos</span>
+          <span class="ind-use">Legal process explainers</span>
           <span class="ind-use">Settlement walkthroughs</span>
           <span class="ind-use">Will & estate guides</span>
           <span class="ind-use">Practice area intros</span>
@@ -480,18 +464,49 @@
 
       <div class="industry-card">
         <span class="ind-icon">🧾</span>
-        <h3 class="ind-h3">Tax Agents & Accountants</h3>
-        <div class="ind-tagline">"Turn tax time chaos into a year-round client relationship."</div>
+        <h3 class="ind-h3">Accountant</h3>
+        <div class="ind-tagline">"Front of mind all year — not just in July."</div>
         <p class="ind-p">
-          Most clients only think about their accountant in July. A digital avatar keeps you front of mind all year — sending proactive tax tips, deadline reminders, and service explainers that position you as the trusted advisor they can't afford to lose.
+          Most clients only think of their accountant at tax time. A digital avatar keeps you visible year-round — proactive tips, deadline reminders, and service explainers that make you the trusted advisor they'd never consider leaving.
         </p>
         <div class="ind-uses">
-          <span class="ind-use">Tax time deadline reminders</span>
+          <span class="ind-use">Tax deadline reminders</span>
           <span class="ind-use">Deduction tip videos</span>
           <span class="ind-use">New client onboarding</span>
           <span class="ind-use">EOFY checklists</span>
-          <span class="ind-use">Service package explainers</span>
           <span class="ind-use">ATO update alerts</span>
+        </div>
+      </div>
+
+      <div class="industry-card">
+        <span class="ind-icon">💅</span>
+        <h3 class="ind-h3">Beautician</h3>
+        <div class="ind-tagline">"Fill your books without lifting a finger."</div>
+        <p class="ind-p">
+          Clients book the therapist they trust, not just the closest salon. An avatar showcasing your treatments, results, and personality converts Instagram browsers into loyal regulars — around the clock, even when you're fully booked and offline.
+        </p>
+        <div class="ind-uses">
+          <span class="ind-use">Treatment explainers</span>
+          <span class="ind-use">Before & after walkthroughs</span>
+          <span class="ind-use">New service launches</span>
+          <span class="ind-use">Loyalty program promos</span>
+          <span class="ind-use">Aftercare instructions</span>
+        </div>
+      </div>
+
+      <div class="industry-card">
+        <span class="ind-icon">🏨</span>
+        <h3 class="ind-h3">Hotel Marketer</h3>
+        <div class="ind-tagline">"Turn lookers into bookers. Every hour of the day."</div>
+        <p class="ind-p">
+          Travellers compare a dozen properties before committing. An avatar video showcasing your rooms, experiences, and local tips cuts through the noise and drives direct bookings — even when your team is offline and OTAs are eating your margin.
+        </p>
+        <div class="ind-uses">
+          <span class="ind-use">Room & suite showcases</span>
+          <span class="ind-use">Local experience guides</span>
+          <span class="ind-use">Direct booking campaigns</span>
+          <span class="ind-use">Event & wedding packages</span>
+          <span class="ind-use">Guest FAQ videos</span>
         </div>
       </div>
 
@@ -641,7 +656,7 @@
       <div class="step">
         <div class="step-num">2</div>
         <h3 class="step-h3">You Write the Script</h3>
-        <p class="step-p">Tell your avatar what to say. Use our industry templates for tradies, agents, brokers, and lawyers — or write your own. Takes about 10 minutes.</p>
+        <p class="step-p">Tell your avatar what to say. Use our industry templates for tradies, agents, lawyers, accountants, beauticians, and hotel marketers — or write your own. Takes about 10 minutes.</p>
       </div>
       <div class="step">
         <div class="step-num">3</div>
@@ -691,10 +706,11 @@
             <select class="form-select" id="role" name="role" required>
               <option value="">Select your profession</option>
               <option value="Tradie" {{ old('role') === 'Tradie' ? 'selected' : '' }}>Tradie (electrician, plumber, builder…)</option>
-              <option value="Property Agent" {{ old('role') === 'Property Agent' ? 'selected' : '' }}>Property / Real Estate Agent</option>
-              <option value="Finance Broker" {{ old('role') === 'Finance Broker' ? 'selected' : '' }}>Finance / Mortgage Broker</option>
+              <option value="Property Agent" {{ old('role') === 'Property Agent' ? 'selected' : '' }}>Property Agent</option>
               <option value="Lawyer" {{ old('role') === 'Lawyer' ? 'selected' : '' }}>Lawyer / Solicitor / Conveyancer</option>
-              <option value="Tax Agent / Accountant" {{ old('role') === 'Tax Agent / Accountant' ? 'selected' : '' }}>Tax Agent / Accountant</option>
+              <option value="Accountant" {{ old('role') === 'Accountant' ? 'selected' : '' }}>Accountant / Tax Agent</option>
+              <option value="Beautician" {{ old('role') === 'Beautician' ? 'selected' : '' }}>Beautician / Beauty Therapist</option>
+              <option value="Hotel Marketer" {{ old('role') === 'Hotel Marketer' ? 'selected' : '' }}>Hotel / Hospitality Marketer</option>
               <option value="Other" {{ old('role') === 'Other' ? 'selected' : '' }}>Other professional</option>
             </select>
           </div>
