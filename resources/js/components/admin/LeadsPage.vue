@@ -49,8 +49,8 @@
             </td>
             <td class="muted">{{ lead.company || '—' }}</td>
             <td>
-              <span :class="['source-badge', lead.source === 'partner' ? 'source-partner' : 'source-avatar']">
-                {{ lead.source === 'partner' ? 'Partner' : 'Avatar' }}
+              <span :class="['source-badge', lead.source === 'partner' ? 'source-partner' : lead.source === 'contact' ? 'source-contact' : 'source-avatar']">
+                {{ lead.source === 'partner' ? 'Partner' : lead.source === 'contact' ? 'Contact' : 'Avatar' }}
               </span>
             </td>
             <td class="muted use-cell">
@@ -108,7 +108,7 @@ const sourceFilter = ref('All');
 const curPage      = ref(1);
 const PER_PAGE     = 25;
 
-const sourceFilters = ['All', 'Avatar', 'Partner'];
+const sourceFilters = ['All', 'Avatar', 'Partner', 'Contact'];
 
 const filtered = computed(() => {
   const q = search.value.toLowerCase();
@@ -117,7 +117,7 @@ const filtered = computed(() => {
       (l.name  || '').toLowerCase().includes(q) ||
       (l.email || '').toLowerCase().includes(q) ||
       (l.company || '').toLowerCase().includes(q);
-    const src = l.source === 'partner' ? 'Partner' : 'Avatar';
+    const src = l.source === 'partner' ? 'Partner' : l.source === 'contact' ? 'Contact' : 'Avatar';
     const matchSource = sourceFilter.value === 'All' || src === sourceFilter.value;
     return matchSearch && matchSource;
   });
@@ -196,6 +196,7 @@ function confirmDelete(event, name) {
 .source-badge { display: inline-block; padding: 0.2rem 0.55rem; border-radius: 99px; font-size: 0.72rem; font-weight: 700; white-space: nowrap; }
 .source-avatar  { background: rgba(59,130,246,0.1); border: 1px solid rgba(59,130,246,0.25); color: #93c5fd; }
 .source-partner { background: rgba(245,158,11,0.1); border: 1px solid rgba(245,158,11,0.25); color: #fcd34d; }
+.source-contact { background: rgba(16,185,129,0.1); border: 1px solid rgba(16,185,129,0.25); color: #6ee7b7; }
 
 .actions { text-align: right; }
 .btn-danger { display: inline-block; padding: 0.3rem 0.6rem; border-radius: 0.4rem; font-size: 0.75rem; font-weight: 600; cursor: pointer; border: none; font-family: inherit; background: rgba(239,68,68,0.1); color: #fca5a5; transition: all 0.18s; }
