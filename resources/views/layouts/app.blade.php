@@ -62,9 +62,8 @@
                     <h4>Product</h4>
                     <ul>
                         <li><a href="{{ route('agents.index') }}">Agents</a></li>
-                        <li><a href="{{ route('blog.index') }}">News</a></li>
                         <li><a href="{{ route('training') }}">Training</a></li>
-                        <li><a href="#">Pricing</a></li>
+                        <li><a href="{{ route('blog.index') }}">News</a></li>
                     </ul>
                 </div>
                 <div class="footer-section">
