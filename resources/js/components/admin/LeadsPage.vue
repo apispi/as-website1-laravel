@@ -4,9 +4,12 @@
     <div class="page-header">
       <div>
         <h1 class="page-title">Leads</h1>
-        <p class="page-sub">{{ filtered.length }} of {{ leads.length }} digital-avatar leads</p>
+        <p class="page-sub">{{ filtered.length }} of {{ leads.length }} leads</p>
       </div>
-      <a href="/digital-avatars" target="_blank" class="btn-ghost">View Page ↗</a>
+      <div style="display:flex;gap:0.5rem;">
+        <a href="/digital-avatars" target="_blank" class="btn-ghost">Digital Avatars ↗</a>
+        <a href="/partners" target="_blank" class="btn-ghost">Partners ↗</a>
+      </div>
     </div>
 
     <div v-if="flashSuccess" class="flash success">{{ flashSuccess }}</div>
@@ -17,9 +20,9 @@
         <input v-model="search" type="text" placeholder="Search name, email, company…" class="search-input">
       </div>
       <div class="filter-tabs">
-        <button v-for="f in roleFilters" :key="f"
-                :class="['tab', { active: roleFilter === f }]"
-                @click="roleFilter = f">
+        <button v-for="f in sourceFilters" :key="'src-'+f"
+                :class="['tab', { active: sourceFilter === f }]"
+                @click="sourceFilter = f">
           {{ f }}
         </button>
       </div>
@@ -32,8 +35,8 @@
             <th>Name</th>
             <th>Email</th>
             <th>Company</th>
-            <th>Profession</th>
-            <th>Use Case</th>
+            <th>Source</th>
+            <th>Details</th>
             <th>Submitted</th>
             <th></th>
           </tr>
@@ -46,10 +49,20 @@
             </td>
             <td class="muted">{{ lead.company || '—' }}</td>
             <td>
-              <span v-if="lead.role" class="role-badge">{{ lead.role }}</span>
-              <span v-else class="muted">—</span>
+              <span :class="['source-badge', lead.source === 'partner' ? 'source-partner' : 'source-avatar']">
+                {{ lead.source === 'partner' ? 'Partner' : 'Avatar' }}
+              </span>
             </td>
-            <td class="muted use-cell">{{ lead.use_case || '—' }}</td>
+            <td class="muted use-cell">
+              <template v-if="lead.source === 'partner'">
+                <span v-if="lead.partner_type" class="role-badge">{{ lead.partner_type }}</span>
+                <span v-if="lead.use_case" class="muted" style="display:block;font-size:0.78rem;margin-top:0.2rem;">{{ lead.use_case }}</span>
+              </template>
+              <template v-else>
+                <span v-if="lead.role" class="role-badge">{{ lead.role }}</span>
+                <span v-if="lead.use_case" class="muted" style="display:block;font-size:0.78rem;margin-top:0.2rem;">{{ lead.use_case }}</span>
+              </template>
+            </td>
             <td class="muted date-cell">{{ formatDate(lead.created_at) }}</td>
             <td class="actions">
               <form method="POST" :action="`/admin/leads/${lead.id}`" style="display:inline"
@@ -90,15 +103,12 @@ const props = defineProps({
   flashSuccess: { type: String, default: '' },
 });
 
-const search     = ref('');
-const roleFilter = ref('All');
-const curPage    = ref(1);
-const PER_PAGE   = 25;
+const search       = ref('');
+const sourceFilter = ref('All');
+const curPage      = ref(1);
+const PER_PAGE     = 25;
 
-const roleFilters = computed(() => {
-  const roles = [...new Set(props.leads.map(l => l.role).filter(Boolean))].sort();
-  return ['All', ...roles];
-});
+const sourceFilters = ['All', 'Avatar', 'Partner'];
 
 const filtered = computed(() => {
   const q = search.value.toLowerCase();
@@ -107,12 +117,13 @@ const filtered = computed(() => {
       (l.name  || '').toLowerCase().includes(q) ||
       (l.email || '').toLowerCase().includes(q) ||
       (l.company || '').toLowerCase().includes(q);
-    const matchRole = roleFilter.value === 'All' || l.role === roleFilter.value;
-    return matchSearch && matchRole;
+    const src = l.source === 'partner' ? 'Partner' : 'Avatar';
+    const matchSource = sourceFilter.value === 'All' || src === sourceFilter.value;
+    return matchSearch && matchSource;
   });
 });
 
-watch([search, roleFilter], () => { curPage.value = 1; });
+watch([search, sourceFilter], () => { curPage.value = 1; });
 
 const totalPages = computed(() => Math.max(1, Math.ceil(filtered.value.length / PER_PAGE)));
 const pageRows   = computed(() => filtered.value.slice((curPage.value - 1) * PER_PAGE, curPage.value * PER_PAGE));
@@ -182,6 +193,9 @@ function confirmDelete(event, name) {
 .empty-row { text-align: center; padding: 2.5rem; color: #4b5563; }
 
 .role-badge { display: inline-block; padding: 0.2rem 0.55rem; border-radius: 99px; font-size: 0.72rem; font-weight: 600; background: rgba(239,68,68,0.08); border: 1px solid rgba(239,68,68,0.2); color: #fca5a5; white-space: nowrap; }
+.source-badge { display: inline-block; padding: 0.2rem 0.55rem; border-radius: 99px; font-size: 0.72rem; font-weight: 700; white-space: nowrap; }
+.source-avatar  { background: rgba(59,130,246,0.1); border: 1px solid rgba(59,130,246,0.25); color: #93c5fd; }
+.source-partner { background: rgba(245,158,11,0.1); border: 1px solid rgba(245,158,11,0.25); color: #fcd34d; }
 
 .actions { text-align: right; }
 .btn-danger { display: inline-block; padding: 0.3rem 0.6rem; border-radius: 0.4rem; font-size: 0.75rem; font-weight: 600; cursor: pointer; border: none; font-family: inherit; background: rgba(239,68,68,0.1); color: #fca5a5; transition: all 0.18s; }

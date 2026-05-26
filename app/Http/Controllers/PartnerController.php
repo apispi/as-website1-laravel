@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\AvatarLead;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Mail;
 
@@ -24,6 +25,16 @@ class PartnerController extends Controller
             'company'      => 'required|string|max:255',
             'partner_type' => 'required|string|max:100',
             'message'      => 'nullable|string|max:2000',
+        ]);
+
+        AvatarLead::create([
+            'name'         => $data['name'],
+            'email'        => $data['email'],
+            'company'      => $data['company'],
+            'use_case'     => $data['message'] ?? null,
+            'ip_address'   => $request->ip(),
+            'source'       => 'partner',
+            'partner_type' => $data['partner_type'],
         ]);
 
         $this->notifyPartnerApplication($data);

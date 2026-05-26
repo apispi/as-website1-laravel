@@ -29,6 +29,7 @@ class AvatarController extends Controller
         ]);
 
         $data['ip_address'] = $request->ip();
+        $data['source']     = 'avatar';
 
         AvatarLead::create($data);
 
