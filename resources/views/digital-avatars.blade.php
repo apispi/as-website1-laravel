@@ -577,7 +577,7 @@
           'emoji' => '💅',
         ],
         [
-          'id'    => 'ADD_YOUTUBE_ID_6',
+          'id'    => '-G3XVPGsPXs',
           'ind'   => 'Hotel Marketer',
           'cat'   => 'Direct Bookings',
           'title' => 'Turn Lookers Into Bookers — All Day, Every Day',
