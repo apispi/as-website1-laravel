@@ -2,7 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\ActivityLog;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Http;
 
 class CheckoutController extends Controller
@@ -58,6 +60,16 @@ class CheckoutController extends Controller
     public function success(Request $request)
     {
         $agentName = $request->query('agent', 'your agent');
+        $sessionId = $request->query('session_id');
+
+        ActivityLog::log(
+            'purchase.complete',
+            "Purchased: {$agentName}",
+            Auth::id(),
+            null,
+            $sessionId ? ['stripe_session_id' => $sessionId] : []
+        );
+
         return view('checkout-success', compact('agentName'));
     }
 }
