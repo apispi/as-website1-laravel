@@ -547,7 +547,7 @@
           'emoji' => '🏡',
         ],
         [
-          'id'    => 'LydnIF2gpzo',
+          'id'    => 'atzI67DUlUM',
           'ind'   => 'Lawyer',
           'cat'   => 'Client Intake',
           'title' => 'The FAQ Video That Saves 10 Hours a Week',
@@ -731,7 +731,7 @@
 </div>
 
 <script>
-  var shortsIds = ['LBGEgbbsqqw', 'evFW076v9pE', 'LydnIF2gpzo', 'zzz9qbzW3HA'];
+  var shortsIds = ['LBGEgbbsqqw', 'evFW076v9pE', 'zzz9qbzW3HA'];
 
   function openVideo(videoId, title) {
     if (!videoId || videoId.startsWith('ADD_')) {
