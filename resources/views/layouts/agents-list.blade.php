@@ -11,6 +11,6 @@
 </head>
 <body style="margin:0; background:#0a0805;">
     @yield('content')
-    <div id="dashboard-chat" data-csrf-token="{{ csrf_token() }}" data-connector-endpoint=""></div>
+    <div id="dashboard-chat" data-csrf-token="{{ csrf_token() }}" data-connector-endpoint="{{ $chatEndpoint ?? '' }}"></div>
 </body>
 </html>

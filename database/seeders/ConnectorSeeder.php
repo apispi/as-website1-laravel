@@ -56,6 +56,21 @@ class ConnectorSeeder extends Seeder
             ['slug' => 'stripe',          'name' => 'Stripe',           'category' => 'Finance',        'icon' => '💳', 'description' => 'Retrieve payment, subscription, and customer data from Stripe.',                            'website_url' => 'https://stripe.com',           'sort_order' => 70],
             ['slug' => 'quickbooks',      'name' => 'QuickBooks',       'category' => 'Finance',        'icon' => '🧾', 'description' => 'Sync invoices, expenses, and accounting data with QuickBooks Online.',                       'website_url' => 'https://quickbooks.intuit.com','sort_order' => 71],
 
+            // AI Chat
+            [
+                'slug'        => 'custom-chat-api',
+                'name'        => 'Custom Chat API',
+                'category'    => 'AI',
+                'icon'        => '🤖',
+                'description' => 'Connect your own AI chat API to power the Spi dashboard assistant with live, context-aware responses from your systems.',
+                'website_url' => null,
+                'sort_order'  => 5,
+                'config_schema' => [
+                    ['key' => 'endpoint_url', 'label' => 'Endpoint URL',   'type' => 'url',      'required' => true,  'placeholder' => 'https://your-api.example.com/chat', 'hint' => 'POST endpoint that accepts { message, history } and returns { reply }'],
+                    ['key' => 'api_key',      'label' => 'API Key',        'type' => 'password', 'required' => false, 'placeholder' => 'sk-…', 'hint' => 'Sent as a Bearer token if provided. Leave blank for unauthenticated endpoints.'],
+                ],
+            ],
+
             // Government / Procurement
             ['slug' => 'sam-gov',         'name' => 'SAM.gov',          'category' => 'Government',     'icon' => '🏛️', 'description' => 'Search federal contracts, awards, and entity registrations on SAM.gov.',                    'website_url' => 'https://sam.gov',              'sort_order' => 80],
             ['slug' => 'usaspending',     'name' => 'USASpending.gov',  'category' => 'Government',     'icon' => '🇺🇸', 'description' => 'Query federal spending, contracts, and grants from USASpending.gov.',                       'website_url' => 'https://usaspending.gov',      'sort_order' => 81],

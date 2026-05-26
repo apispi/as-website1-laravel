@@ -17,6 +17,7 @@ use App\Http\Controllers\BlogController;
 use App\Http\Controllers\ConnectorOAuthController;
 use App\Http\Controllers\ChatController;
 use App\Http\Controllers\ContactController;
+use App\Http\Controllers\DashboardChatController;
 use App\Http\Controllers\PageController;
 use App\Http\Controllers\Admin\LeadsController;
 use App\Http\Controllers\AvatarController;
@@ -71,6 +72,7 @@ Route::middleware('auth')->group(function () {
     Route::get('/dashboard/profile', [AuthController::class, 'profile'])->name('dashboard.profile');
     Route::put('/dashboard/profile', [AuthController::class, 'updateProfile'])->name('dashboard.profile.update');
     Route::put('/dashboard/profile/password', [AuthController::class, 'updatePassword'])->name('dashboard.profile.password');
+    Route::post('/dashboard/chat', [DashboardChatController::class, 'send'])->name('dashboard.chat')->middleware('throttle:30,1');
     Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
 
     // Connector OAuth
