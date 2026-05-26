@@ -567,7 +567,7 @@
           'emoji' => '🧾',
         ],
         [
-          'id'    => 'ADD_YOUTUBE_ID_5',
+          'id'    => '-9JbFyjPmyY',
           'ind'   => 'Beautician',
           'cat'   => 'Client Conversion',
           'title' => 'Fill Your Books While You\'re With a Client',
@@ -731,7 +731,7 @@
 </div>
 
 <script>
-  var shortsIds = ['LBGEgbbsqqw', 'evFW076v9pE', 'zzz9qbzW3HA'];
+  var shortsIds = ['LBGEgbbsqqw', 'evFW076v9pE', 'zzz9qbzW3HA', '-9JbFyjPmyY'];
 
   function openVideo(videoId, title) {
     if (!videoId || videoId.startsWith('ADD_')) {
