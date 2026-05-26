@@ -20,6 +20,36 @@
         <div class="container">
             <div class="blog-grid" style="grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));">
                 <article class="blog-card">
+                    <div class="blog-date">May 26, 2026</div>
+                    <h3><a href="{{ route('blog.show', 'ai-agents-australian-smb-2026') }}">AI Agents for Australian SMBs: The 2026 Opportunity</a></h3>
+                    <p>Model costs have collapsed, platforms have abstracted the complexity, and the competitive gap between early adopters and late movers is widening. Here's where small businesses should start.</p>
+                    <div class="blog-meta">
+                        <span class="category">Insights</span>
+                        <span class="read-time">9 min read</span>
+                    </div>
+                </article>
+
+                <article class="blog-card">
+                    <div class="blog-date">May 24, 2026</div>
+                    <h3><a href="{{ route('blog.show', 'digital-avatars-professional-services') }}">Digital Avatars: How AI Video Personas Are Winning Clients for Professional Services</a></h3>
+                    <p>Tradies, property agents, lawyers, accountants, beauticians, and hotel marketers are using AI-generated video to build trust at scale. Here's what works and why.</p>
+                    <div class="blog-meta">
+                        <span class="category">Guide</span>
+                        <span class="read-time">8 min read</span>
+                    </div>
+                </article>
+
+                <article class="blog-card">
+                    <div class="blog-date">May 23, 2026</div>
+                    <h3><a href="{{ route('blog.show', 'ai-agents-partner-program') }}">Why Agencies Are Adding AI Agents to Their Service Stack in 2026</a></h3>
+                    <p>Digital agencies that move first into AI agent delivery for SMB clients are building recurring revenue and client lock-in that pure-service competitors can't replicate.</p>
+                    <div class="blog-meta">
+                        <span class="category">Business</span>
+                        <span class="read-time">7 min read</span>
+                    </div>
+                </article>
+
+                <article class="blog-card">
                     <div class="blog-date">May 21, 2026</div>
                     <h3><a href="{{ route('blog.show', 'claude-4-agentic-leap') }}">Claude 4: The Agentic Leap That Changes Everything</a></h3>
                     <p>Opus 4.7, Sonnet 4.6, and Haiku 4.5 bring extended thinking, native multi-agent orchestration, and dramatically improved accuracy for production agent workloads.</p>
