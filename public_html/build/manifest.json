@@ -1,6 +1,6 @@
 {
-  "__plugin-vue_export-helper-bIT2iN5t.js": {
-    "file": "assets/_plugin-vue_export-helper-bIT2iN5t.js",
+  "__plugin-vue_export-helper-V0sdoxEM.js": {
+    "file": "assets/_plugin-vue_export-helper-V0sdoxEM.js",
     "name": "_plugin-vue_export-helper"
   },
   "_fonts-DkuEHybc.css": {
@@ -65,36 +65,36 @@
     "isEntry": true
   },
   "resources/js/admin.js": {
-    "file": "assets/admin-DyaObLcw.js",
+    "file": "assets/admin-jvaQ9W3j.js",
     "name": "admin",
     "src": "resources/js/admin.js",
     "isEntry": true,
     "imports": [
-      "__plugin-vue_export-helper-bIT2iN5t.js"
+      "__plugin-vue_export-helper-V0sdoxEM.js"
     ],
     "css": [
       "assets/admin-BwBItcGd.css"
     ]
   },
   "resources/js/agent-detail.js": {
-    "file": "assets/agent-detail-DL6bu3Rr.js",
+    "file": "assets/agent-detail-AgRc7h2S.js",
     "name": "agent-detail",
     "src": "resources/js/agent-detail.js",
     "isEntry": true,
     "imports": [
-      "__plugin-vue_export-helper-bIT2iN5t.js"
+      "__plugin-vue_export-helper-V0sdoxEM.js"
     ],
     "css": [
       "assets/agent-detail-DpXG0Cz_.css"
     ]
   },
   "resources/js/agents-list.js": {
-    "file": "assets/agents-list-lScFcQnJ.js",
+    "file": "assets/agents-list-CiaHoAue.js",
     "name": "agents-list",
     "src": "resources/js/agents-list.js",
     "isEntry": true,
     "imports": [
-      "__plugin-vue_export-helper-bIT2iN5t.js"
+      "__plugin-vue_export-helper-V0sdoxEM.js"
     ],
     "css": [
       "assets/agents-list-p-07XrkE.css"
@@ -107,48 +107,60 @@
     "isEntry": true
   },
   "resources/js/catalog.js": {
-    "file": "assets/catalog-CABMUEgR.js",
+    "file": "assets/catalog-DROjbc0K.js",
     "name": "catalog",
     "src": "resources/js/catalog.js",
     "isEntry": true,
     "imports": [
-      "__plugin-vue_export-helper-bIT2iN5t.js"
+      "__plugin-vue_export-helper-V0sdoxEM.js"
     ],
     "css": [
       "assets/catalog-DEVEx2xg.css"
     ]
   },
   "resources/js/connectors-user.js": {
-    "file": "assets/connectors-user-Ckq8YNay.js",
+    "file": "assets/connectors-user-DbJgH-dH.js",
     "name": "connectors-user",
     "src": "resources/js/connectors-user.js",
     "isEntry": true,
     "imports": [
-      "__plugin-vue_export-helper-bIT2iN5t.js"
+      "__plugin-vue_export-helper-V0sdoxEM.js"
     ],
     "css": [
       "assets/connectors-user-xDaK-5DO.css"
     ]
   },
+  "resources/js/dashboard-chat.js": {
+    "file": "assets/dashboard-chat-B27Nzjyk.js",
+    "name": "dashboard-chat",
+    "src": "resources/js/dashboard-chat.js",
+    "isEntry": true,
+    "imports": [
+      "__plugin-vue_export-helper-V0sdoxEM.js"
+    ],
+    "css": [
+      "assets/dashboard-chat-CDd2RW4w.css"
+    ]
+  },
   "resources/js/dashboard.js": {
-    "file": "assets/dashboard-DXVuv0T8.js",
+    "file": "assets/dashboard-xmkj6V-N.js",
     "name": "dashboard",
     "src": "resources/js/dashboard.js",
     "isEntry": true,
     "imports": [
-      "__plugin-vue_export-helper-bIT2iN5t.js"
+      "__plugin-vue_export-helper-V0sdoxEM.js"
     ],
     "css": [
       "assets/dashboard-DF3yKhF4.css"
     ]
   },
   "resources/js/profile.js": {
-    "file": "assets/profile-CRY5ZZ6P.js",
+    "file": "assets/profile-Ban92VWz.js",
     "name": "profile",
     "src": "resources/js/profile.js",
     "isEntry": true,
     "imports": [
-      "__plugin-vue_export-helper-bIT2iN5t.js"
+      "__plugin-vue_export-helper-V0sdoxEM.js"
     ],
     "css": [
       "assets/profile-DgoSul99.css"
