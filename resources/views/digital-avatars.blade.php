@@ -189,8 +189,7 @@
     }
     .video-bg {
       position: absolute; inset: 0;
-      display: flex; align-items: center; justify-content: center;
-      font-size: 3.5rem;
+      background-size: cover; background-position: center;
     }
     .video-overlay { position: absolute; inset: 0; background: linear-gradient(to bottom, rgba(0,0,0,0.2) 0%, rgba(0,0,0,0.65) 100%); }
     @keyframes play-pulse {
@@ -425,73 +424,19 @@
     <div class="video-grid">
       @php
       $videos = [
-        [
-          'id'    => 'zzz9qbzW3HA',
-          'ind'   => 'Tradie',
-          'cat'   => 'Lead Generation',
-          'title' => 'The Quote Intro That Wins Jobs',
-          'desc'  => 'A 90-second avatar video on a tradie\'s website converts browsers into quote requests — 24/7, no phone needed.',
-          'dur'   => '1:52',
-          'bg'    => 'linear-gradient(135deg, #1c2a1a 0%, #0f1a0e 100%)',
-          'emoji' => '🔧',
-        ],
-        [
-          'id'    => 'l9qKz-0fFPA',
-          'ind'   => 'Property Agent',
-          'cat'   => 'Vendor Outreach',
-          'title' => 'Personalised Market Updates at Scale',
-          'desc'  => 'Send 200 vendors a personalised suburb report video. Same agent, same message, individually addressed.',
-          'dur'   => '2:18',
-          'bg'    => 'linear-gradient(135deg, #1a1c2a 0%, #0e0f1a 100%)',
-          'emoji' => '🏡',
-        ],
-        [
-          'id'    => 'atzI67DUlUM',
-          'ind'   => 'Lawyer',
-          'cat'   => 'Client Intake',
-          'title' => 'The FAQ Video That Saves 10 Hours a Week',
-          'desc'  => 'One conveyancing explainer video, deployed on your site. Clients arrive at consultation already knowing the basics.',
-          'dur'   => '2:44',
-          'bg'    => 'linear-gradient(135deg, #2a1a1a 0%, #1a0e0e 100%)',
-          'emoji' => '⚖️',
-        ],
-        [
-          'id'    => 'vnng3HU9mCM',
-          'ind'   => 'Accountant',
-          'cat'   => 'Year-Round Engagement',
-          'title' => 'The EOFY Video That Keeps Clients Coming Back',
-          'desc'  => 'A proactive tax-time checklist video sent to every client in June — cements your value before they think about switching.',
-          'dur'   => '2:11',
-          'bg'    => 'linear-gradient(135deg, #1a2518 0%, #0e1a0c 100%)',
-          'emoji' => '🧾',
-        ],
-        [
-          'id'    => '-9JbFyjPmyY',
-          'ind'   => 'Beautician',
-          'cat'   => 'Client Conversion',
-          'title' => 'Fill Your Books While You\'re With a Client',
-          'desc'  => 'Your avatar showcases your treatments and results around the clock — turning Instagram browsers into booked regulars.',
-          'dur'   => '1:45',
-          'bg'    => 'linear-gradient(135deg, #2a1a24 0%, #1a0e16 100%)',
-          'emoji' => '💅',
-        ],
-        [
-          'id'    => '-G3XVPGsPXs',
-          'ind'   => 'Hotel Marketer',
-          'cat'   => 'Direct Bookings',
-          'title' => 'Turn Lookers Into Bookers — All Day, Every Day',
-          'desc'  => 'An avatar walking guests through your rooms and local experiences drives direct bookings even when your team is offline.',
-          'dur'   => '2:05',
-          'bg'    => 'linear-gradient(135deg, #1a2028 0%, #0e1420 100%)',
-          'emoji' => '🏨',
-        ],
+        ['id' => 'zzz9qbzW3HA', 'ind' => 'Tradie',         'cat' => 'Lead Generation',      'title' => 'The Quote Intro That Wins Jobs',               'desc' => 'A 90-second avatar video on a tradie\'s website converts browsers into quote requests — 24/7, no phone needed.',                                   'dur' => '1:52'],
+        ['id' => 'l9qKz-0fFPA', 'ind' => 'Property Agent', 'cat' => 'Vendor Outreach',       'title' => 'Personalised Market Updates at Scale',         'desc' => 'Send 200 vendors a personalised suburb report video. Same agent, same message, individually addressed.',                                          'dur' => '2:18'],
+        ['id' => 'atzI67DUlUM', 'ind' => 'Lawyer',         'cat' => 'Client Intake',         'title' => 'The FAQ Video That Saves 10 Hours a Week',    'desc' => 'One conveyancing explainer video, deployed on your site. Clients arrive at consultation already knowing the basics.',                             'dur' => '2:44'],
+        ['id' => 'vnng3HU9mCM', 'ind' => 'Accountant',     'cat' => 'Year-Round Engagement', 'title' => 'The EOFY Video That Keeps Clients Coming Back','desc' => 'A proactive tax-time checklist video sent to every client in June — cements your value before they think about switching.',                       'dur' => '2:11'],
+        ['id' => '-9JbFyjPmyY', 'ind' => 'Beautician',     'cat' => 'Client Conversion',     'title' => 'Fill Your Books While You\'re With a Client', 'desc' => 'Your avatar showcases your treatments and results around the clock — turning Instagram browsers into booked regulars.',                            'dur' => '1:45'],
+        ['id' => '-G3XVPGsPXs', 'ind' => 'Hotel Marketer', 'cat' => 'Direct Bookings',       'title' => 'Turn Lookers Into Bookers — All Day, Every Day','desc' => 'An avatar walking guests through your rooms and local experiences drives direct bookings even when your team is offline.',                        'dur' => '2:05'],
       ];
       @endphp
 
       @foreach($videos as $v)
       <div class="video-card" onclick="openVideo('{{ $v['id'] }}', '{{ addslashes($v['title']) }}')">
         <div class="video-thumb">
-          <div class="video-bg" style="background: {{ $v['bg'] }};">{{ $v['emoji'] }}</div>
+          <div class="video-bg" style="background-image: url('https://img.youtube.com/vi/{{ $v['id'] }}/hqdefault.jpg');"></div>
           <div class="video-overlay"></div>
           <div class="video-ind">{{ $v['ind'] }}</div>
           <div class="play-btn"><div class="play-icon"></div></div>
