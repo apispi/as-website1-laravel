@@ -8,6 +8,9 @@
 .contact-hero { padding: 6rem 0 3rem; text-align: center; }
 .contact-hero h1 { font-size: 2.8rem; margin-bottom: 0.75rem; }
 .contact-hero p { font-size: 1.1rem; color: var(--gray); max-width: 540px; margin: 0 auto; }
+.hero-actions { margin-top: 1.75rem; display: flex; justify-content: center; gap: 1rem; flex-wrap: wrap; }
+.partner-btn { background: linear-gradient(135deg, #D97706, #F59E0B) !important; color: #0a0805 !important; font-weight: 700; border: none; cursor: pointer; font-family: inherit; font-size: 1rem; padding: 0.875rem 2rem; border-radius: 0.625rem; transition: all 0.2s; }
+.partner-btn:hover { transform: translateY(-2px); box-shadow: 0 8px 24px rgba(217,119,6,0.4); }
 
 .contact-grid {
     display: grid;
@@ -207,6 +210,13 @@ details.faq-item summary:hover,
 details.faq-item[open] summary { color: #FCD34D; }
 details.faq-item p { margin-top: 0.875rem; color: #6b7280; font-size: 0.9rem; line-height: 1.65; }
 
+@keyframes partner-pulse {
+    0%   { border-color: rgba(217,119,6,0.15); box-shadow: none; }
+    50%  { border-color: rgba(217,119,6,0.7);  box-shadow: 0 0 32px rgba(217,119,6,0.25); }
+    100% { border-color: rgba(217,119,6,0.15); box-shadow: none; }
+}
+.contact-form-card.partner-highlight { animation: partner-pulse 1.2s ease; }
+
 .flash-success {
     max-width: 1100px; margin: 0 auto 1.5rem;
     padding: 1rem 1.5rem; background: rgba(0,217,126,0.1);
@@ -226,6 +236,9 @@ details.faq-item p { margin-top: 0.875rem; color: #6b7280; font-size: 0.9rem; li
     <div class="container">
         <h1>Get in <span class="gradient-text">Touch</span></h1>
         <p>Chat with our AI or send us a message — we'd love to hear from you.</p>
+        <div class="hero-actions">
+            <button class="btn btn-primary partner-btn" onclick="openPartnerForm()">Partner with Us</button>
+        </div>
     </div>
 </section>
 
@@ -394,6 +407,7 @@ details.faq-item p { margin-top: 0.875rem; color: #6b7280; font-size: 0.9rem; li
         <div class="cta-buttons">
             <a href="{{ route('agents.index') }}" class="btn btn-outline">Browse Agents</a>
             <a href="{{ route('training') }}" class="btn btn-secondary">View Training</a>
+            <button class="btn btn-primary partner-btn" onclick="openPartnerForm()">Partner with Us</button>
         </div>
     </div>
 </section>
@@ -515,6 +529,17 @@ details.faq-item p { margin-top: 0.875rem; color: #6b7280; font-size: 0.9rem; li
             .replace(/(<li>.*<\/li>)/s, '<ul>$1</ul>')
             .replace(/\n/g, '<br>');
     }
+
+    window.openPartnerForm = function () {
+        const subjectEl = document.getElementById('subject');
+        if (subjectEl) subjectEl.value = 'partnership';
+        const formCard = document.querySelector('.contact-form-card');
+        if (formCard) {
+            formCard.scrollIntoView({ behavior: 'smooth', block: 'start' });
+            setTimeout(() => formCard.classList.add('partner-highlight'), 400);
+            setTimeout(() => formCard.classList.remove('partner-highlight'), 1600);
+        }
+    };
 
     function setSending(val) {
         sending = val;
