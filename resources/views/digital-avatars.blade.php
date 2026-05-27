@@ -59,8 +59,8 @@
 
     /* ── HERO ── */
     .hero {
-      min-height: 100vh; display: flex; align-items: center;
-      padding: 110px 2rem 80px; position: relative; overflow: hidden;
+      display: flex; align-items: center;
+      padding: 90px 2rem 60px; position: relative; overflow: hidden;
     }
     .hero::before {
       content: '';
