@@ -192,17 +192,26 @@
       display: flex; align-items: center; justify-content: center;
       font-size: 3.5rem;
     }
-    .video-overlay { position: absolute; inset: 0; background: linear-gradient(to bottom, rgba(0,0,0,0.1) 0%, rgba(0,0,0,0.55) 100%); }
+    .video-overlay { position: absolute; inset: 0; background: linear-gradient(to bottom, rgba(0,0,0,0.2) 0%, rgba(0,0,0,0.65) 100%); }
+    @keyframes play-pulse {
+      0%, 100% { box-shadow: 0 0 0 0 rgba(245,158,11,0.45); }
+      60%       { box-shadow: 0 0 0 14px rgba(245,158,11,0); }
+    }
     .play-btn {
       position: relative; z-index: 2;
-      width: 52px; height: 52px; border-radius: 50%;
-      background: rgba(245,158,11,0.25); backdrop-filter: blur(6px);
-      border: 2px solid rgba(245,158,11,0.6);
+      width: 68px; height: 68px; border-radius: 50%;
+      background: rgba(245,158,11,0.55); backdrop-filter: blur(6px);
+      border: 2.5px solid rgba(245,158,11,0.9);
       display: flex; align-items: center; justify-content: center;
       transition: all 0.2s;
+      animation: play-pulse 2s ease-out infinite;
     }
-    .video-card:hover .play-btn { background: rgba(245,158,11,0.5); border-color: var(--gold-lt); transform: scale(1.08); }
-    .play-icon { width: 0; height: 0; border-style: solid; border-width: 9px 0 9px 18px; border-color: transparent transparent transparent #fff; margin-left: 4px; }
+    .video-card:hover .play-btn {
+      background: var(--gold); border-color: var(--gold-lt);
+      transform: scale(1.1); animation: none;
+      box-shadow: 0 0 28px rgba(245,158,11,0.6);
+    }
+    .play-icon { width: 0; height: 0; border-style: solid; border-width: 11px 0 11px 22px; border-color: transparent transparent transparent #fff; margin-left: 5px; }
     .video-dur { position: absolute; bottom: 0.5rem; right: 0.6rem; z-index: 2; font-size: 0.68rem; font-weight: 600; color: #fff; background: rgba(0,0,0,0.65); padding: 0.15rem 0.4rem; border-radius: 0.25rem; }
     .video-ind { position: absolute; top: 0.6rem; left: 0.6rem; z-index: 2; padding: 0.2rem 0.55rem; border-radius: 99px; font-size: 0.65rem; font-weight: 700; background: rgba(0,0,0,0.6); backdrop-filter: blur(4px); color: var(--gold-lt); border: 1px solid rgba(245,158,11,0.3); }
     .video-info { padding: 1rem 1.1rem 1.1rem; }
