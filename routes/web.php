@@ -17,6 +17,7 @@ use App\Http\Controllers\BlogController;
 use App\Http\Controllers\ConnectorOAuthController;
 use App\Http\Controllers\ChatController;
 use App\Http\Controllers\ContactController;
+use App\Http\Controllers\DashboardAriaChatController;
 use App\Http\Controllers\DashboardChatController;
 use App\Http\Controllers\PageController;
 use App\Http\Controllers\Admin\LeadsController;
@@ -73,6 +74,7 @@ Route::middleware('auth')->group(function () {
     Route::put('/dashboard/profile', [AuthController::class, 'updateProfile'])->name('dashboard.profile.update');
     Route::put('/dashboard/profile/password', [AuthController::class, 'updatePassword'])->name('dashboard.profile.password');
     Route::get('/dashboard/aria', [AuthController::class, 'aria'])->name('dashboard.aria');
+    Route::post('/dashboard/aria/chat', [DashboardAriaChatController::class, 'send'])->name('dashboard.aria.chat')->middleware('throttle:30,1');
     Route::post('/dashboard/chat', [DashboardChatController::class, 'send'])->name('dashboard.chat')->middleware('throttle:30,1');
     Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
 

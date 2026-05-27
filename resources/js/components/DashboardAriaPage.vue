@@ -182,7 +182,7 @@ async function send(text) {
   scrollToBottom();
 
   try {
-    const res = await fetch('/chat', {
+    const res = await fetch('/dashboard/aria/chat', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json', 'X-CSRF-TOKEN': props.csrfToken },
       body: JSON.stringify({ message: text, history: history.value }),

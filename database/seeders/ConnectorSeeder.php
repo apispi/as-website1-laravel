@@ -56,7 +56,19 @@ class ConnectorSeeder extends Seeder
             ['slug' => 'stripe',          'name' => 'Stripe',           'category' => 'Finance',        'icon' => '💳', 'description' => 'Retrieve payment, subscription, and customer data from Stripe.',                            'website_url' => 'https://stripe.com',           'sort_order' => 70],
             ['slug' => 'quickbooks',      'name' => 'QuickBooks',       'category' => 'Finance',        'icon' => '🧾', 'description' => 'Sync invoices, expenses, and accounting data with QuickBooks Online.',                       'website_url' => 'https://quickbooks.intuit.com','sort_order' => 71],
 
-            // AI Chat
+            // AI
+            [
+                'slug'          => 'anthropic',
+                'name'          => 'Anthropic',
+                'category'      => 'AI',
+                'icon'          => '◆',
+                'description'   => 'Use your own Anthropic API key to power the Aria AI assistant in your dashboard.',
+                'website_url'   => 'https://console.anthropic.com',
+                'sort_order'    => 1,
+                'config_schema' => [
+                    ['key' => 'api_key', 'label' => 'API Key', 'type' => 'password', 'required' => true, 'placeholder' => 'sk-ant-…', 'hint' => 'Your Anthropic API key from console.anthropic.com/keys'],
+                ],
+            ],
             [
                 'slug'        => 'custom-chat-api',
                 'name'        => 'Custom Chat API',
