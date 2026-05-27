@@ -227,6 +227,11 @@ class AuthController extends Controller
         return view('auth.agent', compact('subscription', 'userConnectors'));
     }
 
+    public function aria()
+    {
+        return view('auth.aria');
+    }
+
     public function profile()
     {
         return view('auth.profile');

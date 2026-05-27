@@ -34,6 +34,7 @@
         <a href="/dashboard/catalog" class="ual-nav-link">
           <span class="ual-nav-icon">◎</span> Catalog
         </a>
+        <a href="/dashboard/aria"   class="ual-nav-link"><span class="ual-nav-icon">◇</span> Aria</a>
         <a href="/training" class="ual-nav-link">
           <span class="ual-nav-icon">◷</span> Training
         </a>

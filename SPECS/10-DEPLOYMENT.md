@@ -1,60 +1,89 @@
 # Deployment & Production Specification
 
-## Production Environment
+## Production Environment Overview
 
-### Hosting
+### Hosting Information
 - **Provider**: SiteGround shared hosting
-- **Path**: `~/www/apispi.com`
+- **Server Path**: `~/www/apispi.com`
 - **Web Root**: `public_html/` (NOT `public/`)
-- **Node.js**: NOT available on server
 - **PHP Version**: 8.2+
+- **Node.js**: NOT available on server
+- **Deployment Method**: Git-based (pull-to-deploy)
 
 ### Key Constraints
-- No Node.js on server → Built assets MUST be committed to git
-- Git deployments only (no FTP file uploads)
-- Database mutations via migrations (auto-applied on pull)
+1. **No Node.js** → Must build frontend locally, commit built assets to git
+2. **No npm** → No `npm install` on server
+3. **Git deployment only** → No FTP uploads
+4. **Database migrations** → Auto-applied via git pull hooks (manual: `php artisan migrate`)
 
 ---
 
-## Deployment Workflow
+## Deployment Checklist
 
-### Pre-deployment Checklist
+### Pre-Deployment (Local Machine)
+
 ```bash
-# 1. Ensure all changes committed
+# 1. Ensure working directory is clean
 git status
+# (Commit or stash any uncommitted changes)
 
-# 2. Update dependencies
-composer update --no-dev    # Production composer.lock
-npm install --production    # Prune dev dependencies
+# 2. Pull latest from remote
+git pull origin main
 
-# 3. Run tests
+# 3. Test locally (recommended)
 composer test
-npm run build               # Ensure frontend builds
+php artisan serve           # Verify in browser
+npm run dev                 # Verify frontend builds
+
+# 4. Install production dependencies
+composer install --no-dev   # Production PHP dependencies
+npm install                 # Install Node deps (dev + prod)
+
+# 5. Build frontend assets
+npm run build
+# Generates: public_html/build/*
+
+# 6. Verify build output
+git status                  # Check public_html/build/ changes
+ls -la public_html/build/   # Verify files exist
+
+# 7. Run final tests
+composer test
+php artisan build
 ```
 
-### Deployment Steps
+### Deployment Steps (5 Steps)
 
-**Step 1: Build frontend locally**
+**Step 1: Build Frontend Assets Locally**
 ```bash
 npm run build
-# Outputs to public_html/build/
+# Output: public_html/build/{app.js,app.css,admin.js,...}
 ```
 
-**Step 2: Commit built assets**
+**Step 2: Commit Built Assets**
 ```bash
 git add public_html/build/
-git commit -m "Build assets for v1.2.0"
+git commit -m "Build frontend assets for v1.2.0"
+# (Include version tag in commit message for tracking)
 ```
 
-**Step 3: Push to repository**
+**Step 3: Create Git Tag (Optional)**
+```bash
+git tag -a v1.2.0 -m "Release version 1.2.0"
+```
+
+**Step 4: Push to Repository**
 ```bash
 git push origin main
+git push origin v1.2.0      # Push tag if created
 ```
 
-**Step 4: Deploy to server (via SSH)**
+**Step 5: Deploy to Server (SSH)**
 ```bash
 ssh user@apispi.com
 cd ~/www/apispi.com
+
+# Pull latest code (including built assets)
 git pull origin main
 
 # Run pending migrations (if any)
@@ -65,78 +94,156 @@ php artisan cache:clear
 php artisan config:clear
 php artisan view:clear
 
-# Optional: Run seeders
+# Restart queue workers (if any)
+# php artisan queue:restart
+
+# Optional: seed data (usually not needed in production)
 # php artisan db:seed
 ```
 
-### Rollback Procedure
+### Post-Deployment Verification
+
 ```bash
-git revert <commit-hash>    # Creates new commit
-git push
-# Then on server:
-git pull
-php artisan migrate:rollback  # Rollback last migration (if needed)
+# Verify assets are served
+curl https://apispi.com/build/app.js | head -20
+
+# Check application logs
+tail -50 ~/www/apispi.com/storage/logs/laravel.log
+
+# Verify database
+php artisan migrate:status
+
+# Test critical functionality
+# 1. Login page loads
+# 2. Create account works
+# 3. Dashboard accessible
+# 4. Agents display correctly
 ```
 
 ---
 
-## Configuration for Production
+## Rollback Procedure
 
-### Environment Variables
+### Quick Rollback (Git-based)
+```bash
+# On local machine
+git revert <commit-hash>    # Creates new "revert" commit
+git push origin main
+
+# On server
+git pull origin main
+php artisan migrate:rollback  # If needed (run only if migrations added)
 ```
-# .env on server
+
+### Safe Rollback (Tag-based)
+```bash
+# On local machine
+git checkout v1.1.0         # Go to previous tag
+git push origin main --force  # Force push (use with caution!)
+
+# On server
+git pull origin main
+php artisan migrate:rollback  # If needed
+```
+
+### Database Rollback
+```bash
+# On server
+php artisan migrate:rollback --step=2  # Rollback last 2 batches
+# Or rollback specific migration
+php artisan migrate:rollback --path=database/migrations/migration_name.php
+```
+
+---
+
+## Production Environment Configuration
+
+### .env File (Server)
+Create/update `~/www/apispi.com/.env`:
+
+```ini
+# Application
 APP_NAME="APISPI"
 APP_ENV=production
-APP_DEBUG=false
+APP_DEBUG=false                 # NEVER true in production!
 APP_URL=https://apispi.com
 
+# Database
 DB_CONNECTION=mysql
-DB_HOST=localhost           # Or VPS IP
-DB_DATABASE=apispi_prod
-DB_USERNAME=apispi_user
-DB_PASSWORD=<strong-password>
+DB_HOST=localhost               # Usually localhost on shared hosting
+DB_PORT=3306
+DB_DATABASE=apispi_prod         # Production database name
+DB_USERNAME=apispi_user         # Production DB user
+DB_PASSWORD=VERY_STRONG_PASSWORD
 
-ANTHROPIC_API_KEY=sk-...
+# Cache
+CACHE_DRIVER=file               # 'file', 'redis', or 'memcached'
+CACHE_STORE=file
+
+# Session (REQUIRED)
+SESSION_DRIVER=database         # Must be 'database' for shared hosting
+SESSION_LIFETIME=120            # 2 hours
+SESSION_SECURE_COOKIES=true     # HTTPS only
+SESSION_HTTP_ONLY=true          # No JS access
+SESSION_SAME_SITE=lax           # CSRF protection
+
+# Queue
+QUEUE_CONNECTION=sync           # Use 'sync' (process immediately) on shared hosting
+# Or 'database' if async jobs needed
+
+# AI Chatbot
+ANTHROPIC_API_KEY=sk-ant-...    # From Anthropic account
 ANTHROPIC_MODEL=claude-sonnet-4-5
 
-SESSION_DRIVER=database
-CACHE_DRIVER=file           # or redis if available
-QUEUE_CONNECTION=sync       # or database if async jobs needed
-
+# Email
 MAIL_MAILER=smtp
-MAIL_HOST=mail.apispi.com
+MAIL_HOST=mail.apispi.com       # Your mail server
 MAIL_PORT=587
-MAIL_USERNAME=...
-MAIL_PASSWORD=...
+MAIL_USERNAME=noreply@apispi.com
+MAIL_PASSWORD=MAIL_PASSWORD
 MAIL_FROM_ADDRESS=noreply@apispi.com
 MAIL_FROM_NAME="APISPI"
 
 # Security
-SECURE_HEADERS_ENABLED=true
-SESSION_SECURE_COOKIES=true
-SESSION_HTTP_ONLY=true
+APP_KEY=base64:XXXXX            # Copy from local .env
 ```
+
+**⚠️ IMPORTANT**: Never commit `.env` to git (add to `.gitignore`)
 
 ### Web Server Configuration
 
-#### Apache (.htaccess)
-```
+#### Apache (SiteGround .htaccess)
+File: `public_html/.htaccess`
+```apache
 <IfModule mod_rewrite.c>
     <IfModule mod_negotiation.c>
         Options -MultiViews -Indexes
     </IfModule>
 
     RewriteEngine On
+
+    # Handle Authorization Header
     RewriteCond %{HTTP:Authorization} .
     RewriteRule .* - [E=HTTP_AUTHORIZATION:%{HTTP:Authorization}]
 
-    RewriteCond %{REQUEST_FILENAME} !-f
+    # Redirect Trailing Slashes If Not A Folder...
     RewriteCond %{REQUEST_FILENAME} !-d
-    RewriteRule ^ index.php [QSA,L]
+    RewriteCond %{REQUEST_URI} (.+)/$
+    RewriteRule ^ %1 [L,R=301]
+
+    # Handle Front Controller...
+    RewriteCond %{REQUEST_FILENAME} !-d
+    RewriteCond %{REQUEST_FILENAME} !-f
+    RewriteRule ^ index.php [L]
+
+    # Cache-busting for assets
+    <FilesMatch "\.(js|css|jpg|jpeg|png|gif|ico|woff|woff2)$">
+        Header set Cache-Control "max-age=31536000, public"
+    </FilesMatch>
 </IfModule>
 ```
 
-#### Nginx
+#### Nginx (if available)
 ```nginx
 server {
     listen 443 ssl http2;
@@ -145,8 +252,14 @@ server {
     root /home/user/www/apispi.com/public_html;
     index index.php;
 
-    ssl_certificate /path/to/cert.crt;
-    ssl_certificate_key /path/to/key.key;
+    # SSL Certificates
+    ssl_certificate /etc/ssl/certs/apispi.com.crt;
+    ssl_certificate_key /etc/ssl/private/apispi.com.key;
+
+    # Security Headers
+    add_header Strict-Transport-Security "max-age=31536000; includeSubDomains" always;
+    add_header X-Content-Type-Options "nosniff" always;
+    add_header X-Frame-Options "DENY" always;
 
     location / {
         try_files $uri $uri/ /index.php?$query_string;
@@ -159,45 +272,192 @@ server {
         include fastcgi_params;
     }
 
-    location ~* \.(js|css|png|jpg|jpeg|gif|ico|svg|woff|woff2)$ {
+    # Cache static assets
+    location ~* \.(js|css|png|jpg|jpeg|gif|ico|svg|woff|woff2|ttf|eot)$ {
         expires 1y;
         add_header Cache-Control "public, immutable";
+    }
+
+    # Block access to sensitive files
+    location ~ /\.env {
+        deny all;
+    }
+    location ~ /\.git {
+        deny all;
     }
 }
 ```
 
 ---
 
-## Database Migrations
+## Database Management
 
-### Production Migration Safety
+### Production Database Backups
+**On server**, automate daily backups:
 ```bash
-# Preview migration SQL before applying
-php artisan migrate --pretend
+# Manual backup
+mysqldump -u apispi_user -p apispi_prod > ~/backups/apispi_prod_$(date +%Y%m%d).sql
 
-# Apply specific migration
-php artisan migrate --path=database/migrations/2026_05_20_100000_create_agents_table.php
-
-# Roll back last batch
-php artisan migrate:rollback
-
-# Roll back to specific migration
-php artisan migrate:rollback --step=3
+# Or use SiteGround backup system (through cPanel)
 ```
 
-### Zero-downtime Migrations
-- Use `change()` column modifications carefully (may lock table)
-- For renaming columns: create new → copy → drop old (separate migrations)
-- For table renames: avoid during peak traffic
+### Running Migrations
 
-### Example Safe Migration
+```bash
+# On server
+cd ~/www/apispi.com
+
+# See migration status
+php artisan migrate:status
+
+# Run pending migrations
+php artisan migrate
+
+# Preview SQL without executing
+php artisan migrate --pretend
+
+# Rollback last batch
+php artisan migrate:rollback
+
+# Rollback specific number of steps
+php artisan migrate:rollback --step=2
+```
+
+### Zero-Downtime Migrations
+For critical tables:
+1. Create new column (nullable)
+2. Backfill data in separate migration
+3. Update application code
+4. Drop old column (in later migration)
+
+Example:
 ```php
-public function up(): void
-{
-    // Safe: adding nullable column
-    Schema::table('agents', function (Blueprint $table) {
-        $table->string('new_field')->nullable();
-    });
+// Migration 1: Add new column
+Schema::table('users', function (Blueprint $table) {
+    $table->string('new_email')->nullable();
+});
+
+// Migration 2: Backfill data
+DB::statement('UPDATE users SET new_email = email');
+
+// Migration 3: Drop old column (after code updated)
+Schema::table('users', function (Blueprint $table) {
+    $table->dropColumn('email');
+    $table->renameColumn('new_email', 'email');
+});
+```
+
+---
+
+## Monitoring & Maintenance
+
+### Application Logs
+```bash
+# View application log
+tail -100 ~/www/apispi.com/storage/logs/laravel.log
+
+# Clear old logs (if disk space needed)
+php artisan logs:clear
+
+# Watch logs in real-time
+tail -f ~/www/apispi.com/storage/logs/laravel.log
+```
+
+### Performance Optimization
+```bash
+# Cache optimization (after deployment)
+php artisan config:cache      # Cache config files
+php artisan route:cache       # Cache routes
+php artisan view:cache        # Cache compiled views
+
+# Clear before next deployment
+php artisan config:clear
+php artisan route:clear
+php artisan view:clear
+```
+
+### Scheduled Tasks
+Laravel scheduler (if enabled):
+```bash
+# Add to server crontab
+* * * * * cd /path/to/app && php artisan schedule:run >> /dev/null 2>&1
+```
+
+### Disk Space Management
+```bash
+# Check disk usage
+df -h
+du -sh ~/www/apispi.com
+
+# Clear temporary files
+php artisan cache:clear
+rm -rf ~/www/apispi.com/storage/framework/cache/*
+rm -rf ~/www/apispi.com/storage/logs/laravel-*.log
+```
+
+---
+
+## Security Checklist
+
+- ✅ `.env` file permissions: `600` (not readable by web)
+- ✅ `storage/` directory permissions: `775` (writable by web server)
+- ✅ `bootstrap/cache/` permissions: `775`
+- ✅ `APP_DEBUG=false` in production
+- ✅ HTTPS enabled (SSL certificate)
+- ✅ `SESSION_SECURE_COOKIES=true`
+- ✅ Strong database passwords
+- ✅ Regular backups automated
+- ✅ Security headers configured (nginx/apache)
+- ✅ `.env` and `.git/` directories blocked from web access
+
+---
+
+## Continuous Integration/Deployment (Optional)
+
+### GitHub Actions Example
+```yaml
+name: Deploy to Production
+
+on:
+  push:
+    branches: [ main ]
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      
+      - name: Build frontend
+        run: |
+          npm install
+          npm run build
+      
+      - name: Deploy to server
+        uses: appleboy/ssh-action@master
+        with:
+          host: ${{ secrets.SSH_HOST }}
+          username: ${{ secrets.SSH_USER }}
+          key: ${{ secrets.SSH_KEY }}
+          script: |
+            cd ~/www/apispi.com
+            git pull origin main
+            php artisan migrate
+            php artisan cache:clear
+```
+
+---
+
+## Troubleshooting Production Issues
+
+| Issue | Solution |
+|-------|----------|
+| 500 error after deploy | Check `storage/logs/laravel.log`, verify migrations ran |
+| Assets not loading (404) | Verify `npm run build` completed, check `public_html/build/` exists |
+| Database connection error | Check `.env` credentials, ensure MySQL is running |
+| Session errors | Verify `sessions` table exists, run `php artisan migrate` |
+| Permission denied errors | Check file permissions on `storage/` and `bootstrap/cache/` |
+| Email not sending | Check `MAIL_*` environment variables, verify SMTP access |
 }
 
 public function down(): void

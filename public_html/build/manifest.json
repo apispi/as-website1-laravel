@@ -1,6 +1,6 @@
 {
-  "__plugin-vue_export-helper-V0sdoxEM.js": {
-    "file": "assets/_plugin-vue_export-helper-V0sdoxEM.js",
+  "__plugin-vue_export-helper-HQ9zuxDH.js": {
+    "file": "assets/_plugin-vue_export-helper-HQ9zuxDH.js",
     "name": "_plugin-vue_export-helper"
   },
   "_fonts-DkuEHybc.css": {
@@ -56,7 +56,7 @@
     "src": "_instrument-sans-600-normal-DMks36a2.woff"
   },
   "resources/css/app.css": {
-    "file": "assets/app-BVS4yt67.css",
+    "file": "assets/app-DzENa28B.css",
     "name": "app",
     "names": [
       "app.css"
@@ -65,39 +65,39 @@
     "isEntry": true
   },
   "resources/js/admin.js": {
-    "file": "assets/admin-D0w75mj0.js",
+    "file": "assets/admin-CwiHb-FB.js",
     "name": "admin",
     "src": "resources/js/admin.js",
     "isEntry": true,
     "imports": [
-      "__plugin-vue_export-helper-V0sdoxEM.js"
+      "__plugin-vue_export-helper-HQ9zuxDH.js"
     ],
     "css": [
       "assets/admin--sP5ogn0.css"
     ]
   },
   "resources/js/agent-detail.js": {
-    "file": "assets/agent-detail-DD07a_ik.js",
+    "file": "assets/agent-detail-CNJtisFY.js",
     "name": "agent-detail",
     "src": "resources/js/agent-detail.js",
     "isEntry": true,
     "imports": [
-      "__plugin-vue_export-helper-V0sdoxEM.js"
+      "__plugin-vue_export-helper-HQ9zuxDH.js"
     ],
     "css": [
-      "assets/agent-detail-ChaKWbt4.css"
+      "assets/agent-detail-DkX3hTJB.css"
     ]
   },
   "resources/js/agents-list.js": {
-    "file": "assets/agents-list-Dv3HeVJ9.js",
+    "file": "assets/agents-list-B_1cXQ89.js",
     "name": "agents-list",
     "src": "resources/js/agents-list.js",
     "isEntry": true,
     "imports": [
-      "__plugin-vue_export-helper-V0sdoxEM.js"
+      "__plugin-vue_export-helper-HQ9zuxDH.js"
     ],
     "css": [
-      "assets/agents-list-DoiNyVnl.css"
+      "assets/agents-list-2pMVuRQ-.css"
     ]
   },
   "resources/js/app.js": {
@@ -106,64 +106,76 @@
     "src": "resources/js/app.js",
     "isEntry": true
   },
+  "resources/js/aria.js": {
+    "file": "assets/aria-DNlsZTad.js",
+    "name": "aria",
+    "src": "resources/js/aria.js",
+    "isEntry": true,
+    "imports": [
+      "__plugin-vue_export-helper-HQ9zuxDH.js"
+    ],
+    "css": [
+      "assets/aria-GgOl8kuf.css"
+    ]
+  },
   "resources/js/catalog.js": {
-    "file": "assets/catalog-DhEoHfFj.js",
+    "file": "assets/catalog-D2ElqQ72.js",
     "name": "catalog",
     "src": "resources/js/catalog.js",
     "isEntry": true,
     "imports": [
-      "__plugin-vue_export-helper-V0sdoxEM.js"
+      "__plugin-vue_export-helper-HQ9zuxDH.js"
     ],
     "css": [
-      "assets/catalog-DtC1fHgg.css"
+      "assets/catalog-C7ogkbdX.css"
     ]
   },
   "resources/js/connectors-user.js": {
-    "file": "assets/connectors-user-Csr10yQu.js",
+    "file": "assets/connectors-user-CUcG3as8.js",
     "name": "connectors-user",
     "src": "resources/js/connectors-user.js",
     "isEntry": true,
     "imports": [
-      "__plugin-vue_export-helper-V0sdoxEM.js"
+      "__plugin-vue_export-helper-HQ9zuxDH.js"
     ],
     "css": [
-      "assets/connectors-user-Ckx6y4kz.css"
+      "assets/connectors-user-CmZryVc3.css"
     ]
   },
   "resources/js/dashboard-chat.js": {
-    "file": "assets/dashboard-chat-B27Nzjyk.js",
+    "file": "assets/dashboard-chat-CfiLYFCR.js",
     "name": "dashboard-chat",
     "src": "resources/js/dashboard-chat.js",
     "isEntry": true,
     "imports": [
-      "__plugin-vue_export-helper-V0sdoxEM.js"
+      "__plugin-vue_export-helper-HQ9zuxDH.js"
     ],
     "css": [
       "assets/dashboard-chat-CDd2RW4w.css"
     ]
   },
   "resources/js/dashboard.js": {
-    "file": "assets/dashboard-zkXLGIpS.js",
+    "file": "assets/dashboard-0SWTGmPG.js",
     "name": "dashboard",
     "src": "resources/js/dashboard.js",
     "isEntry": true,
     "imports": [
-      "__plugin-vue_export-helper-V0sdoxEM.js"
+      "__plugin-vue_export-helper-HQ9zuxDH.js"
     ],
     "css": [
-      "assets/dashboard-DXwp8DZZ.css"
+      "assets/dashboard-DJjGIogG.css"
     ]
   },
   "resources/js/profile.js": {
-    "file": "assets/profile-CWx_gjb3.js",
+    "file": "assets/profile-CUXC0rc_.js",
     "name": "profile",
     "src": "resources/js/profile.js",
     "isEntry": true,
     "imports": [
-      "__plugin-vue_export-helper-V0sdoxEM.js"
+      "__plugin-vue_export-helper-HQ9zuxDH.js"
     ],
     "css": [
-      "assets/profile-B1zOV-A6.css"
+      "assets/profile-BZ1eZXWT.css"
     ]
   }
 }

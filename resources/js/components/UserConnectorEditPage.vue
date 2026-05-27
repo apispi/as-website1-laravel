@@ -27,6 +27,7 @@
         <a href="/dashboard/agents"     class="uce-nav-link"><span class="uce-nav-icon">◈</span> My Agents</a>
         <a href="/dashboard/connectors" class="uce-nav-link active"><span class="uce-nav-icon">⬡</span> My Connectors</a>
         <a href="/dashboard/catalog"    class="uce-nav-link"><span class="uce-nav-icon">◎</span> Catalog</a>
+        <a href="/dashboard/aria"       class="uce-nav-link"><span class="uce-nav-icon">◇</span> Aria</a>
         <a href="/training"             class="uce-nav-link"><span class="uce-nav-icon">◷</span> Training</a>
         <span class="uce-nav-label">Account</span>
         <a href="/contact"              class="uce-nav-link"><span class="uce-nav-icon">◉</span> Support</a>

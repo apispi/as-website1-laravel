@@ -3,51 +3,262 @@
 ## Core Tables
 
 ### users
-```sql
-CREATE TABLE users (
-  id BIGINT PRIMARY KEY AUTO_INCREMENT,
-  name VARCHAR(255),
-  email VARCHAR(255) UNIQUE,
-  email_verified_at TIMESTAMP NULL,
-  password VARCHAR(255),
-  remember_token VARCHAR(100) NULL,
-  is_admin BOOLEAN DEFAULT FALSE,
-  created_at TIMESTAMP,
-  updated_at TIMESTAMP
-);
-```
-- **Model**: `App\Models\User`
-- **Relationships**: 
-  - `hasMany(Subscription)`
-  - `hasMany(UserConnector)`
+- **Primary Key**: `id` (bigint)
+- **Unique**: `email`
+- **Columns**:
+  - `name` varchar(255)
+  - `email` varchar(255) 
+  - `email_verified_at` timestamp nullable
+  - `password` varchar(255) — hashed via `Hash::make()`
+  - `remember_token` varchar(100) nullable
+  - `is_admin` boolean default false
+  - `created_at`, `updated_at` timestamps
+
+**Model**: `App\Models\User`  
+**Relationships**:
+- `hasMany(Subscription)`
+- `hasMany(UserConnector)`
+
+---
 
 ### agents
-```sql
-CREATE TABLE agents (
-  id BIGINT PRIMARY KEY AUTO_INCREMENT,
-  slug VARCHAR(255) UNIQUE,
-  name VARCHAR(255),
-  description LONGTEXT,
-  badge VARCHAR(255) NULL,
-  rating DECIMAL(3, 2) DEFAULT 5.00,
-  users_count INT DEFAULT 0,
-  price DECIMAL(10, 2) NULL,
-  category VARCHAR(255) NULL,
-  is_featured BOOLEAN DEFAULT FALSE,
-  is_active BOOLEAN DEFAULT TRUE,
-  sort_order INT DEFAULT 0,
-  
-  -- Rich content (JSON cast)
-  features JSON NULL,              -- Array of feature strings
-  includes JSON NULL,              -- Array of inclusion strings
-  use_cases JSON NULL,             -- Array of use case objects
-  pricing_plans JSON NULL,         -- Array of pricing plan objects
-  faqs JSON NULL,                  -- Array of FAQ objects
-  
-  -- CTA & checkout
-  target_audience VARCHAR(255) NULL,
-  tagline VARCHAR(255) NULL,
-  cta_headline VARCHAR(255) NULL,
+- **Primary Key**: `id` (bigint)
+- **Unique**: `slug`
+- **Columns**:
+  - `slug` varchar(255) — URL-friendly identifier
+  - `name` varchar(255)
+  - `description` longtext nullable
+  - `badge` varchar(255) nullable — e.g., "popular", "recommended"
+  - `rating` decimal(3,2) default 5.00
+  - `users_count` int default 0 — cached subscription count
+  - `price` decimal(10,2) nullable
+  - `category` varchar(255) nullable
+  - `is_featured` boolean default false
+  - `is_active` boolean default true
+  - `sort_order` int default 0
+  - **Rich content (JSON)**:
+    - `features` json nullable — array of feature strings
+    - `includes` json nullable — array of inclusion strings
+    - `use_cases` json nullable — array of use case objects
+    - `pricing_plans` json nullable — array of pricing plan objects
+    - `faqs` json nullable — array of FAQ objects
+  - **CTA & checkout**:
+    - `target_audience` varchar(255) nullable
+    - `tagline` varchar(255) nullable
+    - `cta_headline` varchar(255) nullable
+    - `cta_sub` varchar(255) nullable
+    - `checkout_name` varchar(255) nullable
+  - `created_at`, `updated_at` timestamps
+
+**Model**: `App\Models\Agent`  
+**Scopes**:
+- `active()` — WHERE `is_active=true` ORDER BY `sort_order`, `name`
+
+**Relationships**:
+- `belongsToMany(Skill)` via `agent_skill` pivot
+- `belongsToMany(Connector)` via `agent_connector` pivot
+- `hasMany(Subscription)`
+
+---
+
+### skills
+- **Primary Key**: `id` (bigint)
+- **Unique**: `slug`
+- **Columns**:
+  - `slug` varchar(255)
+  - `name` varchar(255)
+  - `description` longtext nullable
+  - `category` varchar(255) nullable
+  - `is_active` boolean default true
+  - `sort_order` int default 0
+  - `created_at`, `updated_at` timestamps
+
+**Model**: `App\Models\Skill`  
+**Scopes**:
+- `active()` — WHERE `is_active=true` ORDER BY `sort_order`, `name`
+
+**Relationships**:
+- `belongsToMany(Agent)` via `agent_skill` pivot
+
+---
+
+### agent_skill (Pivot)
+- **Primary Key**: `id` (bigint)
+- **Unique Constraint**: `(agent_id, skill_id)`
+- **Columns**:
+  - `agent_id` bigint → `agents.id` CASCADE
+  - `skill_id` bigint → `skills.id` CASCADE
+  - `name` varchar(255) nullable — skill name for this agent (override)
+  - `description` longtext nullable — skill description (override)
+  - `category` varchar(255) nullable
+  - `refreshed_at` timestamp nullable — last update time
+  - `sort_order` int default 0
+  - `created_at` timestamp
+
+**Model**: `App\Models\Pivot` (implicit)  
+**Pivot Methods**: `withPivot(['name', 'description', 'category', 'refreshed_at'])`
+
+---
+
+### subscriptions
+- **Primary Key**: `id` (bigint)
+- **Columns**:
+  - `user_id` bigint → `users.id` CASCADE
+  - `agent_id` bigint → `agents.id` CASCADE
+  - `status` varchar(255) default 'active' — e.g., "active", "expired", "paused"
+  - `started_at` timestamp nullable
+  - `expires_at` timestamp nullable
+  - `created_at`, `updated_at` timestamps
+
+**Model**: `App\Models\Subscription`  
+**Relationships**:
+- `belongsTo(User)`
+- `belongsTo(Agent)`
+
+---
+
+### connectors
+- **Primary Key**: `id` (bigint)
+- **Unique**: `slug`
+- **Columns**:
+  - `slug` varchar(255)
+  - `name` varchar(255)
+  - `description` longtext nullable
+  - `category` varchar(255) nullable
+  - `icon` varchar(255) nullable — icon class or URL
+  - `website_url` varchar(255) nullable
+  - `is_active` boolean default true
+  - `sort_order` int default 0
+  - **OAuth Configuration**:
+    - `is_oauth` boolean default false
+    - `oauth_client_id` varchar(255) nullable
+    - `oauth_client_secret` varchar(255) nullable ENCRYPTED
+    - `oauth_auth_url` varchar(255) nullable — e.g., `https://oauth.provider.com/authorize`
+    - `oauth_token_url` varchar(255) nullable — e.g., `https://oauth.provider.com/token`
+    - `oauth_scopes` varchar(255) nullable — space-separated scopes
+    - `oauth_extra_params` json nullable — additional OAuth parameters
+  - **Dynamic Configuration**:
+    - `config_schema` json nullable — JSON schema for dynamic config UI
+  - `created_at`, `updated_at` timestamps
+
+**Model**: `App\Models\Connector`  
+**Scopes**:
+- `active()` — WHERE `is_active=true` ORDER BY `sort_order`, `name`
+
+**Relationships**:
+- `belongsToMany(Agent)` via `agent_connector` pivot
+- `hasMany(UserConnector)`
+
+---
+
+### user_connectors
+- **Primary Key**: `id` (bigint)
+- **Columns**:
+  - `user_id` bigint → `users.id` CASCADE
+  - `connector_id` bigint → `connectors.id` CASCADE
+  - `is_connected` boolean default false
+  - `connected_at` timestamp nullable
+  - `config` json nullable — user's saved config for this connector
+  - `created_at`, `updated_at` timestamps
+
+**Model**: `App\Models\UserConnector`  
+**Relationships**:
+- `belongsTo(User)`
+- `belongsTo(Connector)`
+
+---
+
+### connector_tokens
+- **Primary Key**: `id` (bigint)
+- **Columns**:
+  - `user_id` bigint → `users.id` CASCADE
+  - `connector_slug` varchar(255)
+  - `access_token` longtext ENCRYPTED
+  - `refresh_token` longtext ENCRYPTED nullable
+  - `expires_at` timestamp nullable
+  - `created_at`, `updated_at` timestamps
+
+**Model**: `App\Models\ConnectorToken`  
+**Encryption**: `access_token` and `refresh_token` auto-encrypted via `encrypted` cast  
+**Relationships**:
+- `belongsTo(User)`
+
+---
+
+### activity_logs
+- **Primary Key**: `id` (bigint)
+- **Columns**:
+  - `user_id` bigint nullable → `users.id` CASCADE — user being acted upon
+  - `actor_id` bigint nullable → `users.id` CASCADE — admin acting on behalf
+  - `action` varchar(255) — e.g., "created", "updated", "deleted"
+  - `description` longtext
+  - `metadata` json nullable — additional context
+  - `created_at` timestamp
+
+**Model**: `App\Models\ActivityLog`  
+**Static Helper**: `ActivityLog::log($action, $description, $userId, $actorId, $metadata)`  
+**Usage**: Called from controllers to track user/admin actions
+
+---
+
+### trainings
+- **Primary Key**: `id` (bigint)
+- **Columns**:
+  - `slug` varchar(255) unique nullable
+  - `title` varchar(255)
+  - `description` longtext nullable
+  - `content` longtext nullable — rich content/markdown
+  - **Rich metadata (JSON)**:
+    - `topics` json nullable — array of topic strings
+    - `includes` json nullable — array of inclusion strings
+    - `use_cases` json nullable — array of use case objects
+    - `faqs` json nullable — array of FAQ objects
+  - `is_published` boolean default false
+  - `sort_order` int default 0
+  - `created_at`, `updated_at` timestamps
+
+**Model**: `App\Models\Training`
+
+---
+
+### avatar_leads
+- **Primary Key**: `id` (bigint)
+- **Columns**:
+  - `name` varchar(255) nullable
+  - `email` varchar(255) nullable
+  - `phone` varchar(20) nullable
+  - `company` varchar(255) nullable
+  - `message` longtext nullable
+  - `source` varchar(255) nullable — referral source
+  - `created_at` timestamp
+
+**Model**: `App\Models\AvatarLead`  
+**Purpose**: Capture leads from `/digital-avatars` form
+
+---
+
+## Migrations Overview
+- **0001_01_01_000000**: Create users table (Laravel default)
+- **0001_01_01_000001**: Create cache table (Laravel default)
+- **0001_01_01_000002**: Create jobs table (Laravel default)
+- **2026_05_20_100000**: Add `is_admin` to users
+- **2026_05_20_200000**: Create agents table
+- **2026_05_20_300000**: Create subscriptions table
+- **2026_05_21_083544**: Add rich content columns to agents
+- **2026_05_21_210817**: Create skills table
+- **2026_05_22_030151**: Create agent_skill pivot table
+- **2026_05_22_100000**: Create activity_logs table
+- **2026_05_22_110000**: Create trainings table
+- **2026_05_23_100000**: Create connectors table
+- **2026_05_23_110000**: Create connector_tokens table
+- **2026_05_23_120000**: Add OAuth fields to connectors
+- **2026_05_23_130000**: Create user_connectors table
+- **2026_05_24_100000**: Add config columns to connectors and user_connectors
+- **2026_05_24_100000**: Add definition fields to agent_skill pivot
+- **2026_05_24_110000**: Create agent_connector pivot table
+- **2026_05_25_100000**: Create subscription_skill table (optional)
+- **2026_05_25_110000**: Add metadata fields to connectors
+- **2026_05_25_200000**: Create avatar_leads table
   cta_sub VARCHAR(255) NULL,
   checkout_name VARCHAR(255) NULL,
   

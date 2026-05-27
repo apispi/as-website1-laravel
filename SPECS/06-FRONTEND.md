@@ -4,53 +4,63 @@
 
 ### Build Tool: Vite
 - **Config**: `vite.config.js`
-- **Entry points**: `resources/js/*.js`
-- **Public dir**: `public_html/` (not `public/`)
-- **Build output**: `public_html/build/`
+- **Entry points**: `resources/js/{admin,dashboard,catalog,agents-list,agent-detail,profile,app}.js`
+- **Public directory**: `public_html/` (not `public/`)
+- **Build output**: `public_html/build/` — committed to git
+- **Dev server**: `http://localhost:5173` (HMR enabled)
 
 ### Build Commands
 ```bash
-npm run build     # Production build
-npm run dev       # Dev server (HMR enabled)
-npm run preview   # Preview production build
+npm run build              # Production build to public_html/build/
+npm run dev                # Start Vite dev server with HMR
+npm run preview            # Preview production build locally
 ```
 
-### Deployment Requirement
-- **Built assets MUST be committed to git** (no Node.js on server)
-- Workflow: `npm run build` → `git add public_html/build/` → `git push` → `git pull` on server
+### Critical Deployment Requirement
+- **NO Node.js on production server**
+- **Built assets MUST be committed to git**
+- Workflow:
+  1. `npm run build` — build locally
+  2. `git add public_html/build/`
+  3. `git commit -m "Build assets"`
+  4. `git push`
+  5. Server: `git pull` (assets auto-served)
 
 ---
 
-## Vue Entry Points & Mounting Pattern
+## Vue Entry Points & Application Architecture
 
-Each Vue app mounts to a specific `#mount-id` div in Blade views.  
-Props passed via `data-*` attributes as JSON strings.  
-Components receive props via `defineProps()`.
+Each Vue app is a separate Vite entry point, mounts to a specific Blade div, receives props via `data-*` JSON attributes.
 
-| Entry Point | Mount ID | Routes | Purpose |
+| Entry Point | Mount Div | Routing | Purpose |
 |---|---|---|---|
-| `admin.js` | `#admin-app` | `data-page="page-name"` | All admin pages (dynamic routing) |
-| `dashboard.js` | `#dashboard-app` | Static | User dashboard overview |
-| `catalog.js` | `#catalog-app` | Static | Agent catalog browsing |
-| `agents-list.js` | `#agents-list-app` | Static | User's subscriptions |
-| `agent-detail.js` | `#agent-detail-app` | Static | Individual subscription/agent detail |
-| `profile.js` | `#profile-app` | Static | User profile & password |
-| `app.js` | — | — | Global styles & minimal JS |
+| `admin.js` | `#admin-app` | `data-page="name"` | Dynamic admin pages (single-page routing) |
+| `dashboard.js` | `#dashboard-app` | Static | User dashboard overview (subscriptions, stats) |
+| `catalog.js` | `#catalog-app` | Static | Agent marketplace browsing |
+| `agents-list.js` | `#agents-list-app` | Static | User's subscriptions list |
+| `agent-detail.js` | `#agent-detail-app` | Static | Individual subscription detail page |
+| `profile.js` | `#profile-app` | Static | User profile & password change |
+| `app.js` | — | — | Global styles & minimal JS (entry for CSS) |
 
 ---
 
 ## Admin Page Routing (admin.js)
 
-### Pattern
-The admin Vue app uses a `data-page` attribute to select which component to mount.
+Admin uses **client-side routing** via `data-page` attribute to dynamically load components.
 
-### Implementation
+### How It Works
+```blade
+<!-- Blade view: resources/views/admin/agents.blade.php -->
+<div id="admin-app" data-page="agents" data-props='@json($props)'></div>
+<script type="module" src="{{ asset('build/admin.js') }}"></script>
+```
+
 ```js
 // resources/js/admin.js
 import DashboardPage from './components/admin/DashboardPage.vue'
 import AgentsPage from './components/admin/AgentsPage.vue'
 import SkillsPage from './components/admin/SkillsPage.vue'
-// ... etc
+// ... import all admin pages
 
 const pages = {
   'dashboard': DashboardPage,
@@ -60,165 +70,231 @@ const pages = {
 }
 
 export default pages
+
+// In mount logic:
+const page = document.querySelector('#admin-app')?.dataset.page
+const Component = pages[page]
+// Mount Component to #admin-app
 ```
 
-### Adding a New Admin Page
-1. Create `resources/js/components/admin/YourPage.vue`
-2. Import and register in `admin.js`'s `pages` map
-3. Create Blade view: `resources/views/admin/your-page.blade.php`
-4. Pass `data-page="your-page"` and `data-props="{...}"` JSON to mount div
-5. Add route to `routes/web.php` with admin middleware
+### Adding a New Admin Page (5 Steps)
 
-### Example: Admin Agents Page
-**Blade** (`resources/views/admin/agents.blade.php`):
+1. **Create Vue component**: `resources/js/components/admin/YourPage.vue`
+   ```vue
+   <template>...</template>
+   <script setup>
+   defineProps({ /* data from Blade */ })
+   </script>
+   ```
+
+2. **Register in admin.js**: Import and add to `pages` map
+   ```js
+   import YourPage from './components/admin/YourPage.vue'
+   const pages = { ..., 'your-page': YourPage }
+   ```
+
+3. **Create Blade view**: `resources/views/admin/your-page.blade.php`
+   ```blade
+   <div id="admin-app" 
+        data-page="your-page" 
+        data-props='@json(["data" => $data])'></div>
+   <script type="module" src="{{ asset('build/admin.js') }}"></script>
+   ```
+
+4. **Add Laravel route**: `routes/web.php`
+   ```php
+   Route::get('/admin/your-page', [AdminYourController::class, 'index'])
+        ->middleware(['auth', 'admin'])
+        ->name('admin.your-page.index');
+   ```
+
+5. **Controller**: Pass props to Blade view
+   ```php
+   public function index() {
+       return view('admin.your-page', ['data' => ...]);
+   }
+   ```
+
+---
+
+## Props Pattern: Blade → Vue
+
+### Mechanism
+Props are **serialized as JSON in HTML** and **hydrated on client**:
+
 ```blade
-<div id="admin-app" data-page="agents" data-props='@json($props)'></div>
-<script type="module" src="{{ asset('build/admin.js') }}"></script>
+{{-- resources/views/dashboard/agents.blade.php --}}
+<div id="agents-list-app" data-props='@json([
+    "agents" => $agents,
+    "user" => auth()->user(),
+    "stats" => $stats,
+])'></div>
+<script type="module" src="{{ asset('build/agents-list.js') }}"></script>
 ```
 
-**JS** (`resources/js/admin.js`):
 ```js
-import AgentsPage from './components/admin/AgentsPage.vue'
-const pages = { agents: AgentsPage, ... }
+// resources/js/agents-list.js
+import App from './components/AgentsList.vue'
+
+const el = document.getElementById('agents-list-app')
+const props = JSON.parse(el.dataset.props || '{}')
+
+createApp(App, props).mount(el)
 ```
 
-**Component** (`resources/js/components/admin/AgentsPage.vue`):
 ```vue
-<template>
-  <!-- UI for managing agents -->
-</template>
-
+<!-- resources/js/components/AgentsList.vue -->
 <script setup>
 defineProps({
   agents: Array,
-  // ... other props from Blade
+  user: Object,
+  stats: Object,
 })
 </script>
+
+<template>
+  <div>
+    <h1>My Agents ({{ agents.length }})</h1>
+    <!-- Use props.agents, props.user, etc. -->
+  </div>
+</template>
 ```
 
----
-
-## Global Styles
-
-### app.css & app.js
-- `resources/css/app.css` — Global Tailwind + custom styles
-- `resources/js/app.js` — Minimal global JS (rarely used)
-- Compiled/imported by all Vue entry points
-
-### Tailwind Configuration
-- `tailwind.config.js` — Defines theme, colors, plugins
-- Color schemes:
-  - **Admin UI**: Red/Rose palette
-  - **User Dashboard**: Amber/Gold palette
+### Why This Pattern?
+- Server renders initial HTML with data
+- Vue hydrates with pre-computed data
+- No `loading` spinners for initial page
+- SEO-friendly (content in HTML)
+- No runtime API calls to fetch initial data
 
 ---
 
-## Static Chatbot (Not Vite-compiled)
+## Static Chatbot (NOT Vite-compiled)
+
+Chatbot is a **static JavaScript file**, not managed by Vite.
 
 ### Files
-- **Location**: `public_html/js/chatbot.js` (static file, not Vite output)
-- **NLP Bundle**: `public_html/js/nlp.min.js` (node-nlp v3.10.2 browser bundle)
+- **Chatbot JS**: `public_html/js/chatbot.js`
+- **NLP Bundle**: `public_html/js/nlp.min.js` (node-nlp v3.10.2)
 
 ### Behavior
-1. On page load, `/contact` page includes chatbot.js
-2. Chatbot lazy-loads `nlp.min.js` on first user interaction
-3. In-browser NLP classifier trained on 16 intents
-4. Classifies user messages against intent patterns
-5. Routes to appropriate responses or API call
+1. `/contact` page loads `chatbot.js` unconditionally
+2. On first user interaction, lazy-loads `nlp.min.js`
+3. NLP classifier trained on 16 intent patterns (in-browser)
+4. User messages classified against intents
+5. Matched intent routed to appropriate response or Anthropic API
 
 ### Deployment
-- Changes to chatbot.js or nlp.min.js committed directly to git (not Vite output)
-- No build step required for chatbot changes
+- Edit directly in `public_html/js/`
+- No build step required
+- Commit changes to git (static assets, not Vite output)
 
 ---
 
-## Props Pattern
+## Global Styles & Configuration
 
-### Passing Props from Blade to Vue
-```blade
-{{-- In Blade view --}}
-<div id="agent-detail-app" 
-     data-page="show" 
-     data-props='@json(["agent" => $agent, "user" => auth()->user()])'>
-</div>
-<script type="module" src="{{ asset('build/agent-detail.js') }}"></script>
+### Tailwind CSS
+- **Config**: `tailwind.config.js`
+- **Main CSS**: `resources/css/app.css` (includes Tailwind + custom styles)
+- **Theme**:
+  - Admin UI: Red/Rose palette (`text-red-500`, `bg-rose-100`)
+  - User Dashboard: Amber/Gold palette (`text-amber-600`, `bg-amber-50`)
+
+### CSS Organization
+```
+resources/css/
+├── app.css              # Main entry: @tailwind directives + globals
+└── ... component-scoped styles (in <style scoped> in .vue)
 ```
 
+### Custom Utilities
+Custom Tailwind utilities defined in `tailwind.config.js`:
 ```js
-// In Vue component
-<script setup>
-const props = defineProps({
-  agent: Object,
-  user: Object
-})
-
-console.log(props.agent.name)
-</script>
+theme: {
+  extend: {
+    colors: { /* custom colors */ },
+    spacing: { /* custom spacing */ },
+  }
+}
 ```
-
-### Why via data-* Attributes?
-- Blade views are server-rendered once
-- Props serialized as JSON in HTML
-- Vue app hydrates with props on client
-- No runtime server communication for initial page load
 
 ---
 
 ## Asset Linking in Blade
 
-### Vite Asset Helper
+### Public Assets via `asset()` Helper
 ```blade
-{{-- Images, fonts, etc. in resources/images/ --}}
-<img src="{{ asset('build/my-image.png') }}" />
-
-{{-- JavaScript entry points --}}
+{{-- Vite-compiled assets --}}
 <script type="module" src="{{ asset('build/admin.js') }}"></script>
-
-{{-- Stylesheet (optional if bundled) --}}
 <link rel="stylesheet" href="{{ asset('build/app.css') }}" />
+
+{{-- Static images/fonts in public_html/ --}}
+<img src="{{ asset('images/logo.png') }}" alt="Logo" />
+<img src="{{ asset('build/my-asset-hash.png') }}" alt="Built asset" />
 ```
 
-### Development vs Production
-- **Dev**: Vite dev server serves `http://localhost:5173/...`
-- **Prod**: Files served from `public_html/build/...`
+### Image Assets
+- Imported in JS/Vue: `import img from '@/images/logo.png'`
+- Static in `public_html/`: served directly as `/images/...`
+- Via Vite build: hashed for cache-busting
 
 ---
 
-## Vue 3 Standards
+## Vue 3 Component Standards
 
 ### Component Structure
 ```vue
 <template>
-  <!-- Single root element required -->
+  <!-- Single root element (or Fragment in Vue 3.3+) -->
+  <div>
+    <h1>{{ title }}</h1>
+    <button @click="handleClick">Click me</button>
+  </div>
 </template>
 
 <script setup>
-// Composition API preferred
 import { ref, computed } from 'vue'
 
-const props = defineProps({ /* ... */ })
-const emit = defineEmits(['event-name'])
+// Props from parent or Blade
+const props = defineProps({
+  title: String,
+  items: Array,
+})
 
-const state = ref(null)
-const derived = computed(() => state.value?.transform())
+// Emitted events
+const emit = defineEmits(['item-selected'])
+
+// State
+const count = ref(0)
+
+// Computed
+const doubled = computed(() => count.value * 2)
+
+// Methods
+const handleClick = () => {
+  count.value++
+  emit('item-selected', count.value)
+}
 </script>
 
 <style scoped>
-/* Component styles, scoped to prevent leaks */
+/* Scoped styles only affect this component */
+h1 { color: blue; }
 </style>
 ```
 
-### Composition API
-- Use `<script setup>` syntax (modern, concise)
-- `ref()` for reactive state
-- `computed()` for derived values
+### Composition API (Preferred)
+- Use `<script setup>` syntax (concise, modern)
+- `ref()` for reactive values
+- `computed()` for derived state
 - `watch()` for side effects
 - `onMounted()`, `onUnmounted()` for lifecycle
+- Avoid: Options API (older style)
 
-### Avoid
-- Options API (older style)
-- Global `window` state (use Pinia if needed)
-- Direct DOM manipulation (use refs in last resort)
+### Avoid Anti-patterns
+- Direct `window` mutation (use refs, composables)
+- DOM manipulation with `querySelector` (use `ref` attribute)
+- Global mutable state (use Pinia if multi-component state needed)
 
 ---
 
@@ -226,24 +302,94 @@ const derived = computed(() => state.value?.transform())
 
 ```
 resources/js/
-├── admin.js                    # Entry: Admin pages
-├── dashboard.js                # Entry: User dashboard
-├── catalog.js                  # Entry: Agent catalog
-├── agents-list.js              # Entry: User agents list
-├── agent-detail.js             # Entry: Agent detail
-├── profile.js                  # Entry: User profile
-├── app.js                      # Global entry
+├── admin.js                    # Admin entry point
+├── dashboard.js                # Dashboard entry point
+├── catalog.js                  # Catalog entry point
+├── agents-list.js              # Agents list entry point
+├── agent-detail.js             # Agent detail entry point
+├── profile.js                  # Profile entry point
+├── app.js                      # Global styles entry
 ├── components/
-│   ├── admin/
-│   │   ├── DashboardPage.vue
-│   │   ├── AgentsPage.vue
-│   │   ├── SkillsPage.vue
-│   │   └── ... other admin pages
-│   ├── shared/
+│   ├── admin/                  # Admin-specific components
+│   │   ├── DashboardPage.vue   # Data: admin.dashboard
+│   │   ├── AgentsPage.vue      # Data: admin.agents.index
+│   │   ├── SkillsPage.vue      # Data: admin.skills.index
+│   │   ├── ConnectorsPage.vue  # Data: admin.connectors.index
+│   │   ├── UsersPage.vue       # Data: admin.users.index
+│   │   ├── TrainingsPage.vue   # Data: admin.trainings.index
+│   │   └── ...
+│   ├── shared/                 # Reusable components
 │   │   ├── Header.vue
 │   │   ├── Sidebar.vue
-│   │   └── ... reusable components
-│   └── ... page-specific components
+│   │   ├── Modal.vue
+│   │   ├── Form.vue
+│   │   └── ... shared UI
+│   ├── AgentsList.vue          # agents-list.js
+│   ├── AgentDetail.vue         # agent-detail.js
+│   ├── Dashboard.vue           # dashboard.js
+│   ├── Profile.vue             # profile.js
+│   ├── Catalog.vue             # catalog.js
+│   └── ... other page components
 └── composables/
-    └── ... reusable logic hooks
+    ├── useAuth.js              # Auth state/methods
+    ├── useApi.js               # API call wrapper
+    └── ... reusable logic
 ```
+
+---
+
+## Development Workflow
+
+### Local Development
+```bash
+# Terminal 1: Start Vite dev server (HMR)
+npm run dev
+# Server runs on http://localhost:5173
+
+# Terminal 2: Start Laravel dev server
+php artisan serve
+# Visits http://localhost:8000, assets served from Vite dev server
+
+# Browser: http://localhost:8000
+# Hot Module Replacement (HMR) enabled
+# Changes to .vue/.js/.css auto-reload in browser
+```
+
+### Before Commit
+```bash
+# Build for production
+npm run build
+
+# Check that public_html/build/ has new files
+git status
+
+# Commit built assets
+git add public_html/build/
+git commit -m "Build frontend assets"
+```
+
+---
+
+## Performance Optimization
+
+### Code Splitting
+Vite automatically code-splits at entry points:
+- `admin.js` — all admin pages in one chunk (or lazy-loaded)
+- `dashboard.js` — dashboard-specific code
+- `agents-list.js` — agents list-specific code
+- etc.
+
+### Image Optimization
+- Use modern formats (WebP, AVIF)
+- Lazy-load images with `<img loading="lazy">`
+- Optimize before committing
+
+### CSS Purging
+Tailwind automatically purges unused CSS in production builds (via `content` in `tailwind.config.js`).
+
+---
+
+## Browser Support
+- Modern browsers: Chrome 60+, Firefox 55+, Safari 12+, Edge 79+
+- No IE11 support (ES6+ features used)
+

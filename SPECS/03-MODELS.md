@@ -2,49 +2,57 @@
 
 ## User Model
 
-**File**: `app/Models/User.php`
+**File**: `app/Models/User.php`  
+**Table**: `users`
 
-### Attributes
+### Attributes & Fillable
 ```php
-$fillable = ['name', 'email', 'password', 'is_admin'];
+protected $fillable = ['name', 'email', 'password', 'is_admin'];
+```
 
-// Casts
+### Casts
+```php
 'email_verified_at' => 'datetime',
-'password'          => 'hashed',  // Auto-hashes via mutator
+'password'          => 'hashed',      // Auto-hashes on assignment
 'is_admin'          => 'boolean',
 ```
 
 ### Relationships
 ```php
-public function subscriptions()      // hasMany(Subscription)
-public function userConnectors()     // hasMany(UserConnector)
+public function subscriptions()         // hasMany(Subscription)
+public function userConnectors()        // hasMany(UserConnector)
 ```
 
-### Usage
-- Standard Laravel authentication model
-- `is_admin` determines access to `/admin/*` routes
-- Password automatically hashed on assignment
+### Key Features
+- Standard Laravel Authenticatable user
+- `is_admin` flag controls `/admin/*` route access
+- Password automatically hashed via mutator
+- Email-based login and password reset
 
 ---
 
 ## Agent Model
 
-**File**: `app/Models/Agent.php`
+**File**: `app/Models/Agent.php`  
+**Table**: `agents`
 
-### Attributes
+### Attributes & Fillable
 ```php
-$fillable = [
-  'slug', 'name', 'description', 'badge', 'rating',
-  'users_count', 'price', 'category', 'is_featured', 'is_active', 'sort_order',
-  'features', 'includes', 'use_cases', 'pricing_plans', 'faqs',
-  'target_audience', 'tagline', 'cta_headline', 'cta_sub', 'checkout_name',
+protected $fillable = [
+    'slug', 'name', 'description', 'badge', 'rating',
+    'users_count', 'price', 'category', 'is_featured',
+    'is_active', 'sort_order',
+    'features', 'includes', 'use_cases', 'pricing_plans', 'faqs',
+    'target_audience', 'tagline', 'cta_headline', 'cta_sub', 'checkout_name',
 ];
+```
 
-// Casts
+### Casts
+```php
 'rating'        => 'decimal:2',
 'is_featured'   => 'boolean',
 'is_active'     => 'boolean',
-'features'      => 'array',        // JSON → PHP array
+'features'      => 'array',            // JSON ↔ PHP array
 'includes'      => 'array',
 'use_cases'     => 'array',
 'pricing_plans' => 'array',
@@ -53,10 +61,266 @@ $fillable = [
 
 ### Relationships
 ```php
-public function skills()             // belongsToMany(Skill)
-public function connectors()         // belongsToMany(Connector)
-public function subscriptions()      // hasMany(Subscription)
+public function skills()                // belongsToMany(Skill) via agent_skill pivot
+    ->withPivot(['name', 'description', 'category', 'refreshed_at'])
+    ->orderBy('sort_order')
+
+public function connectors()            // belongsToMany(Connector) via agent_connector
+    ->orderBy('sort_order')->orderBy('name')
+
+public function subscriptions()         // hasMany(Subscription)
 ```
+
+### Scopes
+```php
+public function scopeActive($query)     // WHERE is_active=true ORDER BY sort_order, name
+    return $query->where('is_active', true)->orderBy('sort_order')->orderBy('name');
+```
+
+### Key Features
+- `slug` used for URL routing (e.g., `/agents/bid-tender`)
+- Rating stored as decimal(3,2) for display
+- JSON columns store rich content arrays
+- CTA fields for marketing/checkout integration
+- `users_count` cached for performance
+
+---
+
+## Skill Model
+
+**File**: `app/Models/Skill.php`  
+**Table**: `skills`
+
+### Attributes & Fillable
+```php
+protected $fillable = ['slug', 'name', 'description', 'category', 'is_active', 'sort_order'];
+```
+
+### Casts
+```php
+'is_active' => 'boolean',
+```
+
+### Relationships
+```php
+public function agents()                // belongsToMany(Agent) via agent_skill pivot
+    ->withPivot(['name', 'description', 'category', 'refreshed_at'])
+    ->orderBy('sort_order')
+```
+
+### Scopes
+```php
+public function scopeActive($query)     // WHERE is_active=true ORDER BY sort_order, name
+    return $query->where('is_active', true)->orderBy('sort_order')->orderBy('name');
+```
+
+---
+
+## Subscription Model
+
+**File**: `app/Models/Subscription.php`  
+**Table**: `subscriptions`
+
+### Attributes & Fillable
+```php
+protected $fillable = ['user_id', 'agent_id', 'status', 'started_at', 'expires_at'];
+```
+
+### Casts
+```php
+'started_at'  => 'datetime',
+'expires_at'  => 'datetime',
+```
+
+### Relationships
+```php
+public function user()                  // belongsTo(User)
+public function agent()                 // belongsTo(Agent)
+```
+
+### Key Features
+- `status` field tracks subscription state ('active', 'expired', 'paused', etc.)
+- `started_at` and `expires_at` allow time-bound subscriptions
+- Composite key usage: user can subscribe to same agent only once
+
+---
+
+## Connector Model
+
+**File**: `app/Models/Connector.php`  
+**Table**: `connectors`
+
+### Attributes & Fillable
+```php
+protected $fillable = [
+    'slug', 'name', 'description', 'category', 'icon', 'website_url',
+    'is_oauth', 'oauth_client_id', 'oauth_client_secret',
+    'oauth_auth_url', 'oauth_token_url', 'oauth_scopes', 'oauth_extra_params',
+    'config_schema', 'is_active', 'sort_order',
+];
+```
+
+### Casts
+```php
+'is_oauth'            => 'boolean',
+'is_active'           => 'boolean',
+'oauth_extra_params'  => 'array',
+'config_schema'       => 'array',
+```
+
+### Relationships
+```php
+public function agents()                // belongsToMany(Agent) via agent_connector
+    ->orderBy('sort_order')->orderBy('name')
+
+public function userConnectors()        // hasMany(UserConnector)
+```
+
+### Scopes
+```php
+public function scopeActive($query)     // WHERE is_active=true ORDER BY sort_order, name
+    return $query->where('is_active', true)->orderBy('sort_order')->orderBy('name');
+```
+
+### Key Features
+- OAuth fields support OAuth 2.0 authorization flow
+- `config_schema` (JSON) allows dynamic UI form generation
+- `oauth_extra_params` supports provider-specific OAuth params
+- Encryption: `oauth_client_secret` typically encrypted
+
+---
+
+## UserConnector Model
+
+**File**: `app/Models/UserConnector.php`  
+**Table**: `user_connectors`
+
+### Attributes & Fillable
+```php
+protected $fillable = ['user_id', 'connector_id', 'is_connected', 'connected_at', 'config'];
+```
+
+### Casts
+```php
+'is_connected'  => 'boolean',
+'connected_at'  => 'datetime',
+'config'        => 'array',             // User's saved config for this connector
+```
+
+### Relationships
+```php
+public function user()                  // belongsTo(User)
+public function connector()             // belongsTo(Connector)
+```
+
+---
+
+## ConnectorToken Model
+
+**File**: `app\Models\ConnectorToken.php`  
+**Table**: `connector_tokens`
+
+### Attributes & Fillable
+```php
+protected $fillable = ['user_id', 'connector_slug', 'access_token', 'refresh_token', 'expires_at'];
+```
+
+### Casts
+```php
+'access_token'   => 'encrypted',        // Auto-encrypted via APP_KEY
+'refresh_token'  => 'encrypted',
+'expires_at'     => 'datetime',
+```
+
+### Relationships
+```php
+public function user()                  // belongsTo(User)
+```
+
+### Key Features
+- Stores encrypted OAuth tokens
+- `expires_at` tracks token expiry for refresh flow
+- Separate from `UserConnector` to keep sensitive data secure
+
+---
+
+## ActivityLog Model
+
+**File**: `app/Models/ActivityLog.php`  
+**Table**: `activity_logs`
+
+### Attributes & Fillable
+```php
+protected $fillable = ['user_id', 'actor_id', 'action', 'description', 'metadata'];
+```
+
+### Casts
+```php
+'metadata' => 'array',
+```
+
+### Relationships
+```php
+public function user()                  // belongsTo(User) — user being acted upon
+public function actor()                 // belongsTo(User) — admin performing action
+```
+
+### Static Helper
+```php
+ActivityLog::log($action, $description, $userId = null, $actorId = null, $metadata = [])
+```
+
+### Usage Example
+```php
+// In controller:
+ActivityLog::log('created', 'Agent created', $agent->id, auth()->id(), ['agent_id' => $agent->id]);
+ActivityLog::log('admin_impersonation', 'Admin logged in as user', $user->id, auth()->id());
+```
+
+---
+
+## Training Model
+
+**File**: `app/Models/Training.php`  
+**Table**: `trainings`
+
+### Attributes & Fillable
+```php
+protected $fillable = ['slug', 'title', 'description', 'content', 'topics', 'includes', 'use_cases', 'faqs', 'is_published', 'sort_order'];
+```
+
+### Casts
+```php
+'topics'      => 'array',
+'includes'    => 'array',
+'use_cases'   => 'array',
+'faqs'        => 'array',
+'is_published' => 'boolean',
+```
+
+### Key Features
+- Rich content model supporting JSON arrays
+- Optional `slug` for URL routing
+- `is_published` flag controls visibility
+- `sort_order` enables custom ordering
+
+---
+
+## AvatarLead Model
+
+**File**: `app/Models/AvatarLead.php`  
+**Table**: `avatar_leads`
+
+### Attributes & Fillable
+```php
+protected $fillable = ['name', 'email', 'phone', 'company', 'message', 'source'];
+```
+
+### Key Features
+- Captures leads from `/digital-avatars` form
+- Optional fields for flexible form submissions
+- `source` tracks referral origin
+- No authentication required for submissions
 
 ### Scopes
 ```php

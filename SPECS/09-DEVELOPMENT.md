@@ -3,55 +3,66 @@
 ## Development Setup
 
 ### Prerequisites
-- PHP 8.2+
-- Composer
-- Node.js 18+ & npm
-- MySQL 8.0+ or MariaDB 10.4+
+- **PHP**: 8.2 or higher
+- **Composer**: Latest version
+- **Node.js**: 18 or higher
+- **npm**: Latest version
+- **Database**: MySQL 8.0+ or MariaDB 10.4+
+- **Git**: For version control
 
-### Initial Setup
+### Initial Setup (5 Steps)
+
 ```bash
 # 1. Clone repository
-git clone https://github.com/yourorg/apispi.git
-cd apispi
+git clone https://github.com/yourorg/as-website1-laravel.git
+cd as-website1-laravel
 
 # 2. Install PHP dependencies
 composer install
 
-# 3. Copy environment file and generate APP_KEY
+# 3. Setup environment
 cp .env.example .env
 php artisan key:generate
 
-# 4. Configure database in .env
-# DB_HOST, DB_DATABASE, DB_USERNAME, DB_PASSWORD
-
-# 5. Run migrations
+# 4. Setup database
 php artisan migrate
+php artisan db:seed              # Optional: populate sample data
 
-# 6. Seed initial data (optional)
-php artisan db:seed
-
-# 7. Install Node dependencies
+# 5. Setup frontend
 npm install
+npm run build                     # Build frontend assets locally
+```
 
-# 8. Build frontend assets
-npm run build
+### Local Development Environment
 
-# 9. Start development servers
-# Terminal 1: Laravel
+**Terminal 1**: Start Laravel development server
+```bash
 php artisan serve
+# Runs on http://localhost:8000
+```
 
-# Terminal 2: Vite (for HMR)
+**Terminal 2**: Start Vite development server (HMR enabled)
+```bash
 npm run dev
+# Runs on http://localhost:5173
+# Assets served to http://localhost:8000
 ```
 
-### Environment Variables
-```
+**Browser**: Visit `http://localhost:8000`
+
+### Environment Configuration
+
+Create `.env` file with these key variables:
+
+```ini
+# Application
 APP_NAME="APISPI"
 APP_ENV=local
-APP_KEY=base64:...
-APP_DEBUG=true
+APP_KEY=base64:XXXXX              # Generated via php artisan key:generate
+APP_DEBUG=true                    # Set to false in production
 APP_URL=http://localhost:8000
 
+# Database
 DB_CONNECTION=mysql
 DB_HOST=127.0.0.1
 DB_PORT=3306
@@ -59,56 +70,71 @@ DB_DATABASE=apispi_dev
 DB_USERNAME=root
 DB_PASSWORD=
 
-ANTHROPIC_API_KEY=sk-...
+# Session (REQUIRED)
+SESSION_DRIVER=database
+
+# AI Chatbot
+ANTHROPIC_API_KEY=sk-ant-...      # From Anthropic console
 ANTHROPIC_MODEL=claude-sonnet-4-5
 
-SESSION_DRIVER=database
+# Optional: Email
+MAIL_MAILER=log                   # Use 'log' driver to see emails in console
 ```
 
 ---
 
 ## Development Commands
 
-### PHP/Laravel
+### Laravel/PHP Commands
+
 ```bash
-# Run development server
-php artisan serve                  # Runs on http://localhost:8000
+# Start development server (on http://localhost:8000)
+php artisan serve
 
 # Database
-php artisan migrate                # Run pending migrations
-php artisan migrate:fresh          # Reset & migrate
-php artisan db:seed                # Run all seeders
+php artisan migrate                    # Run pending migrations
+php artisan migrate:fresh              # Reset DB completely + migrate
+php artisan migrate:refresh            # Rollback all + migrate
+php artisan db:seed                    # Run all seeders
 php artisan db:seed --class=AgentSeeder  # Run specific seeder
 
-# Tinker (interactive REPL)
+# Code Formatting (Laravel Pint)
+./vendor/bin/pint                      # Format all code
+./vendor/bin/pint --check              # Check without changing
+./vendor/bin/pint app/Models           # Format specific directory
+
+# Clear Caches
+php artisan cache:clear
+php artisan config:clear
+php artisan view:clear
+php artisan optimize:clear             # Clear all optimization files
+
+# Interactive Shell (Tinker REPL)
 php artisan tinker
   > $user = User::first()
   > $user->is_admin = true
   > $user->save()
-
-# Clear caches
-php artisan cache:clear
-php artisan config:clear
-php artisan view:clear
-
-# Code formatting (Laravel Pint)
-./vendor/bin/pint                  # Format code
-./vendor/bin/pint --check         # Check formatting without changes
+  > $agents = Agent::active()->get()
+  > exit
 ```
 
-### Node/Frontend
+### Node/Frontend Commands
+
 ```bash
 # Install dependencies
 npm install
 
-# Build production assets
-npm run build                      # Output to public_html/build/
+# Development server with HMR
+npm run dev                        # Vite dev server (http://localhost:5173)
 
-# Watch mode (development)
-npm run dev                        # Vite dev server + HMR
+# Production build
+npm run build                      # Build to public_html/build/
 
-# Preview production build
-npm run preview                    # Local preview of production build
+# Preview production build locally
+npm run preview                    # Preview without deploying
+
+# Check build size
+npm run build -- --analyze         # Show bundle analysis
 ```
 
 ---
@@ -118,68 +144,54 @@ npm run preview                    # Local preview of production build
 ### Test Structure
 ```
 tests/
-├── TestCase.php                   # Base test class
-├── Feature/                       # Feature tests
-│   ├── AuthTest.php
-│   ├── AgentTest.php
+├── TestCase.php                   # Base test class with helpers
+├── Feature/                       # Feature/integration tests
+│   ├── AuthTest.php               # Authentication flow tests
+│   ├── AgentTest.php              # Agent CRUD tests
+│   ├── SubscriptionTest.php
 │   └── ...
 └── Unit/                          # Unit tests
     ├── Models/
+    │   ├── UserTest.php
+    │   └── AgentTest.php
     ├── Services/
+    │   └── OAuthServiceTest.php
     └── ...
 ```
 
-### Base TestCase
-**File**: `tests/TestCase.php`
-
-```php
-abstract class TestCase extends BaseTestCase
-{
-    // Add test helpers here
-}
-```
-
 ### Running Tests
+
 ```bash
 # All tests
-composer test                      # Runs phpunit
+composer test                      # Runs phpunit + Pest
 
-# Specific test class
+# Specific test file
 php artisan test tests/Feature/AuthTest.php
 
 # Specific test method
-php artisan test tests/Feature/AuthTest.php --filter=test_user_can_login
+php artisan test tests/Feature/AuthTest.php --filter=test_user_can_register
 
-# With coverage
-php artisan test --coverage
+# With code coverage
+php artisan test --coverage        # Generate coverage report
+php artisan test --coverage-html=coverage  # HTML report in coverage/ dir
 
 # Stop on first failure
 php artisan test --stop-on-failure
 
-# Parallel execution
+# Verbose output
+php artisan test --verbose
+
+# Parallel execution (faster)
 php artisan test --parallel
+
+# Watch mode (re-run on file changes)
+php artisan test --watch
 ```
 
-### Test Configuration
-**File**: `phpunit.xml`
-```xml
-<phpunit bootstrap="bootstrap/app.php">
-  <!-- Coverage & output settings -->
-  <testsuites>
-    <testsuite name="Unit">
-      <directory suffix="Test.php">./tests/Unit</directory>
-    </testsuite>
-    <testsuite name="Feature">
-      <directory suffix="Test.php">./tests/Feature</directory>
-    </testsuite>
-  </testsuites>
-</phpunit>
-```
+### Writing Tests
 
-### Example Feature Tests
-
+**Feature Test Example** (test real HTTP requests):
 ```php
-// tests/Feature/AuthTest.php
 namespace Tests\Feature;
 
 use App\Models\User;
@@ -192,8 +204,8 @@ class AuthTest extends TestCase
         $response = $this->post('/register', [
             'name' => 'John Doe',
             'email' => 'john@example.com',
-            'password' => 'SecurePassword123!',
-            'password_confirmation' => 'SecurePassword123!',
+            'password' => 'password123',
+            'password_confirmation' => 'password123',
         ]);
 
         $response->assertRedirect('/dashboard');
@@ -213,40 +225,186 @@ class AuthTest extends TestCase
         $this->assertAuthenticatedAs($user);
     }
 
-    public function test_user_cannot_login_with_wrong_password()
+    public function test_user_cannot_access_admin_panel()
     {
-        $user = User::factory()->create(['password' => 'password']);
+        $user = User::factory()->create(['is_admin' => false]);
 
-        $this->post('/login', [
-            'email' => $user->email,
-            'password' => 'wrong',
-        ]);
+        $response = $this->actingAs($user)->get('/admin/');
 
-        $this->assertGuest();
-    }
-
-    public function test_user_can_logout()
-    {
-        $user = User::factory()->create();
-
-        $this->actingAs($user)
-            ->post('/logout')
-            ->assertRedirect('/');
-
-        $this->assertGuest();
+        $response->assertForbidden();
     }
 }
 ```
 
+**Unit Test Example** (test logic in isolation):
 ```php
-// tests/Feature/AgentTest.php
-class AgentTest extends TestCase
-{
-    public function test_guest_can_browse_agents()
-    {
-        $agents = Agent::factory(3)->create(['is_active' => true]);
+namespace Tests\Unit;
 
-        $response = $this->get('/agents');
+use App\Models\Agent;
+use Tests\TestCase;
+
+class AgentModelTest extends TestCase
+{
+    public function test_active_scope_filters_inactive_agents()
+    {
+        Agent::factory()->create(['is_active' => true]);
+        Agent::factory()->create(['is_active' => false]);
+
+        $agents = Agent::active()->get();
+
+        $this->assertCount(1, $agents);
+    }
+}
+```
+
+### Test Configuration
+**File**: `phpunit.xml`
+- Defines test suites (Unit, Feature)
+- Database: uses separate in-memory SQLite or test database
+- Coverage: configures which files to include in coverage reports
+
+---
+
+## Debugging
+
+### Debug Bar (Laravel Debugbar)
+Optional: Install `laravel/debugbar` for development profiling:
+```bash
+composer require barryvdh/laravel-debugbar --dev
+```
+
+Shows: queries, timings, exceptions, request/response data
+
+### Log Files
+```bash
+# View recent logs (last 50 lines)
+tail -50 storage/logs/laravel.log
+
+# Follow log updates in real-time
+tail -f storage/logs/laravel.log
+
+# Clear logs
+php artisan logs:clear
+```
+
+### Var Dump
+```php
+// In code
+dd($variable);      // Die and dump
+dump($variable);    // Dump (continue)
+
+// In blade
+@dd($variable)
+@dump($variable)
+```
+
+### Local Development Tools
+- **VS Code Extensions**: Laravel, PHP Intelephense, Volar
+- **Browser DevTools**: Vue.js DevTools, React DevTools
+- **Database GUI**: MySQL Workbench, Sequel Pro (Mac), DBeaver (multi-platform)
+
+---
+
+## Common Development Tasks
+
+### Creating a New Route
+1. Add to `routes/web.php`
+2. Create controller: `php artisan make:controller MyController`
+3. Add controller method
+4. Create/update view template
+5. Test route locally
+
+### Creating a New Model
+```bash
+php artisan make:model MyModel -m   # Create model + migration
+php artisan make:model MyModel -c   # Create model + controller
+```
+
+### Creating a New Migration
+```bash
+php artisan make:migration create_my_table
+php artisan make:migration add_field_to_my_table
+
+# Then edit migration file and:
+php artisan migrate
+```
+
+### Creating a New Vue Component
+1. Create file: `resources/js/components/MyComponent.vue`
+2. Import in entry point: `import MyComponent from '@/components/MyComponent.vue'`
+3. Register component
+4. Use in template
+
+---
+
+## Code Standards
+
+### PHP Code Style
+- Laravel Pint (opinionated formatter)
+- PSR-12 Standard
+- Run before commit: `./vendor/bin/pint`
+
+### JavaScript/Vue
+- ESLint (if configured)
+- Prettier (if configured)
+- Vue 3 Composition API recommended
+- `<script setup>` syntax preferred
+
+### Database
+- Use migrations for all schema changes
+- Never manually edit database structure
+- Keep migrations small and focused
+
+---
+
+## Performance Optimization in Development
+
+### Query Optimization
+- Use eager loading: `Agent::with('skills')->get()`
+- Avoid N+1 queries: check Laravel Debugbar
+- Use `select()` to fetch only needed columns
+
+### Frontend Performance
+- Build assets: `npm run build` before commit
+- Check bundle size: `npm run build -- --analyze`
+- Use code splitting for large components
+
+---
+
+## Troubleshooting
+
+| Problem | Solution |
+|---------|----------|
+| `SQLSTATE[HY000]: General error: 1030` | Check database disk space, increase PHP memory limit |
+| `npm ERR! code ERESOLVE` | `npm install --legacy-peer-deps` |
+| `php artisan migrate` fails | Check `.env` DB credentials, ensure database exists |
+| Vite not loading assets | Restart dev servers, clear browser cache |
+| Vue component not rendering | Check console for errors, verify mount div exists |
+| Session issues | Ensure `SESSION_DRIVER=database`, run migrations |
+
+---
+
+## Git Workflow
+
+```bash
+# Create feature branch
+git checkout -b feature/my-feature
+
+# Make changes, test locally
+# ...
+
+# Stage changes
+git add .
+
+# Commit with descriptive message
+git commit -m "feat: add new feature"
+
+# Push to remote
+git push origin feature/my-feature
+
+# Create pull request on GitHub
+# After review & CI passes, merge to main
+```
 
         $response->assertOk();
         $response->assertViewHas('agents');
