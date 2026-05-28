@@ -136,7 +136,10 @@
               </div>
               <div class="uc-row-right">
                 <a v-if="c.is_oauth" :href="`/connectors/${c.slug}/authorize`" class="uc-btn-connect">Connect →</a>
-                <span v-else class="uc-not-available">Contact support</span>
+                <form v-else method="POST" :action="`/dashboard/connectors/${c.id}/connect`" class="uc-connect-form" @click.stop>
+                  <input type="hidden" name="_token" :value="csrfToken">
+                  <button type="submit" class="uc-btn-connect">Connect →</button>
+                </form>
               </div>
             </div>
           </div>
@@ -273,8 +276,9 @@ function confirmDisconnect(event, name) {
 .uc-disconnect-form { display: inline; }
 .uc-btn-disconnect { background: none; border: 1px solid rgba(239,68,68,0.2); border-radius: 0.4rem; color: #9ca3af; font-size: 0.78rem; font-weight: 600; padding: 0.3rem 0.65rem; cursor: pointer; font-family: inherit; transition: all 0.18s; }
 .uc-btn-disconnect:hover { border-color: rgba(239,68,68,0.5); color: #fca5a5; }
-.uc-btn-connect { display: inline-block; padding: 0.35rem 0.75rem; border-radius: 0.5rem; background: rgba(217,119,6,0.12); border: 1px solid rgba(217,119,6,0.3); color: #FCD34D; font-size: 0.82rem; font-weight: 600; text-decoration: none; transition: all 0.18s; white-space: nowrap; }
+.uc-btn-connect { display: inline-block; padding: 0.35rem 0.75rem; border-radius: 0.5rem; background: rgba(217,119,6,0.12); border: 1px solid rgba(217,119,6,0.3); color: #FCD34D; font-size: 0.82rem; font-weight: 600; text-decoration: none; transition: all 0.18s; white-space: nowrap; cursor: pointer; font-family: inherit; }
 .uc-btn-connect:hover { background: rgba(217,119,6,0.22); }
+.uc-connect-form { display: inline; margin: 0; padding: 0; }
 .uc-row-link { text-decoration: none; color: inherit; cursor: pointer; }
 .uc-row-link:hover { border-color: rgba(217,119,6,0.3); background: rgba(28,20,8,0.9); }
 .uc-not-available { font-size: 0.78rem; color: #4b5563; }

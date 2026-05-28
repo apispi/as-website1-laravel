@@ -68,6 +68,7 @@ Route::middleware('auth')->group(function () {
     Route::get('/dashboard/agents', [AuthController::class, 'userAgents'])->name('dashboard.agents.index');
     Route::get('/dashboard/agents/{subscription}', [AuthController::class, 'userAgent'])->name('dashboard.agents.show');
     Route::get('/dashboard/connectors', [AuthController::class, 'userConnectors'])->name('dashboard.connectors');
+    Route::post('/dashboard/connectors/{connector}/connect', [AuthController::class, 'connectApiConnector'])->name('dashboard.connectors.connect');
     Route::get('/dashboard/connectors/{userConnector}/edit', [AuthController::class, 'editConnector'])->name('dashboard.connectors.edit');
     Route::put('/dashboard/connectors/{userConnector}', [AuthController::class, 'updateConnector'])->name('dashboard.connectors.update');
     Route::get('/dashboard/profile', [AuthController::class, 'profile'])->name('dashboard.profile');

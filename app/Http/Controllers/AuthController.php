@@ -157,6 +157,19 @@ class AuthController extends Controller
         return view('auth.agents', compact('subscriptions'));
     }
 
+    public function connectApiConnector(\App\Models\Connector $connector)
+    {
+        abort_if($connector->is_oauth, 400);
+
+        $userConnector = Auth::user()->userConnectors()
+            ->firstOrCreate(
+                ['connector_id' => $connector->id],
+                ['status' => 'active', 'connected_at' => now()]
+            );
+
+        return redirect()->route('dashboard.connectors.edit', $userConnector);
+    }
+
     public function editConnector(\App\Models\UserConnector $userConnector)
     {
         abort_if($userConnector->user_id !== Auth::id(), 403);
