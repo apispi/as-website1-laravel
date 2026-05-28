@@ -111,6 +111,13 @@
                     <p style="color: #FCD34D; font-weight: 600; margin-bottom: 0.75rem;">Head of Research</p>
                     <p style="color: #6b7280; font-size: 0.9rem;">PhD in Computer Science with focus on natural language processing and AI.</p>
                 </div>
+
+                <div style="background: rgba(28, 24, 16, 0.6); border: 1px solid rgba(217, 119, 6, 0.1); border-radius: 1rem; padding: 2rem; text-align: center;">
+                    <div style="width: 80px; height: 80px; background: linear-gradient(135deg, #D97706 0%, #EA580C 100%); border-radius: 50%; margin: 0 auto 1rem; display: flex; align-items: center; justify-content: center; font-size: 2rem;">👨‍💻</div>
+                    <h3 style="margin-bottom: 0.25rem;">Terence Chia</h3>
+                    <p style="color: #FCD34D; font-weight: 600; margin-bottom: 0.75rem;">Tech Lead</p>
+                    <p style="color: #6b7280; font-size: 0.9rem;">Experienced software engineer driving the technical vision and architecture of the ApiSpi platform.</p>
+                </div>
             </div>
 
             <p style="text-align: center; margin-top: 2rem; color: #6b7280;">...and a growing team of talented individuals passionate about AI and making a difference.</p>
