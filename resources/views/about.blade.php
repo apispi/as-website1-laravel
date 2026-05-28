@@ -128,16 +128,10 @@
                         <p><strong>ApiSpi Founded</strong><br>Launch of the ApiSpi platform with initial set of agents.</p>
                     </div>
                 </div>
-                <div style="display: flex; gap: 2rem; margin-bottom: 2rem;">
-                    <div style="min-width: 150px;"><h4 style="color: #FCD34D;">Early 2025</h4></div>
-                    <div style="padding-left: 2rem; border-left: 2px solid rgba(217, 119, 6, 0.3);">
-                        <p><strong>Series A Funding</strong><br>$10M Series A led by leading venture capital firms.</p>
-                    </div>
-                </div>
-                <div style="display: flex; gap: 2rem; margin-bottom: 2rem;">
+<div style="display: flex; gap: 2rem; margin-bottom: 2rem;">
                     <div style="min-width: 150px;"><h4 style="color: #FCD34D;">Mid 2025</h4></div>
                     <div style="padding-left: 2rem; border-left: 2px solid rgba(217, 119, 6, 0.3);">
-                        <p><strong>1,000 Customers</strong><br>Reached 1,000 paying customers across multiple industries.</p>
+                        <p><strong>200 Customers</strong><br>Reached 200 paying customers across multiple industries.</p>
                     </div>
                 </div>
                 <div style="display: flex; gap: 2rem; margin-bottom: 2rem;">
@@ -149,7 +143,7 @@
                 <div style="display: flex; gap: 2rem;">
                     <div style="min-width: 150px;"><h4 style="color: #FCD34D;">2026</h4></div>
                     <div style="padding-left: 2rem; border-left: 2px solid rgba(217, 119, 6, 0.3);">
-                        <p><strong>10,000+ Customers</strong><br>Growing to serve thousands of organizations worldwide.</p>
+                        <p><strong>1,000+ Customers</strong><br>Growing to serve thousands of organizations worldwide.</p>
                     </div>
                 </div>
             </div>
