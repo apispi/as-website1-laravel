@@ -282,6 +282,43 @@
     .flash-success { background: rgba(16,185,129,0.1); border: 1px solid rgba(16,185,129,0.3); color: #10b981; border-radius: 0.75rem; padding: 1rem 1.25rem; font-size: 0.9rem; margin-bottom: 1.5rem; text-align: center; }
     .flash-error { background: rgba(239,68,68,0.08); border: 1px solid rgba(239,68,68,0.25); color: #ef4444; border-radius: 0.75rem; padding: 0.75rem 1rem; font-size: 0.875rem; margin-bottom: 1rem; }
 
+    /* ── PRICING ── */
+    .pricing-card {
+      max-width: 780px; margin: 0 auto;
+      background: rgba(15,22,35,0.9); border: 2px solid rgba(245,158,11,0.35);
+      border-radius: 1.5rem; padding: 3rem 3.5rem;
+      display: grid; grid-template-columns: 1fr auto; gap: 3rem; align-items: center;
+    }
+    .pricing-badge {
+      display: inline-block; padding: 0.3rem 0.85rem; border-radius: 99px;
+      background: rgba(245,158,11,0.12); border: 1px solid rgba(245,158,11,0.3);
+      font-size: 0.7rem; font-weight: 700; color: var(--gold-lt);
+      letter-spacing: 0.07em; text-transform: uppercase; margin-bottom: 1rem;
+    }
+    .pricing-name { font-size: 1.5rem; font-weight: 800; margin-bottom: 0.4rem; }
+    .pricing-tagline { font-size: 0.95rem; color: var(--muted); margin-bottom: 1.5rem; line-height: 1.6; }
+    .pricing-includes { list-style: none; display: flex; flex-direction: column; gap: 0.55rem; }
+    .pricing-includes li { font-size: 0.88rem; color: var(--muted); display: flex; align-items: flex-start; gap: 0.6rem; }
+    .pricing-includes li::before { content: '✓'; color: var(--gold); font-weight: 700; flex-shrink: 0; margin-top: 0.05rem; }
+    .pricing-right { text-align: center; }
+    .pricing-amount { font-size: 3rem; font-weight: 900; background: linear-gradient(135deg, var(--gold-lt), var(--gold-dk)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; line-height: 1; margin-bottom: 0.3rem; }
+    .pricing-per { font-size: 0.82rem; color: var(--muted); margin-bottom: 1.5rem; }
+    .btn-buy {
+      display: inline-flex; align-items: center; justify-content: center;
+      padding: 0.9rem 2rem; border-radius: 0.75rem;
+      background: linear-gradient(135deg, var(--gold), var(--gold-dk));
+      color: #1a0e00; font-size: 1rem; font-weight: 800;
+      text-decoration: none; white-space: nowrap; transition: opacity 0.18s;
+      border: none; cursor: pointer; font-family: inherit; min-width: 180px;
+    }
+    .btn-buy:hover { opacity: 0.88; }
+    .pricing-note { font-size: 0.75rem; color: var(--dim); margin-top: 0.6rem; }
+    @media (max-width: 640px) {
+      .pricing-card { grid-template-columns: 1fr; padding: 2rem; text-align: center; }
+      .pricing-includes li { justify-content: center; }
+      .pricing-right { border-top: 1px solid var(--border); padding-top: 1.5rem; }
+    }
+
     /* ── FOOTER ── */
     .page-footer { padding: 2rem; border-top: 1px solid rgba(255,255,255,0.06); }
     .footer-inner { max-width: 1140px; margin: 0 auto; display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 1rem; }
@@ -326,7 +363,8 @@
     </a>
     <div class="nav-right">
       <a href="{{ route('home') }}" class="nav-link">Home</a>
-      <a href="#get-started" class="btn-gold">Book a Free Demo</a>
+      <a href="/checkout?agent=Digital+Avatar&amount=800&type=training" class="btn-gold">Buy Now — $800</a>
+      <a href="#get-started" class="nav-link" style="font-size:0.85rem;">Book a Free Demo</a>
     </div>
   </div>
 </nav>
@@ -354,7 +392,7 @@
         <input class="hero-input" type="email" name="email" placeholder="Work email" required value="{{ old('email') }}" style="max-width:220px;">
         <button type="submit" class="btn-gold" style="min-height:48px; padding:0.8rem 1.4rem; font-size:0.95rem;">See My Avatar →</button>
       </form>
-      <p class="hero-note">Free demo &nbsp;·&nbsp; No setup fees &nbsp;·&nbsp; <span>Built for Australian professionals</span></p>
+      <p class="hero-note">Free demo available &nbsp;·&nbsp; or <a href="/checkout?agent=Digital+Avatar&amount=800&type=training" style="color:var(--gold-lt);text-decoration:underline;">buy direct for $800</a> &nbsp;·&nbsp; <span>Built for Australian professionals</span></p>
     </div>
 
     <div class="prof-grid">
@@ -586,6 +624,38 @@
         <div class="step-num">3</div>
         <h3 class="step-h3">Deploy &amp; Win Business</h3>
         <p class="step-p">Embed on your website, share in emails, add to your Google Business profile. Your avatar starts converting leads while you focus on the work.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── PRICING ── -->
+<section style="background: rgba(245,158,11,0.03); border-top: 1px solid var(--border);">
+  <div class="section-inner">
+    <div class="text-center" style="margin-bottom: 2.5rem;">
+      <div class="section-tag">Pricing</div>
+      <h2 class="section-h2">Simple, Transparent Pricing</h2>
+      <p class="section-sub">One avatar. One price. No subscriptions, no hidden fees.</p>
+    </div>
+    <div class="pricing-card">
+      <div>
+        <div class="pricing-badge">Most Popular</div>
+        <div class="pricing-name">Digital Avatar — Starter</div>
+        <p class="pricing-tagline">Everything you need to put a professional, always-on version of you in front of every prospect.</p>
+        <ul class="pricing-includes">
+          <li>Custom AI avatar built from your photo or video</li>
+          <li>Up to 5 avatar videos in your first month</li>
+          <li>Industry-specific script templates included</li>
+          <li>Ready to embed on your website in 24 hours</li>
+          <li>Delivered via secure ApiSpi dashboard</li>
+          <li>Email support included</li>
+        </ul>
+      </div>
+      <div class="pricing-right">
+        <div class="pricing-amount">$800</div>
+        <div class="pricing-per">AUD · one-off payment</div>
+        <a href="/checkout?agent=Digital+Avatar&amount=800&type=training" class="btn-buy">Buy Now →</a>
+        <div class="pricing-note">Secure checkout via Stripe<br>No subscription · Cancel anytime</div>
       </div>
     </div>
   </div>
