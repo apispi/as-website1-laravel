@@ -95,14 +95,14 @@
                     <div style="width: 80px; height: 80px; background: linear-gradient(135deg, #D97706 0%, #EA580C 100%); border-radius: 50%; margin: 0 auto 1rem; display: flex; align-items: center; justify-content: center; font-size: 2rem;">👨‍💼</div>
                     <h3 style="margin-bottom: 0.25rem;">Alex Chen</h3>
                     <p style="color: #FCD34D; font-weight: 600; margin-bottom: 0.75rem;">Founder & CEO</p>
-                    <p style="color: #6b7280; font-size: 0.9rem;">Former AI researcher at leading tech companies with 10+ years of experience in machine learning.</p>
+                    <p style="color: #6b7280; font-size: 0.9rem;">Leads ApiSpi's vision and growth strategy, forging enterprise partnerships and positioning the company at the forefront of AI adoption across Australian business.</p>
                 </div>
 
                 <div style="background: rgba(28, 24, 16, 0.6); border: 1px solid rgba(217, 119, 6, 0.1); border-radius: 1rem; padding: 2rem; text-align: center;">
                     <div style="width: 80px; height: 80px; background: linear-gradient(135deg, #D97706 0%, #EA580C 100%); border-radius: 50%; margin: 0 auto 1rem; display: flex; align-items: center; justify-content: center; font-size: 2rem;">👩‍💻</div>
                     <h3 style="margin-bottom: 0.25rem;">Sarah Johnson</h3>
                     <p style="color: #FCD34D; font-weight: 600; margin-bottom: 0.75rem;">Chief Technology Officer</p>
-                    <p style="color: #6b7280; font-size: 0.9rem;">Full-stack engineer specializing in distributed systems and cloud infrastructure.</p>
+                    <p style="color: #6b7280; font-size: 0.9rem;">Drives technology strategy and innovation, aligning platform capabilities with long-term business vision and enterprise growth.</p>
                 </div>
 
                 <div style="background: rgba(28, 24, 16, 0.6); border: 1px solid rgba(217, 119, 6, 0.1); border-radius: 1rem; padding: 2rem; text-align: center;">
