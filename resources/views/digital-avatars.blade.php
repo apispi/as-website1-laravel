@@ -363,7 +363,7 @@
     </a>
     <div class="nav-right">
       <a href="{{ route('home') }}" class="nav-link">Home</a>
-      <a href="/checkout?agent=Digital+Avatar&amount=800&type=training" class="btn-gold">Buy Now — $800</a>
+      <a href="https://buy.stripe.com/6oU6oJ63adYfceu47z9k400" class="btn-gold">Buy Now — $800</a>
       <a href="#get-started" class="nav-link" style="font-size:0.85rem;">Book a Free Demo</a>
     </div>
   </div>
@@ -392,7 +392,7 @@
         <input class="hero-input" type="email" name="email" placeholder="Work email" required value="{{ old('email') }}" style="max-width:220px;">
         <button type="submit" class="btn-gold" style="min-height:48px; padding:0.8rem 1.4rem; font-size:0.95rem;">See My Avatar →</button>
       </form>
-      <p class="hero-note">Free demo available &nbsp;·&nbsp; or <a href="/checkout?agent=Digital+Avatar&amount=800&type=training" style="color:var(--gold-lt);text-decoration:underline;">buy direct for $800</a> &nbsp;·&nbsp; use code <strong style="color:var(--gold-lt);">SALE20</strong> for 20% off</p>
+      <p class="hero-note">Free demo available &nbsp;·&nbsp; or <a href="https://buy.stripe.com/6oU6oJ63adYfceu47z9k400" style="color:var(--gold-lt);text-decoration:underline;">buy direct for $800</a> &nbsp;·&nbsp; use code <strong style="color:var(--gold-lt);">SALE20</strong> for 20% off</p>
     </div>
 
     <div class="prof-grid">
@@ -654,7 +654,7 @@
       <div class="pricing-right">
         <div class="pricing-amount">$800</div>
         <div class="pricing-per">AUD · one-off payment</div>
-        <a href="/checkout?agent=Digital+Avatar&amount=800&type=training" class="btn-buy">Buy Now →</a>
+        <a href="https://buy.stripe.com/6oU6oJ63adYfceu47z9k400" class="btn-buy">Buy Now →</a>
         <div class="pricing-note">Secure checkout via Stripe<br>No subscription · Cancel anytime</div>
         <div style="margin-top:0.9rem; padding:0.55rem 1rem; border-radius:0.5rem; background:rgba(245,158,11,0.1); border:1px dashed rgba(245,158,11,0.4); font-size:0.8rem; color:var(--gold-lt);">
           Use code <strong style="letter-spacing:0.05em;">SALE20</strong> at checkout for 20% off
