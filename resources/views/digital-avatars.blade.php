@@ -392,7 +392,7 @@
         <input class="hero-input" type="email" name="email" placeholder="Work email" required value="{{ old('email') }}" style="max-width:220px;">
         <button type="submit" class="btn-gold" style="min-height:48px; padding:0.8rem 1.4rem; font-size:0.95rem;">See My Avatar →</button>
       </form>
-      <p class="hero-note">Free demo available &nbsp;·&nbsp; or <a href="https://buy.stripe.com/6oU6oJ63adYfceu47z9k400" style="color:var(--gold-lt);text-decoration:underline;">buy direct for $800</a> &nbsp;·&nbsp; use code <strong style="color:var(--gold-lt);">SALE20</strong> for 20% off</p>
+      <p class="hero-note">Free demo available &nbsp;·&nbsp; or <a href="https://buy.stripe.com/6oU6oJ63adYfceu47z9k400" style="color:var(--gold-lt);text-decoration:underline;">buy direct for $800</a> &nbsp;·&nbsp; <span>Built for Australian professionals</span></p>
     </div>
 
     <div class="prof-grid">
