@@ -60,10 +60,12 @@ Route::middleware('guest')->group(function () {
     Route::get('/reset-password/{token}', [AuthController::class, 'showResetPassword'])->name('password.reset');
     Route::post('/reset-password', [AuthController::class, 'resetPassword'])->name('password.store');
     Route::get('/auth/google/redirect', [AuthController::class, 'googleRedirect'])->name('auth.google.redirect');
+    Route::get('/auth/azure/redirect',  [AuthController::class, 'azureRedirect'])->name('auth.azure.redirect');
 });
 
-// Google OAuth callback (outside guest middleware — user may already be auth'd on retry)
+// OAuth callbacks (outside guest middleware — user may already be auth'd on retry)
 Route::get('/auth/google/callback', [AuthController::class, 'googleCallback'])->name('auth.google.callback');
+Route::get('/auth/azure/callback',  [AuthController::class, 'azureCallback'])->name('auth.azure.callback');
 
 // Authenticated routes
 Route::middleware('auth')->group(function () {

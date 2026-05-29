@@ -274,6 +274,39 @@ class AuthController extends Controller
         return redirect()->intended(route('dashboard'));
     }
 
+    public function azureRedirect()
+    {
+        return Socialite::driver('azure')->redirect();
+    }
+
+    public function azureCallback()
+    {
+        $azureUser = Socialite::driver('azure')->user();
+
+        $user = User::where('azure_id', $azureUser->getId())->first()
+            ?? User::where('email', $azureUser->getEmail())->first();
+
+        if ($user) {
+            $user->update([
+                'azure_id' => $azureUser->getId(),
+                'avatar'   => $user->avatar ?? $azureUser->getAvatar(),
+            ]);
+        } else {
+            $user = User::create([
+                'name'     => $azureUser->getName(),
+                'email'    => $azureUser->getEmail(),
+                'azure_id' => $azureUser->getId(),
+                'avatar'   => $azureUser->getAvatar(),
+                'password' => Hash::make(Str::random(32)),
+            ]);
+        }
+
+        Auth::login($user, true);
+        ActivityLog::log('login.azure', 'Logged in via Microsoft');
+
+        return redirect()->intended(route('dashboard'));
+    }
+
     public function aria()
     {
         return view('auth.aria');
