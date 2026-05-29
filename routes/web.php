@@ -27,6 +27,7 @@ use Illuminate\Support\Facades\Route;
 
 Route::get('/', [PageController::class, 'home'])->name('home');
 Route::get('/about', [PageController::class, 'about'])->name('about');
+Route::get('/privacy', [PageController::class, 'privacy'])->name('privacy');
 Route::get('/partners', [PartnerController::class, 'show'])->name('partners');
 Route::post('/partners', [PartnerController::class, 'store'])->name('partners.store')->middleware('throttle:5,10');
 Route::get('/training', [PageController::class, 'training'])->name('training');

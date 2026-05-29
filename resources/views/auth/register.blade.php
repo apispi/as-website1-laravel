@@ -70,7 +70,7 @@
                     <input type="password" id="password_confirmation" name="password_confirmation" placeholder="Repeat your password" required>
                 </div>
                 <button type="submit" class="btn btn-primary btn-auth">Create Account</button>
-                <p class="terms-note">By signing up you agree to our <a href="#">Terms of Service</a> and <a href="#">Privacy Policy</a>.</p>
+                <p class="terms-note">By signing up you agree to our <a href="{{ route('privacy') }}">Privacy Policy</a>.</p>
             </form>
 
             <div class="divider">or</div>
