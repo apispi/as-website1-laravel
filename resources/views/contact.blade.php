@@ -148,20 +148,23 @@
 .contact-form-card h2 { font-size: 1.3rem; font-weight: 700; color: #f1f5f9; margin-bottom: 1.5rem; }
 
 .cf-group { margin-bottom: 1.25rem; }
-.cf-label { display: block; margin-bottom: 0.4rem; font-weight: 600; font-size: 0.85rem; color: #d1d5db; }
+.cf-label { display: block; margin-bottom: 0.4rem; font-weight: 600; font-size: 0.85rem; color: #FCD34D; }
 .cf-input,
 .cf-select,
 .cf-textarea {
-    width: 100%; padding: 0.7rem 0.875rem;
-    background: rgba(14,10,5,0.8); border: 1px solid rgba(217,119,6,0.2);
-    border-radius: 0.625rem; color: #e5e7eb; font-size: 0.95rem; font-family: inherit;
-    transition: border-color 0.18s; box-sizing: border-box;
+    width: 100%; padding: 0.8rem 1rem;
+    background: rgba(217,119,6,0.07); border: 2px solid rgba(217,119,6,0.4);
+    border-radius: 0.625rem; color: #f9fafb; font-size: 0.95rem; font-family: inherit;
+    transition: border-color 0.18s, background 0.18s, box-shadow 0.18s; box-sizing: border-box;
+}
+.cf-input:hover, .cf-select:hover, .cf-textarea:hover {
+    border-color: rgba(245,158,11,0.65); background: rgba(217,119,6,0.1);
 }
 .cf-input:focus, .cf-select:focus, .cf-textarea:focus {
-    outline: none; border-color: #D97706;
-    box-shadow: 0 0 16px rgba(217,119,6,0.2);
+    outline: none; border-color: #F59E0B; background: rgba(217,119,6,0.12);
+    box-shadow: 0 0 0 3px rgba(245,158,11,0.18);
 }
-.cf-input::placeholder, .cf-textarea::placeholder { color: rgba(217,119,6,0.35); }
+.cf-input::placeholder, .cf-textarea::placeholder { color: rgba(217,119,6,0.45); }
 .cf-select option { background: #140a00; }
 .cf-textarea { resize: vertical; min-height: 120px; }
 .cf-row { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; }
