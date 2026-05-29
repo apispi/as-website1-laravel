@@ -216,6 +216,7 @@ label { font-size: 0.82rem; font-weight: 600; color: #d1d5db; }
 
 input[type="text"],
 input[type="number"],
+input[type="url"],
 textarea,
 select {
   padding: 0.65rem 0.875rem;
