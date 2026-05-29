@@ -113,7 +113,13 @@
             <div class="form-group">
               <label>Checkout Name</label>
               <input type="text" name="checkout_name" :value="agent?.checkout_name" placeholder="e.g. Bid+Tender+Response">
-              <p class="hint">Used in checkout URL query string.</p>
+              <p class="hint">Used in checkout URL query string (overridden by Stripe Payment Link if set).</p>
+            </div>
+
+            <div class="form-group">
+              <label>Stripe Payment Link</label>
+              <input type="url" name="stripe_payment_link" :value="agent?.stripe_payment_link" placeholder="https://buy.stripe.com/…">
+              <p class="hint">Direct Stripe payment link. When set, all Buy/Subscribe buttons go here instead of the generic checkout.</p>
             </div>
 
             <div class="form-group">

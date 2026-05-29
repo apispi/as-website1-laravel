@@ -12,6 +12,7 @@ use App\Models\ActivityLog;
 use App\Models\Agent;
 use App\Models\Subscription;
 use App\Models\User;
+use Laravel\Socialite\Facades\Socialite;
 
 class AuthController extends Controller
 {
@@ -238,6 +239,30 @@ class AuthController extends Controller
             ->keyBy('connector_id');
 
         return view('auth.agent', compact('subscription', 'userConnectors'));
+    }
+
+    public function googleRedirect()
+    {
+        return Socialite::driver('google')->redirect();
+    }
+
+    public function googleCallback()
+    {
+        $googleUser = Socialite::driver('google')->user();
+
+        $user = User::updateOrCreate(
+            ['google_id' => $googleUser->getId()],
+            [
+                'name'   => $googleUser->getName(),
+                'email'  => $googleUser->getEmail(),
+                'avatar' => $googleUser->getAvatar(),
+            ]
+        );
+
+        Auth::login($user, true);
+        ActivityLog::log('login.google', 'Logged in via Google');
+
+        return redirect()->intended(route('dashboard'));
     }
 
     public function aria()

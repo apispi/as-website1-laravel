@@ -11,7 +11,7 @@ class Agent extends Model
         'users_count', 'price', 'category', 'is_featured',
         'is_active', 'sort_order',
         'features', 'includes', 'use_cases', 'pricing_plans', 'faqs',
-        'target_audience', 'tagline', 'cta_headline', 'cta_sub', 'checkout_name',
+        'target_audience', 'tagline', 'cta_headline', 'cta_sub', 'checkout_name', 'stripe_payment_link',
     ];
 
     protected function casts(): array

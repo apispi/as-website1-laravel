@@ -59,7 +59,7 @@
                     <div class="agent-price">{{ $agent->price }}</div>
 
                     <div class="agent-actions">
-                        <a href="{{ route('checkout') }}?agent={{ urlencode($agent->checkout_name ?? $agent->name) }}&amount={{ $agent->price ? preg_replace('/[^0-9]/', '', $agent->price) : '0' }}" class="btn btn-primary">Subscribe Now</a>
+                        <a href="{{ $agent->stripe_payment_link ?? (route('checkout') . '?agent=' . urlencode($agent->checkout_name ?? $agent->name) . '&amount=' . ($agent->price ? preg_replace('/[^0-9]/', '', $agent->price) : '0')) }}" class="btn btn-primary">Subscribe Now</a>
                         <a href="mailto:sales@apispi.com?subject={{ urlencode($agent->name . ' Free Trial') }}" class="btn btn-secondary">Try Free Trial</a>
                     </div>
 
@@ -173,8 +173,11 @@
                             @endif
                         </div>
                         @if(!empty($plan['amount']))
-                            @php $checkoutName = $plan['checkout_name'] ?? ($agent->checkout_name ?? $agent->name); @endphp
-                            <a href="{{ route('checkout') }}?agent={{ urlencode($checkoutName) }}&amount={{ $plan['amount'] }}" class="btn btn-primary" style="display: inline-block; width: auto; margin-bottom: 1rem;">Get Started</a>
+                            @php
+                                $checkoutName = $plan['checkout_name'] ?? ($agent->checkout_name ?? $agent->name);
+                                $planLink = $plan['stripe_payment_link'] ?? $agent->stripe_payment_link ?? (route('checkout') . '?agent=' . urlencode($checkoutName) . '&amount=' . $plan['amount']);
+                            @endphp
+                            <a href="{{ $planLink }}" class="btn btn-primary" style="display: inline-block; width: auto; margin-bottom: 1rem;">Get Started</a>
                         @else
                             @php $contactSubject = $plan['contact_subject'] ?? ($agent->name . ' Enterprise Inquiry'); @endphp
                             <a href="mailto:sales@apispi.com?subject={{ urlencode($contactSubject) }}" class="btn btn-secondary" style="display: inline-block; width: auto; margin-bottom: 1rem;">Contact Sales</a>
@@ -213,7 +216,7 @@
             <h2>{{ $agent->cta_headline ?? ('Get Started with ' . $agent->name) }}</h2>
             <p>{{ $agent->cta_sub ?? 'Start automating your workflows today' }}</p>
             <div class="cta-buttons">
-                <a href="{{ route('checkout') }}?agent={{ urlencode($agent->checkout_name ?? $agent->name) }}&amount={{ $agent->price ? preg_replace('/[^0-9]/', '', $agent->price) : '0' }}" class="btn btn-outline">Subscribe Now</a>
+                <a href="{{ $agent->stripe_payment_link ?? (route('checkout') . '?agent=' . urlencode($agent->checkout_name ?? $agent->name) . '&amount=' . ($agent->price ? preg_replace('/[^0-9]/', '', $agent->price) : '0')) }}" class="btn btn-outline">Subscribe Now</a>
                 <a href="{{ route('contact') }}" class="btn btn-secondary">Get Support</a>
             </div>
         </div>
