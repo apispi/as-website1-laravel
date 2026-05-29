@@ -19,7 +19,6 @@
                     <div class="agent-price">$29 / month</div>
                     <div class="agent-actions">
                         <a href="{{ route('checkout') }}?agent=Content+Creator&amount=29" class="btn btn-primary">Subscribe Now</a>
-                        <a href="mailto:sales@apispi.com?subject=Content%20Creator%20Agent%20Free%20Trial" class="btn btn-secondary">Try Free Trial</a>
                     </div>
                     <div style="margin-top: 2rem; padding: 1.5rem; background: rgba(217, 119, 6, 0.05); border: 1px solid rgba(217, 119, 6, 0.2); border-radius: 1rem;">
                         <h4 style="margin-bottom: 1rem;">What's Included</h4>
@@ -117,10 +116,6 @@
                     <details style="margin-bottom: 1rem; padding: 1.5rem; background: rgba(28, 24, 16, 0.6); border: 1px solid rgba(217, 119, 6, 0.1); border-radius: 1rem; cursor: pointer;">
                         <summary style="font-weight: 600; cursor: pointer;">Can I cancel my subscription anytime?</summary>
                         <p style="margin-top: 1rem; color: #6b7280;">Yes, you can cancel your subscription at any time. No questions asked. You'll have access until the end of your billing cycle.</p>
-                    </details>
-                    <details style="margin-bottom: 1rem; padding: 1.5rem; background: rgba(28, 24, 16, 0.6); border: 1px solid rgba(217, 119, 6, 0.1); border-radius: 1rem; cursor: pointer;">
-                        <summary style="font-weight: 600; cursor: pointer;">Is there a free trial available?</summary>
-                        <p style="margin-top: 1rem; color: #6b7280;">Yes! We offer a 14-day free trial with full access to all features. No credit card required.</p>
                     </details>
                     <details style="margin-bottom: 1rem; padding: 1.5rem; background: rgba(28, 24, 16, 0.6); border: 1px solid rgba(217, 119, 6, 0.1); border-radius: 1rem; cursor: pointer;">
                         <summary style="font-weight: 600; cursor: pointer;">Can I upgrade or downgrade my plan?</summary>

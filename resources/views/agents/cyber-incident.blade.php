@@ -19,7 +19,6 @@
                     <div class="agent-price">$699 / month</div>
                     <div class="agent-actions">
                         <a href="{{ route('checkout') }}?agent=Cyber+Incident+Threat+Intel&amount=699" class="btn btn-primary">Subscribe Now</a>
-                        <a href="mailto:sales@apispi.com?subject=Cyber%20Incident%20Threat%20Intel%20Agent%20Free%20Trial" class="btn btn-secondary">Try Free Trial</a>
                     </div>
                     <div style="margin-top: 2rem; padding: 1.5rem; background: rgba(217, 119, 6, 0.05); border: 1px solid rgba(217, 119, 6, 0.2); border-radius: 1rem;">
                         <h4 style="margin-bottom: 1rem;">What's Included</h4>

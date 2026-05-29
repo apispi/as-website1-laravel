@@ -60,7 +60,6 @@
 
                     <div class="agent-actions">
                         <a href="{{ $agent->stripe_payment_link ?? (route('checkout') . '?agent=' . urlencode($agent->checkout_name ?? $agent->name) . '&amount=' . ($agent->price ? preg_replace('/[^0-9]/', '', $agent->price) : '0')) }}" class="btn btn-primary">Subscribe Now</a>
-                        <a href="mailto:sales@apispi.com?subject={{ urlencode($agent->name . ' Free Trial') }}" class="btn btn-secondary">Try Free Trial</a>
                     </div>
 
                     @if($agent->includes && count($agent->includes))

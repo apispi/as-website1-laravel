@@ -239,7 +239,6 @@ class AgentSeeder extends Seeder
                 ],
                 'faqs'            => [
                     ['question' => 'Can I cancel my subscription anytime?',   'answer' => "Yes, you can cancel your subscription at any time. No questions asked. You'll have access until the end of your billing cycle."],
-                    ['question' => 'Is there a free trial available?',        'answer' => 'Yes! We offer a 14-day free trial with full access to all features. No credit card required.'],
                     ['question' => 'Can I upgrade or downgrade my plan?',     'answer' => 'Absolutely! You can change your plan at any time. Upgrades are prorated, and downgrades take effect at the start of your next billing cycle.'],
                 ],
             ],
