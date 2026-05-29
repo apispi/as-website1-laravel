@@ -5,7 +5,7 @@
 @push('head')
 <style>
     .auth-section { padding: 5rem 0; min-height: calc(100vh - 200px); display: flex; align-items: center; }
-    .auth-card { max-width: 480px; margin: 0 auto; background: rgba(28, 24, 16, 0.8); border: 1px solid rgba(217, 119, 6, 0.2); border-radius: 1.5rem; padding: 3rem; width: 100%; }
+    .auth-card { max-width: 520px; margin: 0 auto; background: rgba(28, 24, 16, 0.8); border: 1px solid rgba(217, 119, 6, 0.2); border-radius: 1.5rem; padding: 3rem; width: 100%; }
     .auth-title { font-size: 2rem; font-weight: 700; margin-bottom: 0.5rem; }
     .auth-subtitle { color: #6b7280; margin-bottom: 2.5rem; }
     .form-group { margin-bottom: 1.5rem; }
@@ -54,12 +54,10 @@
                     @error('email') <div class="field-error">{{ $message }}</div> @enderror
                 </div>
                 <div class="form-group">
-                    <label for="password" style="display:flex; justify-content:space-between;">
-                        <span>Password</span>
-                        <a href="{{ route('password.request') }}" style="color:#FCD34D; font-weight:400; font-size:0.85rem; text-decoration:none;">Forgot password?</a>
-                    </label>
+                    <label for="password">Password</label>
                     <input type="password" id="password" name="password" placeholder="••••••••" required>
                     @error('password') <div class="field-error">{{ $message }}</div> @enderror
+                    <a href="{{ route('password.request') }}" style="color:#FCD34D; font-weight:400; font-size:0.85rem; text-decoration:none; display:inline-block; margin-top:0.4rem;">Forgot password?</a>
                 </div>
                 <div class="form-check">
                     <input type="checkbox" id="remember" name="remember">
