@@ -95,6 +95,12 @@
           </div>
 
           <div class="form-group">
+            <label>Stripe Payment Link</label>
+            <input type="url" name="stripe_payment_link" :value="training?.stripe_payment_link" placeholder="https://buy.stripe.com/…">
+            <p class="hint">Direct Stripe payment link. When set, overrides the generic checkout for Enrol Now button.</p>
+          </div>
+
+          <div class="form-group">
             <label>Badge</label>
             <select name="badge">
               <option value="">None</option>

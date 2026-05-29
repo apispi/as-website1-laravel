@@ -153,12 +153,12 @@
                             @if($training->price)
                             <div class="course-price">{{ $training->price }} @if($training->price_unit)<span>/ {{ $training->price_unit }}</span>@endif</div>
                             @endif
-                            @if($training->checkout_amount)
-                            @if($training->title === 'Digital Avatar')
-                            <a href="https://buy.stripe.com/6oU6oJ63adYfceu47z9k400" class="btn btn-primary">Enrol Now</a>
-                            @else
-                            <a href="{{ route('checkout') }}?agent={{ urlencode($training->checkout_name ?? $training->title) }}&amount={{ $training->checkout_amount }}&type=training" class="btn btn-primary">Enrol Now</a>
-                            @endif
+                            @if($training->checkout_amount || $training->stripe_payment_link)
+                            @php
+                                $enrolUrl = $training->stripe_payment_link
+                                    ?? (route('checkout') . '?agent=' . urlencode($training->checkout_name ?? $training->title) . '&amount=' . $training->checkout_amount . '&type=training');
+                            @endphp
+                            <a href="{{ $enrolUrl }}" class="btn btn-primary">Enrol Now</a>
                             @else
                             <a href="{{ route('contact') }}" class="btn btn-secondary">Get in Touch</a>
                             @endif
