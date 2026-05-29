@@ -66,14 +66,6 @@
                     </div>
                 </div>
             </div>
-
-            <div style="margin-top: 4rem; padding-top: 4rem; border-top: 1px solid rgba(217, 119, 6, 0.1);">
-                <h2>Pricing Plans</h2>
-                <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 2rem; margin-top: 2rem;">
-                    <div style="background: rgba(28, 24, 16, 0.6); border: 1px solid rgba(217, 119, 6, 0.1); border-radius: 1rem; padding: 2rem; text-align: center;">
-                        <h3 style="margin-bottom: 0.5rem;">Starter</h3>
-                        <p style="color: #6b7280; margin-bottom: 1rem;">For small teams</p>
-                        <div style="font-size: 2rem; font-weight: 700; color: #FCD34D; margin-bottom: 1.5rem;">$299<span style="font-size: 1rem; color: #6b7280;">/month</span></div>
                         <a href="{{ route('checkout') }}?agent=Bid+Tender+Response+Starter&amount=299" class="btn btn-primary" style="display: inline-block; width: auto; margin-bottom: 1rem;">Get Started</a>
                         <ul style="list-style: none; text-align: left; color: #6b7280; font-size: 0.9rem;">
                             <li style="margin-bottom: 0.5rem;">✓ Up to 5 responses/month</li>

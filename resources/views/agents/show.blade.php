@@ -152,48 +152,6 @@
             </div>
             @endif
 
-            @if($agent->pricing_plans && count($agent->pricing_plans))
-            <div style="margin-top: 4rem; padding-top: 4rem; border-top: 1px solid rgba(217,119,6,0.1);">
-                <h2>Pricing Plans</h2>
-                <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 2rem; margin-top: 2rem;">
-                    @foreach($agent->pricing_plans as $plan)
-                    @php $recommended = !empty($plan['is_recommended']); @endphp
-                    <div style="{{ $recommended ? 'background: linear-gradient(135deg, rgba(217,119,6,0.05) 0%, rgba(217,119,6,0.05) 100%); border: 2px solid #FCD34D; transform: scale(1.05);' : 'background: rgba(28,24,16,0.6); border: 1px solid rgba(217,119,6,0.1);' }} border-radius: 1rem; padding: 2rem; text-align: center;">
-                        @if($recommended)
-                        <div style="background: #FCD34D; color: #0D0B08; padding: 0.25rem 1rem; border-radius: 9999px; display: inline-block; font-size: 0.75rem; font-weight: 600; margin-bottom: 1rem;">POPULAR</div>
-                        @endif
-                        <h3 style="margin-bottom: 0.5rem;">{{ $plan['name'] }}</h3>
-                        <p style="color: #6b7280; margin-bottom: 1rem;">{{ $plan['description'] }}</p>
-                        <div style="font-size: 2rem; font-weight: 700; color: #FCD34D; margin-bottom: 1.5rem;">
-                            @if(!empty($plan['amount']))
-                                {{ $plan['price'] }}<span style="font-size: 1rem; color: #6b7280;">/month</span>
-                            @else
-                                Custom
-                            @endif
-                        </div>
-                        @if(!empty($plan['amount']))
-                            @php
-                                $checkoutName = $plan['checkout_name'] ?? ($agent->checkout_name ?? $agent->name);
-                                $planLink = $plan['stripe_payment_link'] ?? $agent->stripe_payment_link ?? (route('checkout') . '?agent=' . urlencode($checkoutName) . '&amount=' . $plan['amount']);
-                            @endphp
-                            <a href="{{ $planLink }}" class="btn btn-primary" style="display: inline-block; width: auto; margin-bottom: 1rem;">Get Started</a>
-                        @else
-                            @php $contactSubject = $plan['contact_subject'] ?? ($agent->name . ' Enterprise Inquiry'); @endphp
-                            <a href="mailto:sales@apispi.com?subject={{ urlencode($contactSubject) }}" class="btn btn-secondary" style="display: inline-block; width: auto; margin-bottom: 1rem;">Contact Sales</a>
-                        @endif
-                        @if(!empty($plan['features']))
-                        <ul style="list-style: none; text-align: left; color: #6b7280; font-size: 0.9rem;">
-                            @foreach($plan['features'] as $f)
-                            <li style="{{ $loop->last ? '' : 'margin-bottom: 0.5rem;' }}">✓ {{ $f }}</li>
-                            @endforeach
-                        </ul>
-                        @endif
-                    </div>
-                    @endforeach
-                </div>
-            </div>
-            @endif
-
             @if($agent->faqs && count($agent->faqs))
             <div style="margin-top: 4rem; padding-top: 4rem; border-top: 1px solid rgba(217,119,6,0.1);">
                 <h2>Frequently Asked Questions</h2>

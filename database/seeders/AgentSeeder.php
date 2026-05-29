@@ -32,11 +32,6 @@ class AgentSeeder extends Seeder
                     ['title' => 'CV Shortlisting',        'description' => 'Match consultant CVs to role requirements and generate capability statements automatically.'],
                     ['title' => 'Executive Summaries',    'description' => 'Produce polished cover letters and executive summaries tailored to selection criteria.'],
                 ],
-                'pricing_plans'   => [
-                    ['name' => 'Starter',      'description' => 'For small teams',          'price' => '$299/month', 'amount' => 299,  'features' => ['Up to 5 responses/month', 'STAR generation', 'Email support'], 'is_recommended' => false, 'checkout_name' => 'Bid+Tender+Response+Starter'],
-                    ['name' => 'Professional', 'description' => 'For growing consultancies', 'price' => '$499/month', 'amount' => 499,  'features' => ['Unlimited responses', 'CV matching', 'Compliance matrices', 'Priority support'], 'is_recommended' => true],
-                    ['name' => 'Enterprise',   'description' => 'For large organisations',   'price' => 'Custom',     'amount' => null, 'features' => ['Dedicated instance', 'Custom integrations', 'SLA', 'White-label'], 'is_recommended' => false, 'contact_subject' => 'Bid+%26+Tender+Enterprise+Inquiry'],
-                ],
                 'faqs'            => [
                     ['question' => 'What procurement frameworks does it support?', 'answer' => 'AusTender, Commonwealth Grants Hub, state government portals, and custom frameworks. It reads any RFQ/RFT document format.'],
                     ['question' => 'Can it match multiple CVs?',                  'answer' => 'Yes. Upload a bench of consultant CVs and the agent matches the best fit to each selection criterion automatically.'],
@@ -65,11 +60,6 @@ class AgentSeeder extends Seeder
                     ['title' => 'Essential Eight',  'description' => 'Run a gap analysis across all eight mitigation strategies and produce remediation roadmaps with prioritised actions.'],
                     ['title' => 'Policy Generation','description' => 'Auto-generate security policies, procedures, and control statements aligned to PSPF and ISO 27001.'],
                 ],
-                'pricing_plans'   => [
-                    ['name' => 'SME',          'description' => 'For small businesses',    'price' => '$499/month', 'amount' => 499,  'features' => ['Essential Eight gap analysis', 'Policy templates', 'Email support'], 'is_recommended' => false, 'checkout_name' => 'Security+Compliance+IRAP+SME'],
-                    ['name' => 'Professional', 'description' => 'For regulated businesses', 'price' => '$799/month', 'amount' => 799,  'features' => ['Full ISM/PSPF mapping', 'Architecture reviews', 'Evidence pack', 'Priority support'], 'is_recommended' => true],
-                    ['name' => 'Enterprise',   'description' => 'For large organisations',  'price' => 'Custom',     'amount' => null, 'features' => ['IRAP assessment support', 'Dedicated analyst', 'Custom framework mapping', 'SLA'], 'is_recommended' => false, 'contact_subject' => 'Security+Compliance+Enterprise+Inquiry'],
-                ],
                 'faqs'            => [
                     ['question' => 'Does this replace an IRAP assessor?',       'answer' => 'No — it prepares you for one. The agent generates evidence, gap reports, and remediation plans so your IRAP engagement is faster and cheaper.'],
                     ['question' => 'Which frameworks are supported?',           'answer' => 'Essential Eight, ISM, PSPF, ISO 27001, SOC 2, NIST CSF, and cloud security benchmarks (CIS, AWS, Azure, GCP).'],
@@ -97,11 +87,6 @@ class AgentSeeder extends Seeder
                     ['title' => 'Target State Design', 'description' => 'Define your future-state architecture across application, data, infrastructure, and security domains.'],
                     ['title' => 'Decision Records',    'description' => 'Generate Architecture Decision Records (ADRs) that document options considered, rationale, and trade-offs.'],
                     ['title' => 'Migration Roadmaps',  'description' => 'Produce phased migration plans with dependencies, risks, and business capability alignment.'],
-                ],
-                'pricing_plans'   => [
-                    ['name' => 'Starter',      'description' => 'For project teams',            'price' => '$349/month', 'amount' => 349,  'features' => ['ADR generation', 'Architecture options', 'Email support'], 'is_recommended' => false, 'checkout_name' => 'Enterprise+Architecture+Starter'],
-                    ['name' => 'Professional', 'description' => 'For transformation programs',   'price' => '$599/month', 'amount' => 599,  'features' => ['Full target-state modelling', 'Integration patterns', 'Roadmaps', 'Priority support'], 'is_recommended' => true],
-                    ['name' => 'Enterprise',   'description' => 'For program-level architecture','price' => 'Custom',     'amount' => null, 'features' => ['Program-level architecture', 'Custom frameworks (TOGAF, SABSA)', 'Dedicated architect', 'SLA'], 'is_recommended' => false, 'contact_subject' => 'Enterprise+Architecture+Enterprise+Inquiry'],
                 ],
                 'faqs'            => [
                     ['question' => 'Does it follow TOGAF or other frameworks?',     'answer' => 'Yes. The agent can align outputs to TOGAF, SABSA, and DTA frameworks, or operate framework-agnostic to suit your program.'],
@@ -132,11 +117,6 @@ class AgentSeeder extends Seeder
                     ['title' => 'Training Delivery',        'description' => 'Convert PowerPoint decks and scripts into talking-head training videos in minutes. Supports multilingual delivery.'],
                     ['title' => 'Sales Presentations',      'description' => 'Create personalised demo videos for prospects at scale, customised by industry and use case.'],
                 ],
-                'pricing_plans'   => [
-                    ['name' => 'Starter',      'description' => 'For individuals',          'price' => '$149/month', 'amount' => 149,  'features' => ['10 avatar videos/month', 'Single voice', 'Email support'], 'is_recommended' => false, 'checkout_name' => 'Digital+Avatar+Starter'],
-                    ['name' => 'Professional', 'description' => 'For teams and businesses', 'price' => '$800',       'amount' => 800,  'features' => ['50 videos/month', 'Voice cloning', 'Multilingual', 'Priority support'], 'is_recommended' => true],
-                    ['name' => 'Enterprise',   'description' => 'For large organisations',  'price' => 'Custom',     'amount' => null, 'features' => ['Unlimited videos', 'Custom avatar build', 'Secure hosting', 'SLA'], 'is_recommended' => false, 'contact_subject' => 'Digital%20Avatar%20Enterprise%20Inquiry'],
-                ],
                 'faqs'            => [
                     ['question' => 'How realistic is the avatar?',         'answer' => 'Avatars are indistinguishable from recorded video in most contexts. You can use your own likeness or choose from a library of professional presenters.'],
                     ['question' => 'Is voice cloning legal and ethical?',  'answer' => 'Yes — all voice cloning requires explicit consent from the voice owner. We provide a consent and licensing workflow as part of onboarding.'],
@@ -164,11 +144,6 @@ class AgentSeeder extends Seeder
                     ['title' => 'SOP Generation',  'description' => 'Upload process documentation and the agent produces structured, version-controlled Standard Operating Procedures automatically.'],
                     ['title' => 'Internal Q&A',    'description' => 'Staff ask questions in plain language and receive instant, cited answers drawn from your internal knowledge base.'],
                     ['title' => 'Onboarding Packs','description' => 'Generate role-specific onboarding material from existing documentation in minutes, not weeks.'],
-                ],
-                'pricing_plans'   => [
-                    ['name' => 'Starter',      'description' => 'For small teams',          'price' => '$199/month', 'amount' => 199,  'features' => ['Up to 50 documents', 'SOP generation', 'Email support'], 'is_recommended' => false, 'checkout_name' => 'Knowledge+Management+SOP+Starter'],
-                    ['name' => 'Professional', 'description' => 'For growing organisations', 'price' => '$399/month', 'amount' => 399,  'features' => ['Unlimited documents', 'SharePoint/Confluence integration', 'Q&A interface', 'Priority support'], 'is_recommended' => true],
-                    ['name' => 'Enterprise',   'description' => 'For large organisations',   'price' => 'Custom',     'amount' => null, 'features' => ['Dedicated instance', 'Custom integrations', 'Audit logging', 'SLA'], 'is_recommended' => false, 'contact_subject' => 'Knowledge+Management+Enterprise+Inquiry'],
                 ],
                 'faqs'            => [
                     ['question' => 'What document formats does it support?',          'answer' => 'PDF, Word, Excel, PowerPoint, Markdown, HTML, SharePoint pages, Confluence spaces, and plain text.'],
@@ -199,11 +174,6 @@ class AgentSeeder extends Seeder
                     ['title' => 'Threat Intel Correlation','description' => 'Cross-reference IOCs against threat feeds and produce enriched intelligence summaries for analysts.'],
                     ['title' => 'Executive Reporting',    'description' => 'Automatically draft non-technical executive incident reports from technical findings, ready to brief leadership within minutes.'],
                 ],
-                'pricing_plans'   => [
-                    ['name' => 'SME',          'description' => 'For small security teams', 'price' => '$399/month', 'amount' => 399,  'features' => ['Incident triage', 'IOC extraction', 'Executive reports', 'Email support'], 'is_recommended' => false, 'checkout_name' => 'Cyber+Incident+Threat+Intel+SME'],
-                    ['name' => 'Professional', 'description' => 'For SOC teams and MSPs',   'price' => '$699/month', 'amount' => 699,  'features' => ['Full threat intel correlation', 'Log analysis', 'Playbooks', 'Priority support'], 'is_recommended' => true],
-                    ['name' => 'Enterprise',   'description' => 'For large organisations',  'price' => 'Custom',     'amount' => null, 'features' => ['SIEM integration', 'Dedicated instance', 'Custom playbooks', 'SLA'], 'is_recommended' => false, 'contact_subject' => 'Cyber+Incident+Enterprise+Inquiry'],
-                ],
                 'faqs'            => [
                     ['question' => 'Does it connect to our SIEM?',                'answer' => 'SIEM integrations (Sentinel, Splunk, Defender, CrowdStrike) are on the roadmap. Currently, paste or upload log excerpts and alert data directly.'],
                     ['question' => 'How does it handle sensitive incident data?', 'answer' => 'All data is processed in an isolated environment. Nothing is retained after the session. Suitable for protected and sensitive incident data.'],
@@ -232,11 +202,6 @@ class AgentSeeder extends Seeder
                     ['title' => 'Social Media',    'description' => 'Create engaging posts for Twitter, LinkedIn, Instagram, and more.'],
                     ['title' => 'Email Campaigns', 'description' => 'Write compelling newsletters and marketing emails that convert.'],
                 ],
-                'pricing_plans'   => [
-                    ['name' => 'Starter',      'description' => 'For individuals',     'price' => '$29/month',  'amount' => 29,   'features' => ['50 content pieces', 'Basic customization', 'Email support'], 'is_recommended' => false, 'checkout_name' => 'Content+Creator+Starter'],
-                    ['name' => 'Professional', 'description' => 'For content teams',   'price' => '$79/month',  'amount' => 79,   'features' => ['200 content pieces', 'Advanced customization', 'Priority support', 'Team collaboration'], 'is_recommended' => true, 'checkout_name' => 'Content+Creator+Pro'],
-                    ['name' => 'Enterprise',   'description' => 'For large organizations','price' => 'Custom',  'amount' => null, 'features' => ['Unlimited content', 'Custom integrations', 'Dedicated support', 'SLA guarantee'], 'is_recommended' => false, 'contact_subject' => 'Enterprise+Plan+Inquiry'],
-                ],
                 'faqs'            => [
                     ['question' => 'Can I cancel my subscription anytime?',   'answer' => "Yes, you can cancel your subscription at any time. No questions asked. You'll have access until the end of your billing cycle."],
                     ['question' => 'Can I upgrade or downgrade my plan?',     'answer' => 'Absolutely! You can change your plan at any time. Upgrades are prorated, and downgrades take effect at the start of your next billing cycle.'],
@@ -263,11 +228,6 @@ class AgentSeeder extends Seeder
                     ['title' => 'Chat Support',         'description' => 'Instant responses to customer inquiries on web and mobile.'],
                     ['title' => 'Helpdesk Integration', 'description' => 'Seamless integration with your existing helpdesk platform.'],
                     ['title' => 'Lead Qualification',   'description' => 'Qualify leads and route them to the right sales teams.'],
-                ],
-                'pricing_plans'   => [
-                    ['name' => 'Starter',      'description' => 'For small businesses',    'price' => '$29/month', 'amount' => 29,   'features' => ['1,000 conversations/month', 'Email support', 'Basic analytics'], 'is_recommended' => false, 'checkout_name' => 'Support+Bot+Starter'],
-                    ['name' => 'Professional', 'description' => 'For growing teams',       'price' => '$49/month', 'amount' => 49,   'features' => ['Unlimited conversations', 'Priority support', 'Advanced analytics', 'Integrations'], 'is_recommended' => true],
-                    ['name' => 'Enterprise',   'description' => 'For large organizations', 'price' => 'Custom',    'amount' => null, 'features' => ['Custom volume', 'Custom integrations', 'Dedicated support', 'SLA guarantee'], 'is_recommended' => false, 'contact_subject' => 'Support+Bot+Enterprise+Inquiry'],
                 ],
                 'faqs'            => [
                     ['question' => 'How long does setup take?',           'answer' => 'Setup typically takes 30 minutes. You can customize the bot to match your brand and connect it to your existing systems.'],
@@ -296,11 +256,6 @@ class AgentSeeder extends Seeder
                     ['title' => 'Business Intelligence', 'description' => 'Analyze business metrics and identify growth opportunities.'],
                     ['title' => 'Financial Analysis',    'description' => 'Track financial trends and forecast future performance.'],
                     ['title' => 'Research & Insights',   'description' => 'Deep dive analysis and comprehensive research reports.'],
-                ],
-                'pricing_plans'   => [
-                    ['name' => 'Basic',        'description' => 'For analysts',            'price' => '$49/month',  'amount' => 49,   'features' => ['100 MB storage', 'Basic analysis', 'Email support'], 'is_recommended' => false, 'checkout_name' => 'Data+Analyzer+Basic'],
-                    ['name' => 'Professional', 'description' => 'For teams',               'price' => '$79/month',  'amount' => 79,   'features' => ['1 GB storage', 'Advanced analytics', 'Priority support', 'Team collaboration'], 'is_recommended' => true],
-                    ['name' => 'Enterprise',   'description' => 'For large organizations', 'price' => 'Custom',     'amount' => null, 'features' => ['Unlimited storage', 'Custom integrations', 'Dedicated support', 'White-label options'], 'is_recommended' => false, 'contact_subject' => 'Data+Analyzer+Enterprise+Inquiry'],
                 ],
                 'faqs'            => [
                     ['question' => 'What data formats are supported?', 'answer' => 'We support CSV, Excel, JSON, SQL databases, and many more formats. You can even import directly from APIs.'],

@@ -69,48 +69,6 @@
             </div>
 
             <div style="margin-top: 4rem; padding-top: 4rem; border-top: 1px solid rgba(217, 119, 6, 0.1);">
-                <h2>Pricing Plans</h2>
-                <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 2rem; margin-top: 2rem;">
-                    <div style="background: rgba(28, 24, 16, 0.6); border: 1px solid rgba(217, 119, 6, 0.1); border-radius: 1rem; padding: 2rem; text-align: center;">
-                        <h3 style="margin-bottom: 0.5rem;">Starter</h3>
-                        <p style="color: #6b7280; margin-bottom: 1rem;">For individuals</p>
-                        <div style="font-size: 2rem; font-weight: 700; color: #FCD34D; margin-bottom: 1.5rem;">$29<span style="font-size: 1rem; color: #6b7280;">/month</span></div>
-                        <a href="{{ route('checkout') }}?agent=Content+Creator+Starter&amount=29" class="btn btn-primary" style="display: inline-block; width: auto; margin-bottom: 1rem;">Get Started</a>
-                        <ul style="list-style: none; text-align: left; color: #6b7280; font-size: 0.9rem;">
-                            <li style="margin-bottom: 0.5rem;">✓ 50 content pieces</li>
-                            <li style="margin-bottom: 0.5rem;">✓ Basic customization</li>
-                            <li>✓ Email support</li>
-                        </ul>
-                    </div>
-                    <div style="background: linear-gradient(135deg, rgba(217, 119, 6, 0.05) 0%, rgba(217, 119, 6, 0.05) 100%); border: 2px solid #FCD34D; border-radius: 1rem; padding: 2rem; text-align: center; transform: scale(1.05);">
-                        <div style="background: #FCD34D; color: #0D0B08; padding: 0.25rem 1rem; border-radius: 9999px; display: inline-block; font-size: 0.75rem; font-weight: 600; margin-bottom: 1rem;">POPULAR</div>
-                        <h3 style="margin-bottom: 0.5rem;">Professional</h3>
-                        <p style="color: #6b7280; margin-bottom: 1rem;">For content teams</p>
-                        <div style="font-size: 2rem; font-weight: 700; color: #FCD34D; margin-bottom: 1.5rem;">$79<span style="font-size: 1rem; color: #6b7280;">/month</span></div>
-                        <a href="{{ route('checkout') }}?agent=Content+Creator+Pro&amount=79" class="btn btn-primary" style="display: inline-block; width: auto; margin-bottom: 1rem;">Get Started</a>
-                        <ul style="list-style: none; text-align: left; color: #6b7280; font-size: 0.9rem;">
-                            <li style="margin-bottom: 0.5rem;">✓ 200 content pieces</li>
-                            <li style="margin-bottom: 0.5rem;">✓ Advanced customization</li>
-                            <li style="margin-bottom: 0.5rem;">✓ Priority support</li>
-                            <li>✓ Team collaboration</li>
-                        </ul>
-                    </div>
-                    <div style="background: rgba(28, 24, 16, 0.6); border: 1px solid rgba(217, 119, 6, 0.1); border-radius: 1rem; padding: 2rem; text-align: center;">
-                        <h3 style="margin-bottom: 0.5rem;">Enterprise</h3>
-                        <p style="color: #6b7280; margin-bottom: 1rem;">For large organizations</p>
-                        <div style="font-size: 2rem; font-weight: 700; color: #FCD34D; margin-bottom: 1.5rem;">Custom</div>
-                        <a href="mailto:sales@apispi.com?subject=Enterprise%20Plan%20Inquiry" class="btn btn-secondary" style="display: inline-block; width: auto; margin-bottom: 1rem;">Contact Sales</a>
-                        <ul style="list-style: none; text-align: left; color: #6b7280; font-size: 0.9rem;">
-                            <li style="margin-bottom: 0.5rem;">✓ Unlimited content</li>
-                            <li style="margin-bottom: 0.5rem;">✓ Custom integrations</li>
-                            <li style="margin-bottom: 0.5rem;">✓ Dedicated support</li>
-                            <li>✓ SLA guarantee</li>
-                        </ul>
-                    </div>
-                </div>
-            </div>
-
-            <div style="margin-top: 4rem; padding-top: 4rem; border-top: 1px solid rgba(217, 119, 6, 0.1);">
                 <h2>Frequently Asked Questions</h2>
                 <div style="max-width: 600px; margin: 2rem auto;">
                     <details style="margin-bottom: 1rem; padding: 1.5rem; background: rgba(28, 24, 16, 0.6); border: 1px solid rgba(217, 119, 6, 0.1); border-radius: 1rem; cursor: pointer;">
