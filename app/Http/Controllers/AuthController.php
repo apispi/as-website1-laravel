@@ -253,9 +253,10 @@ class AuthController extends Controller
         $user = User::updateOrCreate(
             ['google_id' => $googleUser->getId()],
             [
-                'name'   => $googleUser->getName(),
-                'email'  => $googleUser->getEmail(),
-                'avatar' => $googleUser->getAvatar(),
+                'name'     => $googleUser->getName(),
+                'email'    => $googleUser->getEmail(),
+                'avatar'   => $googleUser->getAvatar(),
+                'password' => Hash::make(Str::random(32)),
             ]
         );
 
