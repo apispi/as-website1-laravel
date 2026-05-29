@@ -72,6 +72,7 @@
                         <li><a href="{{ route('about') }}">About</a></li>
                         <li><a href="{{ route('contact') }}">Contact</a></li>
                         <li><a href="{{ route('privacy') }}">Privacy</a></li>
+                        <li><a href="{{ route('terms') }}">Terms</a></li>
                     </ul>
                 </div>
                 <div class="footer-section">
