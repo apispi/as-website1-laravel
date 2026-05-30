@@ -184,7 +184,9 @@ function actionClass(action) {
 }
 .data-table td { padding: 0.75rem 1rem; border-bottom: 1px solid rgba(239,68,68,0.05); vertical-align: middle; }
 .data-table tbody tr:last-child td { border-bottom: none; }
-.data-table tbody tr:hover td { background: rgba(239,68,68,0.02); }
+.data-table tbody tr:hover td { background: rgba(239,68,68,0.1); }
+.data-table tbody tr:hover .user-link { color: #fca5a5; }
+.data-table tbody tr:hover .muted { color: #9ca3af; }
 
 .muted { color: #6b7280; }
 .small { font-size: 0.8rem; }
