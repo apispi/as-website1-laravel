@@ -156,8 +156,11 @@ function navigate(url) {
 .data-table th { padding: 0.75rem 1rem; text-align: left; font-size: 0.72rem; font-weight: 600; text-transform: uppercase; letter-spacing: 0.06em; color: #6b7280; border-bottom: 1px solid rgba(239,68,68,0.08); background: rgba(239,68,68,0.03); }
 .data-table td { padding: 0.875rem 1rem; border-bottom: 1px solid rgba(239,68,68,0.06); vertical-align: middle; }
 .data-table tbody tr:last-child td { border-bottom: none; }
-.data-table tbody tr:hover td { background: rgba(239,68,68,0.03); }
+.data-table tbody tr:hover td { background: rgba(239,68,68,0.08); }
 .clickable-row { cursor: pointer; }
+.clickable-row:hover td { background: rgba(239,68,68,0.1) !important; }
+.clickable-row:hover .connector-name { color: #fca5a5; }
+.clickable-row:hover .muted { color: #9ca3af; }
 
 .connector-cell { display: flex; align-items: center; gap: 0.75rem; }
 .connector-icon { width: 32px; height: 32px; border-radius: 0.4rem; flex-shrink: 0; background: rgba(239,68,68,0.08); border: 1px solid rgba(239,68,68,0.18); display: flex; align-items: center; justify-content: center; font-size: 1rem; }
