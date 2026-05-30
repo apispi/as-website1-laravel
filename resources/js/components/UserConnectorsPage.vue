@@ -74,6 +74,7 @@
             <h1 class="uc-page-title">My Connectors</h1>
             <p class="uc-page-sub">{{ userConnectors.length }} integration{{ userConnectors.length !== 1 ? 's' : '' }} connected</p>
           </div>
+          <a href="/dashboard/catalog" class="uc-catalog-link">Connector Catalog →</a>
         </div>
 
         <div v-if="flashSuccess" class="flash success">{{ flashSuccess }}</div>
@@ -235,6 +236,8 @@ function confirmDisconnect(event, name) {
 .uc-back:hover { color: #FCD34D; }
 .uc-page-title { font-size: 1.6rem; font-weight: 700; color: #f1f5f9; margin-bottom: 0.2rem; }
 .uc-page-sub   { color: #6b7280; font-size: 0.875rem; }
+.uc-catalog-link { align-self: center; font-size: 0.875rem; font-weight: 600; color: #D97706; text-decoration: none; padding: 0.5rem 1rem; border: 1px solid rgba(217,119,6,0.25); border-radius: 0.5rem; transition: all 0.18s; white-space: nowrap; }
+.uc-catalog-link:hover { background: rgba(217,119,6,0.1); border-color: rgba(217,119,6,0.5); }
 
 .flash { padding: 0.75rem 1rem; border-radius: 0.625rem; font-size: 0.875rem; margin-bottom: 1.25rem; }
 .flash.success { background: rgba(0,217,126,0.08); border: 1px solid rgba(0,217,126,0.25); color: #00d97e; }
