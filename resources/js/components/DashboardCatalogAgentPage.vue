@@ -177,7 +177,7 @@ const ctaUrl = computed(() => {
   if (props.agent.stripe_payment_link) return props.agent.stripe_payment_link;
   if (props.agent.checkout_amount) {
     const name = encodeURIComponent(props.agent.checkout_name || props.agent.name);
-    return `/checkout?agent=${name}&amount=${props.agent.checkout_amount}`;
+    return `/checkout?agent=${name}&amount=${props.agent.checkout_amount}&agent_id=${props.agent.id}`;
   }
   return '/contact';
 });

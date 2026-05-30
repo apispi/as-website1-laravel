@@ -24,6 +24,7 @@ use App\Http\Controllers\PageController;
 use App\Http\Controllers\Admin\LeadsController;
 use App\Http\Controllers\AvatarController;
 use App\Http\Controllers\SubscribeController;
+use App\Http\Controllers\StripeWebhookController;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', [PageController::class, 'home'])->name('home');
@@ -36,6 +37,7 @@ Route::get('/training', [PageController::class, 'training'])->name('training');
 Route::get('/checkout', [CheckoutController::class, 'show'])->name('checkout');
 Route::post('/checkout/session', [CheckoutController::class, 'createSession'])->name('checkout.session');
 Route::get('/checkout/success', [CheckoutController::class, 'success'])->name('checkout.success');
+Route::post('/stripe/webhook', [StripeWebhookController::class, 'handle'])->name('stripe.webhook');
 
 Route::get('/contact', [ContactController::class, 'show'])->name('contact');
 Route::post('/contact', [ContactController::class, 'send'])->name('contact.send');

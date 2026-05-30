@@ -25,7 +25,12 @@
                 <h1>Payment Successful!</h1>
                 <p>
                     Thank you for subscribing to <strong>{{ $agentName }}</strong>.<br>
-                    A confirmation has been sent to your email. Our team will reach out within 24 hours to get you set up.
+                    @if($customerEmail)
+                        A confirmation has been sent to <strong>{{ $customerEmail }}</strong>.
+                    @else
+                        A confirmation has been sent to your email.
+                    @endif
+                    Our team will reach out within 24 hours to get you set up.
                 </p>
                 <p style="font-size:0.9rem;">Questions? Email us at <a href="mailto:payment@apispi.com">payment@apispi.com</a></p>
                 <div class="success-actions">
