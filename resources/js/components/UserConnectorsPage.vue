@@ -121,36 +121,11 @@
           </div>
         </div>
 
-        <!-- Available -->
-        <div v-if="available.length > 0" class="section">
-          <div class="section-label">Available</div>
-          <div class="uc-list">
-            <div v-for="c in available" :key="c.id" class="uc-row uc-row-available">
-              <div class="uc-row-icon muted">{{ c.icon || '⬡' }}</div>
-              <div class="uc-row-body">
-                <div class="uc-row-top">
-                  <span class="uc-row-name">{{ c.name }}</span>
-                  <span v-if="c.is_oauth" class="uc-type-badge oauth">OAuth</span>
-                  <span v-else class="uc-type-badge api">API</span>
-                </div>
-                <div class="uc-row-meta">{{ c.category }}</div>
-              </div>
-              <div class="uc-row-right">
-                <a v-if="c.is_oauth" :href="`/connectors/${c.slug}/authorize`" class="uc-btn-connect">Connect →</a>
-                <form v-else method="POST" :action="`/dashboard/connectors/${c.id}/connect`" class="uc-connect-form" @click.stop>
-                  <input type="hidden" name="_token" :value="csrfToken">
-                  <button type="submit" class="uc-btn-connect">Connect →</button>
-                </form>
-              </div>
-            </div>
-          </div>
-        </div>
-
         <!-- Empty state -->
-        <div v-if="userConnectors.length === 0 && available.length === 0" class="uc-empty">
+        <div v-if="userConnectors.length === 0" class="uc-empty">
           <div class="uc-empty-icon">⬡</div>
-          <div class="uc-empty-title">No connectors available</div>
-          <div class="uc-empty-desc">Check back soon for integrations.</div>
+          <div class="uc-empty-title">No connectors connected yet</div>
+          <div class="uc-empty-desc"><a href="/dashboard/catalog?tab=connectors" class="uc-empty-link">Browse the Connector Catalog →</a></div>
         </div>
 
       </main>
@@ -290,6 +265,8 @@ function confirmDisconnect(event, name) {
 .uc-empty-icon  { font-size: 2.5rem; opacity: 0.15; margin-bottom: 1rem; }
 .uc-empty-title { font-size: 1.1rem; font-weight: 700; color: #e5e7eb; margin-bottom: 0.5rem; }
 .uc-empty-desc  { font-size: 0.875rem; color: #6b7280; }
+.uc-empty-link  { color: #D97706; text-decoration: none; font-weight: 600; }
+.uc-empty-link:hover { text-decoration: underline; }
 
 @media (max-width: 768px) {
   .uc-sidebar { transform: translateX(-100%); }
