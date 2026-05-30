@@ -23,7 +23,7 @@ class ConnectorController extends Controller
     {
         $data = $this->validated($request);
         Connector::create($data);
-        return redirect()->route('admin.connectors.index')->with('success', 'Connector created.');
+        return redirect('/admin/agents?tab=connectors')->with('success', 'Connector created.');
     }
 
     public function edit(Connector $connector)
@@ -35,13 +35,13 @@ class ConnectorController extends Controller
     {
         $data = $this->validated($request, $connector);
         $connector->update($data);
-        return redirect()->route('admin.connectors.index')->with('success', 'Connector updated.');
+        return redirect('/admin/agents?tab=connectors')->with('success', 'Connector updated.');
     }
 
     public function destroy(Connector $connector)
     {
         $connector->delete();
-        return redirect()->route('admin.connectors.index')->with('success', 'Connector deleted.');
+        return redirect('/admin/agents?tab=connectors')->with('success', 'Connector deleted.');
     }
 
     private function validated(Request $request, ?Connector $existing = null): array
