@@ -119,7 +119,7 @@
     ]
   },
   "resources/js/catalog.js": {
-    "file": "assets/catalog-BN6Q9DrT.js",
+    "file": "assets/catalog-DfLLgxZO.js",
     "name": "catalog",
     "src": "resources/js/catalog.js",
     "isEntry": true,
@@ -127,7 +127,7 @@
       "__plugin-vue_export-helper-BtD7L4UX.js"
     ],
     "css": [
-      "assets/catalog-CW0C_4xN.css"
+      "assets/catalog-CKUzzQnM.css"
     ]
   },
   "resources/js/connectors-user.js": {

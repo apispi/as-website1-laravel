@@ -131,41 +131,27 @@
             <div class="ac-empty-desc">Try a different search or filter.</div>
           </div>
 
-          <div v-else class="ac-table-wrap">
-            <table class="ac-table">
-              <thead>
-                <tr>
-                  <th>Agent</th>
-                  <th>Badge</th>
-                  <th>Rating</th>
-                  <th>Users</th>
-                  <th>Price</th>
-                  <th></th>
-                </tr>
-              </thead>
-              <tbody>
-                <tr v-for="agent in filteredAgents" :key="agent.id">
-                  <td>
-                    <a :href="`/agents/${agent.slug}`" class="ac-agent-cell">
-                      <div class="ac-agent-icon">◈</div>
-                      <div>
-                        <div class="ac-agent-name">{{ agent.name }}</div>
-                        <div class="ac-agent-category">{{ agent.category }}</div>
-                      </div>
-                    </a>
-                  </td>
-                  <td>
-                    <span v-if="agent.badge" class="ac-badge" :class="agent.badge.toLowerCase()">{{ agent.badge }}</span>
-                    <span v-else class="ac-muted">—</span>
-                  </td>
-                  <td class="ac-rating">{{ agent.rating ? '⭐ ' + agent.rating : '—' }}</td>
-                  <td class="ac-muted">{{ agent.users_count || '—' }}</td>
-                  <td class="ac-price">{{ agent.price || '—' }}</td>
-                  <td class="ac-actions">
-                  </td>
-                </tr>
-              </tbody>
-            </table>
+          <div v-else class="ac-list">
+            <a v-for="agent in filteredAgents" :key="agent.id"
+               :href="`/agents/${agent.slug}`"
+               class="ac-row">
+              <div class="ac-row-icon">◈</div>
+              <div class="ac-row-body">
+                <div class="ac-row-top">
+                  <span class="ac-row-name">{{ agent.name }}</span>
+                  <span v-if="agent.badge" class="ac-badge" :class="agent.badge.toLowerCase()">{{ agent.badge }}</span>
+                </div>
+                <div class="ac-row-meta">
+                  <span v-if="agent.category">{{ agent.category }}</span>
+                  <span v-if="agent.rating">⭐ {{ agent.rating }}</span>
+                  <span v-if="agent.users_count">{{ agent.users_count }} users</span>
+                </div>
+              </div>
+              <div class="ac-row-right">
+                <span v-if="agent.price" class="ac-row-price">{{ agent.price }}</span>
+                <span class="ac-row-arrow">→</span>
+              </div>
+            </a>
           </div>
         </template>
 
@@ -195,61 +181,40 @@
           </div>
 
           <template v-else>
-            <div class="ac-table-wrap">
-              <table class="ac-table">
-                <thead>
-                  <tr>
-                    <th>Connector</th>
-                    <th>Type</th>
-                    <th>Status</th>
-                    <th>Connected</th>
-                    <th></th>
-                  </tr>
-                </thead>
-                <tbody>
-                  <tr v-for="row in cnPageRows" :key="row.key">
-                    <td>
-                      <div class="ac-agent-cell">
-                        <div class="cn-icon-cell">{{ row.icon || '⬡' }}</div>
-                        <div>
-                          <div class="ac-agent-name">{{ row.name }}</div>
-                          <div class="ac-agent-category">{{ row.category }}</div>
-                        </div>
-                      </div>
-                    </td>
-                    <td>
-                      <span v-if="row.is_oauth" class="cn-type-badge oauth">OAuth</span>
-                      <span v-else class="cn-type-badge api">API</span>
-                    </td>
-                    <td>
-                      <span class="cn-status-badge" :class="row.status">{{ row.statusLabel }}</span>
-                    </td>
-                    <td class="ac-muted" style="font-size:0.8rem; white-space:nowrap;">
-                      {{ row.connected_at ? formatDate(row.connected_at) : '—' }}
-                    </td>
-                    <td class="ac-actions">
-                      <template v-if="row.status === 'active' && row.is_oauth">
-                        <form method="POST" :action="`/connectors/${row.slug}/disconnect`" class="cn-inline-form">
-                          <input type="hidden" name="_token" :value="csrfToken">
-                          <button type="submit" class="cn-btn-disconnect"
-                                  @click.prevent="confirmDisconnect($event, row.name)">
-                            Disconnect
-                          </button>
-                        </form>
-                      </template>
-                      <template v-else-if="row.status === 'disconnected' && row.is_oauth">
-                        <a :href="`/connectors/${row.slug}/authorize`" class="ac-btn-view">Reconnect →</a>
-                      </template>
-                      <template v-else-if="row.status === 'available' && row.is_oauth">
-                        <a :href="`/connectors/${row.slug}/authorize`" class="ac-btn-view">Connect →</a>
-                      </template>
-                      <template v-else-if="row.status === 'available'">
-                        <span class="cn-not-available">Contact support</span>
-                      </template>
-                    </td>
-                  </tr>
-                </tbody>
-              </table>
+            <div class="ac-list">
+              <div v-for="row in cnPageRows" :key="row.key" class="ac-row">
+                <div class="ac-row-icon">{{ row.icon || '⬡' }}</div>
+                <div class="ac-row-body">
+                  <div class="ac-row-top">
+                    <span class="ac-row-name">{{ row.name }}</span>
+                    <span v-if="row.is_oauth" class="cn-type-badge oauth">OAuth</span>
+                    <span v-else class="cn-type-badge api">API</span>
+                  </div>
+                  <div class="ac-row-meta">
+                    <span v-if="row.category">{{ row.category }}</span>
+                    <span v-if="row.connected_at">Connected {{ formatDate(row.connected_at) }}</span>
+                  </div>
+                </div>
+                <div class="ac-row-right">
+                  <span class="cn-status-badge" :class="row.status">{{ row.statusLabel }}</span>
+                  <template v-if="row.status === 'active' && row.is_oauth">
+                    <form method="POST" :action="`/connectors/${row.slug}/disconnect`" class="cn-inline-form" @click.stop>
+                      <input type="hidden" name="_token" :value="csrfToken">
+                      <button type="submit" class="cn-btn-disconnect"
+                              @click.prevent="confirmDisconnect($event, row.name)">Disconnect</button>
+                    </form>
+                  </template>
+                  <template v-else-if="row.status === 'disconnected' && row.is_oauth">
+                    <a :href="`/connectors/${row.slug}/authorize`" class="ac-btn-view">Reconnect →</a>
+                  </template>
+                  <template v-else-if="row.status === 'available' && row.is_oauth">
+                    <a :href="`/connectors/${row.slug}/authorize`" class="ac-btn-view">Connect →</a>
+                  </template>
+                  <template v-else-if="row.status === 'available'">
+                    <span class="cn-not-available">Contact</span>
+                  </template>
+                </div>
+              </div>
             </div>
 
             <!-- Pagination -->
@@ -470,28 +435,32 @@ function confirmDisconnect(event, name) {
 .ac-empty-title { font-size: 1rem; font-weight: 700; color: #e5e7eb; margin-bottom: 0.4rem; }
 .ac-empty-desc { font-size: 0.875rem; color: #6b7280; }
 
-/* Agents table */
-.ac-table-wrap { background: rgba(28,24,16,0.7); border: 1px solid rgba(217,119,6,0.12); border-radius: 1rem; overflow: hidden; overflow-x: auto; }
-.ac-table { width: 100%; border-collapse: collapse; font-size: 0.875rem; min-width: 650px; }
-.ac-table th { padding: 0.75rem 1rem; text-align: left; font-size: 0.72rem; font-weight: 600; text-transform: uppercase; letter-spacing: 0.06em; color: #6b7280; border-bottom: 1px solid rgba(217,119,6,0.1); background: rgba(217,119,6,0.03); }
-.ac-table td { padding: 0.875rem 1rem; border-bottom: 1px solid rgba(217,119,6,0.07); vertical-align: middle; }
-.ac-table tbody tr:last-child td { border-bottom: none; }
-.ac-table tbody tr:hover td { background: rgba(217,119,6,0.03); }
+/* Rows */
+.ac-list { display: flex; flex-direction: column; gap: 0.5rem; }
+.ac-row {
+  display: flex; align-items: center; gap: 1rem;
+  background: rgba(28,24,16,0.7); border: 1px solid rgba(217,119,6,0.12);
+  border-radius: 0.875rem; padding: 1rem 1.1rem;
+  text-decoration: none; color: inherit;
+  transition: border-color 0.2s, background 0.2s;
+}
+.ac-row:hover { border-color: rgba(217,119,6,0.35); background: rgba(217,119,6,0.04); }
+.ac-row-icon { width: 40px; height: 40px; border-radius: 0.625rem; flex-shrink: 0; background: rgba(217,119,6,0.1); border: 1px solid rgba(217,119,6,0.2); display: flex; align-items: center; justify-content: center; font-size: 1rem; color: #FCD34D; }
+.ac-row-body { flex: 1; min-width: 0; }
+.ac-row-top { display: flex; align-items: center; gap: 0.5rem; margin-bottom: 0.25rem; flex-wrap: wrap; }
+.ac-row-name { font-size: 0.925rem; font-weight: 600; color: #e5e7eb; }
+.ac-row:hover .ac-row-name { color: #FCD34D; }
+.ac-row-meta { display: flex; gap: 0.75rem; font-size: 0.78rem; color: #6b7280; }
+.ac-row-right { display: flex; flex-direction: column; align-items: flex-end; gap: 0.4rem; flex-shrink: 0; }
+.ac-row-price { color: #FCD34D; font-weight: 700; font-size: 0.95rem; white-space: nowrap; }
+.ac-row-arrow { color: #D97706; font-size: 1rem; transition: transform 0.2s; }
+.ac-row:hover .ac-row-arrow { transform: translateX(3px); }
 
-.ac-agent-cell { display: flex; align-items: center; gap: 0.75rem; text-decoration: none; }
-.ac-agent-cell:hover .ac-agent-name { color: #FCD34D; }
-.ac-agent-icon { width: 34px; height: 34px; border-radius: 0.5rem; flex-shrink: 0; background: rgba(217,119,6,0.08); border: 1px solid rgba(217,119,6,0.2); display: flex; align-items: center; justify-content: center; font-size: 1rem; color: #FCD34D; }
-.ac-agent-name { font-size: 0.875rem; font-weight: 600; color: #e5e7eb; }
-.ac-agent-category { font-size: 0.75rem; color: #6b7280; margin-top: 0.1rem; }
-
-.ac-badge { display: inline-block; padding: 0.2rem 0.55rem; border-radius: 99px; font-size: 0.72rem; font-weight: 600; }
+.ac-badge { display: inline-block; padding: 0.12rem 0.4rem; border-radius: 99px; font-size: 0.65rem; font-weight: 600; }
 .ac-badge.popular { background: rgba(217,119,6,0.12); color: #FCD34D; }
 .ac-badge.premium { background: rgba(239,68,68,0.12); color: #fca5a5; }
 .ac-badge.new     { background: rgba(0,217,126,0.1);  color: #00d97e; }
-.ac-rating { color: #e5e7eb; font-size: 0.82rem; white-space: nowrap; }
-.ac-muted  { color: #6b7280; font-size: 0.82rem; }
-.ac-price  { color: #FCD34D; font-weight: 600; font-size: 0.875rem; white-space: nowrap; }
-.ac-actions { text-align: right; }
+
 .ac-btn-view { font-size: 0.78rem; font-weight: 600; color: #FCD34D; text-decoration: none; padding: 0.35rem 0.65rem; border-radius: 0.4rem; border: 1px solid rgba(217,119,6,0.25); background: rgba(217,119,6,0.08); transition: all 0.18s; white-space: nowrap; }
 .ac-btn-view:hover { background: rgba(217,119,6,0.18); }
 
@@ -535,7 +504,7 @@ function confirmDisconnect(event, name) {
   .ac-page-title { font-size: 1.3rem; }
   .ac-toolbar { flex-direction: column; align-items: stretch; }
   .ac-search-wrap { max-width: unset; }
-  .cn-row { flex-wrap: wrap; }
-  .cn-row-right { flex-direction: row; align-items: center; }
+  .ac-row { flex-wrap: wrap; }
+  .ac-row-right { flex-direction: row; align-items: center; }
 }
 </style>
