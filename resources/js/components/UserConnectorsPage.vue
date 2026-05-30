@@ -206,13 +206,13 @@ function confirmDisconnect(event, name) {
 
 .uc-content { flex: 1; padding: 2rem; max-width: 860px; width: 100%; }
 
-.uc-page-header { display: flex; align-items: flex-start; justify-content: space-between; margin-bottom: 1.5rem; flex-wrap: wrap; gap: 1rem; }
+.uc-page-header { display: flex; align-items: flex-end; justify-content: space-between; margin-bottom: 1.5rem; flex-wrap: wrap; gap: 1rem; }
 .uc-back       { font-size: 0.8rem; color: #6b7280; text-decoration: none; display: block; margin-bottom: 0.35rem; }
 .uc-back:hover { color: #FCD34D; }
 .uc-page-title { font-size: 1.6rem; font-weight: 700; color: #f1f5f9; margin-bottom: 0.2rem; }
 .uc-page-sub   { color: #6b7280; font-size: 0.875rem; }
-.uc-catalog-link { align-self: center; font-size: 0.875rem; font-weight: 600; color: #D97706; text-decoration: none; padding: 0.5rem 1rem; border: 1px solid rgba(217,119,6,0.25); border-radius: 0.5rem; transition: all 0.18s; white-space: nowrap; }
-.uc-catalog-link:hover { background: rgba(217,119,6,0.1); border-color: rgba(217,119,6,0.5); }
+.uc-catalog-link { font-size: 0.85rem; font-weight: 600; color: #FCD34D; text-decoration: none; padding: 0.6rem 1.1rem; background: rgba(217,119,6,0.12); border: 1px solid rgba(217,119,6,0.3); border-radius: 0.625rem; transition: all 0.18s; white-space: nowrap; }
+.uc-catalog-link:hover { background: rgba(217,119,6,0.22); }
 
 .flash { padding: 0.75rem 1rem; border-radius: 0.625rem; font-size: 0.875rem; margin-bottom: 1.25rem; }
 .flash.success { background: rgba(0,217,126,0.08); border: 1px solid rgba(0,217,126,0.25); color: #00d97e; }
