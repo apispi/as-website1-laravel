@@ -79,11 +79,23 @@
         <div v-if="flashSuccess" class="flash success">{{ flashSuccess }}</div>
         <div v-if="flashError"   class="flash error">{{ flashError }}</div>
 
+        <div v-if="userConnectors.length > 0" class="uc-search-wrap">
+          <span class="uc-search-icon">⊕</span>
+          <input
+            v-model="search"
+            type="text"
+            class="uc-search"
+            placeholder="Search connectors…"
+            autocomplete="off"
+          />
+          <button v-if="search" class="uc-search-clear" @click="search = ''" aria-label="Clear">✕</button>
+        </div>
+
         <!-- Connected -->
-        <div v-if="userConnectors.length > 0" class="section">
+        <div v-if="filteredConnectors.length > 0" class="section">
           <div class="section-label">Connected</div>
           <div class="uc-list">
-            <a v-for="uc in userConnectors" :key="uc.id"
+            <a v-for="uc in filteredConnectors" :key="uc.id"
                :href="`/dashboard/connectors/${uc.id}/edit`"
                class="uc-row uc-row-link">
               <div class="uc-row-icon">{{ uc.connector?.icon || '⬡' }}</div>
@@ -120,6 +132,13 @@
           </div>
         </div>
 
+        <!-- No search results -->
+        <div v-else-if="userConnectors.length > 0 && filteredConnectors.length === 0" class="uc-empty">
+          <div class="uc-empty-icon">⬡</div>
+          <div class="uc-empty-title">No connectors match your search</div>
+          <div class="uc-empty-desc">Try a different keyword.</div>
+        </div>
+
         <!-- Empty state -->
         <div v-if="userConnectors.length === 0" class="uc-empty">
           <div class="uc-empty-icon">⬡</div>
@@ -146,7 +165,17 @@ const props = defineProps({
 });
 
 const sidebarOpen = ref(false);
+const search      = ref('');
 const initial     = computed(() => (props.user.name || 'U').charAt(0).toUpperCase());
+
+const filteredConnectors = computed(() => {
+  const q = search.value.trim().toLowerCase();
+  if (!q) return props.userConnectors;
+  return props.userConnectors.filter(uc =>
+    (uc.connector?.name     || '').toLowerCase().includes(q) ||
+    (uc.connector?.category || '').toLowerCase().includes(q)
+  );
+});
 
 function formatDate(d) {
   return new Date(d).toLocaleDateString('en-US', { month: 'short', year: 'numeric' });
@@ -212,6 +241,14 @@ function confirmDisconnect(event, name) {
 .uc-page-sub   { color: #6b7280; font-size: 0.875rem; }
 .uc-catalog-link { font-size: 0.85rem; font-weight: 600; color: #FCD34D; text-decoration: none; padding: 0.6rem 1.1rem; background: rgba(217,119,6,0.12); border: 1px solid rgba(217,119,6,0.3); border-radius: 0.625rem; transition: all 0.18s; white-space: nowrap; }
 .uc-catalog-link:hover { background: rgba(217,119,6,0.22); }
+
+.uc-search-wrap { position: relative; display: flex; align-items: center; margin-bottom: 1.25rem; }
+.uc-search-icon { position: absolute; left: 0.75rem; font-size: 1rem; color: #4b5563; pointer-events: none; }
+.uc-search { background: rgba(28,24,16,0.8); border: 1px solid rgba(217,119,6,0.2); border-radius: 0.625rem; padding: 0.55rem 2.25rem 0.55rem 2.25rem; color: #e5e7eb; font-size: 0.875rem; width: 100%; outline: none; transition: border-color 0.18s; font-family: inherit; }
+.uc-search::placeholder { color: #4b5563; }
+.uc-search:focus { border-color: rgba(217,119,6,0.5); }
+.uc-search-clear { position: absolute; right: 0.6rem; background: none; border: none; cursor: pointer; color: #4b5563; font-size: 0.75rem; padding: 0.25rem; line-height: 1; }
+.uc-search-clear:hover { color: #9ca3af; }
 
 .flash { padding: 0.75rem 1rem; border-radius: 0.625rem; font-size: 0.875rem; margin-bottom: 1.25rem; }
 .flash.success { background: rgba(0,217,126,0.08); border: 1px solid rgba(0,217,126,0.25); color: #00d97e; }
