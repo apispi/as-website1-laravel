@@ -74,7 +74,7 @@
             <h1 class="uc-page-title">My Connectors</h1>
             <p class="uc-page-sub">{{ userConnectors.length }} integration{{ userConnectors.length !== 1 ? 's' : '' }} connected</p>
           </div>
-          <a href="/dashboard/catalog" class="uc-catalog-link">Connector Catalog →</a>
+          <a href="/dashboard/catalog?tab=connectors" class="uc-catalog-link">Connector Catalog →</a>
         </div>
 
         <div v-if="flashSuccess" class="flash success">{{ flashSuccess }}</div>
