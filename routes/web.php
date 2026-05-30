@@ -5,6 +5,7 @@ use App\Http\Controllers\Admin\AgentController as AdminAgents;
 use App\Http\Controllers\Admin\ConnectorController as AdminConnectors;
 use App\Http\Controllers\Admin\UserConnectorController as AdminUserConnectors;
 use App\Http\Controllers\Admin\TrainingController as AdminTrainings;
+use App\Http\Controllers\Admin\AzurePoliciesController as AdminAzure;
 use App\Http\Controllers\Admin\DashboardController as AdminDashboard;
 use App\Http\Controllers\Admin\SkillController as AdminSkills;
 use App\Http\Controllers\Admin\SubscriptionController as AdminSubscriptions;
@@ -148,4 +149,5 @@ Route::middleware(['auth', 'admin'])->prefix('admin')->name('admin.')->group(fun
     Route::get('/agents/{agent}/edit', [AdminAgents::class, 'edit'])->name('agents.edit');
     Route::put('/agents/{agent}', [AdminAgents::class, 'update'])->name('agents.update');
     Route::delete('/agents/{agent}', [AdminAgents::class, 'destroy'])->name('agents.destroy');
+    Route::get('/azure/policies', [AdminAzure::class, 'index'])->name('azure.policies');
 });

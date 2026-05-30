@@ -17,7 +17,7 @@ class User extends Authenticatable
     /** @use HasFactory<UserFactory> */
     use HasFactory, Notifiable;
 
-    protected $fillable = ['name', 'email', 'password', 'is_admin', 'google_id', 'azure_id', 'avatar'];
+    protected $fillable = ['name', 'email', 'password', 'is_admin', 'google_id', 'azure_id', 'azure_roles', 'avatar'];
 
     /**
      * Get the attributes that should be cast.
@@ -29,7 +29,8 @@ class User extends Authenticatable
         return [
             'email_verified_at' => 'datetime',
             'password' => 'hashed',
-            'is_admin' => 'boolean',
+            'is_admin'    => 'boolean',
+            'azure_roles' => 'array',
         ];
     }
 

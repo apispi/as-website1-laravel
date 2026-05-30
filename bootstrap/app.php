@@ -12,7 +12,8 @@ $app = Application::configure(basePath: dirname(__DIR__))
     )
     ->withMiddleware(function (Middleware $middleware): void {
         $middleware->alias([
-            'admin' => \App\Http\Middleware\IsAdmin::class,
+            'admin'      => \App\Http\Middleware\IsAdmin::class,
+            'azure.role' => \App\Http\Middleware\RequiresAzureRole::class,
         ]);
     })
     ->withExceptions(function (Exceptions $exceptions): void {

@@ -23,8 +23,9 @@ import UserConnectorsManagePage from './components/admin/UserConnectorsManagePag
 import UserConnectorConfigPage from './components/admin/UserConnectorConfigPage.vue';
 import UserConnectorEditPage from './components/admin/UserConnectorEditPage.vue';
 import LeadsPage from './components/admin/LeadsPage.vue';
+import AzurePoliciesPage from './components/admin/AzurePoliciesPage.vue';
 
-const pages = { dashboard: DashboardPage, users: UsersPage, 'user-detail': UserDetailPage, 'user-agents': UserAgentsPage, agents: AgentsPage, 'agent-form': AgentFormPage, 'all-agents': AllAgentsPage, 'agent-detail-admin': AgentDetailAdminPage, 'subscription-detail': SubscriptionDetailPage, 'agent-skill-detail': AgentSkillDetailPage, 'subscription-skill-detail': SubscriptionSkillDetailPage, skills: SkillsPage, 'skill-form': SkillFormPage, 'activity-log': ActivityLogPage, trainings: TrainingsPage, 'training-form': TrainingFormPage, connectors: ConnectorsPage, 'connector-form': ConnectorFormPage, 'user-connectors': UserConnectorsPage, 'user-connectors-manage': UserConnectorsManagePage, 'user-connector-config': UserConnectorConfigPage, 'user-connector-edit': UserConnectorEditPage, leads: LeadsPage };
+const pages = { dashboard: DashboardPage, users: UsersPage, 'user-detail': UserDetailPage, 'user-agents': UserAgentsPage, agents: AgentsPage, 'agent-form': AgentFormPage, 'all-agents': AllAgentsPage, 'agent-detail-admin': AgentDetailAdminPage, 'subscription-detail': SubscriptionDetailPage, 'agent-skill-detail': AgentSkillDetailPage, 'subscription-skill-detail': SubscriptionSkillDetailPage, skills: SkillsPage, 'skill-form': SkillFormPage, 'activity-log': ActivityLogPage, trainings: TrainingsPage, 'training-form': TrainingFormPage, connectors: ConnectorsPage, 'connector-form': ConnectorFormPage, 'user-connectors': UserConnectorsPage, 'user-connectors-manage': UserConnectorsManagePage, 'user-connector-config': UserConnectorConfigPage, 'user-connector-edit': UserConnectorEditPage, leads: LeadsPage, 'azure-policies': AzurePoliciesPage };
 
 const el = document.getElementById('admin-app');
 if (el) {

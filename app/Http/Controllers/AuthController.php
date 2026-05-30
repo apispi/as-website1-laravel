@@ -12,6 +12,7 @@ use App\Models\ActivityLog;
 use App\Models\Agent;
 use App\Models\Subscription;
 use App\Models\User;
+use App\Services\GraphService;
 use Laravel\Socialite\Facades\Socialite;
 
 class AuthController extends Controller
@@ -283,21 +284,49 @@ class AuthController extends Controller
     {
         $azureUser = Socialite::driver('azure')->user();
 
+        // Fetch group memberships and map to ApiSpi roles
+        $graph      = app(GraphService::class);
+        $groups     = $graph->userGroups($azureUser->token);
+        $roleMap    = config('azure.role_map', []);
+        $azureRoles = [];
+
+        foreach ($groups as $group) {
+            $name = $group['displayName'] ?? '';
+            $id   = $group['id'] ?? '';
+            foreach ($roleMap as $key => $role) {
+                if ($key && ($key === $name || $key === $id)) {
+                    $azureRoles[] = $role;
+                }
+            }
+        }
+        $azureRoles     = array_values(array_unique($azureRoles));
+        $isAdminFromAzure = in_array('admin', $azureRoles);
+
         $user = User::where('azure_id', $azureUser->getId())->first()
             ?? User::where('email', $azureUser->getEmail())->first();
 
         if ($user) {
-            $user->update([
-                'azure_id' => $azureUser->getId(),
-                'avatar'   => $user->avatar ?? $azureUser->getAvatar(),
-            ]);
+            $updates = [
+                'azure_id'    => $azureUser->getId(),
+                'azure_roles' => $azureRoles,
+                'avatar'      => $user->avatar ?? $azureUser->getAvatar(),
+            ];
+            // Grant admin from Azure group; optionally revoke if sync_admin is enabled
+            if ($isAdminFromAzure) {
+                $updates['is_admin'] = true;
+            } elseif (config('azure.sync_admin') && $user->azure_id) {
+                $updates['is_admin'] = false;
+            }
+            $user->update($updates);
         } else {
             $user = User::create([
-                'name'     => $azureUser->getName(),
-                'email'    => $azureUser->getEmail(),
-                'azure_id' => $azureUser->getId(),
-                'avatar'   => $azureUser->getAvatar(),
-                'password' => Hash::make(Str::random(32)),
+                'name'        => $azureUser->getName(),
+                'email'       => $azureUser->getEmail(),
+                'azure_id'    => $azureUser->getId(),
+                'azure_roles' => $azureRoles,
+                'is_admin'    => $isAdminFromAzure,
+                'avatar'      => $azureUser->getAvatar(),
+                'password'    => Hash::make(Str::random(32)),
             ]);
         }
 

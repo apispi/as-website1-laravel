@@ -61,6 +61,11 @@
           <span class="adm-nav-icon">◷</span> Blog
         </a>
 
+        <span class="adm-nav-label">Identity</span>
+        <a href="/admin/azure/policies" class="adm-nav-link" :class="{ active: page === 'azure-policies' }">
+          <span class="adm-nav-icon">⬡</span> Entra Policies
+        </a>
+
         <span class="adm-nav-label">Site</span>
         <a href="/dashboard" class="adm-nav-link">
           <span class="adm-nav-icon">⬡</span> User Dashboard
