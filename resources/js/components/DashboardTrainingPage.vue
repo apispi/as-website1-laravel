@@ -78,14 +78,25 @@
           <div>
             <a href="/dashboard" class="dt-back">← Dashboard</a>
             <h1 class="dt-page-title">Training Catalog</h1>
-            <p class="dt-page-sub">{{ trainings.length }} course{{ trainings.length !== 1 ? 's' : '' }} available</p>
+            <p class="dt-page-sub">{{ filteredTrainings.length }} course{{ filteredTrainings.length !== 1 ? 's' : '' }} available</p>
+          </div>
+          <div class="dt-search-wrap">
+            <span class="dt-search-icon">⊕</span>
+            <input
+              v-model="search"
+              type="text"
+              class="dt-search"
+              placeholder="Search courses…"
+              autocomplete="off"
+            />
+            <button v-if="search" class="dt-search-clear" @click="search = ''" aria-label="Clear">✕</button>
           </div>
         </div>
 
         <!-- Training cards -->
-        <div v-if="trainings.length" class="dt-grid">
+        <div v-if="filteredTrainings.length" class="dt-grid">
           <a
-            v-for="t in trainings"
+            v-for="t in filteredTrainings"
             :key="t.id"
             :href="enrolUrl(t)"
             class="dt-card"
@@ -129,8 +140,8 @@
         <!-- Empty -->
         <div v-else class="dt-empty">
           <div class="dt-empty-icon">◷</div>
-          <div class="dt-empty-title">No courses available yet</div>
-          <div class="dt-empty-desc">Check back soon for new training.</div>
+          <div class="dt-empty-title">{{ search ? 'No courses match your search' : 'No courses available yet' }}</div>
+          <div class="dt-empty-desc">{{ search ? 'Try a different keyword.' : 'Check back soon for new training.' }}</div>
         </div>
 
       </main>
@@ -148,7 +159,19 @@ const props = defineProps({
 });
 
 const sidebarOpen = ref(false);
+const search = ref('');
 const initial = computed(() => (props.user.name || 'U').charAt(0).toUpperCase());
+
+const filteredTrainings = computed(() => {
+  const q = search.value.trim().toLowerCase();
+  if (!q) return props.trainings;
+  return props.trainings.filter(t =>
+    (t.title       || '').toLowerCase().includes(q) ||
+    (t.category    || '').toLowerCase().includes(q) ||
+    (t.description || '').toLowerCase().includes(q) ||
+    (t.instructor  || '').toLowerCase().includes(q)
+  );
+});
 
 function enrolUrl(t) {
   if (t.stripe_payment_link) return t.stripe_payment_link;
@@ -213,6 +236,14 @@ function badgeClass(badge) {
 .dt-back:hover { color: #FCD34D; }
 .dt-page-title { font-size: 1.6rem; font-weight: 700; color: #f1f5f9; margin-bottom: 0.2rem; }
 .dt-page-sub   { color: #6b7280; font-size: 0.875rem; }
+
+.dt-search-wrap { position: relative; display: flex; align-items: center; }
+.dt-search-icon { position: absolute; left: 0.75rem; font-size: 1rem; color: #4b5563; pointer-events: none; }
+.dt-search { background: rgba(28,24,16,0.8); border: 1px solid rgba(217,119,6,0.2); border-radius: 0.625rem; padding: 0.55rem 2.25rem 0.55rem 2.25rem; color: #e5e7eb; font-size: 0.875rem; width: 260px; outline: none; transition: border-color 0.18s; }
+.dt-search::placeholder { color: #4b5563; }
+.dt-search:focus { border-color: rgba(217,119,6,0.5); }
+.dt-search-clear { position: absolute; right: 0.6rem; background: none; border: none; cursor: pointer; color: #4b5563; font-size: 0.75rem; padding: 0.25rem; line-height: 1; }
+.dt-search-clear:hover { color: #9ca3af; }
 
 /* Grid */
 .dt-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); gap: 1.5rem; }
