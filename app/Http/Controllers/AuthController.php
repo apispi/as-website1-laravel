@@ -132,6 +132,13 @@ class AuthController extends Controller
         return view('auth.dashboard', compact('subscriptions', 'trainings'));
     }
 
+    public function catalogAgent(string $slug)
+    {
+        $agent = \App\Models\Agent::where('slug', $slug)->where('is_active', true)->firstOrFail();
+        $agent->load('skills');
+        return view('auth.catalog-agent', compact('agent'));
+    }
+
     public function dashboardTraining()
     {
         $trainings = \App\Models\Training::active()->get();

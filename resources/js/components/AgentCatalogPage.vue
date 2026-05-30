@@ -133,7 +133,7 @@
 
           <div v-else class="ac-list">
             <a v-for="agent in filteredAgents" :key="agent.id"
-               :href="`/agents/${agent.slug}`"
+               :href="`/dashboard/catalog/agents/${agent.slug}`"
                class="ac-row">
               <div class="ac-row-icon">◈</div>
               <div class="ac-row-body">
