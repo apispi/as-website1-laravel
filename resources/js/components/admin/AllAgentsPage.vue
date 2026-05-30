@@ -28,21 +28,34 @@
       <div class="empty-desc">Assign agents to users from the Users section.</div>
     </div>
 
-    <div v-else class="table-wrap">
-      <table class="data-table">
-        <thead>
-          <tr>
-            <th>Agent</th>
-            <th>User</th>
-            <th>Price</th>
-            <th>Status</th>
-            <th>Started</th>
-            <th>Expires</th>
-            <th></th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr v-for="sub in subscriptions" :key="sub.id" class="clickable-row" @click="go(sub.id)">
+    <template v-else>
+      <div class="search-wrap">
+        <span class="search-icon">◈</span>
+        <input v-model="search" type="text" class="search-input" placeholder="Search by agent, user, or email…" autocomplete="off" />
+        <button v-if="search" class="search-clear" @click="search = ''" aria-label="Clear">✕</button>
+      </div>
+
+      <div v-if="filtered.length === 0" class="empty-state">
+        <div class="empty-icon">◈</div>
+        <div class="empty-title">No results match your search</div>
+        <div class="empty-desc">Try a different keyword.</div>
+      </div>
+
+      <div v-else class="table-wrap">
+        <table class="data-table">
+          <thead>
+            <tr>
+              <th>Agent</th>
+              <th>User</th>
+              <th>Price</th>
+              <th>Status</th>
+              <th>Started</th>
+              <th>Expires</th>
+              <th></th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr v-for="sub in filtered" :key="sub.id" class="clickable-row" @click="go(sub.id)">
             <td>
               <div class="agent-cell">
                 <div class="agent-icon">◈</div>
@@ -68,21 +81,34 @@
               <a :href="`/admin/subscriptions/${sub.id}`" class="btn-view" @click.stop>View →</a>
             </td>
           </tr>
-        </tbody>
-      </table>
-    </div>
+          </tbody>
+        </table>
+      </div>
+    </template>
 
   </AdminShell>
 </template>
 
 <script setup>
-import { computed } from 'vue';
+import { ref, computed } from 'vue';
 import AdminShell from './AdminShell.vue';
 
 const props = defineProps({
   currentUser:   { type: Object, default: () => ({}) },
   csrfToken:     { type: String, default: '' },
   subscriptions: { type: Array,  default: () => [] },
+});
+
+const search = ref('');
+
+const filtered = computed(() => {
+  const q = search.value.trim().toLowerCase();
+  if (!q) return props.subscriptions;
+  return props.subscriptions.filter(s =>
+    (s.agent?.name  || '').toLowerCase().includes(q) ||
+    (s.user?.name   || '').toLowerCase().includes(q) ||
+    (s.user?.email  || '').toLowerCase().includes(q)
+  );
 });
 
 const activeCount  = computed(() => props.subscriptions.filter(s => s.status === 'active').length);
@@ -104,7 +130,15 @@ function formatDate(dateStr) {
 .page-title { font-size: 1.6rem; font-weight: 700; color: #f1f5f9; margin-bottom: 0.2rem; }
 .page-sub   { color: #6b7280; font-size: 0.875rem; }
 
-.stat-row { display: flex; gap: 0.75rem; flex-wrap: wrap; margin-bottom: 1.5rem; }
+.stat-row { display: flex; gap: 0.75rem; flex-wrap: wrap; margin-bottom: 1.25rem; }
+
+.search-wrap { position: relative; display: flex; align-items: center; margin-bottom: 1.25rem; max-width: 420px; }
+.search-icon { position: absolute; left: 0.75rem; font-size: 0.9rem; color: #7f1d1d; pointer-events: none; opacity: 0.6; }
+.search-input { background: rgba(24,10,10,0.7); border: 1px solid rgba(239,68,68,0.18); border-radius: 0.625rem; padding: 0.55rem 2.25rem 0.55rem 2.25rem; color: #e5e7eb; font-size: 0.875rem; width: 100%; outline: none; transition: border-color 0.18s; font-family: inherit; }
+.search-input::placeholder { color: #4b5563; }
+.search-input:focus { border-color: rgba(239,68,68,0.4); }
+.search-clear { position: absolute; right: 0.6rem; background: none; border: none; cursor: pointer; color: #4b5563; font-size: 0.75rem; padding: 0.25rem; line-height: 1; }
+.search-clear:hover { color: #9ca3af; }
 .stat-pill {
   padding: 0.45rem 0.9rem; border-radius: 99px;
   background: rgba(239,68,68,0.06); border: 1px solid rgba(239,68,68,0.15);
