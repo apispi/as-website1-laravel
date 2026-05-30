@@ -20,6 +20,36 @@
         <div class="container">
             <div class="blog-grid" style="grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));">
                 <article class="blog-card">
+                    <div class="blog-date">May 31, 2026</div>
+                    <h3><a href="{{ route('blog.show', 'five-agents-service-business-2026') }}">The 5 AI Agents Every Australian Service Business Should Have in 2026</a></h3>
+                    <p>Consultancies, agencies, trades, and professional services firms are leaving significant time and revenue on the table. Here are the five agents with the clearest ROI — and how to sequence deploying them.</p>
+                    <div class="blog-meta">
+                        <span class="category">Guide</span>
+                        <span class="read-time">7 min read</span>
+                    </div>
+                </article>
+
+                <article class="blog-card">
+                    <div class="blog-date">May 30, 2026</div>
+                    <h3><a href="{{ route('blog.show', 'ai-agents-australian-privacy-law') }}">AI Agents and Australian Privacy Law: What You Need to Know Before Deploying</a></h3>
+                    <p>The 2024 Privacy Act reforms introduced new obligations for automated decision-making. Here is what the framework means for your agent deployment — and the practical steps to stay compliant.</p>
+                    <div class="blog-meta">
+                        <span class="category">Compliance</span>
+                        <span class="read-time">9 min read</span>
+                    </div>
+                </article>
+
+                <article class="blog-card">
+                    <div class="blog-date">May 29, 2026</div>
+                    <h3><a href="{{ route('blog.show', 'chatbot-to-agent-upgrade') }}">From Chatbot to Agent: Why the Upgrade Matters for Your Business</a></h3>
+                    <p>Most businesses that experimented with AI in 2023–24 deployed chatbots. The architecture has fundamentally changed — and the distinction between a chatbot and an agent determines what your AI can actually do.</p>
+                    <div class="blog-meta">
+                        <span class="category">Insights</span>
+                        <span class="read-time">8 min read</span>
+                    </div>
+                </article>
+
+                <article class="blog-card">
                     <div class="blog-date">May 26, 2026</div>
                     <h3><a href="{{ route('blog.show', 'ai-agents-australian-smb-2026') }}">AI Agents for Australian SMBs: The 2026 Opportunity</a></h3>
                     <p>Model costs have collapsed, platforms have abstracted the complexity, and the competitive gap between early adopters and late movers is widening. Here's where small businesses should start.</p>

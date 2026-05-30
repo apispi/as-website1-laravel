@@ -5,6 +5,9 @@ namespace App\Http\Controllers;
 class BlogController extends Controller
 {
     private array $validSlugs = [
+        'five-agents-service-business-2026',
+        'ai-agents-australian-privacy-law',
+        'chatbot-to-agent-upgrade',
         'ai-agents-australian-smb-2026',
         'digital-avatars-professional-services',
         'ai-agents-partner-program',
