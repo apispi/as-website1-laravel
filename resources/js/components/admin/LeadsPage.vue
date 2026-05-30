@@ -182,7 +182,9 @@ function confirmDelete(event, name) {
 .data-table th { padding: 0.75rem 1rem; text-align: left; font-size: 0.72rem; font-weight: 600; text-transform: uppercase; letter-spacing: 0.06em; color: #6b7280; border-bottom: 1px solid rgba(239,68,68,0.08); background: rgba(239,68,68,0.03); }
 .data-table td { padding: 0.875rem 1rem; border-bottom: 1px solid rgba(239,68,68,0.06); vertical-align: middle; }
 .data-table tbody tr:last-child td { border-bottom: none; }
-.data-table tbody tr:hover td { background: rgba(239,68,68,0.02); }
+.data-table tbody tr:hover td { background: rgba(239,68,68,0.1); }
+.data-table tbody tr:hover .name-cell { color: #fca5a5; }
+.data-table tbody tr:hover .muted { color: #9ca3af; }
 
 .name-cell  { font-weight: 600; color: #e5e7eb; white-space: nowrap; }
 .email-link { color: #9ca3af; text-decoration: none; font-size: 0.85rem; }
