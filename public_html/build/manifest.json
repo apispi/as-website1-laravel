@@ -89,7 +89,7 @@
     ]
   },
   "resources/js/agents-list.js": {
-    "file": "assets/agents-list-Dfhe87v6.js",
+    "file": "assets/agents-list-CEdKgyLu.js",
     "name": "agents-list",
     "src": "resources/js/agents-list.js",
     "isEntry": true,
@@ -97,7 +97,7 @@
       "__plugin-vue_export-helper-BtD7L4UX.js"
     ],
     "css": [
-      "assets/agents-list-D__nkgRh.css"
+      "assets/agents-list-fNmb4wlc.css"
     ]
   },
   "resources/js/app.js": {

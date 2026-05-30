@@ -96,6 +96,18 @@
           <a href="/dashboard/catalog" class="ual-btn-browse">Agent Catalog →</a>
         </div>
 
+        <div v-if="subscriptions.length > 0" class="ual-search-wrap">
+          <span class="ual-search-icon">⊕</span>
+          <input
+            v-model="search"
+            type="text"
+            class="ual-search"
+            placeholder="Search agents…"
+            autocomplete="off"
+          />
+          <button v-if="search" class="ual-search-clear" @click="search = ''" aria-label="Clear">✕</button>
+        </div>
+
         <!-- Empty -->
         <div v-if="subscriptions.length === 0" class="ual-empty">
           <div class="ual-empty-icon">◈</div>
@@ -104,9 +116,16 @@
           <a href="/dashboard/catalog" class="ual-btn-browse ual-mt">Browse Catalog →</a>
         </div>
 
+        <!-- No search results -->
+        <div v-else-if="filteredSubscriptions.length === 0" class="ual-empty">
+          <div class="ual-empty-icon">◈</div>
+          <div class="ual-empty-title">No agents match your search</div>
+          <div class="ual-empty-desc">Try a different keyword.</div>
+        </div>
+
         <!-- List -->
         <div v-else class="ual-list">
-          <a v-for="sub in subscriptions" :key="sub.id"
+          <a v-for="sub in filteredSubscriptions" :key="sub.id"
              :href="`/dashboard/agents/${sub.id}`"
              class="ual-row">
             <div class="ual-row-icon">◈</div>
@@ -147,7 +166,17 @@ const props = defineProps({
 });
 
 const sidebarOpen = ref(false);
+const search = ref('');
 const initial = computed(() => (props.user.name || 'U').charAt(0).toUpperCase());
+
+const filteredSubscriptions = computed(() => {
+  const q = search.value.trim().toLowerCase();
+  if (!q) return props.subscriptions;
+  return props.subscriptions.filter(s =>
+    (s.agent?.name     || '').toLowerCase().includes(q) ||
+    (s.agent?.category || '').toLowerCase().includes(q)
+  );
+});
 
 function formatDate(dateStr) {
   if (!dateStr) return '—';
@@ -212,6 +241,14 @@ function formatDate(dateStr) {
 .ual-btn-browse { padding: 0.6rem 1.1rem; border-radius: 0.625rem; background: rgba(217,119,6,0.12); border: 1px solid rgba(217,119,6,0.3); color: #FCD34D; font-size: 0.85rem; font-weight: 600; text-decoration: none; white-space: nowrap; transition: all 0.18s; }
 .ual-btn-browse:hover { background: rgba(217,119,6,0.22); }
 .ual-mt { margin-top: 1.25rem; display: inline-block; }
+
+.ual-search-wrap { position: relative; display: flex; align-items: center; margin-bottom: 1.25rem; }
+.ual-search-icon { position: absolute; left: 0.75rem; font-size: 1rem; color: #4b5563; pointer-events: none; }
+.ual-search { background: rgba(28,24,16,0.8); border: 1px solid rgba(217,119,6,0.2); border-radius: 0.625rem; padding: 0.55rem 2.25rem 0.55rem 2.25rem; color: #e5e7eb; font-size: 0.875rem; width: 100%; outline: none; transition: border-color 0.18s; font-family: inherit; }
+.ual-search::placeholder { color: #4b5563; }
+.ual-search:focus { border-color: rgba(217,119,6,0.5); }
+.ual-search-clear { position: absolute; right: 0.6rem; background: none; border: none; cursor: pointer; color: #4b5563; font-size: 0.75rem; padding: 0.25rem; line-height: 1; }
+.ual-search-clear:hover { color: #9ca3af; }
 
 /* Empty */
 .ual-empty { background: rgba(28,24,16,0.7); border: 1px dashed rgba(217,119,6,0.2); border-radius: 1rem; padding: 3rem 2rem; text-align: center; max-width: 400px; }
