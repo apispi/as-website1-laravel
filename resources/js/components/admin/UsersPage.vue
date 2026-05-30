@@ -172,7 +172,9 @@ function viewUser(userId) {
 }
 .data-table td { padding: 0.875rem 1rem; border-bottom: 1px solid rgba(239,68,68,0.06); vertical-align: middle; }
 .data-table tbody tr:last-child td { border-bottom: none; }
-.data-table tbody tr:hover td { background: rgba(239,68,68,0.03); }
+.data-table tbody tr:hover td { background: rgba(239,68,68,0.1); }
+.data-table tbody tr:hover .user-name { color: #fca5a5; }
+.data-table tbody tr:hover .muted { color: #9ca3af; }
 
 .user-cell { display: flex; align-items: center; gap: 0.75rem; text-decoration: none; color: inherit; }
 .user-cell:hover .user-name { color: #fca5a5; }
