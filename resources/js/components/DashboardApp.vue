@@ -129,6 +129,38 @@
           </div>
         </section>
 
+        <!-- Training -->
+        <section v-if="trainings.length" class="db-section">
+          <div class="db-section-head">
+            <h2 class="db-section-title">Available Training</h2>
+            <a href="/training" class="db-section-link">View all →</a>
+          </div>
+          <div class="db-training-list">
+            <a
+              v-for="t in trainings"
+              :key="t.id"
+              :href="enrolUrl(t)"
+              class="db-training-card"
+              :class="{ featured: t.is_featured }"
+            >
+              <div class="db-training-meta">
+                <span v-if="t.badge" class="db-training-badge" :class="badgeClass(t.badge)">{{ t.badge }}</span>
+                <span v-if="t.category" class="db-training-cat">{{ t.category }}</span>
+                <span v-if="t.format" class="db-training-format">{{ t.format }}</span>
+                <span v-if="t.duration" class="db-training-format">{{ t.duration }}</span>
+              </div>
+              <div class="db-training-body">
+                <div class="db-training-title">{{ t.title }}</div>
+                <div v-if="t.level" class="db-training-level">{{ t.level }}</div>
+              </div>
+              <div class="db-training-right">
+                <div v-if="t.price" class="db-training-price">{{ t.price }}<span v-if="t.price_unit"> / {{ t.price_unit }}</span></div>
+                <span class="db-training-cta">Enrol →</span>
+              </div>
+            </a>
+          </div>
+        </section>
+
         <!-- Getting Started -->
         <section class="db-section">
           <h2 class="db-section-title">Getting Started</h2>
@@ -157,6 +189,7 @@ const props = defineProps({
   user:          { type: Object, default: () => ({}) },
   csrfToken:     { type: String, default: '' },
   subscriptions: { type: Array,  default: () => [] },
+  trainings:     { type: Array,  default: () => [] },
 });
 
 const sidebarOpen = ref(false);
@@ -175,6 +208,20 @@ const actions = [
   { icon: '◷', label: 'Training', desc: 'Learn to build better AI workflows', href: '/training' },
   { icon: '◉', label: 'Support', desc: 'Get help from our team', href: '/contact' },
 ];
+
+function enrolUrl(t) {
+  if (t.stripe_payment_link) return t.stripe_payment_link;
+  if (t.checkout_amount) return `/checkout?agent=${encodeURIComponent(t.checkout_name || t.title)}&amount=${t.checkout_amount}&type=training`;
+  return '/training';
+}
+
+function badgeClass(badge) {
+  const b = (badge || '').toLowerCase();
+  if (b === 'popular')       return 'badge-popular';
+  if (b === 'new')           return 'badge-new';
+  if (b === 'certification') return 'badge-cert';
+  return '';
+}
 
 const gettingStarted = computed(() => [
   { title: 'Create your account', desc: 'You\'re in! Account is set up and ready.', done: true, href: '#' },
@@ -406,6 +453,43 @@ const gettingStarted = computed(() => [
   white-space: nowrap;
 }
 .db-step-cta:hover { background: rgba(217,119,6,0.12); border-color: rgba(217,119,6,0.5); }
+
+/* Training list */
+.db-section-head { display: flex; align-items: center; justify-content: space-between; margin-bottom: 1rem; }
+.db-section-link { font-size: 0.82rem; color: #D97706; text-decoration: none; }
+.db-section-link:hover { text-decoration: underline; }
+
+.db-training-list { display: flex; flex-direction: column; gap: 0.65rem; }
+.db-training-card {
+  display: flex; align-items: center; gap: 1rem;
+  background: rgba(28,24,16,0.7);
+  border: 1px solid rgba(217,119,6,0.12);
+  border-radius: 0.875rem;
+  padding: 0.875rem 1.125rem;
+  text-decoration: none; color: inherit;
+  transition: border-color 0.2s, background 0.2s, transform 0.2s;
+  min-height: 64px;
+}
+.db-training-card:hover { border-color: rgba(217,119,6,0.35); background: rgba(217,119,6,0.05); transform: translateY(-1px); }
+.db-training-card.featured { border-color: rgba(217,119,6,0.3); }
+
+.db-training-meta { display: flex; flex-wrap: wrap; align-items: center; gap: 0.35rem; min-width: 130px; flex-shrink: 0; }
+.db-training-cat  { font-size: 0.72rem; color: #D97706; font-weight: 600; text-transform: uppercase; letter-spacing: 0.05em; }
+.db-training-format { font-size: 0.72rem; color: #6b7280; }
+
+.db-training-badge { font-size: 0.65rem; font-weight: 700; text-transform: uppercase; padding: 0.15rem 0.45rem; border-radius: 9999px; }
+.badge-popular { background: rgba(255,180,30,0.15); border: 1px solid rgba(255,180,30,0.3); color: #fbbf24; }
+.badge-new      { background: rgba(0,217,126,0.12); border: 1px solid rgba(0,217,126,0.3); color: #34d399; }
+.badge-cert     { background: rgba(59,130,246,0.12); border: 1px solid rgba(59,130,246,0.3); color: #93c5fd; }
+
+.db-training-body { flex: 1; min-width: 0; }
+.db-training-title { font-size: 0.9rem; font-weight: 600; color: #e5e7eb; margin-bottom: 0.15rem; }
+.db-training-level { font-size: 0.78rem; color: #6b7280; }
+
+.db-training-right { display: flex; flex-direction: column; align-items: flex-end; gap: 0.3rem; flex-shrink: 0; }
+.db-training-price { font-size: 0.95rem; font-weight: 700; color: #FCD34D; white-space: nowrap; }
+.db-training-price span { font-size: 0.72rem; color: #6b7280; font-weight: 400; }
+.db-training-cta { font-size: 0.78rem; font-weight: 600; color: #D97706; white-space: nowrap; }
 
 /* Mobile */
 @media (max-width: 768px) {

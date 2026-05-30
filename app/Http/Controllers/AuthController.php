@@ -127,7 +127,9 @@ class AuthController extends Controller
             ->latest('started_at')
             ->get();
 
-        return view('auth.dashboard', compact('subscriptions'));
+        $trainings = \App\Models\Training::active()->get();
+
+        return view('auth.dashboard', compact('subscriptions', 'trainings'));
     }
 
     public function catalog()

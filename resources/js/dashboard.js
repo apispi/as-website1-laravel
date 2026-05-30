@@ -7,5 +7,6 @@ if (el) {
         user: JSON.parse(el.dataset.user || '{}'),
         csrfToken: el.dataset.csrf || '',
         subscriptions: JSON.parse(el.dataset.subscriptions || '[]'),
+        trainings: JSON.parse(el.dataset.trainings || '[]'),
     }).mount(el);
 }

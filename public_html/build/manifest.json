@@ -155,7 +155,7 @@
     ]
   },
   "resources/js/dashboard.js": {
-    "file": "assets/dashboard-0SWTGmPG.js",
+    "file": "assets/dashboard-BB-6gJ7m.js",
     "name": "dashboard",
     "src": "resources/js/dashboard.js",
     "isEntry": true,
@@ -163,7 +163,7 @@
       "__plugin-vue_export-helper-HQ9zuxDH.js"
     ],
     "css": [
-      "assets/dashboard-DJjGIogG.css"
+      "assets/dashboard-Cn2E8cVJ.css"
     ]
   },
   "resources/js/profile.js": {
