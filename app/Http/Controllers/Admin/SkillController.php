@@ -23,7 +23,7 @@ class SkillController extends Controller
     {
         $data = $this->validated($request);
         Skill::create($data);
-        return redirect()->route('admin.skills.index')->with('success', 'Skill created.');
+        return redirect('/admin/agents?tab=skills')->with('success', 'Skill created.');
     }
 
     public function edit(Skill $skill)
@@ -35,13 +35,13 @@ class SkillController extends Controller
     {
         $data = $this->validated($request);
         $skill->update($data);
-        return redirect()->route('admin.skills.index')->with('success', 'Skill updated.');
+        return redirect('/admin/agents?tab=skills')->with('success', 'Skill updated.');
     }
 
     public function destroy(Skill $skill)
     {
         $skill->delete();
-        return redirect()->route('admin.skills.index')->with('success', 'Skill deleted.');
+        return redirect('/admin/agents?tab=skills')->with('success', 'Skill deleted.');
     }
 
     private function validated(Request $request): array
