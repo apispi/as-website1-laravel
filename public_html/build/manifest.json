@@ -1,6 +1,6 @@
 {
-  "__plugin-vue_export-helper-HQ9zuxDH.js": {
-    "file": "assets/_plugin-vue_export-helper-HQ9zuxDH.js",
+  "__plugin-vue_export-helper-BtD7L4UX.js": {
+    "file": "assets/_plugin-vue_export-helper-BtD7L4UX.js",
     "name": "_plugin-vue_export-helper"
   },
   "_fonts-DkuEHybc.css": {
@@ -65,39 +65,39 @@
     "isEntry": true
   },
   "resources/js/admin.js": {
-    "file": "assets/admin-C3b-8XPK.js",
+    "file": "assets/admin-qoOHyjeo.js",
     "name": "admin",
     "src": "resources/js/admin.js",
     "isEntry": true,
     "imports": [
-      "__plugin-vue_export-helper-HQ9zuxDH.js"
+      "__plugin-vue_export-helper-BtD7L4UX.js"
     ],
     "css": [
       "assets/admin-DajgGWBX.css"
     ]
   },
   "resources/js/agent-detail.js": {
-    "file": "assets/agent-detail-CNJtisFY.js",
+    "file": "assets/agent-detail-QTfI6bn7.js",
     "name": "agent-detail",
     "src": "resources/js/agent-detail.js",
     "isEntry": true,
     "imports": [
-      "__plugin-vue_export-helper-HQ9zuxDH.js"
+      "__plugin-vue_export-helper-BtD7L4UX.js"
     ],
     "css": [
       "assets/agent-detail-DkX3hTJB.css"
     ]
   },
   "resources/js/agents-list.js": {
-    "file": "assets/agents-list-B_1cXQ89.js",
+    "file": "assets/agents-list-Dfhe87v6.js",
     "name": "agents-list",
     "src": "resources/js/agents-list.js",
     "isEntry": true,
     "imports": [
-      "__plugin-vue_export-helper-HQ9zuxDH.js"
+      "__plugin-vue_export-helper-BtD7L4UX.js"
     ],
     "css": [
-      "assets/agents-list-2pMVuRQ-.css"
+      "assets/agents-list-D__nkgRh.css"
     ]
   },
   "resources/js/app.js": {
@@ -107,72 +107,84 @@
     "isEntry": true
   },
   "resources/js/aria.js": {
-    "file": "assets/aria-CUwpcMpr.js",
+    "file": "assets/aria-Dp-0H7vH.js",
     "name": "aria",
     "src": "resources/js/aria.js",
     "isEntry": true,
     "imports": [
-      "__plugin-vue_export-helper-HQ9zuxDH.js"
+      "__plugin-vue_export-helper-BtD7L4UX.js"
     ],
     "css": [
-      "assets/aria-cbfbtkS7.css"
+      "assets/aria-MTYJ0TUY.css"
     ]
   },
   "resources/js/catalog.js": {
-    "file": "assets/catalog-B6Ej_9I2.js",
+    "file": "assets/catalog-BN6Q9DrT.js",
     "name": "catalog",
     "src": "resources/js/catalog.js",
     "isEntry": true,
     "imports": [
-      "__plugin-vue_export-helper-HQ9zuxDH.js"
+      "__plugin-vue_export-helper-BtD7L4UX.js"
     ],
     "css": [
-      "assets/catalog-CtiZ7Q-2.css"
+      "assets/catalog-CW0C_4xN.css"
     ]
   },
   "resources/js/connectors-user.js": {
-    "file": "assets/connectors-user-DR9sZse3.js",
+    "file": "assets/connectors-user-CeEJuJXv.js",
     "name": "connectors-user",
     "src": "resources/js/connectors-user.js",
     "isEntry": true,
     "imports": [
-      "__plugin-vue_export-helper-HQ9zuxDH.js"
+      "__plugin-vue_export-helper-BtD7L4UX.js"
     ],
     "css": [
-      "assets/connectors-user-Dh37ciz5.css"
+      "assets/connectors-user-BnMMWSvS.css"
     ]
   },
   "resources/js/dashboard-chat.js": {
-    "file": "assets/dashboard-chat-CfiLYFCR.js",
+    "file": "assets/dashboard-chat-BZThwcac.js",
     "name": "dashboard-chat",
     "src": "resources/js/dashboard-chat.js",
     "isEntry": true,
     "imports": [
-      "__plugin-vue_export-helper-HQ9zuxDH.js"
+      "__plugin-vue_export-helper-BtD7L4UX.js"
     ],
     "css": [
       "assets/dashboard-chat-CDd2RW4w.css"
     ]
   },
+  "resources/js/dashboard-training.js": {
+    "file": "assets/dashboard-training-C4ykhEhp.js",
+    "name": "dashboard-training",
+    "src": "resources/js/dashboard-training.js",
+    "isEntry": true,
+    "imports": [
+      "__plugin-vue_export-helper-BtD7L4UX.js"
+    ],
+    "css": [
+      "assets/dashboard-training-QSOxYE2o.css"
+    ]
+  },
   "resources/js/dashboard.js": {
-    "file": "assets/dashboard-BB-6gJ7m.js",
+    "file": "assets/dashboard-BB6asIad.js",
     "name": "dashboard",
     "src": "resources/js/dashboard.js",
     "isEntry": true,
     "imports": [
-      "__plugin-vue_export-helper-HQ9zuxDH.js"
+      "__plugin-vue_export-helper-BtD7L4UX.js"
     ],
     "css": [
-      "assets/dashboard-Cn2E8cVJ.css"
+      "assets/dashboard-Cem9BYBY.css"
     ]
   },
   "resources/js/profile.js": {
-    "file": "assets/profile-CUXC0rc_.js",
+    "file": "assets/profile-C5CKzkxQ.js",
     "name": "profile",
     "src": "resources/js/profile.js",
     "isEntry": true,
     "imports": [
-      "__plugin-vue_export-helper-HQ9zuxDH.js"
+      "__plugin-vue_export-helper-BtD7L4UX.js"
     ],
     "css": [
       "assets/profile-BZ1eZXWT.css"

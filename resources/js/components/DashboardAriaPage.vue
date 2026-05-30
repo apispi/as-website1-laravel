@@ -28,11 +28,10 @@
         <a href="/dashboard/agents"     class="aria-nav-link"><span class="aria-nav-icon">◈</span> My Agents</a>
         <a href="/dashboard/connectors" class="aria-nav-link"><span class="aria-nav-icon">⬡</span> My Connectors</a>
         <a href="/dashboard/catalog"    class="aria-nav-link"><span class="aria-nav-icon">◎</span> Catalog</a>
-        <a href="/training"             class="aria-nav-link"><span class="aria-nav-icon">◷</span> Training</a>
+        <a href="/dashboard/training"   class="aria-nav-link"><span class="aria-nav-icon">◷</span> Training</a>
         <a href="/dashboard/aria"       class="aria-nav-link active"><span class="aria-nav-icon">◇</span> Aria</a>
 
         <span class="aria-nav-label">Account</span>
-        <a href="/contact"              class="aria-nav-link"><span class="aria-nav-icon">◉</span> Support</a>
 
         <template v-if="user.is_admin">
           <span class="aria-nav-label">Administration</span>

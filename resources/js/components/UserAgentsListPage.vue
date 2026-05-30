@@ -35,13 +35,10 @@
           <span class="ual-nav-icon">◎</span> Catalog
         </a>
         <a href="/dashboard/aria"   class="ual-nav-link"><span class="ual-nav-icon">◇</span> Aria</a>
-        <a href="/training" class="ual-nav-link">
+        <a href="/dashboard/training" class="ual-nav-link">
           <span class="ual-nav-icon">◷</span> Training
         </a>
         <span class="ual-nav-label">Account</span>
-        <a href="/contact" class="ual-nav-link">
-          <span class="ual-nav-icon">◉</span> Support
-        </a>
         <template v-if="user.is_admin">
           <span class="ual-nav-label">Administration</span>
           <a href="/admin" class="ual-nav-link ual-nav-admin">

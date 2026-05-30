@@ -132,6 +132,12 @@ class AuthController extends Controller
         return view('auth.dashboard', compact('subscriptions', 'trainings'));
     }
 
+    public function dashboardTraining()
+    {
+        $trainings = \App\Models\Training::active()->get();
+        return view('auth.training-dashboard', compact('trainings'));
+    }
+
     public function catalog()
     {
         $agents         = Agent::active()->orderBy('sort_order')->get();

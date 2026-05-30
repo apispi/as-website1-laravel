@@ -73,6 +73,7 @@ Route::get('/auth/azure/callback',  [AuthController::class, 'azureCallback'])->n
 // Authenticated routes
 Route::middleware('auth')->group(function () {
     Route::get('/dashboard', [AuthController::class, 'dashboard'])->name('dashboard');
+    Route::get('/dashboard/training', [AuthController::class, 'dashboardTraining'])->name('dashboard.training');
     Route::get('/dashboard/catalog', [AuthController::class, 'catalog'])->name('dashboard.catalog');
     Route::get('/dashboard/agents', [AuthController::class, 'userAgents'])->name('dashboard.agents.index');
     Route::get('/dashboard/agents/{subscription}', [AuthController::class, 'userAgent'])->name('dashboard.agents.show');

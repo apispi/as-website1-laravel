@@ -38,14 +38,11 @@
           <span class="db-nav-icon">◎</span> Catalog
         </a>
         <a href="/dashboard/aria"   class="db-nav-link"><span class="db-nav-icon">◇</span> Aria</a>
-        <a href="/training" class="db-nav-link">
+        <a href="/dashboard/training" class="db-nav-link">
           <span class="db-nav-icon">◷</span> Training
         </a>
 
         <span class="db-nav-label">Account</span>
-        <a href="/contact" class="db-nav-link">
-          <span class="db-nav-icon">◉</span> Support
-        </a>
 
         <template v-if="user.is_admin">
           <span class="db-nav-label">Administration</span>
@@ -133,7 +130,7 @@
         <section v-if="trainings.length" class="db-section">
           <div class="db-section-head">
             <h2 class="db-section-title">Available Training</h2>
-            <a href="/training" class="db-section-link">View all →</a>
+            <a href="/dashboard/training" class="db-section-link">View all →</a>
           </div>
           <div class="db-training-list">
             <a
@@ -205,14 +202,13 @@ const stats = computed(() => [
 
 const actions = [
   { icon: '◎', label: 'Agent Catalog', desc: 'Explore and deploy AI agents', href: '/dashboard/catalog' },
-  { icon: '◷', label: 'Training', desc: 'Learn to build better AI workflows', href: '/training' },
-  { icon: '◉', label: 'Support', desc: 'Get help from our team', href: '/contact' },
+  { icon: '◷', label: 'Training', desc: 'Learn to build better AI workflows', href: '/dashboard/training' },
 ];
 
 function enrolUrl(t) {
   if (t.stripe_payment_link) return t.stripe_payment_link;
   if (t.checkout_amount) return `/checkout?agent=${encodeURIComponent(t.checkout_name || t.title)}&amount=${t.checkout_amount}&type=training`;
-  return '/training';
+  return '/dashboard/training';
 }
 
 function badgeClass(badge) {
@@ -226,7 +222,7 @@ function badgeClass(badge) {
 const gettingStarted = computed(() => [
   { title: 'Create your account', desc: 'You\'re in! Account is set up and ready.', done: true, href: '#' },
   { title: 'Explore our AI agents', desc: 'Browse agents designed for your workflows.', done: props.subscriptions.length > 0, href: '/agents' },
-  { title: 'Run your first pipeline', desc: 'Chain AI steps to automate complex tasks.', done: false, href: '/training' },
+  { title: 'Run your first pipeline', desc: 'Chain AI steps to automate complex tasks.', done: false, href: '/dashboard/training' },
   { title: 'Integrate via API', desc: 'Connect agents to your own applications.', done: false, href: '/contact' },
 ]);
 </script>
