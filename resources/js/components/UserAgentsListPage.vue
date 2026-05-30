@@ -230,7 +230,7 @@ function formatDate(dateStr) {
 .ual-menu-btn span { display: block; width: 100%; height: 2px; background: #FCD34D; border-radius: 2px; }
 .ual-topbar-right { display: flex; align-items: center; }
 
-.ual-content { flex: 1; padding: 2rem; max-width: 800px; width: 100%; }
+.ual-content { flex: 1; padding: 2rem; max-width: 860px; width: 100%; }
 
 .ual-page-header { display: flex; align-items: flex-end; justify-content: space-between; gap: 1rem; margin-bottom: 1.75rem; flex-wrap: wrap; }
 .ual-back { font-size: 0.82rem; color: #6b7280; text-decoration: none; display: block; margin-bottom: 0.35rem; }
