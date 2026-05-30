@@ -80,17 +80,18 @@
             <h1 class="dt-page-title">Training Catalog</h1>
             <p class="dt-page-sub">{{ filteredTrainings.length }} course{{ filteredTrainings.length !== 1 ? 's' : '' }} available</p>
           </div>
-          <div class="dt-search-wrap">
-            <span class="dt-search-icon">⊕</span>
-            <input
-              v-model="search"
-              type="text"
-              class="dt-search"
-              placeholder="Search courses…"
-              autocomplete="off"
-            />
-            <button v-if="search" class="dt-search-clear" @click="search = ''" aria-label="Clear">✕</button>
-          </div>
+        </div>
+
+        <div class="dt-search-wrap">
+          <span class="dt-search-icon">⊕</span>
+          <input
+            v-model="search"
+            type="text"
+            class="dt-search"
+            placeholder="Search courses…"
+            autocomplete="off"
+          />
+          <button v-if="search" class="dt-search-clear" @click="search = ''" aria-label="Clear">✕</button>
         </div>
 
         <!-- Training cards -->
@@ -231,15 +232,15 @@ function badgeClass(badge) {
 
 .dt-content { flex: 1; padding: 2rem; max-width: 1100px; width: 100%; }
 
-.dt-page-header { display: flex; align-items: flex-end; justify-content: space-between; margin-bottom: 2rem; flex-wrap: wrap; gap: 1rem; }
+.dt-page-header { display: flex; align-items: flex-end; justify-content: space-between; margin-bottom: 1.25rem; flex-wrap: wrap; gap: 1rem; }
 .dt-back       { font-size: 0.8rem; color: #6b7280; text-decoration: none; display: block; margin-bottom: 0.35rem; }
 .dt-back:hover { color: #FCD34D; }
 .dt-page-title { font-size: 1.6rem; font-weight: 700; color: #f1f5f9; margin-bottom: 0.2rem; }
 .dt-page-sub   { color: #6b7280; font-size: 0.875rem; }
 
-.dt-search-wrap { position: relative; display: flex; align-items: center; }
+.dt-search-wrap { position: relative; display: flex; align-items: center; margin-bottom: 1.5rem; }
 .dt-search-icon { position: absolute; left: 0.75rem; font-size: 1rem; color: #4b5563; pointer-events: none; }
-.dt-search { background: rgba(28,24,16,0.8); border: 1px solid rgba(217,119,6,0.2); border-radius: 0.625rem; padding: 0.55rem 2.25rem 0.55rem 2.25rem; color: #e5e7eb; font-size: 0.875rem; width: 260px; outline: none; transition: border-color 0.18s; }
+.dt-search { background: rgba(28,24,16,0.8); border: 1px solid rgba(217,119,6,0.2); border-radius: 0.625rem; padding: 0.55rem 2.25rem 0.55rem 2.25rem; color: #e5e7eb; font-size: 0.875rem; width: 100%; outline: none; transition: border-color 0.18s; font-family: inherit; }
 .dt-search::placeholder { color: #4b5563; }
 .dt-search:focus { border-color: rgba(217,119,6,0.5); }
 .dt-search-clear { position: absolute; right: 0.6rem; background: none; border: none; cursor: pointer; color: #4b5563; font-size: 0.75rem; padding: 0.25rem; line-height: 1; }
