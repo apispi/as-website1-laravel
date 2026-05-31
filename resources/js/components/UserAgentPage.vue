@@ -48,6 +48,7 @@
       </nav>
 
       <div class="ua-sidebar-footer">
+        <div class="ua-owner-name">{{ user.name }}</div>
         <form method="POST" action="/logout">
           <input type="hidden" name="_token" :value="csrfToken">
           <button type="submit" class="ua-signout">⏻ Sign Out</button>
@@ -277,6 +278,7 @@ function formatDate(dateStr) {
 .ua-nav-icon { font-size: 1rem; width: 20px; text-align: center; flex-shrink: 0; }
 
 .ua-sidebar-footer { padding: 1rem 0.75rem; border-top: 1px solid rgba(217,119,6,0.1); flex-shrink: 0; }
+.ua-owner-name { font-size: 0.85rem; font-weight: 600; color: #e5e7eb; padding: 0.25rem 0.5rem 0.5rem; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
 .ua-signout { display: flex; align-items: center; gap: 0.5rem; width: 100%; padding: 0.5rem 0.75rem; background: none; border: none; cursor: pointer; color: #6b7280; font-size: 0.85rem; border-radius: 0.4rem; transition: all 0.18s; font-family: inherit; text-align: left; min-height: 44px; }
 .ua-signout:hover { background: rgba(255,59,48,0.1); color: #ff3b30; }
 
