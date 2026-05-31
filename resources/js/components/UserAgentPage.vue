@@ -36,12 +36,8 @@
           <span class="ua-nav-icon">◎</span> Catalog
         </a>
         <a href="/dashboard/aria"   class="ua-nav-link"><span class="ua-nav-icon">◇</span> Aria</a>
-        <a href="/training" class="ua-nav-link">
+        <a href="/dashboard/training" class="ua-nav-link">
           <span class="ua-nav-icon">◷</span> Training
-        </a>
-        <span class="ua-nav-label">Account</span>
-        <a href="/contact" class="ua-nav-link">
-          <span class="ua-nav-icon">◉</span> Support
         </a>
         <template v-if="user.is_admin">
           <span class="ua-nav-label">Administration</span>
@@ -52,13 +48,6 @@
       </nav>
 
       <div class="ua-sidebar-footer">
-        <a href="/dashboard/profile" class="ua-user-row">
-          <div class="ua-avatar">{{ initial }}</div>
-          <div class="ua-user-text">
-            <div class="ua-user-name">{{ user.name }}</div>
-            <div class="ua-user-email">{{ user.email }}</div>
-          </div>
-        </a>
         <form method="POST" action="/logout">
           <input type="hidden" name="_token" :value="csrfToken">
           <button type="submit" class="ua-signout">⏻ Sign Out</button>
@@ -85,15 +74,13 @@
           </svg>
           <span>ApiSpi</span>
         </a>
-        <div class="ua-topbar-right">
-          <div class="ua-avatar ua-avatar-sm">{{ initial }}</div>
-        </div>
+        <div class="ua-topbar-right"></div>
       </header>
 
       <main class="ua-content">
         <!-- Breadcrumb -->
         <div class="ua-breadcrumb">
-          <a href="/dashboard" class="ua-back">← My Agents</a>
+          <a href="/dashboard/agents" class="ua-back">← My Agents</a>
         </div>
 
         <!-- Agent header -->
@@ -290,17 +277,6 @@ function formatDate(dateStr) {
 .ua-nav-icon { font-size: 1rem; width: 20px; text-align: center; flex-shrink: 0; }
 
 .ua-sidebar-footer { padding: 1rem 0.75rem; border-top: 1px solid rgba(217,119,6,0.1); flex-shrink: 0; }
-.ua-user-row {
-  display: flex; align-items: center; gap: 0.75rem; margin-bottom: 0.75rem;
-  text-decoration: none; color: inherit;
-  padding: 0.4rem 0.5rem; border-radius: 0.5rem; transition: background 0.15s;
-}
-.ua-user-row:hover { background: rgba(217,119,6,0.08); }
-.ua-avatar { width: 36px; height: 36px; border-radius: 50%; background: linear-gradient(135deg, #D97706, #FCD34D); display: flex; align-items: center; justify-content: center; font-weight: 700; font-size: 0.85rem; color: #0a0805; flex-shrink: 0; }
-.ua-avatar-sm { width: 32px; height: 32px; font-size: 0.8rem; }
-.ua-user-text { min-width: 0; }
-.ua-user-name { font-size: 0.85rem; font-weight: 600; color: #e5e7eb; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
-.ua-user-email { font-size: 0.75rem; color: #6b7280; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
 .ua-signout { display: flex; align-items: center; gap: 0.5rem; width: 100%; padding: 0.5rem 0.75rem; background: none; border: none; cursor: pointer; color: #6b7280; font-size: 0.85rem; border-radius: 0.4rem; transition: all 0.18s; font-family: inherit; text-align: left; min-height: 44px; }
 .ua-signout:hover { background: rgba(255,59,48,0.1); color: #ff3b30; }
 
