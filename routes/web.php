@@ -85,6 +85,7 @@ Route::middleware('auth')->group(function () {
     Route::post('/dashboard/connectors/{connector}/connect', [AuthController::class, 'connectApiConnector'])->name('dashboard.connectors.connect');
     Route::get('/dashboard/connectors/{userConnector}/edit', [AuthController::class, 'editConnector'])->name('dashboard.connectors.edit');
     Route::put('/dashboard/connectors/{userConnector}', [AuthController::class, 'updateConnector'])->name('dashboard.connectors.update');
+    Route::delete('/dashboard/connectors/{userConnector}', [AuthController::class, 'deleteConnector'])->name('dashboard.connectors.delete');
     Route::get('/dashboard/profile', [AuthController::class, 'profile'])->name('dashboard.profile');
     Route::put('/dashboard/profile', [AuthController::class, 'updateProfile'])->name('dashboard.profile.update');
     Route::put('/dashboard/profile/password', [AuthController::class, 'updatePassword'])->name('dashboard.profile.password');

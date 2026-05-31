@@ -240,6 +240,15 @@ class AuthController extends Controller
         return redirect()->route('dashboard.connectors')->with('success', "{$userConnector->connector->name} configuration saved.");
     }
 
+    public function deleteConnector(\App\Models\UserConnector $userConnector)
+    {
+        abort_if($userConnector->user_id !== Auth::id(), 403);
+        $name = $userConnector->connector->name ?? 'connector';
+        $userConnector->delete();
+        ActivityLog::log('connector.removed', "Removed connector: {$name}");
+        return redirect()->route('dashboard.connectors')->with('success', "{$name} has been removed.");
+    }
+
     public function userConnectors()
     {
         $userConnectors = Auth::user()

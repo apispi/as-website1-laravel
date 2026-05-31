@@ -127,6 +127,15 @@
                    :href="`/connectors/${uc.connector.slug}/authorize`"
                    class="uc-btn-connect"
                    @click.stop>Reconnect →</a>
+                <form method="POST" :action="`/dashboard/connectors/${uc.id}`"
+                      class="uc-disconnect-form" @click.stop>
+                  <input type="hidden" name="_token" :value="csrfToken">
+                  <input type="hidden" name="_method" value="DELETE">
+                  <button type="submit" class="uc-btn-remove"
+                          @click.prevent="confirmRemove($event, uc.connector?.name)">
+                    Remove
+                  </button>
+                </form>
               </div>
             </a>
           </div>
@@ -183,6 +192,12 @@ function formatDate(d) {
 
 function confirmDisconnect(event, name) {
   if (confirm(`Disconnect ${name}? You can reconnect at any time.`)) {
+    event.target.closest('form').submit();
+  }
+}
+
+function confirmRemove(event, name) {
+  if (confirm(`Remove ${name}? This will delete your connection and any saved configuration.`)) {
     event.target.closest('form').submit();
   }
 }
@@ -290,6 +305,8 @@ function confirmDisconnect(event, name) {
 .uc-disconnect-form { display: inline; }
 .uc-btn-disconnect { background: none; border: 1px solid rgba(239,68,68,0.2); border-radius: 0.4rem; color: #9ca3af; font-size: 0.78rem; font-weight: 600; padding: 0.3rem 0.65rem; cursor: pointer; font-family: inherit; transition: all 0.18s; }
 .uc-btn-disconnect:hover { border-color: rgba(239,68,68,0.5); color: #fca5a5; }
+.uc-btn-remove { background: none; border: 1px solid rgba(239,68,68,0.15); border-radius: 0.4rem; color: #6b7280; font-size: 0.78rem; font-weight: 600; padding: 0.3rem 0.65rem; cursor: pointer; font-family: inherit; transition: all 0.18s; }
+.uc-btn-remove:hover { border-color: rgba(239,68,68,0.45); color: #fca5a5; background: rgba(239,68,68,0.06); }
 .uc-btn-connect { display: inline-block; padding: 0.35rem 0.75rem; border-radius: 0.5rem; background: rgba(217,119,6,0.12); border: 1px solid rgba(217,119,6,0.3); color: #FCD34D; font-size: 0.82rem; font-weight: 600; text-decoration: none; transition: all 0.18s; white-space: nowrap; cursor: pointer; font-family: inherit; }
 .uc-btn-connect:hover { background: rgba(217,119,6,0.22); }
 .uc-connect-form { display: inline; margin: 0; padding: 0; }
