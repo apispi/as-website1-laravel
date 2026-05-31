@@ -182,7 +182,9 @@
 
           <template v-else>
             <div class="ac-list">
-              <div v-for="row in cnPageRows" :key="row.key" class="ac-row">
+              <a v-for="row in cnPageRows" :key="row.key"
+                 :href="`/dashboard/catalog/connectors/${row.slug}`"
+                 class="ac-row">
                 <div class="ac-row-icon">{{ row.icon || '⬡' }}</div>
                 <div class="ac-row-body">
                   <div class="ac-row-top">
@@ -197,24 +199,9 @@
                 </div>
                 <div class="ac-row-right">
                   <span class="cn-status-badge" :class="row.status">{{ row.statusLabel }}</span>
-                  <template v-if="row.status === 'active' && row.is_oauth">
-                    <form method="POST" :action="`/connectors/${row.slug}/disconnect`" class="cn-inline-form" @click.stop>
-                      <input type="hidden" name="_token" :value="csrfToken">
-                      <button type="submit" class="cn-btn-disconnect"
-                              @click.prevent="confirmDisconnect($event, row.name)">Disconnect</button>
-                    </form>
-                  </template>
-                  <template v-else-if="row.status === 'disconnected' && row.is_oauth">
-                    <a :href="`/connectors/${row.slug}/authorize`" class="ac-btn-view">Reconnect →</a>
-                  </template>
-                  <template v-else-if="row.status === 'available' && row.is_oauth">
-                    <a :href="`/connectors/${row.slug}/authorize`" class="ac-btn-view">Connect →</a>
-                  </template>
-                  <template v-else-if="row.status === 'available'">
-                    <span class="cn-not-available">Contact</span>
-                  </template>
+                  <span class="ac-row-arrow">→</span>
                 </div>
-              </div>
+              </a>
             </div>
 
             <!-- Pagination -->

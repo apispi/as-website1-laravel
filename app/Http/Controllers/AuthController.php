@@ -150,6 +150,17 @@ class AuthController extends Controller
         return view('auth.training-dashboard', compact('trainings'));
     }
 
+    public function catalogConnector(string $slug)
+    {
+        $connector    = \App\Models\Connector::where('slug', $slug)->where('is_active', true)->firstOrFail();
+        $userConnector = Auth::user()
+            ->userConnectors()
+            ->with('connector')
+            ->where('connector_id', $connector->id)
+            ->first();
+        return view('auth.catalog-connector', compact('connector', 'userConnector'));
+    }
+
     public function catalog()
     {
         $agents         = Agent::active()->orderBy('sort_order')->get();
