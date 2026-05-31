@@ -132,11 +132,9 @@
             <div class="ual-row-body">
               <div class="ual-row-top">
                 <span class="ual-row-name">{{ sub.agent?.name ?? '—' }}</span>
-                <span v-if="sub.agent?.badge" class="ual-badge" :class="sub.agent.badge.toLowerCase()">{{ sub.agent.badge }}</span>
               </div>
               <div class="ual-row-meta">
                 <span v-if="sub.agent?.category">{{ sub.agent.category }}</span>
-                <span v-if="sub.agent?.price" class="ual-row-price">{{ sub.agent.price }}</span>
               </div>
             </div>
             <div class="ual-row-right">
@@ -271,11 +269,6 @@ function formatDate(dateStr) {
 .ual-row-top { display: flex; align-items: center; gap: 0.5rem; margin-bottom: 0.25rem; flex-wrap: wrap; }
 .ual-row-name { font-size: 0.925rem; font-weight: 600; color: #e5e7eb; }
 .ual-row-meta { display: flex; gap: 0.75rem; font-size: 0.78rem; color: #6b7280; }
-.ual-row-price { color: #FCD34D; font-weight: 600; }
-.ual-badge { display: inline-block; padding: 0.12rem 0.4rem; border-radius: 99px; font-size: 0.65rem; font-weight: 600; }
-.ual-badge.popular { background: rgba(217,119,6,0.12); color: #FCD34D; }
-.ual-badge.premium { background: rgba(239,68,68,0.12); color: #fca5a5; }
-.ual-badge.new     { background: rgba(0,217,126,0.1);  color: #00d97e; }
 
 .ual-row-right { display: flex; flex-direction: column; align-items: flex-end; gap: 0.3rem; flex-shrink: 0; }
 .ual-status { display: inline-block; padding: 0.2rem 0.5rem; border-radius: 99px; font-size: 0.68rem; font-weight: 600; text-transform: capitalize; }
