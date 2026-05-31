@@ -78,8 +78,8 @@ Route::middleware('auth')->group(function () {
     Route::get('/dashboard/training', [AuthController::class, 'dashboardTraining'])->name('dashboard.training');
     Route::get('/dashboard/catalog/agents/{slug}', [AuthController::class, 'catalogAgent'])->name('dashboard.catalog.agent');
     Route::get('/dashboard/catalog', [AuthController::class, 'catalog'])->name('dashboard.catalog');
-    Route::get('/dashboard/agents', [AuthController::class, 'userAgents'])->name('dashboard.agents.index');
-    Route::get('/dashboard/agents/{subscription}', [AuthController::class, 'userAgent'])->name('dashboard.agents.show');
+    Route::get('/dashboard/subscriptions', [AuthController::class, 'userAgents'])->name('dashboard.agents.index');
+    Route::get('/dashboard/subscriptions/{subscription}', [AuthController::class, 'userAgent'])->name('dashboard.agents.show');
     Route::get('/dashboard/connectors', [AuthController::class, 'userConnectors'])->name('dashboard.connectors');
     Route::post('/dashboard/connectors/{connector}/connect', [AuthController::class, 'connectApiConnector'])->name('dashboard.connectors.connect');
     Route::get('/dashboard/connectors/{userConnector}/edit', [AuthController::class, 'editConnector'])->name('dashboard.connectors.edit');

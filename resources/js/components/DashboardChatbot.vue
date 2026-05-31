@@ -89,7 +89,7 @@ const INTENTS = [
     keywords: ['agent', 'agents', 'my agent', 'subscription', 'subscriptions', 'activate', 'active', 'access', 'tool'],
     response: "Your subscribed agents are in **My Agents**. Each card shows status and links to the agent's tools. To add more, browse the Catalog.",
     qr: ['Go to My Agents', 'Browse Catalog', 'Billing Help'],
-    links: { 'Go to My Agents': '/dashboard/agents', 'Browse Catalog': '/dashboard/catalog' },
+    links: { 'Go to My Agents': '/dashboard/subscriptions', 'Browse Catalog': '/dashboard/catalog' },
   },
   {
     name: 'connectors',

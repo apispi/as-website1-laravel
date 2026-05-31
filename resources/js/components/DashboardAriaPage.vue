@@ -25,7 +25,7 @@
       <nav class="aria-nav">
         <span class="aria-nav-label">Workspace</span>
         <a href="/dashboard"            class="aria-nav-link"><span class="aria-nav-icon">⬡</span> Home</a>
-        <a href="/dashboard/agents"     class="aria-nav-link"><span class="aria-nav-icon">◈</span> My Agents</a>
+        <a href="/dashboard/subscriptions"     class="aria-nav-link"><span class="aria-nav-icon">◈</span> My Agents</a>
         <a href="/dashboard/connectors" class="aria-nav-link"><span class="aria-nav-icon">⬡</span> My Connectors</a>
         <a href="/dashboard/catalog"    class="aria-nav-link"><span class="aria-nav-icon">◎</span> Catalog</a>
         <a href="/dashboard/training"   class="aria-nav-link"><span class="aria-nav-icon">◷</span> Training</a>

@@ -77,7 +77,7 @@
     ]
   },
   "resources/js/agent-detail.js": {
-    "file": "assets/agent-detail-iY5e8W6w.js",
+    "file": "assets/agent-detail-cJNp4qCm.js",
     "name": "agent-detail",
     "src": "resources/js/agent-detail.js",
     "isEntry": true,
@@ -85,11 +85,11 @@
       "__plugin-vue_export-helper-RNFy7Prb.js"
     ],
     "css": [
-      "assets/agent-detail-Btp4yCY9.css"
+      "assets/agent-detail-C7mWxkWQ.css"
     ]
   },
   "resources/js/agents-list.js": {
-    "file": "assets/agents-list-DNme1owZ.js",
+    "file": "assets/agents-list-D06aA7JI.js",
     "name": "agents-list",
     "src": "resources/js/agents-list.js",
     "isEntry": true,
@@ -97,7 +97,7 @@
       "__plugin-vue_export-helper-RNFy7Prb.js"
     ],
     "css": [
-      "assets/agents-list-CLpUZJ2k.css"
+      "assets/agents-list-BkoRmqy9.css"
     ]
   },
   "resources/js/app.js": {
@@ -107,7 +107,7 @@
     "isEntry": true
   },
   "resources/js/aria.js": {
-    "file": "assets/aria-C2tg2EPR.js",
+    "file": "assets/aria-B3l2Kdl_.js",
     "name": "aria",
     "src": "resources/js/aria.js",
     "isEntry": true,
@@ -115,11 +115,11 @@
       "__plugin-vue_export-helper-RNFy7Prb.js"
     ],
     "css": [
-      "assets/aria-MTYJ0TUY.css"
+      "assets/aria-Co1C_Ang.css"
     ]
   },
   "resources/js/catalog.js": {
-    "file": "assets/catalog-InJ2W6s-.js",
+    "file": "assets/catalog-DyvEWAPS.js",
     "name": "catalog",
     "src": "resources/js/catalog.js",
     "isEntry": true,
@@ -127,11 +127,11 @@
       "__plugin-vue_export-helper-RNFy7Prb.js"
     ],
     "css": [
-      "assets/catalog-DeNn6jnh.css"
+      "assets/catalog-CokNw7_u.css"
     ]
   },
   "resources/js/connectors-user.js": {
-    "file": "assets/connectors-user-esONjbG7.js",
+    "file": "assets/connectors-user-MUk83Kbx.js",
     "name": "connectors-user",
     "src": "resources/js/connectors-user.js",
     "isEntry": true,
@@ -139,11 +139,11 @@
       "__plugin-vue_export-helper-RNFy7Prb.js"
     ],
     "css": [
-      "assets/connectors-user-C0WfCxiF.css"
+      "assets/connectors-user-JukqTJ-S.css"
     ]
   },
   "resources/js/dashboard-catalog-agent.js": {
-    "file": "assets/dashboard-catalog-agent-BVc4Tog4.js",
+    "file": "assets/dashboard-catalog-agent-BcLyk-in.js",
     "name": "dashboard-catalog-agent",
     "src": "resources/js/dashboard-catalog-agent.js",
     "isEntry": true,
@@ -151,11 +151,11 @@
       "__plugin-vue_export-helper-RNFy7Prb.js"
     ],
     "css": [
-      "assets/dashboard-catalog-agent-noXGNdGw.css"
+      "assets/dashboard-catalog-agent-Bo0lDF2I.css"
     ]
   },
   "resources/js/dashboard-chat.js": {
-    "file": "assets/dashboard-chat-BgAwi0im.js",
+    "file": "assets/dashboard-chat-ByYe8Ia8.js",
     "name": "dashboard-chat",
     "src": "resources/js/dashboard-chat.js",
     "isEntry": true,
@@ -163,11 +163,11 @@
       "__plugin-vue_export-helper-RNFy7Prb.js"
     ],
     "css": [
-      "assets/dashboard-chat-CDd2RW4w.css"
+      "assets/dashboard-chat-BasPW02d.css"
     ]
   },
   "resources/js/dashboard-training.js": {
-    "file": "assets/dashboard-training-CReEsLAA.js",
+    "file": "assets/dashboard-training-Bqfb5yMC.js",
     "name": "dashboard-training",
     "src": "resources/js/dashboard-training.js",
     "isEntry": true,
@@ -175,11 +175,11 @@
       "__plugin-vue_export-helper-RNFy7Prb.js"
     ],
     "css": [
-      "assets/dashboard-training-x5y_5xYB.css"
+      "assets/dashboard-training-CvuLE2Us.css"
     ]
   },
   "resources/js/dashboard.js": {
-    "file": "assets/dashboard-McU846-L.js",
+    "file": "assets/dashboard-BAvoMwAZ.js",
     "name": "dashboard",
     "src": "resources/js/dashboard.js",
     "isEntry": true,
@@ -187,11 +187,11 @@
       "__plugin-vue_export-helper-RNFy7Prb.js"
     ],
     "css": [
-      "assets/dashboard-Cem9BYBY.css"
+      "assets/dashboard-DOSwB6qG.css"
     ]
   },
   "resources/js/profile.js": {
-    "file": "assets/profile-cgGrpYRT.js",
+    "file": "assets/profile-MLs5VyA3.js",
     "name": "profile",
     "src": "resources/js/profile.js",
     "isEntry": true,
@@ -199,7 +199,7 @@
       "__plugin-vue_export-helper-RNFy7Prb.js"
     ],
     "css": [
-      "assets/profile-BKg8FgkE.css"
+      "assets/profile-f8e5z9uA.css"
     ]
   }
 }

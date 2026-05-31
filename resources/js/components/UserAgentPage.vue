@@ -26,7 +26,7 @@
         <a href="/dashboard" class="ua-nav-link">
           <span class="ua-nav-icon">⬡</span> Home
         </a>
-        <a href="/dashboard/agents" class="ua-nav-link active">
+        <a href="/dashboard/subscriptions" class="ua-nav-link active">
           <span class="ua-nav-icon">◈</span> My Agents
         </a>
         <a href="/dashboard/connectors" class="ua-nav-link">
@@ -81,7 +81,7 @@
       <main class="ua-content">
         <!-- Breadcrumb -->
         <div class="ua-breadcrumb">
-          <a href="/dashboard/agents" class="ua-back">← My Agents</a>
+          <a href="/dashboard/subscriptions" class="ua-back">← My Agents</a>
         </div>
 
         <!-- Agent header -->

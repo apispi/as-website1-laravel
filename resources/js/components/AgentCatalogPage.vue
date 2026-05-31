@@ -25,7 +25,7 @@
         <a href="/dashboard" class="ac-nav-link">
           <span class="ac-nav-icon">⬡</span> Home
         </a>
-        <a href="/dashboard/agents" class="ac-nav-link">
+        <a href="/dashboard/subscriptions" class="ac-nav-link">
           <span class="ac-nav-icon">◈</span> My Agents
         </a>
         <a href="/dashboard/connectors" class="ac-nav-link">

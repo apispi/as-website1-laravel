@@ -25,7 +25,7 @@
         <a href="/dashboard" class="ual-nav-link">
           <span class="ual-nav-icon">⬡</span> Home
         </a>
-        <a href="/dashboard/agents" class="ual-nav-link active">
+        <a href="/dashboard/subscriptions" class="ual-nav-link active">
           <span class="ual-nav-icon">◈</span> My Agents
         </a>
         <a href="/dashboard/connectors" class="ual-nav-link">
@@ -126,7 +126,7 @@
         <!-- List -->
         <div v-else class="ual-list">
           <a v-for="sub in filteredSubscriptions" :key="sub.id"
-             :href="`/dashboard/agents/${sub.id}`"
+             :href="`/dashboard/subscriptions/${sub.id}`"
              class="ual-row">
             <div class="ual-row-icon">◈</div>
             <div class="ual-row-body">
