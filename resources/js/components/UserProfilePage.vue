@@ -36,12 +36,8 @@
           <span class="up-nav-icon">◎</span> Catalog
         </a>
         <a href="/dashboard/aria"   class="up-nav-link"><span class="up-nav-icon">◇</span> Aria</a>
-        <a href="/training" class="up-nav-link">
+        <a href="/dashboard/training" class="up-nav-link">
           <span class="up-nav-icon">◷</span> Training
-        </a>
-        <span class="up-nav-label">Account</span>
-        <a href="/contact" class="up-nav-link">
-          <span class="up-nav-icon">◉</span> Support
         </a>
         <template v-if="user.is_admin">
           <span class="up-nav-label">Administration</span>
@@ -92,52 +88,79 @@
 
       <main class="up-content">
 
-        <div class="up-page-header">
-          <h1 class="up-page-title">My Profile</h1>
-          <p class="up-page-sub">Manage your account details and password</p>
+        <!-- Profile hero -->
+        <div class="up-hero">
+          <div class="up-hero-avatar">{{ initial }}</div>
+          <div class="up-hero-info">
+            <div class="up-hero-name">{{ user.name }}</div>
+            <div class="up-hero-email">{{ user.email }}</div>
+          </div>
         </div>
 
-        <div v-if="flashSuccess" class="up-flash success">{{ flashSuccess }}</div>
-        <div v-if="flashError" class="up-flash error">{{ flashError }}</div>
+        <div v-if="flashSuccess" class="up-flash success">✓ {{ flashSuccess }}</div>
+        <div v-if="flashError"   class="up-flash error">{{ flashError }}</div>
 
         <!-- Account details -->
         <div class="up-card">
-          <h2 class="up-card-title">Account Details</h2>
+          <div class="up-card-header">
+            <h2 class="up-card-title">Account Details</h2>
+            <p class="up-card-sub">Update your display name</p>
+          </div>
           <form method="POST" action="/dashboard/profile">
             <input type="hidden" name="_token" :value="csrfToken">
             <input type="hidden" name="_method" value="PUT">
             <div class="up-form-group">
-              <label class="up-label">Name</label>
-              <input type="text" name="name" :value="user.name" required class="up-input" :class="{ 'up-input-error': flashField === 'name' }">
+              <label class="up-label" for="profile-name">Full Name</label>
+              <input id="profile-name" type="text" name="name" :value="user.name" required
+                     class="up-input" :class="{ 'up-input-error': flashField === 'name' }"
+                     placeholder="Your full name">
             </div>
             <div class="up-form-group">
-              <label class="up-label">Email</label>
-              <input type="email" :value="user.email" disabled class="up-input up-input-disabled">
+              <label class="up-label">Email Address</label>
+              <div class="up-input-static">
+                <span class="up-input-static-val">{{ user.email }}</span>
+                <span class="up-input-lock">🔒 Read only</span>
+              </div>
               <p class="up-hint">Email cannot be changed. Contact support if needed.</p>
             </div>
-            <button type="submit" class="up-btn-save">Save Changes</button>
+            <div class="up-form-footer">
+              <button type="submit" class="up-btn-save">Save Changes</button>
+            </div>
           </form>
         </div>
 
         <!-- Change password -->
         <div class="up-card">
-          <h2 class="up-card-title">Change Password</h2>
+          <div class="up-card-header">
+            <h2 class="up-card-title">Change Password</h2>
+            <p class="up-card-sub">Choose a strong password of at least 8 characters</p>
+          </div>
           <form method="POST" action="/dashboard/profile/password">
             <input type="hidden" name="_token" :value="csrfToken">
             <input type="hidden" name="_method" value="PUT">
             <div class="up-form-group">
-              <label class="up-label">Current Password</label>
-              <input type="password" name="current_password" required class="up-input" :class="{ 'up-input-error': flashField === 'current_password' }">
+              <label class="up-label" for="current-password">Current Password</label>
+              <input id="current-password" type="password" name="current_password" required
+                     class="up-input" :class="{ 'up-input-error': flashField === 'current_password' }"
+                     placeholder="Enter your current password">
+              <p v-if="flashField === 'current_password'" class="up-field-error">Incorrect current password.</p>
             </div>
-            <div class="up-form-group">
-              <label class="up-label">New Password</label>
-              <input type="password" name="password" required minlength="8" class="up-input" :class="{ 'up-input-error': flashField === 'password' }">
+            <div class="up-form-row">
+              <div class="up-form-group">
+                <label class="up-label" for="new-password">New Password</label>
+                <input id="new-password" type="password" name="password" required minlength="8"
+                       class="up-input" :class="{ 'up-input-error': flashField === 'password' }"
+                       placeholder="Min. 8 characters">
+              </div>
+              <div class="up-form-group">
+                <label class="up-label" for="confirm-password">Confirm New Password</label>
+                <input id="confirm-password" type="password" name="password_confirmation" required
+                       class="up-input" placeholder="Repeat new password">
+              </div>
             </div>
-            <div class="up-form-group">
-              <label class="up-label">Confirm New Password</label>
-              <input type="password" name="password_confirmation" required class="up-input">
+            <div class="up-form-footer">
+              <button type="submit" class="up-btn-save">Update Password</button>
             </div>
-            <button type="submit" class="up-btn-save">Update Password</button>
           </form>
         </div>
 
@@ -267,48 +290,82 @@ const initial = computed(() => props.user.name?.charAt(0).toUpperCase() ?? '?');
 
 .up-content { padding: 2rem 2.5rem; max-width: 680px; }
 
-.up-page-header { margin-bottom: 2rem; }
-.up-page-title { font-size: 1.6rem; font-weight: 700; color: #f1f5f9; margin-bottom: 0.3rem; }
-.up-page-sub { color: #6b7280; font-size: 0.9rem; }
+/* Hero */
+.up-hero {
+  display: flex; align-items: center; gap: 1.25rem;
+  background: rgba(28,18,8,0.8); border: 1px solid rgba(217,119,6,0.2);
+  border-radius: 1.25rem; padding: 1.5rem 1.75rem; margin-bottom: 2rem;
+}
+.up-hero-avatar {
+  width: 64px; height: 64px; border-radius: 50%; flex-shrink: 0;
+  background: linear-gradient(135deg, #D97706, #FCD34D);
+  display: flex; align-items: center; justify-content: center;
+  font-size: 1.6rem; font-weight: 800; color: #0a0805;
+  border: 2px solid rgba(217,119,6,0.4);
+}
+.up-hero-info { min-width: 0; }
+.up-hero-name  { font-size: 1.25rem; font-weight: 700; color: #f1f5f9; margin-bottom: 0.25rem; }
+.up-hero-email { font-size: 0.875rem; color: #9ca3af; }
 
+/* Flash */
 .up-flash {
   padding: 0.75rem 1rem; border-radius: 0.625rem;
-  font-size: 0.875rem; margin-bottom: 1.5rem;
+  font-size: 0.875rem; margin-bottom: 1.5rem; font-weight: 500;
 }
-.up-flash.success { background: rgba(0,217,126,0.08); border: 1px solid rgba(0,217,126,0.25); color: #00d97e; }
-.up-flash.error { background: rgba(239,68,68,0.08); border: 1px solid rgba(239,68,68,0.25); color: #ef4444; }
+.up-flash.success { background: rgba(0,217,126,0.08); border: 1px solid rgba(0,217,126,0.3); color: #00d97e; }
+.up-flash.error   { background: rgba(239,68,68,0.08); border: 1px solid rgba(239,68,68,0.3); color: #ef4444; }
 
+/* Cards */
 .up-card {
-  background: rgba(20,12,6,0.7); border: 1px solid rgba(217,119,6,0.1);
-  border-radius: 1rem; padding: 1.75rem; margin-bottom: 1.5rem;
+  background: rgba(20,12,6,0.8); border: 1px solid rgba(217,119,6,0.15);
+  border-radius: 1.25rem; padding: 1.75rem; margin-bottom: 1.5rem;
 }
-.up-card-title {
-  font-size: 1rem; font-weight: 700; color: #e5e7eb;
-  margin-bottom: 1.5rem; padding-bottom: 1rem;
-  border-bottom: 1px solid rgba(217,119,6,0.08);
-}
+.up-card-header { margin-bottom: 1.5rem; padding-bottom: 1rem; border-bottom: 1px solid rgba(217,119,6,0.1); }
+.up-card-title { font-size: 1.05rem; font-weight: 700; color: #f1f5f9; margin-bottom: 0.25rem; }
+.up-card-sub   { font-size: 0.82rem; color: #6b7280; }
 
-.up-form-group { display: flex; flex-direction: column; gap: 0.4rem; margin-bottom: 1.25rem; }
-.up-label { font-size: 0.82rem; font-weight: 600; color: #d1d5db; }
+/* Form */
+.up-form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; }
+.up-form-group { display: flex; flex-direction: column; gap: 0.5rem; margin-bottom: 1.25rem; }
+.up-form-footer { padding-top: 0.5rem; border-top: 1px solid rgba(217,119,6,0.08); margin-top: 0.25rem; }
+
+.up-label { font-size: 0.8rem; font-weight: 700; color: #d1d5db; letter-spacing: 0.02em; text-transform: uppercase; }
+
 .up-input {
-  padding: 0.65rem 0.875rem;
-  background: rgba(10,8,5,0.8); border: 1px solid rgba(217,119,6,0.15);
-  border-radius: 0.5rem; color: #e5e7eb; font-size: 1rem; font-family: inherit;
-  transition: border-color 0.18s; width: 100%;
+  padding: 0.75rem 1rem;
+  background: rgba(10,8,5,0.9); border: 1px solid rgba(217,119,6,0.25);
+  border-radius: 0.625rem; color: #f1f5f9; font-size: 0.95rem; font-family: inherit;
+  transition: border-color 0.18s, box-shadow 0.18s; width: 100%;
 }
-.up-input:focus { outline: none; border-color: rgba(217,119,6,0.45); }
+.up-input:focus {
+  outline: none;
+  border-color: rgba(217,119,6,0.6);
+  box-shadow: 0 0 0 3px rgba(217,119,6,0.1);
+}
 .up-input::placeholder { color: #4b5563; }
-.up-input-error { border-color: rgba(239,68,68,0.5); }
-.up-input-disabled { opacity: 0.5; cursor: not-allowed; }
+.up-input-error { border-color: rgba(239,68,68,0.6); }
+.up-input-error:focus { border-color: rgba(239,68,68,0.7); box-shadow: 0 0 0 3px rgba(239,68,68,0.1); }
+
+.up-input-static {
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 0.75rem 1rem;
+  background: rgba(10,8,5,0.5); border: 1px solid rgba(217,119,6,0.1);
+  border-radius: 0.625rem;
+}
+.up-input-static-val { font-size: 0.95rem; color: #9ca3af; }
+.up-input-lock { font-size: 0.72rem; color: #4b5563; flex-shrink: 0; }
+
 .up-hint { font-size: 0.76rem; color: #4b5563; }
+.up-field-error { font-size: 0.78rem; color: #ef4444; }
 
 .up-btn-save {
-  padding: 0.65rem 1.5rem; border-radius: 0.625rem;
-  background: rgba(217,119,6,0.15); border: 1px solid rgba(217,119,6,0.35);
-  color: #FCD34D; font-size: 0.9rem; font-weight: 600; cursor: pointer;
+  padding: 0.7rem 1.75rem; border-radius: 0.625rem;
+  background: rgba(217,119,6,0.2); border: 1px solid rgba(217,119,6,0.45);
+  color: #FCD34D; font-size: 0.9rem; font-weight: 700; cursor: pointer;
   font-family: inherit; transition: all 0.18s; min-height: 44px;
+  margin-top: 1rem;
 }
-.up-btn-save:hover { background: rgba(217,119,6,0.25); }
+.up-btn-save:hover { background: rgba(217,119,6,0.32); border-color: rgba(217,119,6,0.65); }
 
 @media (max-width: 768px) {
   .up-sidebar { transform: translateX(-100%); }
@@ -318,6 +375,8 @@ const initial = computed(() => props.user.name?.charAt(0).toUpperCase() ?? '?');
   .up-main { margin-left: 0; }
   .up-topbar { display: flex; }
   .up-content { padding: 1.25rem 1rem; }
-  .up-page-title { font-size: 1.3rem; }
+  .up-hero { padding: 1.25rem; }
+  .up-hero-avatar { width: 52px; height: 52px; font-size: 1.3rem; }
+  .up-form-row { grid-template-columns: 1fr; }
 }
 </style>

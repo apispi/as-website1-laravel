@@ -191,7 +191,7 @@
     ]
   },
   "resources/js/profile.js": {
-    "file": "assets/profile-B_WmdxCf.js",
+    "file": "assets/profile-cgGrpYRT.js",
     "name": "profile",
     "src": "resources/js/profile.js",
     "isEntry": true,
@@ -199,7 +199,7 @@
       "__plugin-vue_export-helper-RNFy7Prb.js"
     ],
     "css": [
-      "assets/profile-BZ1eZXWT.css"
+      "assets/profile-BKg8FgkE.css"
     ]
   }
 }
