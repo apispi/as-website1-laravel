@@ -136,7 +136,12 @@ class AuthController extends Controller
     {
         $agent = \App\Models\Agent::where('slug', $slug)->where('is_active', true)->firstOrFail();
         $agent->load('skills');
-        return view('auth.catalog-agent', compact('agent'));
+        $isSubscribed = Auth::user()
+            ->subscriptions()
+            ->where('agent_id', $agent->id)
+            ->where('status', 'active')
+            ->exists();
+        return view('auth.catalog-agent', compact('agent', 'isSubscribed'));
     }
 
     public function dashboardTraining()

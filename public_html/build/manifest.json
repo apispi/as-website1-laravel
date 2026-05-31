@@ -143,7 +143,7 @@
     ]
   },
   "resources/js/dashboard-catalog-agent.js": {
-    "file": "assets/dashboard-catalog-agent-BcLyk-in.js",
+    "file": "assets/dashboard-catalog-agent-3PymqTTY.js",
     "name": "dashboard-catalog-agent",
     "src": "resources/js/dashboard-catalog-agent.js",
     "isEntry": true,
@@ -151,7 +151,7 @@
       "__plugin-vue_export-helper-RNFy7Prb.js"
     ],
     "css": [
-      "assets/dashboard-catalog-agent-Bo0lDF2I.css"
+      "assets/dashboard-catalog-agent-CNZz-huD.css"
     ]
   },
   "resources/js/dashboard-chat.js": {

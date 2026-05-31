@@ -7,6 +7,7 @@
     id="dashboard-catalog-agent-app"
     data-user="{{ json_encode(['name' => Auth::user()->name, 'email' => Auth::user()->email, 'is_admin' => Auth::user()->is_admin]) }}"
     data-csrf="{{ csrf_token() }}"
+    data-is-subscribed="{{ $isSubscribed ? 'true' : 'false' }}"
     data-agent="{{ json_encode([
         'id'                  => $agent->id,
         'name'                => $agent->name,

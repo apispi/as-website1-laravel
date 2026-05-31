@@ -95,7 +95,8 @@
             <div v-if="agent.price" class="dca-price">
               {{ agent.price }}<span v-if="agent.price_unit"> / {{ agent.price_unit }}</span>
             </div>
-            <a :href="ctaUrl" class="dca-cta-btn">Get This Agent →</a>
+            <a v-if="!isSubscribed" :href="ctaUrl" class="dca-cta-btn">Get This Agent →</a>
+            <span v-else class="dca-subscribed-badge">✓ Already Subscribed</span>
           </div>
         </div>
 
@@ -165,9 +166,10 @@
 import { ref, computed } from 'vue';
 
 const props = defineProps({
-  user:      { type: Object, default: () => ({}) },
-  csrfToken: { type: String, default: '' },
-  agent:     { type: Object, default: () => ({}) },
+  user:           { type: Object, default: () => ({}) },
+  csrfToken:      { type: String, default: '' },
+  agent:          { type: Object, default: () => ({}) },
+  isSubscribed:   { type: Boolean, default: false },
 });
 
 const sidebarOpen = ref(false);
@@ -248,6 +250,7 @@ const ctaUrl = computed(() => {
 .dca-price span { font-size: 0.85rem; color: #6b7280; font-weight: 400; }
 .dca-cta-btn { display: inline-block; padding: 0.7rem 1.4rem; border-radius: 0.625rem; background: linear-gradient(135deg, #D97706, #B45309); color: #fff; font-size: 0.9rem; font-weight: 700; text-decoration: none; white-space: nowrap; transition: opacity 0.18s; }
 .dca-cta-btn:hover { opacity: 0.88; }
+.dca-subscribed-badge { display: inline-block; padding: 0.7rem 1.4rem; border-radius: 0.625rem; background: rgba(0,217,126,0.1); border: 1px solid rgba(0,217,126,0.3); color: #00d97e; font-size: 0.9rem; font-weight: 700; white-space: nowrap; }
 
 /* Sections */
 .dca-section { background: rgba(28,24,16,0.7); border: 1px solid rgba(217,119,6,0.12); border-radius: 1rem; padding: 1.5rem 1.75rem; margin-bottom: 1rem; }

@@ -4,8 +4,9 @@ import DashboardCatalogAgentPage from './components/DashboardCatalogAgentPage.vu
 const el = document.getElementById('dashboard-catalog-agent-app');
 if (el) {
     createApp(DashboardCatalogAgentPage, {
-        user:      JSON.parse(el.dataset.user      || '{}'),
-        csrfToken: el.dataset.csrf                 || '',
-        agent:     JSON.parse(el.dataset.agent     || '{}'),
+        user:         JSON.parse(el.dataset.user  || '{}'),
+        csrfToken:    el.dataset.csrf             || '',
+        agent:        JSON.parse(el.dataset.agent || '{}'),
+        isSubscribed: el.dataset.isSubscribed === 'true',
     }).mount(el);
 }
